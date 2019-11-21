@@ -29,7 +29,7 @@ INTERFACE
 
 target_link_options(common_options
 INTERFACE
-    /NODEFAULTLIB:LIBCMT
+    $<$<CONFIG:Debug>:/NODEFAULTLIB:LIBCMT>
 )
 
 target_link_libraries(common_options

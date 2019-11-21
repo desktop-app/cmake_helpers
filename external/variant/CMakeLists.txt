@@ -5,6 +5,7 @@
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
 add_library(external_variant INTERFACE IMPORTED GLOBAL)
+add_library(desktop-app::external_variant ALIAS external_variant)
 
 target_include_directories(external_variant SYSTEM
 INTERFACE

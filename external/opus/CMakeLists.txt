@@ -5,6 +5,7 @@
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
 add_library(external_opus INTERFACE IMPORTED GLOBAL)
+add_library(desktop-app::external_opus ALIAS external_opus)
 
 target_include_directories(external_opus SYSTEM
 INTERFACE

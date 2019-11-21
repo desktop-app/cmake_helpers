@@ -5,6 +5,7 @@
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
 add_library(common_options INTERFACE)
+add_library(desktop-app::common_options ALIAS common_options)
 
 target_compile_features(common_options
 INTERFACE

@@ -5,6 +5,7 @@
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
 add_library(external_openssl INTERFACE IMPORTED GLOBAL)
+add_library(desktop-app::external_openssl ALIAS external_openssl)
 
 target_include_directories(external_openssl SYSTEM
 INTERFACE

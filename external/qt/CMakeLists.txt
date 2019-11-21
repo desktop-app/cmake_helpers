@@ -5,6 +5,7 @@
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
 add_library(external_qt INTERFACE IMPORTED GLOBAL)
+add_library(desktop-app::external_qt ALIAS external_qt)
 
 if (LINUX)
     if (CMAKE_SIZEOF_VOID_P EQUAL 8)

@@ -5,16 +5,17 @@
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
 add_library(external_crash_reports INTERFACE IMPORTED GLOBAL)
+add_library(desktop-app::external_crash_reports ALIAS external_crash_reports)
 
 if (WIN32)
     add_subdirectory(breakpad)
     target_link_libraries(external_crash_reports
     INTERFACE
-        external_breakpad
+        desktop-app::external_breakpad
     )
 else()
     target_link_libraries(external_crash_reports
     INTERFACE
-        external_crashpad
+        desktop-app::external_crashpad
     )
 endif()

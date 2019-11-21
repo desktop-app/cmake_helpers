@@ -5,6 +5,7 @@
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
 add_library(external_openal INTERFACE IMPORTED GLOBAL)
+add_library(desktop-app::external_openal ALIAS external_openal)
 
 target_include_directories(external_openal SYSTEM
 INTERFACE

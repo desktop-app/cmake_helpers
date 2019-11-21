@@ -5,6 +5,7 @@
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
 add_library(external_lz4 OBJECT)
+add_library(desktop-app::external_lz4 ALIAS external_lz4)
 init_target(external_lz4 "(external)")
 
 set(lz4_loc ${third_party_loc}/lz4/lib)
