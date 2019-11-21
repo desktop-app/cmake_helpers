@@ -4,6 +4,8 @@
 # For license and copyright information please follow this link:
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
-get_filename_component(libs_loc "../Libraries" REALPATH)
-get_filename_component(third_party_loc "Telegram/ThirdParty" REALPATH)
-get_filename_component(submodules_loc "Telegram" REALPATH)
+if (build_osx)
+    target_compile_definitions(common_options INTERFACE OS_OSX)
+elseif (build_macstore)
+    target_compile_definitions(common_options INTERFACE OS_MAC_STORE)
+endif()

@@ -8,8 +8,6 @@ target_compile_definitions(common_options
 INTERFACE
     WIN32
     _WINDOWS
-    _UNICODE
-    UNICODE
     _SCL_SECURE_NO_WARNINGS
     _USING_V110_SDK71_
     NOMINMAX
@@ -65,3 +63,7 @@ INTERFACE
     Rstrtmgr
     Crypt32
 )
+
+if (build_uwp)
+    target_compile_definitions(common_options INTERFACE OS_WIN_STORE)
+endif()

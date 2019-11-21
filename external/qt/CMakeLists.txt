@@ -6,6 +6,14 @@
 
 add_library(external_qt INTERFACE IMPORTED GLOBAL)
 
+if (LINUX)
+    if (CMAKE_SIZEOF_VOID_P EQUAL 8)
+        target_compile_definitions(external_qt INTERFACE Q_OS_LINUX64)
+    else()
+        target_compile_definitions(external_qt INTERFACE Q_OS_LINUX32)
+    endif()
+endif()
+
 target_include_directories(external_qt SYSTEM
 INTERFACE
     ${qt_loc}/include
@@ -16,6 +24,17 @@ INTERFACE
     ${qt_loc}/include/QtGui/${qt_version}
     ${qt_loc}/include/QtCore/${qt_version}/QtCore
     ${qt_loc}/include/QtGui/${qt_version}/QtGui
+)
+
+target_compile_definitions(external_qt
+INTERFACE
+    _REENTRANT
+    QT_STATICPLUGIN
+    QT_PLUGIN
+    QT_WIDGETS_LIB
+    QT_NETWORK_LIB
+    QT_GUI_LIB
+    QT_CORE_LIB
 )
 
 set(common_qt_libs

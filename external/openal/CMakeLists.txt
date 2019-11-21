@@ -20,3 +20,9 @@ target_link_libraries(external_openal
 INTERFACE
     OpenAL32
 )
+
+target_compile_definitions(external_openal
+INTERFACE
+    AL_LIBTYPE_STATIC
+    AL_ALEXT_PROTOTYPES
+)
