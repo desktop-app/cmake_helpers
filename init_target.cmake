@@ -11,7 +11,9 @@ function(init_target_folder target_name folder_name)
 endfunction()
 
 function(init_target target_name) # init_target(my_target folder_name)
-    init_target_folder(${target_name} "${ARGV1}")
+    if (DEFINED ARGV1)
+        init_target_folder(${target_name} "${ARGV1}")
+    endif()
     if (WIN32)
         set_target_properties(${target_name} PROPERTIES
             MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")

@@ -25,11 +25,12 @@ INTERFACE
     /w14265 # class has virtual functions, but destructor is not virtual
     /wd4068 # Disable "warning C4068: unknown pragma"
     /Zc:wchar_t- # don't tread wchar_t as builtin type
+    /Zi
 )
 
 target_link_options(common_options
 INTERFACE
-    $<$<CONFIG:Debug>:/NODEFAULTLIB:LIBCMT>
+    $<IF:$<CONFIG:Debug>,/NODEFAULTLIB:LIBCMT,/DEBUG;/OPT:REF>
 )
 
 target_link_libraries(common_options
