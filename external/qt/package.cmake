@@ -9,6 +9,7 @@ set(qt_version 5.12.5)
 if (WIN32)
     set(qt_loc ${libs_loc}/Qt-${qt_version})
 else()
+    set(qt_loc /usr/local/desktop-app/Qt-${qt_version})
 endif()
 
 set(Qt5_DIR ${qt_loc}/lib/cmake/Qt5)

@@ -12,12 +12,24 @@ INTERFACE
     ${libs_loc}/opus/include
 )
 
-target_link_directories(external_opus
-INTERFACE
-    ${libs_loc}/opus/win32/VS2015/Win32/$<IF:$<CONFIG:Debug>,Debug,Release>
-)
+if (WIN32)
+    target_link_directories(external_opus
+    INTERFACE
+        ${libs_loc}/opus/win32/VS2015/Win32/$<IF:$<CONFIG:Debug>,Debug,Release>
+    )
 
-target_link_libraries(external_opus
-INTERFACE
-    opus
-)
+    target_link_libraries(external_opus
+    INTERFACE
+        opus
+    )
+elseif (APPLE AND NOT build_osx)
+    target_link_libraries(external_opus
+    INTERFACE
+        /usr/local/macos/lib/libopus.a
+    )
+else()
+    target_link_libraries(external_opus
+    INTERFACE
+        /usr/local/lib/libopus.a
+    )
+endif()

@@ -11,8 +11,15 @@ function(init_target_folder target_name folder_name)
 endfunction()
 
 function(init_target target_name) # init_target(my_target folder_name)
-    if (DEFINED ARGV1)
-        init_target_folder(${target_name} "${ARGV1}")
+    if (ARGC GREATER 1)
+        if (${ARGV1} STREQUAL cxx_std_14 OR ${ARGV1} STREQUAL cxx_std_11)
+            target_compile_features(${target_name} PUBLIC ${ARGV1})
+        else()
+            target_compile_features(${target_name} PUBLIC cxx_std_17)
+            init_target_folder(${target_name} ${ARGV1})
+        endif()
+    else()
+        target_compile_features(${target_name} PUBLIC cxx_std_17)
     endif()
     if (WIN32)
         set_target_properties(${target_name} PROPERTIES
@@ -23,6 +30,10 @@ function(init_target target_name) # init_target(my_target folder_name)
         INTERPROCEDURAL_OPTIMIZATION_RELEASE True
         INTERPROCEDURAL_OPTIMIZATION_RELWITHDEBINFO True
         INTERPROCEDURAL_OPTIMIZATION_MINSIZEREL True
+        LINK_SEARCH_START_STATIC 1
+        XCODE_ATTRIBUTE_CLANG_ENABLE_OBJC_WEAK YES
+        XCODE_ATTRIBUTE_GCC_INLINES_ARE_PRIVATE_EXTERN YES
+        XCODE_ATTRIBUTE_GCC_SYMBOLS_PRIVATE_EXTERN YES
     )
 endfunction()
 

@@ -54,6 +54,7 @@ set(common_qt_libs
     qtlibpng
 )
 
+set(qt_libs_list "")
 if (WIN32)
     set(qt_libs
         ${common_qt_libs}
@@ -64,11 +65,31 @@ if (WIN32)
         qtfreetype
         qtpcre2
     )
-    set(qt_libs_list "")
-    foreach(lib ${qt_libs})
+    foreach (lib ${qt_libs})
         list(APPEND qt_libs_list "${lib}$<$<CONFIG:Debug>:d>")
     endforeach()
-else()
+elseif (APPLE)
+    if (NOT build_osx)
+        set(qt_libs
+            ${common_qt_libs}
+            Qt5Core
+            Qt5GraphicsSupport
+            Qt5ClipboardSupport
+            qgenericbearer
+            qtfreetype
+            qtpcre2
+            qcocoa
+        )
+    else()
+    endif()
+    foreach (lib ${qt_libs})
+        list(APPEND qt_libs_list "${lib}$<$<CONFIG:Debug>:_debug>")
+    endforeach()
+    target_link_libraries(external_qt
+    INTERFACE
+        desktop-app::external_zlib
+        cups
+    )
 endif()
 
 target_link_directories(external_qt

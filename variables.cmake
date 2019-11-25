@@ -4,10 +4,6 @@
 # For license and copyright information please follow this link:
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
-get_filename_component(libs_loc "../Libraries" REALPATH)
-get_filename_component(third_party_loc "Telegram/ThirdParty" REALPATH)
-get_filename_component(submodules_loc "Telegram" REALPATH)
-
 set(DESKTOP_APP_SPECIAL_TARGET "" CACHE STRING "Use special platform target, like 'mas' for Mac App Store.")
 option(DESKTOP_APP_DISABLE_CRASH_REPORTS "Disable crash report generation." OFF)
 option(DESKTOP_APP_DISABLE_SPELLCHECK "Disable spellcheck library." OFF)
@@ -23,11 +19,15 @@ if (DESKTOP_APP_SPECIAL_TARGET STREQUAL ""
     set(disable_autoupdate 1)
 endif()
 
-set(CMAKE_OSX_DEPLOYMENT_TARGET 10.12)
+set(CMAKE_OSX_DEPLOYMENT_TARGET 10.12 CACHE STRING "Minimum OS X deployment version" FORCE)
+
+set(build_osx 0)
+set(build_macstore 0)
+set(build_winstore 0)
 
 if (WIN32)
     if (DESKTOP_APP_SPECIAL_TARGET STREQUAL "uwp")
-        set(build_uwp 1)
+        set(build_winstore 1)
     elseif (NOT DESKTOP_APP_SPECIAL_TARGET STREQUAL ""
         AND NOT DESKTOP_APP_SPECIAL_TARGET STREQUAL "win")
         report_bad_special_target()
@@ -56,3 +56,11 @@ else()
         report_bad_special_target()
     endif()
 endif()
+
+if (NOT APPLE OR build_osx)
+    get_filename_component(libs_loc "../Libraries" REALPATH)
+else()
+    get_filename_component(libs_loc "../Libraries/macos" REALPATH)
+endif()
+get_filename_component(third_party_loc "Telegram/ThirdParty" REALPATH)
+get_filename_component(submodules_loc "Telegram" REALPATH)

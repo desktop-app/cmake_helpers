@@ -7,13 +7,14 @@
 add_library(external_crash_reports INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_crash_reports ALIAS external_crash_reports)
 
-if (WIN32)
+if (WIN32 OR LINUX OR build_macstore)
     add_subdirectory(breakpad)
     target_link_libraries(external_crash_reports
     INTERFACE
         desktop-app::external_breakpad
     )
 else()
+    add_subdirectory(crashpad)
     target_link_libraries(external_crash_reports
     INTERFACE
         desktop-app::external_crashpad

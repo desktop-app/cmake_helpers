@@ -11,6 +11,8 @@ INTERFACE
     _SCL_SECURE_NO_WARNINGS
     _USING_V110_SDK71_
     NOMINMAX
+    UNICODE
+    _UNICODE
 )
 target_compile_options(common_options
 INTERFACE
@@ -65,6 +67,6 @@ INTERFACE
     Crypt32
 )
 
-if (build_uwp)
+if (build_winstore)
     target_compile_definitions(common_options INTERFACE OS_WIN_STORE)
 endif()
