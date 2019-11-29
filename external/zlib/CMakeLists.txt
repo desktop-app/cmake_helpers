@@ -41,12 +41,9 @@ INTERFACE
 if (WIN32)
     target_compile_definitions(external_zlib INTERFACE ZLIB_WINAPI)
 
-    target_link_directories(external_zlib
-    INTERFACE
-        ${libs_loc}/zlib/contrib/vstudio/vc14/x86/ZlibStat$<IF:$<CONFIG:Debug>,Debug,ReleaseWithoutAsm>
-    )
+    set(zlib_lib_loc ${libs_loc}/zlib/contrib/vstudio/vc14/x86/ZlibStat$<IF:$<CONFIG:Debug>,Debug,ReleaseWithoutAsm>)
 
-    target_link_libraries(external_zlib INTERFACE zlibstat)
+    target_link_libraries(external_zlib INTERFACE ${zlib_lib_loc}/zlibstat.lib)
 else()
     target_link_libraries(external_zlib INTERFACE /usr/local/lib/libz.a)
 endif()

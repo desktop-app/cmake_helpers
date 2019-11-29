@@ -13,26 +13,17 @@ INTERFACE
 )
 
 if (WIN32)
-    target_link_directories(external_openssl
-    INTERFACE
-        ${libs_loc}/openssl_1_1_1/out32$<$<CONFIG:Debug>:.dbg>
-    )
-    target_link_libraries(external_openssl
-    INTERFACE
-        libcrypto
-        libssl
-    )
+    set(openssl_lib_ext lib)
+    set(openssl_lib_loc ${libs_loc}/openssl_1_1_1/out32$<$<CONFIG:Debug>:.dbg>)
 else()
+    set(openssl_lib_ext a)
     if (APPLE)
-        target_link_directories(external_openssl
-        INTERFACE
-            ${libs_loc}/openssl_1_1_1
-        )
+        set(openssl_lib_loc ${libs_loc}/openssl_1_1_1)
     endif()
-
-    target_link_libraries(external_openssl
-    INTERFACE
-        crypto
-        ssl
-    )
 endif()
+
+target_link_libraries(external_openssl
+INTERFACE
+    ${openssl_lib_loc}/libcrypto.${openssl_lib_ext}
+    ${openssl_lib_loc}/libssl.${openssl_lib_ext}
+)

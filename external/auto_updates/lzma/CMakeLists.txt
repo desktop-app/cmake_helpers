@@ -12,12 +12,9 @@ INTERFACE
     ${libs_loc}/lzma/C
 )
 
-target_link_directories(external_lzma
-INTERFACE
-    ${libs_loc}/lzma/C/Util/LzmaLib/$<IF:$<CONFIG:Debug>,Debug,Release>
-)
+set(lzma_lib_loc ${libs_loc}/lzma/C/Util/LzmaLib/$<IF:$<CONFIG:Debug>,Debug,Release>)
 
 target_link_libraries(external_lzma
 INTERFACE
-    LzmaLib
+    ${lzma_lib_loc}/LzmaLib.lib
 )

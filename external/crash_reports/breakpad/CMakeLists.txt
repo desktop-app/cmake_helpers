@@ -12,14 +12,11 @@ INTERFACE
     ${libs_loc}/breakpad/src
 )
 
+set(breakpad_lib_loc ${libs_loc}/breakpad/src/out/$<IF:$<CONFIG:Debug>,Debug,Release>/obj/client)
+
 target_link_libraries(external_breakpad
 INTERFACE
-    windows/common
-    windows/handler/exception_handler
-    windows/crash_generation/crash_generation_client
-)
-
-target_link_directories(external_breakpad
-INTERFACE
-    ${libs_loc}/breakpad/src/out/$<IF:$<CONFIG:Debug>,Debug,Release>/obj/client
+    ${breakpad_lib_loc}/windows/common.lib
+    ${breakpad_lib_loc}/windows/handler/exception_handler.lib
+    ${breakpad_lib_loc}/windows/crash_generation/crash_generation_client.lib
 )

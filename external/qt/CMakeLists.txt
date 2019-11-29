@@ -38,52 +38,60 @@ INTERFACE
     QT_CORE_LIB
 )
 
+if (WIN32)
+    set(qt_lib_prefix "")
+    set(qt_lib_suffix $<$<CONFIG:Debug>:d>.lib)
+else()
+    set(qt_lib_prefix lib)
+    set(qt_lib_suffix $<$<CONFIG:Debug>:_debug>.a)
+endif()
+
 set(common_qt_libs
-    qwebp
-    qgif
-    qjpeg
-    Qt5PrintSupport
-    Qt5AccessibilitySupport
-    Qt5FontDatabaseSupport
-    Qt5EventDispatcherSupport
-    Qt5ThemeSupport
-    Qt5Network
-    Qt5Widgets
-    Qt5Gui
-    qtharfbuzz
-    qtlibpng
+    plugins/imageformats/${qt_lib_prefix}qwebp
+    plugins/imageformats/${qt_lib_prefix}qgif
+    plugins/imageformats/${qt_lib_prefix}qjpeg
+    lib/${qt_lib_prefix}Qt5PrintSupport
+    lib/${qt_lib_prefix}Qt5AccessibilitySupport
+    lib/${qt_lib_prefix}Qt5FontDatabaseSupport
+    lib/${qt_lib_prefix}Qt5EventDispatcherSupport
+    lib/${qt_lib_prefix}Qt5ThemeSupport
+    lib/${qt_lib_prefix}Qt5Network
+    lib/${qt_lib_prefix}Qt5Widgets
+    lib/${qt_lib_prefix}Qt5Gui
+    lib/${qt_lib_prefix}qtharfbuzz
+    lib/${qt_lib_prefix}qtlibpng
 )
 
 set(qt_libs_list "")
 if (WIN32)
     set(qt_libs
         ${common_qt_libs}
-        Qt5Core
-        Qt5WindowsUIAutomationSupport
-        qtmain
-        qwindows
-        qtfreetype
-        qtpcre2
+        lib/${qt_lib_prefix}Qt5Core
+        lib/${qt_lib_prefix}Qt5WindowsUIAutomationSupport
+        lib/${qt_lib_prefix}qtmain
+        lib/${qt_lib_prefix}qtfreetype
+        lib/${qt_lib_prefix}qtpcre2
+        plugins/platforms/${qt_lib_prefix}qwindows
     )
     foreach (lib ${qt_libs})
-        list(APPEND qt_libs_list "${lib}$<$<CONFIG:Debug>:d>")
+        list(APPEND qt_libs_list "${qt_loc}/${lib}${qt_lib_suffix}")
     endforeach()
 elseif (APPLE)
     if (NOT build_osx)
         set(qt_libs
             ${common_qt_libs}
-            Qt5Core
-            Qt5GraphicsSupport
-            Qt5ClipboardSupport
-            qgenericbearer
-            qtfreetype
-            qtpcre2
-            qcocoa
+            lib/${qt_lib_prefix}Qt5Core
+            lib/${qt_lib_prefix}Qt5GraphicsSupport
+            lib/${qt_lib_prefix}Qt5ClipboardSupport
+            lib/${qt_lib_prefix}qtfreetype
+            lib/${qt_lib_prefix}qtpcre2
+            plugins/platforms/${qt_lib_prefix}qcocoa
+            plugins/bearer/${qt_lib_prefix}qgenericbearer
         )
     else()
     endif()
     foreach (lib ${qt_libs})
-        list(APPEND qt_libs_list "${lib}$<$<CONFIG:Debug>:_debug>")
+        list(APPEND qt_libs_list "${qt_loc}/${lib}${qt_lib_suffix}")
     endforeach()
     target_link_libraries(external_qt
     INTERFACE
@@ -91,15 +99,6 @@ elseif (APPLE)
         cups
     )
 endif()
-
-target_link_directories(external_qt
-INTERFACE
-    ${qt_loc}/lib
-    ${qt_loc}/plugins
-    ${qt_loc}/plugins/bearer
-    ${qt_loc}/plugins/platforms
-    ${qt_loc}/plugins/imageformats
-)
 
 target_link_libraries(external_qt
 INTERFACE
