@@ -7,10 +7,17 @@
 add_library(external_openssl INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_openssl ALIAS external_openssl)
 
-target_include_directories(external_openssl SYSTEM
-INTERFACE
-    ${libs_loc}/openssl_1_1_1/include
-)
+if (NOT APPLE OR NOT build_osx)
+    target_include_directories(external_openssl SYSTEM
+    INTERFACE
+        ${libs_loc}/openssl_1_1_1/include
+    )
+else()
+    target_include_directories(external_openssl SYSTEM
+    INTERFACE
+        ${libs_loc}/openssl/include
+    )
+endif()
 
 if (WIN32)
     set(openssl_lib_ext lib)
@@ -18,7 +25,11 @@ if (WIN32)
 else()
     set(openssl_lib_ext a)
     if (APPLE)
-        set(openssl_lib_loc ${libs_loc}/openssl_1_1_1)
+        if (NOT build_osx)
+            set(openssl_lib_loc ${libs_loc}/openssl_1_1_1)
+        else()
+            set(openssl_lib_loc ${libs_loc}/openssl)
+        endif()
     endif()
 endif()
 

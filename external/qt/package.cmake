@@ -4,7 +4,11 @@
 # For license and copyright information please follow this link:
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
-set(qt_version 5.12.5)
+if (NOT APPLE OR NOT build_osx)
+    set(qt_version 5.12.5)
+else()
+    set(qt_version 5.6.2)
+endif()
 
 if (WIN32)
     set(qt_loc ${libs_loc}/Qt-${qt_version})

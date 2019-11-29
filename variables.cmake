@@ -19,7 +19,12 @@ if (DESKTOP_APP_SPECIAL_TARGET STREQUAL ""
     set(disable_autoupdate 1)
 endif()
 
-set(CMAKE_OSX_DEPLOYMENT_TARGET 10.12 CACHE STRING "Minimum OS X deployment version" FORCE)
+if (NOT DESKTOP_APP_SPECIAL_TARGET STREQUAL "osx")
+    set(CMAKE_OSX_DEPLOYMENT_TARGET 10.12 CACHE STRING "Minimum OS X deployment version" FORCE)
+else()
+    set(DESKTOP_APP_DISABLE_SPELLCHECK ON)
+    set(CMAKE_OSX_DEPLOYMENT_TARGET 10.10 CACHE STRING "Minimum OS X deployment version" FORCE)
+endif()
 
 set(build_osx 0)
 set(build_macstore 0)
