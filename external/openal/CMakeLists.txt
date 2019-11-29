@@ -14,7 +14,7 @@ if (WIN32)
     )
     target_link_libraries(external_openal
     INTERFACE
-        ${libs_loc}/openal-soft/build/$<IF:$<CONFIG:Debug>,Debug,Release>/OpenAL32
+        ${libs_loc}/openal-soft/build/$<IF:$<CONFIG:Debug>,Debug,Release>/OpenAL32.lib
     )
 else()
     target_include_directories(external_openal SYSTEM
