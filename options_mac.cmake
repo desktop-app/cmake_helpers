@@ -8,7 +8,11 @@ if (build_osx)
     target_compile_definitions(common_options INTERFACE OS_OSX)
 else()
     if (build_macstore)
-        target_compile_definitions(common_options INTERFACE OS_MAC_STORE)
+        target_compile_definitions(common_options
+        INTERFACE
+            OS_MAC_STORE
+            MAC_USE_BREAKPAD
+        )
     endif()
     target_include_directories(common_options
     INTERFACE
