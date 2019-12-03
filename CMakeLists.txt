@@ -5,3 +5,4 @@
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
 add_subdirectory(external)
+add_subdirectory(linux_glibc_wraps)

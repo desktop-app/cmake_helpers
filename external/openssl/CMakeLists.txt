@@ -7,7 +7,12 @@
 add_library(external_openssl INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_openssl ALIAS external_openssl)
 
-if (NOT APPLE OR NOT build_osx)
+if (LINUX)
+    target_include_directories(external_openssl SYSTEM
+    INTERFACE
+        /usr/local/desktop-app/openssl-1.1.1/include
+    )
+elseif (NOT APPLE OR NOT build_osx)
     target_include_directories(external_openssl SYSTEM
     INTERFACE
         ${libs_loc}/openssl_1_1_1/include
@@ -30,11 +35,21 @@ else()
         else()
             set(openssl_lib_loc ${libs_loc}/openssl)
         endif()
+    else()
+        set(openssl_lib_loc /usr/local/desktop-app/openssl-1.1.1/lib)
     endif()
 endif()
 
 target_link_libraries(external_openssl
 INTERFACE
-    ${openssl_lib_loc}/libcrypto.${openssl_lib_ext}
     ${openssl_lib_loc}/libssl.${openssl_lib_ext}
+    ${openssl_lib_loc}/libcrypto.${openssl_lib_ext}
+    pthread
 )
+
+if (LINUX)
+    target_link_libraries(external_openssl
+    INTERFACE
+        desktop-app::linux_glibc_wraps
+    )
+endif()

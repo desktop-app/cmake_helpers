@@ -12,9 +12,14 @@ if (APPLE AND NOT build_osx)
     INTERFACE
         /usr/local/macos/lib/liblzma.a
     )
-else()
+elseif (APPLE)
     target_link_libraries(external_xz
     INTERFACE
-        /usr/local/lib/liblzma.a
+        /usr/local/liblzma.a
+    )
+else()
+    target_link_static_libraries(external_xz
+    INTERFACE
+        lzma
     )
 endif()

@@ -16,7 +16,7 @@ if (WIN32)
     INTERFACE
         ${libs_loc}/openal-soft/build/$<IF:$<CONFIG:Debug>,Debug,Release>/OpenAL32.lib
     )
-else()
+elseif(APPLE AND NOT build_osx)
     target_include_directories(external_openal SYSTEM
     INTERFACE
         /usr/local/macos/include
@@ -24,6 +24,15 @@ else()
     target_link_libraries(external_openal
     INTERFACE
         /usr/local/macos/lib/libopenal.a
+    )
+else()
+    target_include_directories(external_openal SYSTEM
+    INTERFACE
+        /usr/local/include
+    )
+    target_link_static_libraries(external_openal
+    INTERFACE
+        openal
     )
 endif()
 

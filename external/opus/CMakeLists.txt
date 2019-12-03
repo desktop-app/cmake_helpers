@@ -25,8 +25,8 @@ elseif (APPLE AND NOT build_osx)
         /usr/local/macos/lib/libopus.a
     )
 else()
-    target_link_libraries(external_opus
+    target_link_static_libraries(external_opus
     INTERFACE
-        /usr/local/lib/libopus.a
+        opus
     )
 endif()

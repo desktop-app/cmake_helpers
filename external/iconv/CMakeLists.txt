@@ -7,14 +7,14 @@
 add_library(external_iconv INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_iconv ALIAS external_iconv)
 
-if (build_osx)
-    target_link_libraries(external_iconv
-    INTERFACE
-        /usr/local/lib/libiconv.a
-    )
-else()
+if (APPLE AND NOT build_osx)
     target_link_libraries(external_iconv
     INTERFACE
         /usr/local/macos/lib/libiconv.a
+    )
+elseif (APPLE)
+    target_link_libraries(external_iconv
+    INTERFACE
+        /usr/local/lib/libiconv.a
     )
 endif()

@@ -21,4 +21,9 @@ if (WIN32)
         ${breakpad_lib_loc}/windows/handler/exception_handler.lib
         ${breakpad_lib_loc}/windows/crash_generation/crash_generation_client.lib
     )
+elseif (LINUX)
+    target_link_static_libraries(external_breakpad
+    INTERFACE
+        breakpad_client
+    )
 endif()

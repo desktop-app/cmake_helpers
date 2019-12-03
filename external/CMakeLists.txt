@@ -6,6 +6,7 @@
 
 add_subdirectory(auto_updates)
 add_subdirectory(crash_reports)
+add_subdirectory(ffmpeg)
 add_subdirectory(gsl)
 add_subdirectory(iconv)
 add_subdirectory(lz4)

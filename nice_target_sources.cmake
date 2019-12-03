@@ -4,7 +4,10 @@
 # For license and copyright information please follow this link:
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
-function(nice_target_sources target_name src_loc list)
+function(nice_target_sources target_name src_loc)
+    set(list ${ARGV})
+    list(REMOVE_AT list 0 1)
+
     set(writing_now "")
     set(private_sources "")
     set(public_sources "")

@@ -8,7 +8,7 @@ add_library(external_qt INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_qt ALIAS external_qt)
 
 if (LINUX)
-    if (CMAKE_SIZEOF_VOID_P EQUAL 8)
+    if (NOT build_linux32)
         target_compile_definitions(external_qt INTERFACE Q_OS_LINUX64)
     else()
         target_compile_definitions(external_qt INTERFACE Q_OS_LINUX32)
@@ -43,7 +43,11 @@ if (WIN32)
     set(qt_lib_suffix $<$<CONFIG:Debug>:d>.lib)
 else()
     set(qt_lib_prefix lib)
-    set(qt_lib_suffix $<$<CONFIG:Debug>:_debug>.a)
+    if (APPLE)
+        set(qt_lib_suffix $<$<CONFIG:Debug>:_debug>.a)
+    else()
+        set(qt_lib_suffix .a)
+    endif()
 endif()
 
 set(common_qt_libs
@@ -112,9 +116,90 @@ elseif (APPLE)
         desktop-app::external_zlib
         cups
     )
+else()
+    set(qt_libs
+        plugins/platforminputcontexts/${qt_lib_prefix}composeplatforminputcontextplugin
+        plugins/platforminputcontexts/${qt_lib_prefix}ibusplatforminputcontextplugin
+        plugins/platforminputcontexts/${qt_lib_prefix}fcitxplatforminputcontextplugin
+        plugins/platforminputcontexts/${qt_lib_prefix}himeplatforminputcontextplugin
+        plugins/platforminputcontexts/${qt_lib_prefix}nimfplatforminputcontextplugin
+        plugins/platforms/${qt_lib_prefix}qxcb
+        lib/${qt_lib_prefix}Qt5XcbQpa
+        lib/${qt_lib_prefix}Qt5LinuxAccessibilitySupport
+        lib/${qt_lib_prefix}Qt5ServiceSupport
+        lib/${qt_lib_prefix}Qt5EdidSupport
+        plugins/bearer/${qt_lib_prefix}qconnmanbearer
+        plugins/bearer/${qt_lib_prefix}qgenericbearer
+        plugins/bearer/${qt_lib_prefix}qnmbearer
+        ${common_qt_libs}
+        lib/${qt_lib_prefix}Qt5DBus
+        lib/${qt_lib_prefix}Qt5Core
+        lib/${qt_lib_prefix}qtpcre2
+        lib/${qt_lib_prefix}xcb-static
+    )
+    foreach (lib ${qt_libs})
+        list(APPEND qt_libs_list "${qt_loc}/${lib}${qt_lib_suffix}")
+    endforeach()
 endif()
 
 target_link_libraries(external_qt
 INTERFACE
     ${qt_libs_list}
 )
+
+if (LINUX)
+    target_include_directories(external_qt SYSTEM
+    INTERFACE
+        ${qt_loc}/mkspecs/linux-g++
+    )
+    target_link_options(external_qt
+    INTERFACE
+        -static-libstdc++
+        -pthread
+        -rdynamic
+        -Wl,-wrap,aligned_alloc
+        -Wl,-wrap,secure_getenv
+        -Wl,-wrap,clock_gettime
+        -Wl,--no-as-needed,-lrt
+    )
+    if (NOT build_linux32)
+        target_link_options(external_qt
+        INTERFACE
+            -Wl,-wrap,__divmodti4
+        )
+    else()
+        target_link_options(external_qt
+        INTERFACE
+            -Wl,-wrap,__divmoddi4
+        )
+    endif()
+    target_link_static_libraries(external_qt
+    INTERFACE
+        SM
+        ICE
+        fontconfig
+        freetype
+        expat
+        z
+        xcb-shm
+        xcb-xfixes
+        xcb-render
+        xkbcommon
+        xkbcommon-x11
+        icutu
+        icui18n
+        icuuc
+        icudata
+    )
+    target_link_libraries(external_qt
+    INTERFACE
+        desktop-app::linux_glibc_wraps
+        xcb
+        X11
+        X11-xcb
+        dbus-1
+        dl
+        glib-2.0
+        pthread
+    )
+endif()

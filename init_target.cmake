@@ -34,7 +34,15 @@ function(init_target target_name) # init_target(my_target folder_name)
         XCODE_ATTRIBUTE_GCC_OPTIMIZATION_LEVEL $<IF:$<CONFIG:Debug>,0,fast>
         XCODE_ATTRIBUTE_LLVM_LTO $<IF:$<CONFIG:Debug>,NO,YES>
     )
-    if (NOT APPLE)
+    if (LINUX)
+        target_compile_options(${target_name} PUBLIC $<IF:$<CONFIG:Debug>,,-g -Ofast -fno-strict-aliasing>)
+        target_link_options(${target_name} PUBLIC $<IF:$<CONFIG:Debug>,,-g -Ofast>)
+        if (NOT build_linux32)
+            target_compile_options(${target_name} PUBLIC $<IF:$<CONFIG:Debug>,,-flto>)
+            target_link_options(${target_name} PUBLIC $<IF:$<CONFIG:Debug>,,-flto -fuse-linker-plugin>)
+        endif()
+    endif()
+    if (WIN32)
         set_target_properties(${target_name} PROPERTIES
             INTERPROCEDURAL_OPTIMIZATION_RELEASE True
             INTERPROCEDURAL_OPTIMIZATION_RELWITHDEBINFO True
