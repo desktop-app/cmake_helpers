@@ -6,7 +6,7 @@
 
 target_compile_options(common_options
 INTERFACE
-    -g
+    $<IF:$<CONFIG:Debug>,,-Ofast -fno-strict-aliasing>
     -pipe
     -Wall
     -Werror
@@ -23,9 +23,18 @@ INTERFACE
     -Wno-attributes
     -Wno-parentheses
     -Wno-stringop-overflow
+    -Wno-maybe-uninitialized
     -Wno-error=class-memaccess
 )
 target_link_options(common_options
 INTERFACE
-    -g
+    $<IF:$<CONFIG:Debug>,,-Ofast>
 )
+if (build_linux32)
+    target_compile_options(common_options INTERFACE -g0)
+    target_link_options(common_options INTERFACE -g0)
+else()
+    target_compile_options(common_options INTERFACE $<IF:$<CONFIG:Debug>,,-g -flto>)
+    target_link_options(common_options INTERFACE $<IF:$<CONFIG:Debug>,,-g -flto -fuse-linker-plugin>)
+endif()
+
