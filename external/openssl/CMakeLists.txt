@@ -44,12 +44,12 @@ target_link_libraries(external_openssl
 INTERFACE
     ${openssl_lib_loc}/libssl.${openssl_lib_ext}
     ${openssl_lib_loc}/libcrypto.${openssl_lib_ext}
-    pthread
 )
 
 if (LINUX)
     target_link_libraries(external_openssl
     INTERFACE
         desktop-app::linux_glibc_wraps
+        pthread
     )
 endif()

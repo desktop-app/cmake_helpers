@@ -11,84 +11,83 @@ init_target(external_rlottie "(external)")
 get_filename_component(src_loc . REALPATH)
 set(rlottie_loc ${third_party_loc}/rlottie)
 
-target_sources(external_rlottie
+target_sources(external_rlottie PRIVATE ${src_loc}/config/config.h)
+nice_target_sources(external_rlottie ${rlottie_loc}
 PRIVATE
-    ${src_loc}/config/config.h
+    inc/rlottie.h
+    inc/rlottie_capi.h
+    inc/rlottiecommon.h
 
-    ${rlottie_loc}/inc/rlottie.h
-    ${rlottie_loc}/inc/rlottie_capi.h
-    ${rlottie_loc}/inc/rlottiecommon.h
+    src/lottie/lottieanimation.cpp
+    src/lottie/lottieitem.cpp
+    src/lottie/lottieitem.h
+    src/lottie/lottiekeypath.cpp
+    src/lottie/lottiekeypath.h
+    src/lottie/lottieloader.cpp
+    src/lottie/lottieloader.h
+    src/lottie/lottiemodel.cpp
+    src/lottie/lottiemodel.h
+    src/lottie/lottieparser.cpp
+    src/lottie/lottieparser.h
+    src/lottie/lottieproxymodel.cpp
+    src/lottie/lottieproxymodel.h
 
-    ${rlottie_loc}/src/lottie/lottieanimation.cpp
-    ${rlottie_loc}/src/lottie/lottieitem.cpp
-    ${rlottie_loc}/src/lottie/lottieitem.h
-    ${rlottie_loc}/src/lottie/lottiekeypath.cpp
-    ${rlottie_loc}/src/lottie/lottiekeypath.h
-    ${rlottie_loc}/src/lottie/lottieloader.cpp
-    ${rlottie_loc}/src/lottie/lottieloader.h
-    ${rlottie_loc}/src/lottie/lottiemodel.cpp
-    ${rlottie_loc}/src/lottie/lottiemodel.h
-    ${rlottie_loc}/src/lottie/lottieparser.cpp
-    ${rlottie_loc}/src/lottie/lottieparser.h
-    ${rlottie_loc}/src/lottie/lottieproxymodel.cpp
-    ${rlottie_loc}/src/lottie/lottieproxymodel.h
+    src/vector/freetype/v_ft_math.cpp
+    src/vector/freetype/v_ft_math.h
+    src/vector/freetype/v_ft_raster.cpp
+    src/vector/freetype/v_ft_raster.h
+    src/vector/freetype/v_ft_stroker.cpp
+    src/vector/freetype/v_ft_stroker.h
+    src/vector/freetype/v_ft_types.h
 
-    ${rlottie_loc}/src/vector/freetype/v_ft_math.cpp
-    ${rlottie_loc}/src/vector/freetype/v_ft_math.h
-    ${rlottie_loc}/src/vector/freetype/v_ft_raster.cpp
-    ${rlottie_loc}/src/vector/freetype/v_ft_raster.h
-    ${rlottie_loc}/src/vector/freetype/v_ft_stroker.cpp
-    ${rlottie_loc}/src/vector/freetype/v_ft_stroker.h
-    ${rlottie_loc}/src/vector/freetype/v_ft_types.h
+    # src/vector/pixman/pixman-arm-neon-asm.h
+    # src/vector/pixman/pixman-arm-neon-asm.S
+    src/vector/pixman/vregion.cpp
+    src/vector/pixman/vregion.h
 
-    # ${rlottie_loc}/src/vector/pixman/pixman-arm-neon-asm.h
-    # ${rlottie_loc}/src/vector/pixman/pixman-arm-neon-asm.S
-    ${rlottie_loc}/src/vector/pixman/vregion.cpp
-    ${rlottie_loc}/src/vector/pixman/vregion.h
-
-    ${rlottie_loc}/src/vector/vbezier.cpp
-    ${rlottie_loc}/src/vector/vbezier.h
-    ${rlottie_loc}/src/vector/vbitmap.cpp
-    ${rlottie_loc}/src/vector/vbitmap.h
-    ${rlottie_loc}/src/vector/vbrush.cpp
-    ${rlottie_loc}/src/vector/vbrush.h
-    ${rlottie_loc}/src/vector/vcompositionfunctions.cpp
-    ${rlottie_loc}/src/vector/vcowptr.h
-    ${rlottie_loc}/src/vector/vdasher.cpp
-    ${rlottie_loc}/src/vector/vdasher.h
-    ${rlottie_loc}/src/vector/vdebug.cpp
-    ${rlottie_loc}/src/vector/vdebug.h
-    ${rlottie_loc}/src/vector/vdrawable.cpp
-    ${rlottie_loc}/src/vector/vdrawable.h
-    ${rlottie_loc}/src/vector/vdrawhelper.cpp
-    ${rlottie_loc}/src/vector/vdrawhelper.h
-    ${rlottie_loc}/src/vector/vdrawhelper_neon.cpp
-    ${rlottie_loc}/src/vector/vdrawhelper_sse2.cpp
-    ${rlottie_loc}/src/vector/velapsedtimer.cpp
-    ${rlottie_loc}/src/vector/velapsedtimer.h
-    ${rlottie_loc}/src/vector/vglobal.h
-    ${rlottie_loc}/src/vector/vimageloader.cpp
-    ${rlottie_loc}/src/vector/vimageloader.h
-    ${rlottie_loc}/src/vector/vinterpolator.cpp
-    ${rlottie_loc}/src/vector/vinterpolator.h
-    ${rlottie_loc}/src/vector/vline.h
-    ${rlottie_loc}/src/vector/vmatrix.cpp
-    ${rlottie_loc}/src/vector/vmatrix.h
-    ${rlottie_loc}/src/vector/vpainter.cpp
-    ${rlottie_loc}/src/vector/vpainter.h
-    ${rlottie_loc}/src/vector/vpath.cpp
-    ${rlottie_loc}/src/vector/vpath.h
-    ${rlottie_loc}/src/vector/vpathmesure.cpp
-    ${rlottie_loc}/src/vector/vpathmesure.h
-    ${rlottie_loc}/src/vector/vpoint.h
-    ${rlottie_loc}/src/vector/vraster.cpp
-    ${rlottie_loc}/src/vector/vraster.h
-    ${rlottie_loc}/src/vector/vrect.cpp
-    ${rlottie_loc}/src/vector/vrect.h
-    ${rlottie_loc}/src/vector/vrle.cpp
-    ${rlottie_loc}/src/vector/vrle.h
-    ${rlottie_loc}/src/vector/vstackallocator.h
-    ${rlottie_loc}/src/vector/vtaskqueue.h
+    src/vector/vbezier.cpp
+    src/vector/vbezier.h
+    src/vector/vbitmap.cpp
+    src/vector/vbitmap.h
+    src/vector/vbrush.cpp
+    src/vector/vbrush.h
+    src/vector/vcompositionfunctions.cpp
+    src/vector/vcowptr.h
+    src/vector/vdasher.cpp
+    src/vector/vdasher.h
+    src/vector/vdebug.cpp
+    src/vector/vdebug.h
+    src/vector/vdrawable.cpp
+    src/vector/vdrawable.h
+    src/vector/vdrawhelper.cpp
+    src/vector/vdrawhelper.h
+    src/vector/vdrawhelper_neon.cpp
+    src/vector/vdrawhelper_sse2.cpp
+    src/vector/velapsedtimer.cpp
+    src/vector/velapsedtimer.h
+    src/vector/vglobal.h
+    src/vector/vimageloader.cpp
+    src/vector/vimageloader.h
+    src/vector/vinterpolator.cpp
+    src/vector/vinterpolator.h
+    src/vector/vline.h
+    src/vector/vmatrix.cpp
+    src/vector/vmatrix.h
+    src/vector/vpainter.cpp
+    src/vector/vpainter.h
+    src/vector/vpath.cpp
+    src/vector/vpath.h
+    src/vector/vpathmesure.cpp
+    src/vector/vpathmesure.h
+    src/vector/vpoint.h
+    src/vector/vraster.cpp
+    src/vector/vraster.h
+    src/vector/vrect.cpp
+    src/vector/vrect.h
+    src/vector/vrle.cpp
+    src/vector/vrle.h
+    src/vector/vstackallocator.h
+    src/vector/vtaskqueue.h
 )
 
 target_compile_definitions(external_rlottie
