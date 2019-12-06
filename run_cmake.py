@@ -15,14 +15,15 @@ def run(project, arguments):
     for arg in arguments:
         if arg == 'debug':
             cmake.append('-DCMAKE_BUILD_TYPE=Debug')
-        elif arg != 'fresh':
+        elif arg != 'force':
             cmake.append(arg)
     
     if sys.platform == 'win32':
         cmake.append('-AWin32')
-    elif sys.platform != 'darwin':
-        if not '-DCMAKE_BUILD_TYPE=Debug' in cmake:
-            cmake.append('-DCMAKE_BUILD_TYPE=Release')
+    elif sys.platform == 'darwin':
+        cmake.append('-GXcode')
+    elif not '-DCMAKE_BUILD_TYPE=Debug' in cmake:
+        cmake.append('-DCMAKE_BUILD_TYPE=Release')
 
     specialTarget = ''
     specialTargetFile = scriptPath + '/../' + project + '/build/target'
@@ -38,7 +39,7 @@ def run(project, arguments):
 
     if not os.path.exists(basePath):
         os.mkdir(basePath)
-    elif 'fresh' in arguments:
+    elif 'force' in arguments:
         paths = os.listdir(basePath)
         for path in paths:
             if path.lower().startswith('cmake'):
