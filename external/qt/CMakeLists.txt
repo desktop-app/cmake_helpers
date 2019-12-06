@@ -191,9 +191,11 @@ if (LINUX)
         icuuc
         icudata
     )
+    if (DESKTOP_APP_USE_GLIBC_WRAPS)
+        target_link_libraries(external_qt INTERFACE desktop-app::linux_glibc_wraps)
+    endif()
     target_link_libraries(external_qt
     INTERFACE
-        desktop-app::linux_glibc_wraps
         xcb
         X11
         X11-xcb

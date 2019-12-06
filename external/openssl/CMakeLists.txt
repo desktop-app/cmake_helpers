@@ -47,9 +47,8 @@ INTERFACE
 )
 
 if (LINUX)
-    target_link_libraries(external_openssl
-    INTERFACE
-        desktop-app::linux_glibc_wraps
-        pthread
-    )
+    if (DESKTOP_APP_USE_GLIBC_WRAPS)
+        target_link_libraries(external_openssl INTERFACE desktop-app::linux_glibc_wraps)
+    endif()
+    target_link_libraries(external_openssl INTERFACE pthread)
 endif()
