@@ -157,21 +157,26 @@ if (LINUX)
         -static-libstdc++
         -pthread
         -rdynamic
-        -Wl,-wrap,aligned_alloc
-        -Wl,-wrap,secure_getenv
-        -Wl,-wrap,clock_gettime
-        -Wl,--no-as-needed,-lrt
     )
-    if (NOT build_linux32)
+    if (DESKTOP_APP_USE_GLIBC_WRAPS)
         target_link_options(external_qt
         INTERFACE
-            -Wl,-wrap,__divmodti4
+            -Wl,-wrap,aligned_alloc
+            -Wl,-wrap,secure_getenv
+            -Wl,-wrap,clock_gettime
+            -Wl,--no-as-needed,-lrt
         )
-    else()
-        target_link_options(external_qt
-        INTERFACE
-            -Wl,-wrap,__divmoddi4
-        )
+        if (NOT build_linux32)
+            target_link_options(external_qt
+            INTERFACE
+                -Wl,-wrap,__divmodti4
+            )
+        else()
+            target_link_options(external_qt
+            INTERFACE
+                -Wl,-wrap,__divmoddi4
+            )
+        endif()
     endif()
     target_link_static_libraries(external_qt
     INTERFACE
@@ -186,6 +191,7 @@ if (LINUX)
         xcb-render
         xkbcommon
         xkbcommon-x11
+        Xrender
         icutu
         icui18n
         icuuc

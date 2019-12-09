@@ -20,7 +20,7 @@ function(desktop_app_parse_version file)
     if (NOT ${version} MATCHES "[0-9]+\.[0-9]+(\.[0-9]+(\.([0-9]+|beta)))")
         message(FATAL_ERROR "Bad version: ${version}, check ${file}")
     endif()
-    
+
     message("Version: ${version}")
 
     string(REPLACE "." ";" components ${version})
