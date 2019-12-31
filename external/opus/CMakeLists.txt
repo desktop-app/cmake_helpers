@@ -20,9 +20,22 @@ if (WIN32)
         ${opus_lib_loc}/opus.lib
     )
 elseif (APPLE AND NOT build_osx)
+    target_include_directories(external_opus
+    INTERFACE
+        /usr/local/macos/include
+    )
     target_link_libraries(external_opus
     INTERFACE
         /usr/local/macos/lib/libopus.a
+    )
+elseif (APPLE)
+    target_include_directories(external_opus
+    INTERFACE
+        /usr/local/include
+    )
+    target_link_libraries(external_opus
+    INTERFACE
+        /usr/local/lib/libopus.a
     )
 else()
     target_link_static_libraries(external_opus
