@@ -44,6 +44,8 @@ if (WIN32)
     set(zlib_lib_loc ${libs_loc}/zlib/contrib/vstudio/vc14/x86/ZlibStat$<IF:$<CONFIG:Debug>,Debug,ReleaseWithoutAsm>)
 
     target_link_libraries(external_zlib INTERFACE ${zlib_lib_loc}/zlibstat.lib)
+elseif (APPLE AND NOT build_osx)
+    target_link_libraries(external_zlib INTERFACE /usr/local/macos/lib/libz.a)
 elseif (APPLE)
     target_link_libraries(external_zlib INTERFACE /usr/local/lib/libz.a)
 else()
