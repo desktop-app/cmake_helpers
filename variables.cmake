@@ -60,7 +60,9 @@ elseif (APPLE)
 else()
     set(LINUX 1)
     execute_process(COMMAND uname -m OUTPUT_VARIABLE machine_uname)
-    if (NOT ${machine_uname} MATCHES "x86_64" AND NOT ${machine_uname} MATCHES "aarch64")
+    if (NOT ${machine_uname} MATCHES "x86_64" AND
+        NOT ${machine_uname} MATCHES "aarch64" AND
+        NOT ${machine_uname} MATCHES "ppc64le")
         set(build_linux32 1)
     endif()
     if (DESKTOP_APP_SPECIAL_TARGET STREQUAL "linux")
