@@ -7,10 +7,19 @@
 add_library(external_ranges INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_ranges ALIAS external_ranges)
 
-target_include_directories(external_ranges SYSTEM
-INTERFACE
-    ${libs_loc}/range-v3/include
-)
+if(DESKTOP_APP_USE_PACKAGED)
+    find_package(range-v3 REQUIRED)
+
+    target_include_directories(external_ranges SYSTEM
+    INTERFACE
+    	${RANGE_V3_INCLUDE_DIRS}
+    )
+else()
+    target_include_directories(external_ranges SYSTEM
+    INTERFACE
+        ${libs_loc}/range-v3/include
+    )
+endif
 
 if (WIN32)
     target_compile_options(external_ranges
