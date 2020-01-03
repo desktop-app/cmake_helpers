@@ -7,12 +7,20 @@
 add_library(external_xxhash INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_xxhash ALIAS external_xxhash)
 
-target_include_directories(external_xxhash SYSTEM
-INTERFACE
-    ${third_party_loc}/xxHash
-)
+if (DESKTOP_APP_USE_PACKAGED)
+    find_library(XXHASH_LIBRARY xxhash)
+    find_path(XXHASH_INCLUDE_DIRS xxhash.h)
 
-target_compile_definitions(external_xxhash
-INTERFACE
-    XXH_INLINE_ALL
-)
+     target_include_directories(external_xxhash INTERFACE ${XXHASH_INCLUDE_DIRS})
+     target_link_libraries(external_xxhash INTERFACE ${XXHASH_LIBRARY})
+else()
+    target_include_directories(external_xxhash SYSTEM
+    INTERFACE
+        ${third_party_loc}/xxHash
+    )
+
+    target_compile_definitions(external_xxhash
+    INTERFACE
+        XXH_INLINE_ALL
+    )
+endif()

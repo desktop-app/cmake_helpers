@@ -6,10 +6,9 @@
 
 target_compile_options(common_options
 INTERFACE
-    $<IF:$<CONFIG:Debug>,,-Ofast -fno-strict-aliasing>
+    $<IF:$<CONFIG:Debug>,,-fno-strict-aliasing>
     -pipe
     -Wall
-    -Werror
     -W
     -fPIC
     -Wno-unused-variable
@@ -26,14 +25,21 @@ INTERFACE
     -Wno-maybe-uninitialized
     -Wno-error=class-memaccess
 )
-target_link_options(common_options
-INTERFACE
-    $<IF:$<CONFIG:Debug>,,-Ofast>
-)
+if (NOT DESKTOP_APP_USE_PACKAGED)
+    target_compile_options(common_options
+    INTERFACE
+        $<IF:$<CONFIG:Debug>,,-Ofast>
+        -Werror
+    )
+    target_link_options(common_options
+    INTERFACE
+        $<IF:$<CONFIG:Debug>,,-Ofast>
+    )
+endif()
 if (build_linux32)
     target_compile_options(common_options INTERFACE -g0)
     target_link_options(common_options INTERFACE -g0)
-else()
+elseif (NOT DESKTOP_APP_USE_PACKAGED)
     target_compile_options(common_options INTERFACE $<IF:$<CONFIG:Debug>,,-g -flto>)
     target_link_options(common_options INTERFACE $<IF:$<CONFIG:Debug>,,-g -flto -fuse-linker-plugin>)
 endif()
