@@ -1,0 +1,1 @@
+#define SONNETCORE_EXPORT
