@@ -30,6 +30,7 @@ elseif (APPLE)
         report_bad_special_target()
     endif()
 else()
+    set(LINUX 1)
     if (NOT DESKTOP_APP_SPECIAL_TARGET STREQUAL "linux"
         AND NOT DESKTOP_APP_SPECIAL_TARGET STREQUAL "linux32")
         report_bad_special_target()
