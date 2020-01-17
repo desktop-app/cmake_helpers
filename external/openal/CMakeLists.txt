@@ -7,7 +7,11 @@
 add_library(external_openal INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_openal ALIAS external_openal)
 
-if (WIN32)
+if (DESKTOP_APP_USE_PACKAGED)
+    find_package(OpenAL REQUIRED)
+    target_include_directories(external_openal INTERFACE ${OPENAL_INCLUDE_DIR})
+    target_link_libraries(external_openal INTERFACE ${OPENAL_LIBRARY})
+elseif (WIN32)
     target_include_directories(external_openal SYSTEM
     INTERFACE
         ${libs_loc}/openal-soft/include
@@ -36,8 +40,14 @@ else()
     )
 endif()
 
+if (NOT DESKTOP_APP_USE_PACKAGED)
+    target_compile_definitions(external_openal
+    INTERFACE
+        AL_LIBTYPE_STATIC
+    )
+endif()
+
 target_compile_definitions(external_openal
 INTERFACE
-    AL_LIBTYPE_STATIC
     AL_ALEXT_PROTOTYPES
 )

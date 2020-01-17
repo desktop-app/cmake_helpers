@@ -9,6 +9,7 @@ option(DESKTOP_APP_DISABLE_SPELLCHECK "Disable spellcheck library." OFF)
 option(DESKTOP_APP_LOTTIE_USE_CACHE "Use caching in lottie animations." ON)
 option(DESKTOP_APP_USE_GLIBC_WRAPS "Use wraps for new GLIBC features." OFF)
 option(DESKTOP_APP_USE_PACKAGED "Find libraries using CMake instead of exact paths." ON)
+option(DESKTOP_APP_USE_PACKAGED_RLOTTIE "Find rlottie using CMake instead of bundled one." ${DESKTOP_APP_USE_PACKAGED})
 
 if (DESKTOP_APP_SPECIAL_TARGET STREQUAL ""
     OR DESKTOP_APP_SPECIAL_TARGET STREQUAL "uwp"
@@ -57,9 +58,11 @@ else()
             report_bad_special_target()
         endif()
     endif()
-    set(CMAKE_AR /usr/bin/gcc-ar)
-    set(CMAKE_RANLIB /usr/bin/gcc-ranlib)
-    set(CMAKE_NM /usr/bin/gcc-nm)
+    if (NOT DESKTOP_APP_USE_PACKAGED)
+        set(CMAKE_AR /usr/bin/gcc-ar)
+        set(CMAKE_RANLIB /usr/bin/gcc-ranlib)
+        set(CMAKE_NM /usr/bin/gcc-nm)
+    endif()
 endif()
 
 if (NOT APPLE OR build_osx)

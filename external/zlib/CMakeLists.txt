@@ -7,7 +7,16 @@
 add_library(external_zlib INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_zlib ALIAS external_zlib)
 
-if (NOT WIN32)
+if (DESKTOP_APP_USE_PACKAGED)
+    add_library(external_minizip INTERFACE IMPORTED)
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(MINIZIP REQUIRED minizip)
+
+    target_include_directories(external_minizip INTERFACE ${MINIZIP_INCLUDE_DIRS})
+    target_link_libraries(external_minizip INTERFACE ${MINIZIP_LIBRARIES})
+
+    target_link_libraries(external_zlib INTERFACE external_minizip)
+elseif (NOT WIN32)
     add_library(external_minizip STATIC)
     init_target(external_minizip "(external)")
 
@@ -32,13 +41,18 @@ if (NOT WIN32)
     target_link_libraries(external_zlib INTERFACE external_minizip)
 endif()
 
-target_include_directories(external_zlib SYSTEM
-INTERFACE
-    ${libs_loc}/zlib
-    ${libs_loc}/zlib/contrib/minizip
-)
+if (NOT DESKTOP_APP_USE_PACKAGED)
+    target_include_directories(external_zlib SYSTEM
+    INTERFACE
+        ${libs_loc}/zlib
+        ${libs_loc}/zlib/contrib/minizip
+    )
+endif()
 
-if (WIN32)
+if (DESKTOP_APP_USE_PACKAGED)
+    find_package(ZLIB REQUIRED)
+    target_link_libraries(external_zlib INTERFACE ZLIB::ZLIB)
+elseif (WIN32)
     target_compile_definitions(external_zlib INTERFACE ZLIB_WINAPI)
 
     set(zlib_lib_loc ${libs_loc}/zlib/contrib/vstudio/vc14/x86/ZlibStat$<IF:$<CONFIG:Debug>,Debug,ReleaseWithoutAsm>)
