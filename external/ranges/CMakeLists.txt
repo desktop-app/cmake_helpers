@@ -9,6 +9,7 @@ add_library(desktop-app::external_ranges ALIAS external_ranges)
 
 if (DESKTOP_APP_USE_PACKAGED)
     find_package(range-v3 REQUIRED)
+    target_link_libraries(external_ranges INTERFACE range-v3::range-v3)
 else()
     target_include_directories(external_ranges SYSTEM
     INTERFACE
