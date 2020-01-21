@@ -21,8 +21,11 @@ if (DESKTOP_APP_USE_PACKAGED)
         Qt5::Core
         Qt5::Gui
         Qt5::Widgets
-        Qt5::Network
-        Qt5::DBus)
+        Qt5::Network)
+
+    if (Qt5DBus_FOUND)
+        target_link_libraries(external_qt INTERFACE Qt5::DBus)
+    endif()
 
     target_include_directories(external_qt
     INTERFACE
@@ -34,12 +37,18 @@ else()
         ${qt_loc}/include
         ${qt_loc}/include/QtCore
         ${qt_loc}/include/QtGui
-        ${qt_loc}/include/QtDBus
         ${qt_loc}/include/QtCore/${qt_version}
         ${qt_loc}/include/QtGui/${qt_version}
         ${qt_loc}/include/QtCore/${qt_version}/QtCore
         ${qt_loc}/include/QtGui/${qt_version}/QtGui
     )
+
+    if (Qt5DBus_FOUND)
+        target_include_directories(external_qt SYSTEM
+        INTERFACE
+            ${qt_loc}/include/QtDBus
+        )
+    endif()
 
     target_compile_definitions(external_qt
     INTERFACE
@@ -131,6 +140,9 @@ else()
             cups
         )
     else()
+        if (Qt5DBus_FOUND)
+            set(qt_libs_dbus lib/${qt_lib_prefix}Qt5DBus)
+        endif()
         set(qt_libs
             plugins/platforminputcontexts/${qt_lib_prefix}composeplatforminputcontextplugin
             plugins/platforminputcontexts/${qt_lib_prefix}ibusplatforminputcontextplugin
@@ -146,7 +158,7 @@ else()
             plugins/bearer/${qt_lib_prefix}qgenericbearer
             plugins/bearer/${qt_lib_prefix}qnmbearer
             ${common_qt_libs}
-            lib/${qt_lib_prefix}Qt5DBus
+            ${qt_libs_dbus}
             lib/${qt_lib_prefix}Qt5Core
             lib/${qt_lib_prefix}qtpcre2
             lib/${qt_lib_prefix}xcb-static
@@ -223,10 +235,13 @@ else()
             xcb
             X11
             X11-xcb
-            dbus-1
             dl
             glib-2.0
             pthread
         )
+        find_library(DBUS_LIBRARY dbus-1)
+        if (DBUS_LIBRARY)
+            target_link_libraries(external_qt INTERFACE dbus-1)
+        endif()
     endif()
 endif()
