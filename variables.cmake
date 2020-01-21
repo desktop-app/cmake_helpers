@@ -4,7 +4,6 @@
 # For license and copyright information please follow this link:
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
-option(DESKTOP_APP_DISABLE_CRASH_REPORTS "Disable crash report generation." OFF)
 option(DESKTOP_APP_LOTTIE_USE_CACHE "Use caching in lottie animations." ON)
 
 option(DESKTOP_APP_USE_GLIBC_WRAPS "Use wraps for new GLIBC features." OFF)
@@ -22,6 +21,7 @@ if (DESKTOP_APP_SPECIAL_TARGET STREQUAL "osx")
     set(DESKTOP_APP_DISABLE_SPELLCHECK ON)
 endif()
 
+option(DESKTOP_APP_DISABLE_CRASH_REPORTS "Disable crash report generation." ${DESKTOP_APP_USE_PACKAGED})
 option(DESKTOP_APP_USE_PACKAGED_RLOTTIE "Find rlottie using CMake instead of bundled one." ${DESKTOP_APP_USE_PACKAGED})
 option(DESKTOP_APP_USE_PACKAGED_FONTS "Use preinstalled fonts instead of bundled one." ${DESKTOP_APP_USE_PACKAGED})
 
