@@ -4,6 +4,11 @@
 # For license and copyright information please follow this link:
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
+set(MAXIMUM_CXX_STANDARD cxx_std_20)
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    set(MAXIMUM_CXX_STANDARD cxx_std_17)
+endif()
+
 function(init_target_folder target_name folder_name)
     if (NOT "${folder_name}" STREQUAL "")
         set_target_properties(${target_name} PROPERTIES FOLDER ${folder_name})
@@ -15,11 +20,11 @@ function(init_target target_name) # init_target(my_target folder_name)
         if (${ARGV1} STREQUAL cxx_std_14 OR ${ARGV1} STREQUAL cxx_std_11)
             target_compile_features(${target_name} PUBLIC ${ARGV1})
         else()
-            target_compile_features(${target_name} PUBLIC cxx_std_20)
+            target_compile_features(${target_name} PUBLIC ${MAXIMUM_CXX_STANDARD})
             init_target_folder(${target_name} ${ARGV1})
         endif()
     else()
-        target_compile_features(${target_name} PUBLIC cxx_std_20)
+        target_compile_features(${target_name} PUBLIC ${MAXIMUM_CXX_STANDARD})
     endif()
     if (WIN32)
         set_target_properties(${target_name} PROPERTIES
