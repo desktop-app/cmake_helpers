@@ -4,7 +4,7 @@
 # For license and copyright information please follow this link:
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
-set(DESKTOP_APP_SPECIAL_TARGET "" CACHE STRING "Use special platform target, like 'mas' for Mac App Store.")
+set(DESKTOP_APP_SPECIAL_TARGET "" CACHE STRING "Use special platform target, like 'macstore' for Mac App Store.")
 
 function(report_bad_special_target)
     if (NOT DESKTOP_APP_SPECIAL_TARGET STREQUAL "")
@@ -25,7 +25,7 @@ if (WIN32)
     endif()
 elseif (APPLE)
     if (NOT DESKTOP_APP_SPECIAL_TARGET STREQUAL "osx"
-        AND NOT DESKTOP_APP_SPECIAL_TARGET STREQUAL "mas"
+        AND NOT DESKTOP_APP_SPECIAL_TARGET STREQUAL "macstore"
         AND NOT DESKTOP_APP_SPECIAL_TARGET STREQUAL "mac")
         report_bad_special_target()
     endif()

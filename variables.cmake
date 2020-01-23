@@ -27,7 +27,7 @@ option(DESKTOP_APP_USE_PACKAGED_FONTS "Use preinstalled fonts instead of bundled
 
 if (DESKTOP_APP_SPECIAL_TARGET STREQUAL ""
     OR DESKTOP_APP_SPECIAL_TARGET STREQUAL "uwp"
-    OR DESKTOP_APP_SPECIAL_TARGET STREQUAL "mas")
+    OR DESKTOP_APP_SPECIAL_TARGET STREQUAL "macstore")
     set(disable_autoupdate 1)
 endif()
 
@@ -43,7 +43,7 @@ if (WIN32)
 elseif (APPLE)
     if (DESKTOP_APP_SPECIAL_TARGET STREQUAL "osx")
         set(build_osx 1)
-    elseif (DESKTOP_APP_SPECIAL_TARGET STREQUAL "mas")
+    elseif (DESKTOP_APP_SPECIAL_TARGET STREQUAL "macstore")
         set(build_macstore 1)
     endif()
 else()
