@@ -41,7 +41,7 @@ function(init_target target_name) # init_target(my_target folder_name)
         XCODE_ATTRIBUTE_GCC_OPTIMIZATION_LEVEL $<IF:$<CONFIG:Debug>,0,fast>
         XCODE_ATTRIBUTE_LLVM_LTO $<IF:$<CONFIG:Debug>,NO,YES>
     )
-    if (WIN32)
+    if (WIN32 OR DESKTOP_APP_ENABLE_IPO_OPTIMIZATIONS)
         set_target_properties(${target_name} PROPERTIES
             INTERPROCEDURAL_OPTIMIZATION_RELEASE True
             INTERPROCEDURAL_OPTIMIZATION_RELWITHDEBINFO True

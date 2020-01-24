@@ -25,6 +25,12 @@ option(DESKTOP_APP_DISABLE_CRASH_REPORTS "Disable crash report generation." ${DE
 option(DESKTOP_APP_USE_PACKAGED_RLOTTIE "Find rlottie using CMake instead of bundled one." ${DESKTOP_APP_USE_PACKAGED})
 option(DESKTOP_APP_USE_PACKAGED_FONTS "Use preinstalled fonts instead of bundled one." ${DESKTOP_APP_USE_PACKAGED})
 
+option(DESKTOP_APP_ENABLE_IPO_OPTIMIZATIONS "Enable IPO build optimizations." OFF)
+if (DESKTOP_APP_ENABLE_IPO_OPTIMIZATIONS AND CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    message(WARNING "Clang cannot build Qt applications with IPO enabled due to upstream bug: https://bugreports.qt.io/browse/QTBUG-61710.")
+    set(DESKTOP_APP_ENABLE_IPO_OPTIMIZATIONS OFF)
+endif()
+
 if (DESKTOP_APP_SPECIAL_TARGET STREQUAL ""
     OR DESKTOP_APP_SPECIAL_TARGET STREQUAL "uwp"
     OR DESKTOP_APP_SPECIAL_TARGET STREQUAL "macstore")
@@ -59,10 +65,10 @@ else()
             report_bad_special_target()
         endif()
     endif()
-    if (NOT DESKTOP_APP_USE_PACKAGED)
-        set(CMAKE_AR /usr/bin/gcc-ar)
-        set(CMAKE_RANLIB /usr/bin/gcc-ranlib)
-        set(CMAKE_NM /usr/bin/gcc-nm)
+    if (NOT DESKTOP_APP_USE_PACKAGED OR DESKTOP_APP_ENABLE_IPO_OPTIMIZATIONS)
+        set(CMAKE_AR "gcc-ar")
+        set(CMAKE_RANLIB "gcc-ranlib")
+        set(CMAKE_NM "gcc-nm")
     endif()
 endif()
 
