@@ -142,21 +142,28 @@ else()
     else()
         if (Qt5DBus_FOUND)
             set(qt_libs_dbus lib/${qt_lib_prefix}Qt5DBus)
+            set(qt_libs_dbus_plugins
+                plugins/platforminputcontexts/${qt_lib_prefix}ibusplatforminputcontextplugin
+                plugins/platforminputcontexts/${qt_lib_prefix}fcitxplatforminputcontextplugin
+                plugins/platforminputcontexts/${qt_lib_prefix}himeplatforminputcontextplugin
+                plugins/platforminputcontexts/${qt_lib_prefix}nimfplatforminputcontextplugin
+                plugins/platformthemes/${qt_lib_prefix}qxdgdesktopportal
+            )
+            set(qt_libs_dbus_bearers
+                plugins/bearer/${qt_lib_prefix}qconnmanbearer
+                plugins/bearer/${qt_lib_prefix}qnmbearer
+            )
         endif()
         set(qt_libs
             plugins/platforminputcontexts/${qt_lib_prefix}composeplatforminputcontextplugin
-            plugins/platforminputcontexts/${qt_lib_prefix}ibusplatforminputcontextplugin
-            plugins/platforminputcontexts/${qt_lib_prefix}fcitxplatforminputcontextplugin
-            plugins/platforminputcontexts/${qt_lib_prefix}himeplatforminputcontextplugin
-            plugins/platforminputcontexts/${qt_lib_prefix}nimfplatforminputcontextplugin
+            ${qt_libs_dbus_plugins}
             plugins/platforms/${qt_lib_prefix}qxcb
             lib/${qt_lib_prefix}Qt5XcbQpa
             lib/${qt_lib_prefix}Qt5LinuxAccessibilitySupport
             lib/${qt_lib_prefix}Qt5ServiceSupport
             lib/${qt_lib_prefix}Qt5EdidSupport
-            plugins/bearer/${qt_lib_prefix}qconnmanbearer
             plugins/bearer/${qt_lib_prefix}qgenericbearer
-            plugins/bearer/${qt_lib_prefix}qnmbearer
+            ${qt_libs_dbus_bearers}
             ${common_qt_libs}
             ${qt_libs_dbus}
             lib/${qt_lib_prefix}Qt5Core
