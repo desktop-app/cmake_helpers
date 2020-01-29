@@ -102,6 +102,7 @@ else()
         LOT_BUILD
     PRIVATE
         _USE_MATH_DEFINES
+        LOTTIE_DISABLE_ARM_NEON
         "RAPIDJSON_ASSERT=(void)"
     )
 
