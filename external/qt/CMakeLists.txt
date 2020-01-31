@@ -243,11 +243,14 @@ else()
             X11
             X11-xcb
             dl
-            glib-2.0
             pthread
         )
+        if (Qt5DBus_FOUND)
+            # needed for hime only
+            target_link_libraries(external_qt INTERFACE glib-2.0)
+        endif()
         find_library(DBUS_LIBRARY dbus-1)
-        if (DBUS_LIBRARY)
+        if (Qt5DBus_FOUND AND DBUS_LIBRARY)
             target_link_libraries(external_qt INTERFACE dbus-1)
         endif()
     endif()
