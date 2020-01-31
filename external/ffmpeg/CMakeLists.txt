@@ -54,11 +54,14 @@ else()
             va-drm
             va
             vdpau
-            drm
             Xi
             Xext
             Xfixes
             Xrender
+        )
+        target_link_libraries(external_ffmpeg
+        INTERFACE
+          drm
         )
     endif()
 endif()

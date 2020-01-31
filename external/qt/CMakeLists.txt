@@ -213,12 +213,6 @@ else()
         endif()
         target_link_static_libraries(external_qt
         INTERFACE
-            SM
-            ICE
-            fontconfig
-            freetype
-            expat
-            z
             xcb-shm
             xcb-xfixes
             xcb-render
@@ -239,6 +233,12 @@ else()
         endif()
         target_link_libraries(external_qt
         INTERFACE
+            ICE
+            SM
+            fontconfig
+            freetype
+            expat
+            z
             xcb
             X11
             X11-xcb
