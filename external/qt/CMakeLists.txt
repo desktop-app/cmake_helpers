@@ -37,6 +37,7 @@ else()
         ${qt_loc}/include
         ${qt_loc}/include/QtCore
         ${qt_loc}/include/QtGui
+        ${qt_loc}/include/QtWidgets
         ${qt_loc}/include/QtCore/${qt_version}
         ${qt_loc}/include/QtGui/${qt_version}
         ${qt_loc}/include/QtCore/${qt_version}/QtCore
