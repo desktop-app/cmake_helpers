@@ -7,7 +7,15 @@
 add_library(external_gsl INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_gsl ALIAS external_gsl)
 
-target_include_directories(external_gsl SYSTEM
-INTERFACE
-    ${third_party_loc}/GSL/include
-)
+if (DESKTOP_APP_USE_PACKAGED)
+    find_path(GSL_INCLUDE_DIRS gsl/gsl)
+
+    if (NOT GSL_INCLUDE_DIRS)
+        message(FATAL_ERROR "Guidelines Support Library not found")
+    endif()
+else()
+    target_include_directories(external_gsl SYSTEM
+    INTERFACE
+        ${third_party_loc}/GSL/include
+    )
+endif()
