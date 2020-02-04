@@ -24,6 +24,7 @@ endif()
 option(DESKTOP_APP_DISABLE_CRASH_REPORTS "Disable crash report generation." ${DESKTOP_APP_USE_PACKAGED})
 option(DESKTOP_APP_USE_PACKAGED_RLOTTIE "Find rlottie using CMake instead of bundled one." ${DESKTOP_APP_USE_PACKAGED})
 option(DESKTOP_APP_USE_PACKAGED_EXPECTED "Find expected using CMake instead of bundled one." ${DESKTOP_APP_USE_PACKAGED})
+option(DESKTOP_APP_USE_PACKAGED_VARIANT "Find mapbox-variant using CMake instead of bundled one." ${DESKTOP_APP_USE_PACKAGED})
 option(DESKTOP_APP_USE_PACKAGED_FONTS "Use preinstalled fonts instead of bundled one." ${DESKTOP_APP_USE_PACKAGED})
 
 option(DESKTOP_APP_ENABLE_IPO_OPTIMIZATIONS "Enable IPO build optimizations." OFF)
