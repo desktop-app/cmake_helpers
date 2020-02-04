@@ -4,13 +4,13 @@
 # For license and copyright information please follow this link:
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
-add_library(external_statusnotifieritem INTERFACE IMPORTED GLOBAL)
+add_library(external_statusnotifieritem OBJECT)
 add_library(desktop-app::external_statusnotifieritem ALIAS external_statusnotifieritem)
 
 set(statusnotifieritem_loc ${third_party_loc}/statusnotifieritem)
 
 nice_target_sources(external_statusnotifieritem ${statusnotifieritem_loc}
-INTERFACE
+PRIVATE
     dbustypes.cpp
     dbustypes.h
     statusnotifieritem.cpp
@@ -23,15 +23,18 @@ qt5_add_dbus_adaptor(sni_adaptor
     StatusNotifierItem
 )
 
-target_sources(external_statusnotifieritem INTERFACE ${sni_adaptor})
+set_target_properties(external_statusnotifieritem PROPERTIES AUTOMOC ON)
+
+target_sources(external_statusnotifieritem PRIVATE ${sni_adaptor})
 
 target_include_directories(external_statusnotifieritem
-INTERFACE
+PUBLIC
     ${statusnotifieritem_loc}
-    "${CMAKE_CURRENT_BINARY_DIR}")
+    "${CMAKE_CURRENT_BINARY_DIR}"
+)
 
 target_link_libraries(external_statusnotifieritem
-INTERFACE
+PUBLIC
     desktop-app::external_dbusmenu_qt
     desktop-app::external_qt
 )

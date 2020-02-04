@@ -27,6 +27,7 @@ else()
     set(CMAKE_AUTOMOC_RELAXED_MODE ON)
     set_target_properties(external_dbusmenu_qt PROPERTIES AUTOMOC ON AUTORCC ON)
 
+    include(CheckCXXSourceCompiles)
     check_cxx_source_compiles("
     #include <QtGui/QIcon>
     int main() {
