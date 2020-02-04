@@ -7,7 +7,12 @@
 add_library(external_expected INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_expected ALIAS external_expected)
 
-target_include_directories(external_expected SYSTEM
-INTERFACE
-    ${third_party_loc}/expected/include
-)
+if (DESKTOP_APP_USE_PACKAGED_EXPECTED)
+    find_package(tl-expected CONFIG REQUIRED)
+    target_link_libraries(external_expected INTERFACE tl::expected)
+else()
+    target_include_directories(external_expected SYSTEM
+    INTERFACE
+        ${third_party_loc}/expected/include
+    )
+endif()
