@@ -24,8 +24,7 @@ else()
 
     set(dbusmenu_qt_loc ${third_party_loc}/libdbusmenu-qt/src)
 
-    set(CMAKE_AUTOMOC_RELAXED_MODE ON)
-    set_target_properties(external_dbusmenu_qt PROPERTIES AUTOMOC ON AUTORCC ON)
+    set_target_properties(external_dbusmenu_qt PROPERTIES AUTOMOC ON)
 
     include(CheckCXXSourceCompiles)
     check_cxx_source_compiles("
