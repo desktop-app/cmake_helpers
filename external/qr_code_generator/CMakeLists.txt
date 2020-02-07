@@ -4,24 +4,35 @@
 # For license and copyright information please follow this link:
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
-add_library(external_qr_code_generator OBJECT)
-add_library(desktop-app::external_qr_code_generator ALIAS external_qr_code_generator)
-init_target(external_qr_code_generator "(external)")
+if (DESKTOP_APP_USE_PACKAGED_QRCODE)
+    add_library(external_qr_code_generator INTERFACE IMPORTED GLOBAL)
+    add_library(desktop-app::external_qr_code_generator ALIAS external_qr_code_generator)
 
-set(qr_loc ${third_party_loc}/QR)
-set(qr_src ${qr_loc}/cpp)
+    find_library(QRCODE_LIBRARY NAMES "qrcodegencpp")
+    find_path(QRCODE_INCLUDE_DIRS "qrcodegencpp/QrCode.hpp")
 
-nice_target_sources(external_qr_code_generator ${qr_src}
-PRIVATE
-    BitBuffer.cpp
-    BitBuffer.hpp
-    QrCode.cpp
-    QrCode.hpp
-    QrSegment.cpp
-    QrSegment.hpp
-)
+    target_include_directories(external_qr_code_generator INTERFACE ${QRCODE_INCLUDE_DIRS})
+    target_link_libraries(external_qr_code_generator INTERFACE ${QRCODE_LIBRARY})
+else()
+    add_library(external_qr_code_generator OBJECT)
+    add_library(desktop-app::external_qr_code_generator ALIAS external_qr_code_generator)
+    init_target(external_qr_code_generator "(external)")
 
-target_include_directories(external_qr_code_generator
-PUBLIC
-    ${qr_src}
-)
+    set(qr_loc ${third_party_loc}/QR)
+    set(qr_src ${qr_loc}/cpp)
+
+    nice_target_sources(external_qr_code_generator ${qr_src}
+    PRIVATE
+        BitBuffer.cpp
+        BitBuffer.hpp
+        QrCode.cpp
+        QrCode.hpp
+        QrSegment.cpp
+        QrSegment.hpp
+    )
+
+    target_include_directories(external_qr_code_generator
+    PUBLIC
+        ${qr_src}
+    )
+endif()

@@ -26,6 +26,7 @@ option(DESKTOP_APP_USE_PACKAGED_RLOTTIE "Find rlottie using CMake instead of bun
 option(DESKTOP_APP_USE_PACKAGED_EXPECTED "Find expected using CMake instead of bundled one." ${DESKTOP_APP_USE_PACKAGED})
 option(DESKTOP_APP_USE_PACKAGED_VARIANT "Find mapbox-variant using CMake instead of bundled one." ${DESKTOP_APP_USE_PACKAGED})
 option(DESKTOP_APP_USE_PACKAGED_GSL "Find GSL using CMake instead of bundled one." ${DESKTOP_APP_USE_PACKAGED})
+option(DESKTOP_APP_USE_PACKAGED_QRCODE "Find qr-code-generator library using CMake instead of bundled one." OFF)
 option(DESKTOP_APP_USE_PACKAGED_FONTS "Use preinstalled fonts instead of bundled one." ${DESKTOP_APP_USE_PACKAGED})
 
 option(DESKTOP_APP_ENABLE_IPO_OPTIMIZATIONS "Enable IPO build optimizations." OFF)
