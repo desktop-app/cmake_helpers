@@ -41,7 +41,7 @@ elseif (NOT WIN32)
     target_link_libraries(external_zlib INTERFACE external_minizip)
 endif()
 
-if (NOT DESKTOP_APP_USE_PACKAGED)
+if (NOT DESKTOP_APP_USE_PACKAGED AND NOT LINUX)
     target_include_directories(external_zlib SYSTEM
     INTERFACE
         ${libs_loc}/zlib
