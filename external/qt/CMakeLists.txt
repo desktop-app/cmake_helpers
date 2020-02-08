@@ -238,8 +238,6 @@ else()
             SM
             fontconfig
             freetype
-            expat
-            z
             xcb
             X11
             X11-xcb
