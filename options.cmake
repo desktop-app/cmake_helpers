@@ -33,6 +33,13 @@ if (DESKTOP_APP_USE_PACKAGED_FONTS)
     )
 endif()
 
+if (DESKTOP_APP_USE_PACKAGED_RLOTTIE)
+    target_compile_definitions(common_options
+    INTERFACE
+        DESKTOP_APP_USE_PACKAGED_RLOTTIE
+    )
+endif()
+
 if (WIN32)
     include(cmake/options_win.cmake)
 elseif (APPLE)
