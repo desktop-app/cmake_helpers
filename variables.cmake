@@ -4,7 +4,9 @@
 # For license and copyright information please follow this link:
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
-option(DESKTOP_APP_LOTTIE_USE_CACHE "Use caching in lottie animations." ON)
+include(CMakeDependentOption)
+
+CMAKE_DEPENDENT_OPTION(DESKTOP_APP_LOTTIE_USE_CACHE "Use caching in lottie animations." ON "NOT CMAKE_SYSTEM_PROCESSOR MATCHES \"arm.*|aarch.*\"" OFF)
 option(DESKTOP_APP_DISABLE_DBUS_INTEGRATION "Disable all code for D-Bus integration (Linux only)." OFF)
 
 option(DESKTOP_APP_USE_GLIBC_WRAPS "Use wraps for new GLIBC features." OFF)
