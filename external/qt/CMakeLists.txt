@@ -159,6 +159,7 @@ else()
             plugins/platforminputcontexts/${qt_lib_prefix}composeplatforminputcontextplugin
             ${qt_libs_dbus_plugins}
             plugins/platforms/${qt_lib_prefix}qxcb
+            plugins/iconengines/${qt_lib_prefix}qsvgicon
             lib/${qt_lib_prefix}Qt5XcbQpa
             lib/${qt_lib_prefix}Qt5LinuxAccessibilitySupport
             lib/${qt_lib_prefix}Qt5ServiceSupport
@@ -167,6 +168,7 @@ else()
             ${qt_libs_dbus_bearers}
             ${common_qt_libs}
             ${qt_libs_dbus}
+            lib/${qt_lib_prefix}Qt5Svg
             lib/${qt_lib_prefix}Qt5Core
             lib/${qt_lib_prefix}qtpcre2
             lib/${qt_lib_prefix}xcb-static
