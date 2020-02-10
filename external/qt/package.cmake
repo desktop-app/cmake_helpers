@@ -23,6 +23,10 @@ endif()
 find_package(Qt5 COMPONENTS Core Gui Widgets Network REQUIRED)
 
 if (LINUX)
+    if (NOT DESKTOP_APP_USE_PACKAGED)
+        find_package(Qt5 COMPONENTS Svg REQUIRED)
+    endif()
+
     find_package(Qt5 COMPONENTS DBus)
 endif()
 
