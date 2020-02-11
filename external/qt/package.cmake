@@ -24,7 +24,7 @@ find_package(Qt5 COMPONENTS Core Gui Widgets Network REQUIRED)
 
 if (LINUX)
     if (NOT DESKTOP_APP_USE_PACKAGED)
-        find_package(Qt5 COMPONENTS Svg REQUIRED)
+        find_package(Qt5 COMPONENTS WaylandClient Svg REQUIRED)
     endif()
 
     if (DESKTOP_APP_DISABLE_DBUS_INTEGRATION)
