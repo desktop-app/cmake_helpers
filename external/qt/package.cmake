@@ -27,7 +27,11 @@ if (LINUX)
         find_package(Qt5 COMPONENTS Svg REQUIRED)
     endif()
 
-    find_package(Qt5 COMPONENTS DBus)
+    if (DESKTOP_APP_DISABLE_DBUS_INTEGRATION)
+        find_package(Qt5 COMPONENTS DBus)
+    else()
+        find_package(Qt5 COMPONENTS DBus REQUIRED)
+    endif()
 endif()
 
 set_property(GLOBAL PROPERTY AUTOGEN_SOURCE_GROUP "(gen)")

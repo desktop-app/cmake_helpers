@@ -141,8 +141,13 @@ else()
             cups
         )
     else()
+        set(qt_libs_dbus)
+        set(qt_libs_dbus_support)
+        set(qt_libs_dbus_plugins)
+        set(qt_libs_dbus_bearers)
         if (Qt5DBus_FOUND)
             set(qt_libs_dbus lib/${qt_lib_prefix}Qt5DBus)
+            set(qt_libs_dbus_support lib/${qt_lib_prefix}Qt5LinuxAccessibilitySupport)
             set(qt_libs_dbus_plugins
                 plugins/platforminputcontexts/${qt_lib_prefix}ibusplatforminputcontextplugin
                 plugins/platforminputcontexts/${qt_lib_prefix}fcitxplatforminputcontextplugin
@@ -161,9 +166,9 @@ else()
             plugins/platforms/${qt_lib_prefix}qxcb
             plugins/iconengines/${qt_lib_prefix}qsvgicon
             lib/${qt_lib_prefix}Qt5XcbQpa
-            lib/${qt_lib_prefix}Qt5LinuxAccessibilitySupport
             lib/${qt_lib_prefix}Qt5ServiceSupport
             lib/${qt_lib_prefix}Qt5EdidSupport
+            ${qt_libs_dbus_support}
             plugins/bearer/${qt_lib_prefix}qgenericbearer
             ${qt_libs_dbus_bearers}
             ${common_qt_libs}
@@ -247,9 +252,5 @@ else()
             glib-2.0
             pthread
         )
-        find_library(DBUS_LIBRARY dbus-1)
-        if (Qt5DBus_FOUND AND DBUS_LIBRARY)
-            target_link_libraries(external_qt INTERFACE dbus-1)
-        endif()
     endif()
 endif()
