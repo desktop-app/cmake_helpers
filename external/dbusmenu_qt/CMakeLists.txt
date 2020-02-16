@@ -8,11 +8,8 @@ if (DESKTOP_APP_USE_PACKAGED)
     add_library(external_dbusmenu_qt INTERFACE IMPORTED GLOBAL)
     add_library(desktop-app::external_dbusmenu_qt ALIAS external_dbusmenu_qt)
 
-    find_package(dbusmenu-qt5)
-
-    if (dbusmenu-qt5_FOUND)
-        target_link_libraries(external_dbusmenu_qt INTERFACE dbusmenu-qt5)
-    endif()
+    find_package(dbusmenu-qt5 REQUIRED)
+    target_link_libraries(external_dbusmenu_qt INTERFACE dbusmenu-qt5)
 else()
     add_library(external_dbusmenu_qt OBJECT)
     add_library(desktop-app::external_dbusmenu_qt ALIAS external_dbusmenu_qt)

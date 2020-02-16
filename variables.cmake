@@ -5,6 +5,7 @@
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
 option(DESKTOP_APP_LOTTIE_USE_CACHE "Use caching in lottie animations." ON)
+option(DESKTOP_APP_DISABLE_DBUS_INTEGRATION "Disable all code for D-Bus integration (Linux only)." OFF)
 
 option(DESKTOP_APP_USE_GLIBC_WRAPS "Use wraps for new GLIBC features." OFF)
 if (LINUX AND NOT DESKTOP_APP_SPECIAL_TARGET STREQUAL "")
