@@ -26,19 +26,8 @@ else()
 
     set_target_properties(external_dbusmenu_qt PROPERTIES AUTOMOC ON)
 
-    include(CheckCXXSourceCompiles)
-    check_cxx_source_compiles("
-    #include <QtGui/QIcon>
-    int main() {
-        QIcon icon;
-        icon.name();
-        return 0;
-    }
-    " HAVE_QICON_NAME)
-
-    if (NOT HAVE_QICON_NAME)
-        message(STATUS "QIcon::name() does not exist, DBusMenuExporter will not export icon names by itself")
-    endif()
+    # QIcon::name was introduced in Qt 4.7.
+    set(HAVE_QICON_NAME ON)
 
     configure_file(${dbusmenu_qt_loc}/dbusmenu_config.h.in "${CMAKE_CURRENT_BINARY_DIR}/dbusmenu_config.h" @ONLY)
     configure_file(${dbusmenu_qt_loc}/dbusmenu_version.h.in "${CMAKE_CURRENT_BINARY_DIR}/dbusmenu_version.h")
