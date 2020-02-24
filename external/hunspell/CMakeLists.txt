@@ -5,7 +5,7 @@
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
 if (DESKTOP_APP_USE_PACKAGED)
-    add_library(external_hunspell INTERFACE IMPORTED)
+    add_library(external_hunspell INTERFACE IMPORTED GLOBAL)
     add_library(desktop-app::external_hunspell ALIAS external_hunspell)
 
     find_package(PkgConfig REQUIRED)
