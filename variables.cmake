@@ -45,6 +45,14 @@ if (DESKTOP_APP_SPECIAL_TARGET STREQUAL ""
     set(disable_autoupdate 1)
 endif()
 
+set(add_hunspell_library 0)
+if ((WIN32
+  OR (LINUX AND NOT DESKTOP_APP_USE_ENCHANT)
+  OR DESKTOP_APP_USE_HUNSPELL_ONLY)
+  AND NOT DESKTOP_APP_DISABLE_SPELLCHECK)
+    set(add_hunspell_library 1)
+endif()
+
 set(build_osx 0)
 set(build_macstore 0)
 set(build_winstore 0)
