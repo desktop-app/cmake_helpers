@@ -64,6 +64,7 @@ INTERFACE
     DbgHelp
     Rstrtmgr
     Crypt32
+    Normaliz
 )
 
 if (build_winstore)
