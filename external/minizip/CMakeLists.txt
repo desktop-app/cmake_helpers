@@ -36,10 +36,8 @@ elseif (NOT WIN32)
     )
 
     target_link_libraries(external_minizip INTERFACE external_minizip_bundled)
-endif()
-
-if (NOT DESKTOP_APP_USE_PACKAGED AND NOT LINUX)
-    target_include_directories(external_minizip_bundled SYSTEM
+else()
+    target_include_directories(external_minizip SYSTEM
     INTERFACE
         ${libs_loc}/zlib/contrib/minizip
     )
