@@ -59,5 +59,6 @@ else()
     target_compile_definitions(external_hunspell
     PUBLIC
         HUNSPELL_STATIC
+        MAXSUGGESTION=5
     )
 endif()
