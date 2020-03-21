@@ -67,4 +67,5 @@ INTERFACE
     AppKit
     CoreWLAN
     IOKit
+    LocalAuthentication
 )
