@@ -41,6 +41,8 @@ function(desktop_app_parse_version file)
                 set(alpha 0)
             endif()
         endif()
+    else()
+        set(patch 0)
     endif()
 
     if (DESKTOP_APP_SPECIAL_TARGET STREQUAL "")
