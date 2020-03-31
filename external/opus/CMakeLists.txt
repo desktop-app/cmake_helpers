@@ -7,12 +7,7 @@
 add_library(external_opus INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_opus ALIAS external_opus)
 
-if (DESKTOP_APP_USE_PACKAGED)
-    find_package(PkgConfig REQUIRED)
-    pkg_check_modules(OPUS opus)
-
-    target_include_directories(external_opus INTERFACE ${OPUS_INCLUDE_DIRS})
-else()
+if (NOT DESKTOP_APP_USE_PACKAGED)
     target_include_directories(external_opus SYSTEM
     INTERFACE
         ${libs_loc}/opus/include
@@ -20,7 +15,10 @@ else()
 endif()
 
 if (DESKTOP_APP_USE_PACKAGED)
-    target_link_libraries(external_opus INTERFACE ${OPUS_LIBRARIES})
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(OPUS IMPORTED_TARGET opus)
+
+    target_link_libraries(external_opus INTERFACE PkgConfig::OPUS)
 elseif (WIN32)
     set(opus_lib_loc ${libs_loc}/opus/win32/VS2015/Win32/$<IF:$<CONFIG:Debug>,Debug,Release>)
 

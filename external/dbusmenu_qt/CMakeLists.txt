@@ -51,7 +51,8 @@ else()
     target_include_directories(external_dbusmenu_qt
     PUBLIC
         ${dbusmenu_qt_loc}
-        "${CMAKE_CURRENT_BINARY_DIR}")
+        "${CMAKE_CURRENT_BINARY_DIR}"
+    )
 
     target_link_libraries(external_dbusmenu_qt
     PUBLIC

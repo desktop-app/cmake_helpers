@@ -9,10 +9,9 @@ if (DESKTOP_APP_USE_PACKAGED)
     add_library(desktop-app::external_lz4 ALIAS external_lz4)
 
     find_package(PkgConfig REQUIRED)
-    pkg_check_modules(LZ4 liblz4)
+    pkg_check_modules(LZ4 IMPORTED_TARGET liblz4)
 
-    target_include_directories(external_lz4 INTERFACE ${LZ4_INCLUDE_DIRS})
-    target_link_libraries(external_lz4 INTERFACE ${LZ4_LIBRARIES})
+    target_link_libraries(external_lz4 INTERFACE PkgConfig::LZ4)
 else()
     add_library(external_lz4 OBJECT)
     add_library(desktop-app::external_lz4 ALIAS external_lz4)

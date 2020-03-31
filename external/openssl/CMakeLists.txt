@@ -9,7 +9,11 @@ add_library(desktop-app::external_openssl ALIAS external_openssl)
 
 if (DESKTOP_APP_USE_PACKAGED)
     find_package(OpenSSL REQUIRED)
-    target_link_libraries(external_openssl INTERFACE OpenSSL::SSL)
+    target_link_libraries(external_openssl
+    INTERFACE
+        OpenSSL::SSL
+        OpenSSL::Crypto
+    )
 else()
     if (LINUX)
         target_include_directories(external_openssl SYSTEM

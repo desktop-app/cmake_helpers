@@ -9,10 +9,9 @@ add_library(desktop-app::external_minizip ALIAS external_minizip)
 
 if (DESKTOP_APP_USE_PACKAGED)
     find_package(PkgConfig REQUIRED)
-    pkg_check_modules(MINIZIP REQUIRED minizip)
+    pkg_check_modules(MINIZIP REQUIRED IMPORTED_TARGET minizip)
 
-    target_include_directories(external_minizip INTERFACE ${MINIZIP_INCLUDE_DIRS})
-    target_link_libraries(external_minizip INTERFACE ${MINIZIP_LIBRARIES})
+    target_link_libraries(external_minizip INTERFACE PkgConfig::MINIZIP)
 elseif (NOT WIN32)
     add_library(external_minizip_bundled STATIC)
     init_target(external_minizip_bundled "(external)")
