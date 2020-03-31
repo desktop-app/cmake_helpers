@@ -21,7 +21,8 @@ if (DESKTOP_APP_USE_PACKAGED)
         Qt5::Core
         Qt5::Gui
         Qt5::Widgets
-        Qt5::Network)
+        Qt5::Network
+    )
 
     if (Qt5DBus_FOUND)
         target_link_libraries(external_qt INTERFACE Qt5::DBus)
@@ -30,7 +31,8 @@ if (DESKTOP_APP_USE_PACKAGED)
     target_include_directories(external_qt
     INTERFACE
         ${Qt5Core_PRIVATE_INCLUDE_DIRS}
-        ${Qt5Gui_PRIVATE_INCLUDE_DIRS})
+        ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
+    )
 else()
     target_include_directories(external_qt SYSTEM
     INTERFACE
