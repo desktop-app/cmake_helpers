@@ -6,7 +6,7 @@
 
 if (NOT DESKTOP_APP_USE_PACKAGED)
     if (NOT APPLE OR NOT build_osx)
-        set(qt_version 5.12.5)
+        set(qt_version 5.12.8)
     else()
         set(qt_version 5.6.2)
     endif()
