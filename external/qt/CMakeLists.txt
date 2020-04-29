@@ -166,6 +166,7 @@ else()
             plugins/platforminputcontexts/${qt_lib_prefix}composeplatforminputcontextplugin
             ${qt_libs_dbus_plugins}
             plugins/wayland-decoration-client/${qt_lib_prefix}bradient
+            plugins/wayland-decoration-client/${qt_lib_prefix}material
             plugins/wayland-shell-integration/${qt_lib_prefix}ivi-shell
             plugins/wayland-shell-integration/${qt_lib_prefix}wl-shell
             plugins/wayland-shell-integration/${qt_lib_prefix}xdg-shell-v5
