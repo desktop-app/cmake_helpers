@@ -21,6 +21,7 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
 endif()
 
 find_package(Qt5 COMPONENTS Core Gui Widgets Network REQUIRED)
+find_package(Qt5Gui COMPONENTS QWebpPlugin REQUIRED)
 
 if (LINUX)
     if (NOT DESKTOP_APP_USE_PACKAGED)
