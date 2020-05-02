@@ -24,15 +24,24 @@ if (DESKTOP_APP_USE_PACKAGED)
         Qt5::Network
     )
 
-    if (Qt5DBus_FOUND)
-        target_link_libraries(external_qt INTERFACE Qt5::DBus)
-    endif()
-
     target_include_directories(external_qt
     INTERFACE
         ${Qt5Core_PRIVATE_INCLUDE_DIRS}
         ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     )
+
+    if (Qt5WaylandClient_FOUND)
+        target_link_libraries(external_qt INTERFACE Qt5::WaylandClient)
+
+        target_include_directories(external_qt
+        INTERFACE
+            ${Qt5WaylandClient_PRIVATE_INCLUDE_DIRS}
+        )
+    endif()
+
+    if (Qt5DBus_FOUND)
+        target_link_libraries(external_qt INTERFACE Qt5::DBus)
+    endif()
 else()
     target_include_directories(external_qt SYSTEM
     INTERFACE
@@ -40,10 +49,13 @@ else()
         ${qt_loc}/include/QtCore
         ${qt_loc}/include/QtGui
         ${qt_loc}/include/QtWidgets
+        ${qt_loc}/include/QtWaylandClient
         ${qt_loc}/include/QtCore/${qt_version}
         ${qt_loc}/include/QtGui/${qt_version}
+        ${qt_loc}/include/QtWaylandClient/${qt_version}
         ${qt_loc}/include/QtCore/${qt_version}/QtCore
         ${qt_loc}/include/QtGui/${qt_version}/QtGui
+        ${qt_loc}/include/QtWaylandClient/${qt_version}/QtWaylandClient
     )
 
     if (Qt5DBus_FOUND)
@@ -58,6 +70,7 @@ else()
         _REENTRANT
         QT_STATICPLUGIN
         QT_PLUGIN
+        QT_WAYLANDCLIENT_LIB
         QT_WIDGETS_LIB
         QT_NETWORK_LIB
         QT_GUI_LIB
@@ -166,7 +179,6 @@ else()
             plugins/platforminputcontexts/${qt_lib_prefix}composeplatforminputcontextplugin
             ${qt_libs_dbus_plugins}
             plugins/wayland-decoration-client/${qt_lib_prefix}bradient
-            plugins/wayland-decoration-client/${qt_lib_prefix}material
             plugins/wayland-shell-integration/${qt_lib_prefix}ivi-shell
             plugins/wayland-shell-integration/${qt_lib_prefix}wl-shell
             plugins/wayland-shell-integration/${qt_lib_prefix}xdg-shell-v5
