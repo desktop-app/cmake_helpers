@@ -26,6 +26,13 @@ if (DESKTOP_APP_USE_PACKAGED)
     )
 endif()
 
+if (DESKTOP_APP_USE_PACKAGED_LAZY)
+    target_compile_definitions(common_options
+    INTERFACE
+        DESKTOP_APP_USE_PACKAGED_LAZY
+    )
+endif()
+
 if (DESKTOP_APP_USE_PACKAGED_FONTS)
     target_compile_definitions(common_options
     INTERFACE
