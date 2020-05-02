@@ -30,7 +30,7 @@ elseif (NOT WIN32)
     )
 
     target_include_directories(external_minizip_bundled SYSTEM
-    INTERFACE
+    PUBLIC
         ${minizip_loc}
     )
 
