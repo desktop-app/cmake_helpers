@@ -4,7 +4,7 @@
 # For license and copyright information please follow this link:
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
-if (DESKTOP_APP_USE_PACKAGED_QRCODE)
+if (DESKTOP_APP_USE_PACKAGED_QRCODE AND NOT DESKTOP_APP_USE_PACKAGED_LAZY)
     add_library(external_qr_code_generator INTERFACE IMPORTED GLOBAL)
     add_library(desktop-app::external_qr_code_generator ALIAS external_qr_code_generator)
 

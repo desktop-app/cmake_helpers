@@ -7,7 +7,7 @@
 add_library(external_expected INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_expected ALIAS external_expected)
 
-if (DESKTOP_APP_USE_PACKAGED_EXPECTED)
+if (DESKTOP_APP_USE_PACKAGED_EXPECTED AND NOT DESKTOP_APP_USE_PACKAGED_LAZY)
     find_package(tl-expected CONFIG REQUIRED)
     target_link_libraries(external_expected INTERFACE tl::expected)
 else()

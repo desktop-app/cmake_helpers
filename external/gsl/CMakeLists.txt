@@ -7,7 +7,7 @@
 add_library(external_gsl INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_gsl ALIAS external_gsl)
 
-if (DESKTOP_APP_USE_PACKAGED_GSL)
+if (DESKTOP_APP_USE_PACKAGED_GSL AND NOT DESKTOP_APP_USE_PACKAGED_LAZY)
     find_package(Microsoft.GSL CONFIG REQUIRED)
     target_link_libraries(external_gsl INTERFACE Microsoft.GSL::GSL)
 else()

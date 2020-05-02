@@ -7,7 +7,7 @@
 add_library(external_xxhash INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_xxhash ALIAS external_xxhash)
 
-if (DESKTOP_APP_USE_PACKAGED)
+if (DESKTOP_APP_USE_PACKAGED AND NOT DESKTOP_APP_USE_PACKAGED_LAZY)
     find_library(XXHASH_LIBRARY xxhash)
     find_path(XXHASH_INCLUDE_DIRS xxhash.h)
 

@@ -7,7 +7,7 @@
 add_library(external_minizip INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_minizip ALIAS external_minizip)
 
-if (DESKTOP_APP_USE_PACKAGED)
+if (DESKTOP_APP_USE_PACKAGED AND NOT DESKTOP_APP_USE_PACKAGED_LAZY)
     find_package(PkgConfig REQUIRED)
     pkg_check_modules(MINIZIP REQUIRED IMPORTED_TARGET minizip)
 

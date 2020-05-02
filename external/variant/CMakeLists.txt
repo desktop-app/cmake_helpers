@@ -7,7 +7,7 @@
 add_library(external_variant INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_variant ALIAS external_variant)
 
-if (DESKTOP_APP_USE_PACKAGED_VARIANT)
+if (DESKTOP_APP_USE_PACKAGED_VARIANT AND NOT DESKTOP_APP_USE_PACKAGED_LAZY)
     find_path(VARIANT_INCLUDE_DIRS mapbox/variant.hpp)
     if (NOT VARIANT_INCLUDE_DIRS)
         message(FATAL_ERROR "Packaged version of mapbox-variant library not found!")
