@@ -165,7 +165,6 @@ else()
             set(qt_libs_dbus_support lib/${qt_lib_prefix}Qt5LinuxAccessibilitySupport)
             set(qt_libs_dbus_plugins
                 plugins/platforminputcontexts/${qt_lib_prefix}ibusplatforminputcontextplugin
-                plugins/platforminputcontexts/${qt_lib_prefix}himeplatforminputcontextplugin
                 plugins/platformthemes/${qt_lib_prefix}qxdgdesktopportal
             )
             set(qt_libs_dbus_bearers
