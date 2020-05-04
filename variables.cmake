@@ -24,6 +24,7 @@ option(DESKTOP_APP_DISABLE_DBUS_INTEGRATION "Disable all code for D-Bus integrat
 option(DESKTOP_APP_USE_GLIBC_WRAPS "Use wraps for new GLIBC features." ${linux_special_target})
 option(DESKTOP_APP_USE_PACKAGED "Find libraries using CMake instead of exact paths." ${no_special_target})
 option(DESKTOP_APP_USE_PACKAGED_LAZY "Find libraries that aren't in ThirdParty directory using CMake instead of exact paths." OFF)
+option(DESKTOP_APP_USE_PACKAGED_LAZY_PLATFORMTHEMES "Include platform themes into lazy packaged build. (Linux only)" ${DESKTOP_APP_USE_PACKAGED_LAZY})
 option(DESKTOP_APP_DISABLE_SPELLCHECK "Disable spellcheck library." ${osx_special_target})
 option(DESKTOP_APP_DISABLE_CRASH_REPORTS "Disable crash report generation." ${DESKTOP_APP_USE_PACKAGED})
 option(DESKTOP_APP_USE_PACKAGED_RLOTTIE "Find rlottie using CMake instead of bundled one." ${DESKTOP_APP_USE_PACKAGED})
