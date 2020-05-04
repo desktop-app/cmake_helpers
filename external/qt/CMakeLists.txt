@@ -30,6 +30,33 @@ if (DESKTOP_APP_USE_PACKAGED)
         ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     )
 
+    if (DESKTOP_APP_USE_PACKAGED_LAZY_PLATFORMTHEMES)
+        find_library(Qt5ThemeSupport_LIBRARY
+        NAMES
+            Qt5ThemeSupport
+        )
+
+        find_path(Qt5ThemeSupport_INCLUDE_DIR
+        NAMES
+            QtThemeSupport/private/qgenericunixthemes_p.h
+        HINTS
+            ${Qt5Gui_INCLUDE_DIRS}
+        PATH_SUFFIXES
+            QtThemeSupport/${Qt5Gui_VERSION}
+        )
+
+        target_link_libraries(external_qt
+        INTERFACE
+            ${Qt5ThemeSupport_LIBRARY}
+        )
+
+        target_include_directories(external_qt
+        INTERFACE
+            ${Qt5ThemeSupport_INCLUDE_DIR}
+            ${Qt5ThemeSupport_INCLUDE_DIR}/QtThemeSupport
+        )
+    endif()
+
     if (Qt5WaylandClient_FOUND)
         target_link_libraries(external_qt INTERFACE Qt5::WaylandClient)
 
@@ -49,12 +76,15 @@ else()
         ${qt_loc}/include/QtCore
         ${qt_loc}/include/QtGui
         ${qt_loc}/include/QtWidgets
+        ${qt_loc}/include/QtThemeSupport
         ${qt_loc}/include/QtWaylandClient
         ${qt_loc}/include/QtCore/${qt_version}
         ${qt_loc}/include/QtGui/${qt_version}
+        ${qt_loc}/include/QtThemeSupport/${qt_version}
         ${qt_loc}/include/QtWaylandClient/${qt_version}
         ${qt_loc}/include/QtCore/${qt_version}/QtCore
         ${qt_loc}/include/QtGui/${qt_version}/QtGui
+        ${qt_loc}/include/QtThemeSupport/${qt_version}/QtThemeSupport
         ${qt_loc}/include/QtWaylandClient/${qt_version}/QtWaylandClient
     )
 
@@ -71,11 +101,19 @@ else()
         QT_STATICPLUGIN
         QT_PLUGIN
         QT_WAYLANDCLIENT_LIB
+        QT_THEME_SUPPORT_LIB
         QT_WIDGETS_LIB
         QT_NETWORK_LIB
         QT_GUI_LIB
         QT_CORE_LIB
     )
+
+    if (Qt5DBus_FOUND)
+        target_compile_definitions(external_qt
+        INTERFACE
+            QT_DBUS_LIB
+        )
+    endif()
 
     if (WIN32)
         set(qt_lib_prefix "")
