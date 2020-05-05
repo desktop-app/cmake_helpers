@@ -6,6 +6,7 @@
 
 add_library(external_statusnotifieritem OBJECT)
 add_library(desktop-app::external_statusnotifieritem ALIAS external_statusnotifieritem)
+init_target(external_statusnotifieritem "(external)")
 
 set(statusnotifieritem_loc ${third_party_loc}/statusnotifieritem)
 
