@@ -62,6 +62,11 @@ else()
                 $<TARGET_FILE:desktop-app::linux_glibc_wraps>
             )
         endif()
-        target_link_libraries(external_openssl INTERFACE pthread)
+
+        target_link_libraries(external_openssl
+        INTERFACE
+            ${CMAKE_DL_LIBS}
+            pthread
+        )
     endif()
 endif()

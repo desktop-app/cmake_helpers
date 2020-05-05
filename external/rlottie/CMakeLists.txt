@@ -117,6 +117,13 @@ else()
         ${rlottie_loc}/src/vector/freetype
     )
 
+    if (LINUX)
+        target_link_libraries(external_rlottie
+        PUBLIC
+            pthread
+        )
+    endif()
+
     if (WIN32)
         target_compile_options(external_rlottie
         PRIVATE
