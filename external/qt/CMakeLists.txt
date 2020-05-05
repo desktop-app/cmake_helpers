@@ -66,6 +66,10 @@ if (DESKTOP_APP_USE_PACKAGED)
         )
     endif()
 
+    if (Qt5Svg_FOUND)
+        target_link_libraries(external_qt INTERFACE Qt5::Svg)
+    endif()
+
     if (Qt5DBus_FOUND)
         target_link_libraries(external_qt INTERFACE Qt5::DBus)
     endif()
@@ -75,6 +79,7 @@ else()
         ${qt_loc}/include
         ${qt_loc}/include/QtCore
         ${qt_loc}/include/QtGui
+        ${qt_loc}/include/QtSvg
         ${qt_loc}/include/QtWidgets
         ${qt_loc}/include/QtThemeSupport
         ${qt_loc}/include/QtWaylandClient
@@ -104,6 +109,7 @@ else()
         QT_THEME_SUPPORT_LIB
         QT_WIDGETS_LIB
         QT_NETWORK_LIB
+        QT_SVG_LIB
         QT_GUI_LIB
         QT_CORE_LIB
     )
@@ -226,6 +232,7 @@ else()
             plugins/platforms/${qt_lib_prefix}qwayland-egl
             plugins/platforms/${qt_lib_prefix}qwayland-generic
             plugins/platforms/${qt_lib_prefix}qxcb
+            plugins/imageformats/${qt_lib_prefix}qsvg
             plugins/iconengines/${qt_lib_prefix}qsvgicon
             lib/${qt_lib_prefix}Qt5XcbQpa
             lib/${qt_lib_prefix}Qt5EglSupport
