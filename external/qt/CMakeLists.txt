@@ -79,18 +79,11 @@ else()
         ${qt_loc}/include
         ${qt_loc}/include/QtCore
         ${qt_loc}/include/QtGui
-        ${qt_loc}/include/QtSvg
         ${qt_loc}/include/QtWidgets
-        ${qt_loc}/include/QtThemeSupport
-        ${qt_loc}/include/QtWaylandClient
         ${qt_loc}/include/QtCore/${qt_version}
         ${qt_loc}/include/QtGui/${qt_version}
-        ${qt_loc}/include/QtThemeSupport/${qt_version}
-        ${qt_loc}/include/QtWaylandClient/${qt_version}
         ${qt_loc}/include/QtCore/${qt_version}/QtCore
         ${qt_loc}/include/QtGui/${qt_version}/QtGui
-        ${qt_loc}/include/QtThemeSupport/${qt_version}/QtThemeSupport
-        ${qt_loc}/include/QtWaylandClient/${qt_version}/QtWaylandClient
     )
 
     if (Qt5DBus_FOUND)
@@ -100,16 +93,26 @@ else()
         )
     endif()
 
+    if (LINUX)
+        target_include_directories(external_qt SYSTEM
+        INTERFACE
+            ${qt_loc}/include/QtSvg
+            ${qt_loc}/include/QtThemeSupport
+            ${qt_loc}/include/QtWaylandClient
+            ${qt_loc}/include/QtThemeSupport/${qt_version}
+            ${qt_loc}/include/QtWaylandClient/${qt_version}
+            ${qt_loc}/include/QtThemeSupport/${qt_version}/QtThemeSupport
+            ${qt_loc}/include/QtWaylandClient/${qt_version}/QtWaylandClient
+        )
+    endif()
+
     target_compile_definitions(external_qt
     INTERFACE
         _REENTRANT
         QT_STATICPLUGIN
         QT_PLUGIN
-        QT_WAYLANDCLIENT_LIB
-        QT_THEME_SUPPORT_LIB
         QT_WIDGETS_LIB
         QT_NETWORK_LIB
-        QT_SVG_LIB
         QT_GUI_LIB
         QT_CORE_LIB
     )
@@ -118,6 +121,15 @@ else()
         target_compile_definitions(external_qt
         INTERFACE
             QT_DBUS_LIB
+        )
+    endif()
+
+    if (LINUX)
+        target_compile_definitions(external_qt
+        INTERFACE
+            QT_WAYLANDCLIENT_LIB
+            QT_THEME_SUPPORT_LIB
+            QT_SVG_LIB
         )
     endif()
 
