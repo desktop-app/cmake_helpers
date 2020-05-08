@@ -30,7 +30,15 @@ if (DESKTOP_APP_USE_PACKAGED)
         ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     )
 
-    if (DESKTOP_APP_USE_PACKAGED_LAZY_PLATFORMTHEMES)
+    if (Qt5DBus_FOUND)
+        target_link_libraries(external_qt INTERFACE Qt5::DBus)
+    endif()
+
+    if (Qt5Svg_FOUND)
+        target_link_libraries(external_qt INTERFACE Qt5::Svg)
+    endif()
+
+    if (LINUX AND DESKTOP_APP_USE_PACKAGED_LAZY_PLATFORMTHEMES)
         find_library(Qt5ThemeSupport_LIBRARY
         NAMES
             Qt5ThemeSupport
@@ -66,12 +74,8 @@ if (DESKTOP_APP_USE_PACKAGED)
         )
     endif()
 
-    if (Qt5Svg_FOUND)
-        target_link_libraries(external_qt INTERFACE Qt5::Svg)
-    endif()
-
-    if (Qt5DBus_FOUND)
-        target_link_libraries(external_qt INTERFACE Qt5::DBus)
+    if (Qt5X11Extras_FOUND)
+        target_link_libraries(external_qt INTERFACE Qt5::X11Extras)
     endif()
 else()
     target_include_directories(external_qt SYSTEM
@@ -99,6 +103,7 @@ else()
             ${qt_loc}/include/QtSvg
             ${qt_loc}/include/QtThemeSupport
             ${qt_loc}/include/QtWaylandClient
+            ${qt_loc}/include/QtX11Extras
             ${qt_loc}/include/QtThemeSupport/${qt_version}
             ${qt_loc}/include/QtWaylandClient/${qt_version}
             ${qt_loc}/include/QtThemeSupport/${qt_version}/QtThemeSupport
@@ -130,6 +135,7 @@ else()
             QT_WAYLANDCLIENT_LIB
             QT_THEME_SUPPORT_LIB
             QT_SVG_LIB
+            QT_X11EXTRAS_LIB
         )
     endif()
 
@@ -253,6 +259,7 @@ else()
             ${qt_libs_dbus_support}
             plugins/bearer/${qt_lib_prefix}qgenericbearer
             ${qt_libs_dbus_bearers}
+            lib/${qt_lib_prefix}Qt5X11Extras
             lib/${qt_lib_prefix}Qt5WaylandClient
             ${common_qt_libs}
             ${qt_libs_dbus}

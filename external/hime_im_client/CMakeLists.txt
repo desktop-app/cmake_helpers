@@ -16,8 +16,6 @@ else()
     set(hime_src ${hime_loc}/src)
     set(hime_im_client_src ${hime_src}/im-client)
 
-    set_target_properties(external_hime_im_client PROPERTIES AUTOMOC ON)
-
     nice_target_sources(external_hime_im_client ${hime_im_client_src}
     PRIVATE
         hime-im-client-attr.h
