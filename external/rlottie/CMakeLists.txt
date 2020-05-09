@@ -124,7 +124,7 @@ else()
         )
     endif()
 
-    if (WIN32)
+    if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
         target_compile_options(external_rlottie
         PRIVATE
             /w44244 # 'initializing': conversion from 'double' to 'float'

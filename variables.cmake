@@ -36,7 +36,7 @@ option(DESKTOP_APP_USE_PACKAGED_FONTS "Use preinstalled fonts instead of bundled
 option(DESKTOP_APP_USE_HUNSPELL_ONLY "Disable system spellchecker and use bundled Hunspell only. (For debugging purposes)" OFF)
 option(DESKTOP_APP_USE_ENCHANT "Use Enchant instead of bundled Hunspell. (Linux only)" OFF)
 
-option(DESKTOP_APP_ENABLE_IPO_OPTIMIZATIONS "Enable IPO build optimizations." OFF)
+option(DESKTOP_APP_ENABLE_IPO_OPTIMIZATIONS "Enable IPO build optimizations." ${WIN32})
 if (DESKTOP_APP_ENABLE_IPO_OPTIMIZATIONS AND CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     message(WARNING "Clang cannot build Qt applications with IPO enabled due to upstream bug: https://bugreports.qt.io/browse/QTBUG-61710.")
     set(DESKTOP_APP_ENABLE_IPO_OPTIMIZATIONS OFF)

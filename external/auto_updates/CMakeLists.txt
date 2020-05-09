@@ -7,7 +7,7 @@
 add_library(external_auto_updates INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_auto_updates ALIAS external_auto_updates)
 
-if (WIN32)
+if (WIN32 AND NOT DESKTOP_APP_USE_PACKAGED)
     add_subdirectory(lzma)
     target_link_libraries(external_auto_updates
     INTERFACE
