@@ -13,26 +13,52 @@ INTERFACE
     UNICODE
     _UNICODE
 )
-target_compile_options(common_options
-INTERFACE
-    /permissive-
-    # /Qspectre
-    /W1
-    /WX
-    /MP     # Enable multi process build.
-    /EHsc   # Catch C++ exceptions only, extern C functions never throw a C++ exception.
-    /w14834 # [[nodiscard]]
-    /w15038 # wrong initialization order
-    /w14265 # class has virtual functions, but destructor is not virtual
-    /wd4068 # Disable "warning C4068: unknown pragma"
-    /Zc:wchar_t- # don't tread wchar_t as builtin type
-    /Zi
-)
+if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    target_compile_options(common_options
+    INTERFACE
+        /permissive-
+        # /Qspectre
+        /W1
+        /WX
+        /MP     # Enable multi process build.
+        /EHsc   # Catch C++ exceptions only, extern C functions never throw a C++ exception.
+        /w14834 # [[nodiscard]]
+        /w15038 # wrong initialization order
+        /w14265 # class has virtual functions, but destructor is not virtual
+        /wd4068 # Disable "warning C4068: unknown pragma"
+        /Zc:wchar_t- # don't tread wchar_t as builtin type
+        /Zi
+    )
 
-target_link_options(common_options
-INTERFACE
-    $<IF:$<CONFIG:Debug>,/NODEFAULTLIB:LIBCMT,/DEBUG;/OPT:REF>
-)
+    target_link_options(common_options
+    INTERFACE
+        $<IF:$<CONFIG:Debug>,/NODEFAULTLIB:LIBCMT,/DEBUG;/OPT:REF>
+    )
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    target_compile_definitions(common_options
+    INTERFACE
+        WINVER=0x0601
+        _WIN32_WINNT=0x0601
+    )
+
+    target_compile_options(common_options
+    INTERFACE
+        -fpermissive
+    )
+
+    if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+        target_compile_options(common_options
+        INTERFACE
+            -fms-extensions
+            -femulated-tls
+        )
+
+        target_link_options(common_options
+        INTERFACE
+            -fuse-ld=lld
+        )
+    endif()
+endif()
 
 target_link_libraries(common_options
 INTERFACE

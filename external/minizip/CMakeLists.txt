@@ -12,7 +12,7 @@ if (DESKTOP_APP_USE_PACKAGED AND NOT DESKTOP_APP_USE_PACKAGED_LAZY)
     pkg_check_modules(MINIZIP REQUIRED IMPORTED_TARGET minizip)
 
     target_link_libraries(external_minizip INTERFACE PkgConfig::MINIZIP)
-elseif (NOT WIN32)
+elseif (NOT WIN32 OR DESKTOP_APP_USE_PACKAGED_LAZY)
     add_library(external_minizip_bundled STATIC)
     init_target(external_minizip_bundled "(external)")
 

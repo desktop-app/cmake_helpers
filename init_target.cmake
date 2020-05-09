@@ -5,7 +5,7 @@
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
 set(MAXIMUM_CXX_STANDARD cxx_std_20)
-if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     set(MAXIMUM_CXX_STANDARD cxx_std_17)
 endif()
 
@@ -26,7 +26,7 @@ function(init_target target_name) # init_target(my_target folder_name)
     else()
         target_compile_features(${target_name} PUBLIC ${MAXIMUM_CXX_STANDARD})
     endif()
-    if (WIN32)
+    if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
         set_target_properties(${target_name} PROPERTIES
             MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
     endif()
@@ -45,7 +45,7 @@ function(init_target target_name) # init_target(my_target folder_name)
             XCODE_ATTRIBUTE_LLVM_LTO $<IF:$<CONFIG:Debug>,NO,YES>
         )
     endif()
-    if (WIN32 OR DESKTOP_APP_ENABLE_IPO_OPTIMIZATIONS)
+    if (DESKTOP_APP_ENABLE_IPO_OPTIMIZATIONS)
         set_target_properties(${target_name} PROPERTIES
             INTERPROCEDURAL_OPTIMIZATION_RELEASE True
             INTERPROCEDURAL_OPTIMIZATION_RELWITHDEBINFO True
