@@ -63,6 +63,7 @@ INTERFACE
     VideoDecodeAcceleration
     AVFoundation
     CoreAudio
+    CoreVideo
     QuartzCore
     AppKit
     CoreWLAN
