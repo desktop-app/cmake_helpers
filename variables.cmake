@@ -32,6 +32,7 @@ option(DESKTOP_APP_USE_PACKAGED_EXPECTED "Find expected using CMake instead of b
 option(DESKTOP_APP_USE_PACKAGED_VARIANT "Find mapbox-variant using CMake instead of bundled one." ${DESKTOP_APP_USE_PACKAGED})
 option(DESKTOP_APP_USE_PACKAGED_GSL "Find GSL using CMake instead of bundled one." ${DESKTOP_APP_USE_PACKAGED})
 option(DESKTOP_APP_USE_PACKAGED_QRCODE "Find qr-code-generator library using CMake instead of bundled one." OFF)
+option(DESKTOP_APP_USE_PACKAGED_FFMPEG_STATIC "Link found ffmpeg statically." OFF)
 option(DESKTOP_APP_USE_PACKAGED_FONTS "Use preinstalled fonts instead of bundled one." ${DESKTOP_APP_USE_PACKAGED})
 option(DESKTOP_APP_USE_HUNSPELL_ONLY "Disable system spellchecker and use bundled Hunspell only. (For debugging purposes)" OFF)
 option(DESKTOP_APP_USE_ENCHANT "Use Enchant instead of bundled Hunspell. (Linux only)" OFF)
