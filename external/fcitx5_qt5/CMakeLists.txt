@@ -17,6 +17,9 @@ else()
 
     set_target_properties(external_fcitx5_qt5 PROPERTIES AUTOMOC ON)
 
+    set(FCITX5_QT_EXTRA_PLUGIN_NAME "")
+    configure_file("${fcitx5_qt5_src}/fcitx5.json.in" "${CMAKE_CURRENT_BINARY_DIR}/fcitx5.json")
+
     nice_target_sources(external_fcitx5_qt5 ${fcitx5_qt5_src}
     PRIVATE
         qfcitxplatforminputcontext.cpp
@@ -34,6 +37,7 @@ else()
     target_compile_definitions(external_fcitx5_qt5
     PRIVATE
         QT_STATICPLUGIN
+        FCITX_PLUGIN_DATA_FILE_PATH="${CMAKE_CURRENT_BINARY_DIR}/fcitx5.json"
     )
 
     target_link_libraries(external_fcitx5_qt5
