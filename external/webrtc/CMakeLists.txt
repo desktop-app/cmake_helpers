@@ -35,10 +35,23 @@ INTERFACE
 
 set(webrtc_libs
     webrtc
+    test/platform_video_capturer
+    test/video_test_common
 )
 foreach (lib ${webrtc_libs})
     list(APPEND webrtc_libs_list "${webrtc_build_loc}/${lib}${webrtc_lib_suffix}")
 endforeach()
+
+if (WIN32)
+    target_link_libraries(external_webrtc
+    INTERFACE
+        Secur32.lib # Required for rtc_base/http_common.cc
+        dmoguids.lib # Required for the built-in WASAPI AEC, see modules/audio_device/BUILD.gn
+        wmcodecdspuuid.lib
+        amstrmid.lib
+        msdmo.lib
+  )
+endif()
 
 target_link_libraries(external_webrtc
 INTERFACE
