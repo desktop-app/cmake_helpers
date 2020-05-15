@@ -15,6 +15,7 @@ elseif (WIN32)
     target_include_directories(external_openal SYSTEM
     INTERFACE
         ${libs_loc}/openal-soft/include
+        ${libs_loc}/openal-soft/include/AL
     )
     target_link_libraries(external_openal
     INTERFACE
@@ -24,6 +25,7 @@ elseif(APPLE AND NOT build_osx)
     target_include_directories(external_openal SYSTEM
     INTERFACE
         /usr/local/macos/include
+        /usr/local/macos/include/AL
     )
     target_link_libraries(external_openal
     INTERFACE
@@ -33,6 +35,7 @@ else()
     target_include_directories(external_openal SYSTEM
     INTERFACE
         /usr/local/include
+        /usr/local/include/AL
     )
     target_link_static_libraries(external_openal
     INTERFACE
