@@ -15,7 +15,15 @@ if (WIN32)
 
     target_compile_definitions(external_webrtc
     INTERFACE
+        WEBRTC_ENABLE_PROTOBUF=0
+        WEBRTC_INCLUDE_INTERNAL_AUDIO_DEVICE
+        RTC_ENABLE_VP9
+        HAVE_SCTP
+        WEBRTC_USE_H264
+        WEBRTC_LIBRARY_IMPL
+        WEBRTC_NON_STATIC_TRACE_EVENT_HANDLERS=1
         WEBRTC_WIN
+        ABSL_ALLOCATOR_NOTHROW=1
     )
 else()
     set(webrtc_lib_prefix lib)
