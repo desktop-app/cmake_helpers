@@ -9,25 +9,38 @@ add_library(desktop-app::external_webrtc ALIAS external_webrtc)
 
 set(webrtc_loc ${libs_loc}/webrtc/src)
 set(webrtc_build_loc ${webrtc_loc}/out/$<CONFIG>/obj)
+
+target_compile_definitions(external_webrtc
+INTERFACE
+    WEBRTC_ENABLE_PROTOBUF=0
+    WEBRTC_INCLUDE_INTERNAL_AUDIO_DEVICE
+    RTC_ENABLE_VP9
+    HAVE_SCTP
+    WEBRTC_USE_H264
+    WEBRTC_LIBRARY_IMPL
+    WEBRTC_NON_STATIC_TRACE_EVENT_HANDLERS=1
+    ABSL_ALLOCATOR_NOTHROW=1
+)
+
 if (WIN32)
-    set(webrtc_lib_prefix $<CONFIG>/)
+    set(webrtc_lib_prefix "")
     set(webrtc_lib_suffix .lib)
 
     target_compile_definitions(external_webrtc
     INTERFACE
-        WEBRTC_ENABLE_PROTOBUF=0
-        WEBRTC_INCLUDE_INTERNAL_AUDIO_DEVICE
-        RTC_ENABLE_VP9
-        HAVE_SCTP
-        WEBRTC_USE_H264
-        WEBRTC_LIBRARY_IMPL
-        WEBRTC_NON_STATIC_TRACE_EVENT_HANDLERS=1
         WEBRTC_WIN
-        ABSL_ALLOCATOR_NOTHROW=1
     )
 else()
     set(webrtc_lib_prefix lib)
     set(webrtc_lib_suffix .a)
+
+    if (APPLE)
+        target_compile_definitions(external_webrtc
+        INTERFACE
+            WEBRTC_MAC
+        )
+    else()
+    endif()
 
     target_compile_definitions(external_webrtc
     INTERFACE
@@ -42,10 +55,19 @@ INTERFACE
 )
 
 set(webrtc_libs
-    webrtc
-    test/platform_video_capturer
-    test/video_test_common
+    ${webrtc_lib_prefix}webrtc
+    test/${webrtc_lib_prefix}platform_video_capturer
+    test/${webrtc_lib_prefix}video_test_common
 )
+if (APPLE)
+    list(APPEND webrtc_libs
+        test/${webrtc_lib_prefix}video_test_mac
+        pc/${webrtc_lib_prefix}peerconnection
+        sdk/${webrtc_lib_prefix}native_video
+        sdk/${webrtc_lib_prefix}videoframebuffer_objc
+        sdk/${webrtc_lib_prefix}videocapture_objc
+    )
+endif()
 foreach (lib ${webrtc_libs})
     list(APPEND webrtc_libs_list "${webrtc_build_loc}/${lib}${webrtc_lib_suffix}")
 endforeach()
