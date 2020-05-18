@@ -40,6 +40,10 @@ else()
             WEBRTC_MAC
         )
     else()
+        target_compile_definitions(external_webrtc
+        INTERFACE
+            WEBRTC_LINUX
+        )
     endif()
 
     target_compile_definitions(external_webrtc
@@ -55,9 +59,9 @@ INTERFACE
 )
 
 set(webrtc_libs
-    ${webrtc_lib_prefix}webrtc
     test/${webrtc_lib_prefix}platform_video_capturer
     test/${webrtc_lib_prefix}video_test_common
+    ${webrtc_lib_prefix}webrtc
 )
 if (APPLE)
     list(APPEND webrtc_libs
@@ -86,4 +90,5 @@ endif()
 target_link_libraries(external_webrtc
 INTERFACE
     ${webrtc_libs_list}
+    desktop-app::external_openssl
 )

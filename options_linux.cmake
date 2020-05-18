@@ -6,11 +6,11 @@
 
 target_compile_options(common_options
 INTERFACE
+    -fPIC
     $<IF:$<CONFIG:Debug>,,-fno-strict-aliasing>
     -pipe
     -Wall
     -W
-    -fPIC
     -Wno-unused-variable
     -Wno-unused-parameter
     -Wno-unused-function
@@ -24,6 +24,7 @@ INTERFACE
     -Wno-stringop-overflow
     -Wno-maybe-uninitialized
     -Wno-error=class-memaccess
+    $<$<NOT:$<COMPILE_LANGUAGE:C>>:-Wno-register>
 )
 
 if (DESKTOP_APP_SPECIAL_TARGET)
