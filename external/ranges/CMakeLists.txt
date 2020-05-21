@@ -19,8 +19,8 @@ else()
     if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
         target_compile_options(external_ranges
         INTERFACE
-            /experimental:preprocessor # need for range-v3 see https://github.com/ericniebler/range-v3#supported-compilers
-            /wd5105 # needed for `/experimental:preprocessor`, suppressing C5105 "macro expansion producing 'defined' has undefined behavior"
+            /Zc:preprocessor # need for range-v3 see https://github.com/ericniebler/range-v3#supported-compilers
+            /wd5105 # needed for `/Zc:preprocessor`, suppressing C5105 "macro expansion producing 'defined' has undefined behavior"
         )
     endif()
 endif()
