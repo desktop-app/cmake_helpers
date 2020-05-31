@@ -256,6 +256,7 @@ else()
             lib/${qt_lib_prefix}Qt5EglSupport
             lib/${qt_lib_prefix}Qt5ServiceSupport
             lib/${qt_lib_prefix}Qt5EdidSupport
+            lib/${qt_lib_prefix}Qt5XkbCommonSupport
             ${qt_libs_dbus_support}
             plugins/bearer/${qt_lib_prefix}qgenericbearer
             ${qt_libs_dbus_bearers}
