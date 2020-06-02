@@ -54,6 +54,13 @@ if (DESKTOP_APP_USE_PACKAGED_RLOTTIE)
     )
 endif()
 
+if (NOT DESKTOP_APP_SPECIAL_TARGET STREQUAL "")
+    target_compile_definitions(common_options
+    INTERFACE
+        DESKTOP_APP_SPECIAL_TARGET=${DESKTOP_APP_SPECIAL_TARGET}
+    )
+endif()
+
 if (WIN32)
     include(cmake/options_win.cmake)
 elseif (APPLE)
