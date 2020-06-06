@@ -68,10 +68,18 @@ if (DESKTOP_APP_USE_PACKAGED)
     if (Qt5WaylandClient_FOUND)
         target_link_libraries(external_qt INTERFACE Qt5::WaylandClient)
 
-        target_include_directories(external_qt
-        INTERFACE
-            ${Qt5WaylandClient_PRIVATE_INCLUDE_DIRS}
-        )
+        if (DESKTOP_APP_QTWAYLANDCLIENT_PRIVATE_HEADERS)
+            target_include_directories(external_qt
+            INTERFACE
+                ${DESKTOP_APP_QTWAYLANDCLIENT_PRIVATE_HEADERS}
+                ${DESKTOP_APP_QTWAYLANDCLIENT_PRIVATE_HEADERS}/QtWaylandClient
+            )
+        else()
+            target_include_directories(external_qt
+            INTERFACE
+                ${Qt5WaylandClient_PRIVATE_INCLUDE_DIRS}
+            )
+        endif()
     endif()
 
     if (Qt5X11Extras_FOUND)
