@@ -8,9 +8,15 @@ add_library(external_openal INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_openal ALIAS external_openal)
 
 if (DESKTOP_APP_USE_PACKAGED)
-    find_package(OpenAL REQUIRED)
-    target_include_directories(external_openal INTERFACE ${OPENAL_INCLUDE_DIR})
-    target_link_libraries(external_openal INTERFACE ${OPENAL_LIBRARY})
+    find_package(OpenAL)
+    if (OPENAL_FOUND)
+        target_include_directories(external_openal INTERFACE ${OPENAL_INCLUDE_DIR})
+        target_link_libraries(external_openal INTERFACE ${OPENAL_LIBRARY})
+    else()
+        find_package(PkgConfig REQUIRED)
+        pkg_check_modules(OPENAL REQUIRED IMPORTED_TARGET openal)
+        target_link_libraries(external_openal INTERFACE PkgConfig::OPENAL)
+    endif()
 elseif (WIN32)
     target_include_directories(external_openal SYSTEM
     INTERFACE
