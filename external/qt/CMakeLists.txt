@@ -7,14 +7,6 @@
 add_library(external_qt INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_qt ALIAS external_qt)
 
-if (LINUX)
-    if (NOT build_linux32)
-        target_compile_definitions(external_qt INTERFACE Q_OS_LINUX64)
-    else()
-        target_compile_definitions(external_qt INTERFACE Q_OS_LINUX32)
-    endif()
-endif()
-
 if (DESKTOP_APP_USE_PACKAGED)
     target_link_libraries(external_qt
     INTERFACE
