@@ -69,3 +69,17 @@ function(nice_target_sources target_name src_loc)
         set_source_files_properties(${not_linux_sources} PROPERTIES SKIP_AUTOGEN TRUE)
     endif()
 endfunction()
+
+function(remove_target_sources target_name src_loc)
+    set(list ${ARGV})
+    list(REMOVE_AT list 0 1)
+
+    set(sources "")
+    foreach (entry ${list})
+        set(full_name ${src_loc}/${entry})
+        list(APPEND sources ${full_name})
+    endforeach()
+
+    set_source_files_properties(${sources} PROPERTIES HEADER_FILE_ONLY TRUE)
+    set_source_files_properties(${sources} PROPERTIES SKIP_AUTOGEN TRUE)
+endfunction()
