@@ -60,8 +60,3 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
         AL_LIBTYPE_STATIC
     )
 endif()
-
-target_compile_definitions(external_openal
-INTERFACE
-    AL_ALEXT_PROTOTYPES
-)
