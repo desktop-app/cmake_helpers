@@ -79,6 +79,7 @@ elseif (APPLE)
         sdk/${webrtc_lib_prefix}vp8
         sdk/${webrtc_lib_prefix}vp9
         sdk/${webrtc_lib_prefix}wrapped_native_codec_objc
+        sdk/${webrtc_lib_prefix}base_native_additions_objc
     )
     target_include_directories(external_webrtc
     INTERFACE
@@ -101,6 +102,11 @@ if (WIN32)
         amstrmid.lib
         msdmo.lib
   )
+elseif (APPLE)
+    target_link_libraries(external_webrtc
+    INTERFACE
+        -ObjC
+    )
 endif()
 
 target_link_libraries(external_webrtc
