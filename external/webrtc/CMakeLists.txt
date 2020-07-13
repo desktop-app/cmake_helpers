@@ -59,17 +59,33 @@ INTERFACE
 )
 
 set(webrtc_libs
-    test/${webrtc_lib_prefix}platform_video_capturer
-    test/${webrtc_lib_prefix}video_test_common
     ${webrtc_lib_prefix}webrtc
 )
-if (APPLE)
+if (WIN32)
     list(APPEND webrtc_libs
-        test/${webrtc_lib_prefix}video_test_mac
-        pc/${webrtc_lib_prefix}peerconnection
+        test/${webrtc_lib_prefix}platform_video_capturer
+        test/${webrtc_lib_prefix}video_test_common
+    )
+elseif (APPLE)
+    list(APPEND webrtc_libs
         sdk/${webrtc_lib_prefix}native_video
         sdk/${webrtc_lib_prefix}videoframebuffer_objc
         sdk/${webrtc_lib_prefix}videocapture_objc
+        sdk/${webrtc_lib_prefix}videocodec_objc
+        sdk/${webrtc_lib_prefix}videotoolbox_objc
+        sdk/${webrtc_lib_prefix}video_toolbox_cc
+        sdk/${webrtc_lib_prefix}vpx_codec_constants
+        sdk/${webrtc_lib_prefix}native_api
+        sdk/${webrtc_lib_prefix}vp8
+        sdk/${webrtc_lib_prefix}vp9
+        sdk/${webrtc_lib_prefix}wrapped_native_codec_objc
+    )
+    target_include_directories(external_webrtc
+    INTERFACE
+        ${webrtc_loc}/sdk/objc
+        ${webrtc_loc}/sdk/objc/base
+        ${webrtc_loc}/sdk/objc/components/video_codec
+        ${webrtc_loc}/third_party/libyuv/include
     )
 endif()
 foreach (lib ${webrtc_libs})
