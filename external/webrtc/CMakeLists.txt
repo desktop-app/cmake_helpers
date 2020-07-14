@@ -60,14 +60,12 @@ INTERFACE
 
 set(webrtc_libs
     ${webrtc_lib_prefix}webrtc
+    test/${webrtc_lib_prefix}platform_video_capturer
+    test/${webrtc_lib_prefix}video_test_common
 )
-if (WIN32)
+if (APPLE)
     list(APPEND webrtc_libs
-        test/${webrtc_lib_prefix}platform_video_capturer
-        test/${webrtc_lib_prefix}video_test_common
-    )
-elseif (APPLE)
-    list(APPEND webrtc_libs
+        test/${webrtc_lib_prefix}video_test_mac
         sdk/${webrtc_lib_prefix}native_video
         sdk/${webrtc_lib_prefix}videoframebuffer_objc
         sdk/${webrtc_lib_prefix}videocapture_objc
