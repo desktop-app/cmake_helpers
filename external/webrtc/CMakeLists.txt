@@ -61,12 +61,7 @@ INTERFACE
 set(webrtc_libs
     ${webrtc_lib_prefix}webrtc
 )
-if (WIN32)
-    list(APPEND webrtc_libs
-        test/${webrtc_lib_prefix}platform_video_capturer
-        test/${webrtc_lib_prefix}video_test_common
-    )
-elseif (APPLE)
+if (APPLE)
     target_include_directories(external_webrtc
     INTERFACE
         ${webrtc_loc}/sdk/objc
