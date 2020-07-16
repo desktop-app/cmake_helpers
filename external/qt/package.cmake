@@ -25,6 +25,7 @@ find_package(Qt5Gui COMPONENTS QWebpPlugin REQUIRED)
 
 if (LINUX)
     find_package(Qt5 COMPONENTS WaylandClient REQUIRED)
+    find_package(Qt5 COMPONENTS XkbCommonSupport)
 
     if (NOT DESKTOP_APP_USE_PACKAGED)
         find_package(Qt5 COMPONENTS Svg X11Extras REQUIRED)
