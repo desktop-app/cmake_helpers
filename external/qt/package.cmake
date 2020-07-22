@@ -25,7 +25,7 @@ find_package(Qt5Gui COMPONENTS QWebpPlugin REQUIRED)
 
 if (LINUX)
     find_package(Qt5 COMPONENTS WaylandClient REQUIRED)
-    find_package(Qt5 COMPONENTS XkbCommonSupport)
+    find_package(Qt5 OPTIONAL_COMPONENTS XkbCommonSupport QUIET)
 
     if (NOT DESKTOP_APP_USE_PACKAGED)
         find_package(Qt5 COMPONENTS Svg X11Extras REQUIRED)
@@ -38,7 +38,7 @@ if (LINUX)
     endif()
 
     if (DESKTOP_APP_DISABLE_DBUS_INTEGRATION)
-        find_package(Qt5 COMPONENTS DBus)
+        find_package(Qt5 OPTIONAL_COMPONENTS DBus QUIET)
     else()
         find_package(Qt5 COMPONENTS DBus REQUIRED)
     endif()
