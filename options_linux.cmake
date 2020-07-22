@@ -44,3 +44,8 @@ elseif (NOT DESKTOP_APP_USE_PACKAGED)
     target_link_options(common_options INTERFACE $<IF:$<CONFIG:Debug>,,-g -flto -fuse-linker-plugin>)
 endif()
 
+target_link_libraries(common_options
+INTERFACE
+    atomic
+)
+
