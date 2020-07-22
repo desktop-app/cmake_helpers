@@ -25,23 +25,26 @@ INTERFACE
     -Wno-maybe-uninitialized
     -Wno-error=class-memaccess
 )
+
 if (NOT DESKTOP_APP_USE_PACKAGED)
     target_compile_options(common_options
     INTERFACE
         $<IF:$<CONFIG:Debug>,,-Ofast>
         -Werror
     )
+
     target_link_options(common_options
     INTERFACE
         $<IF:$<CONFIG:Debug>,,-Ofast>
     )
-endif()
-if (build_linux32)
-    target_compile_options(common_options INTERFACE -g0)
-    target_link_options(common_options INTERFACE -g0)
-elseif (NOT DESKTOP_APP_USE_PACKAGED)
-    target_compile_options(common_options INTERFACE $<IF:$<CONFIG:Debug>,,-g -flto>)
-    target_link_options(common_options INTERFACE $<IF:$<CONFIG:Debug>,,-g -flto -fuse-linker-plugin>)
+
+    if (build_linux32)
+        target_compile_options(common_options INTERFACE -g0)
+        target_link_options(common_options INTERFACE -g0)
+    else()
+        target_compile_options(common_options INTERFACE $<IF:$<CONFIG:Debug>,,-g -flto>)
+        target_link_options(common_options INTERFACE $<IF:$<CONFIG:Debug>,,-g -flto -fuse-linker-plugin>)
+    endif()
 endif()
 
 target_link_libraries(common_options
