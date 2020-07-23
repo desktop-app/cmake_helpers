@@ -40,6 +40,7 @@ else()
         FCITX_PLUGIN_DATA_FILE_PATH="${CMAKE_CURRENT_BINARY_DIR}/fcitx5.json"
     )
 
+    add_subdirectory(fcitx5_qt5_dbusaddons)
     target_link_libraries(external_fcitx5_qt5
     PRIVATE
         desktop-app::external_fcitx5_qt5_dbusaddons
