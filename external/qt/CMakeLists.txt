@@ -302,6 +302,8 @@ else()
     target_link_libraries(external_qt
     INTERFACE
         ${qt_libs_list}
+        $<TARGET_FILE:desktop-app::external_openssl_ssl>
+        $<TARGET_FILE:desktop-app::external_openssl_crypto>
     )
 
     if (LINUX)
@@ -355,7 +357,6 @@ else()
         if (DESKTOP_APP_USE_GLIBC_WRAPS)
             target_link_libraries(external_qt
             INTERFACE
-                desktop-app::linux_glibc_wraps
                 $<TARGET_FILE:desktop-app::linux_glibc_wraps>
             )
         endif()
