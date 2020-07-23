@@ -22,10 +22,11 @@ else()
     )
 
     if (WIN32)
-        set(opus_lib_loc ${libs_loc}/opus/win32/VS2015/Win32/$<IF:$<CONFIG:Debug>,Debug,Release>)
+        set(opus_lib_loc ${libs_loc}/opus/win32/VS2015/Win32)
 
         set_target_properties(external_opus PROPERTIES
-            IMPORTED_LOCATION "${opus_lib_loc}/opus.lib"
+            IMPORTED_LOCATION "${opus_lib_loc}/Release/opus.lib"
+            IMPORTED_LOCATION_DEBUG "${opus_lib_loc}/Debug/opus.lib"
         )
     elseif (APPLE AND NOT build_osx)
         target_include_directories(external_opus
