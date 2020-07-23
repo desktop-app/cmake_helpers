@@ -38,6 +38,7 @@ else()
         LIB_FM_QT_SONAME="libfm-qt.so.7"
     )
 
+    add_subdirectory(xdgiconloader)
     target_link_libraries(external_lxqt_qtplugin
     PRIVATE
         desktop-app::external_statusnotifieritem

@@ -35,6 +35,7 @@ else()
         QT_STATICPLUGIN
     )
 
+    add_subdirectory(hime_im_client)
     target_link_libraries(external_hime_qt
     PRIVATE
         desktop-app::external_hime_im_client
