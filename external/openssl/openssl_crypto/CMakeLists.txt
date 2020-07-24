@@ -9,7 +9,7 @@ if (DESKTOP_APP_USE_PACKAGED)
     add_library(desktop-app::external_openssl_crypto ALIAS external_openssl_crypto)
 
     find_package(OpenSSL REQUIRED)
-    target_link_libraries(external_openssl INTERFACE OpenSSL::Crypto)
+    target_link_libraries(external_openssl_crypto INTERFACE OpenSSL::Crypto)
 else()
     add_library(external_openssl_crypto STATIC IMPORTED GLOBAL)
     add_library(desktop-app::external_openssl_crypto ALIAS external_openssl_crypto)
@@ -19,7 +19,7 @@ else()
     )
 
     if (WIN32)
-        set_target_properties(external_openssl_ssl PROPERTIES
+        set_target_properties(external_openssl_crypto PROPERTIES
             IMPORTED_LOCATION_DEBUG "${openssl_lib_loc}.dbg/libcrypto.${openssl_lib_ext}"
         )
     endif()

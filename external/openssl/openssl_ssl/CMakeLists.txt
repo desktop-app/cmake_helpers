@@ -9,7 +9,7 @@ if (DESKTOP_APP_USE_PACKAGED)
     add_library(desktop-app::external_openssl_ssl ALIAS external_openssl_ssl)
 
     find_package(OpenSSL REQUIRED)
-    target_link_libraries(external_openssl INTERFACE OpenSSL::SSL)
+    target_link_libraries(external_openssl_ssl INTERFACE OpenSSL::SSL)
 else()
     add_library(external_openssl_ssl STATIC IMPORTED GLOBAL)
     add_library(desktop-app::external_openssl_ssl ALIAS external_openssl_ssl)
