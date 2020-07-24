@@ -47,8 +47,15 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
     endif()
 endif()
 
-target_link_libraries(common_options
-INTERFACE
-    atomic
-)
+if (DESKTOP_APP_USE_PACKAGED)
+    target_link_libraries(common_options
+    INTERFACE
+        atomic
+    )
+else()
+    target_link_static_libraries(common_options
+    INTERFACE
+        atomic
+    )
+endif()
 
