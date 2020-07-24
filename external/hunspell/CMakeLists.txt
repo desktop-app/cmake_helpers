@@ -13,7 +13,7 @@ if (DESKTOP_APP_USE_PACKAGED AND NOT DESKTOP_APP_USE_PACKAGED_LAZY)
 
     target_link_libraries(external_hunspell INTERFACE PkgConfig::HUNSPELL)
 else()
-    add_library(external_hunspell OBJECT)
+    add_library(external_hunspell STATIC)
     add_library(desktop-app::external_hunspell ALIAS external_hunspell)
     init_target(external_hunspell "(external)")
 

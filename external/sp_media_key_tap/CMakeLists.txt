@@ -5,7 +5,7 @@
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
 if (EXISTS ${third_party_loc}/SPMediaKeyTap)
-    add_library(external_sp_media_key_tap OBJECT)
+    add_library(external_sp_media_key_tap STATIC)
     add_library(desktop-app::external_sp_media_key_tap ALIAS external_sp_media_key_tap)
     init_target(external_sp_media_key_tap "(external)")
 

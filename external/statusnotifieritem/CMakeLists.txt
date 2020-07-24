@@ -4,7 +4,7 @@
 # For license and copyright information please follow this link:
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
-add_library(external_statusnotifieritem OBJECT)
+add_library(external_statusnotifieritem STATIC)
 add_library(desktop-app::external_statusnotifieritem ALIAS external_statusnotifieritem)
 init_target(external_statusnotifieritem "(external)")
 
@@ -31,11 +31,12 @@ target_sources(external_statusnotifieritem PRIVATE ${sni_adaptor})
 target_include_directories(external_statusnotifieritem
 PUBLIC
     ${statusnotifieritem_loc}
+PRIVATE
     "${CMAKE_CURRENT_BINARY_DIR}"
 )
 
 target_link_libraries(external_statusnotifieritem
-PUBLIC
+PRIVATE
     desktop-app::external_dbusmenu_qt
     desktop-app::external_qt
 )
