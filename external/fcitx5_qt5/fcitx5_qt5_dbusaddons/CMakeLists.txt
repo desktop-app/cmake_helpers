@@ -8,7 +8,7 @@ if (DESKTOP_APP_USE_PACKAGED AND NOT DESKTOP_APP_USE_PACKAGED_LAZY)
     add_library(external_fcitx5_qt5_dbusaddons INTERFACE IMPORTED GLOBAL)
     add_library(desktop-app::external_fcitx5_qt5_dbusaddons ALIAS external_fcitx5_qt5_dbusaddons)
 else()
-    add_library(external_fcitx5_qt5_dbusaddons OBJECT)
+    add_library(external_fcitx5_qt5_dbusaddons STATIC)
     add_library(desktop-app::external_fcitx5_qt5_dbusaddons ALIAS external_fcitx5_qt5_dbusaddons)
     init_target(external_fcitx5_qt5_dbusaddons "(external)")
 
@@ -37,7 +37,6 @@ else()
 
     target_include_directories(external_fcitx5_qt5_dbusaddons
     PUBLIC
-        ${fcitx5_qt_loc}/common
         ${fcitx5_qt5_dbusaddons_src}
         "${CMAKE_CURRENT_BINARY_DIR}"
     )

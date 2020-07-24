@@ -11,7 +11,7 @@ if (DESKTOP_APP_USE_PACKAGED AND NOT DESKTOP_APP_USE_PACKAGED_LAZY)
     find_package(dbusmenu-qt5 REQUIRED)
     target_link_libraries(external_dbusmenu_qt INTERFACE dbusmenu-qt5)
 else()
-    add_library(external_dbusmenu_qt OBJECT)
+    add_library(external_dbusmenu_qt STATIC)
     add_library(desktop-app::external_dbusmenu_qt ALIAS external_dbusmenu_qt)
     init_target(external_dbusmenu_qt "(external)")
 
@@ -55,7 +55,7 @@ else()
     )
 
     target_link_libraries(external_dbusmenu_qt
-    PUBLIC
+    PRIVATE
         desktop-app::external_qt
     )
 endif()

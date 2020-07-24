@@ -8,7 +8,7 @@ if (DESKTOP_APP_USE_PACKAGED AND NOT DESKTOP_APP_USE_PACKAGED_LAZY_PLATFORMTHEME
     add_library(external_qt5ct INTERFACE IMPORTED GLOBAL)
     add_library(desktop-app::external_qt5ct ALIAS external_qt5ct)
 else()
-    add_library(external_qt5ct OBJECT)
+    add_library(external_qt5ct STATIC)
     add_library(desktop-app::external_qt5ct ALIAS external_qt5ct)
     init_target(external_qt5ct "(external)")
 
@@ -34,7 +34,7 @@ else()
     )
 
     target_link_libraries(external_qt5ct
-    PUBLIC
+    PRIVATE
         desktop-app::external_qt
     )
 endif()

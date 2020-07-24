@@ -14,7 +14,7 @@ if (DESKTOP_APP_USE_PACKAGED_QRCODE AND NOT DESKTOP_APP_USE_PACKAGED_LAZY)
     target_include_directories(external_qr_code_generator INTERFACE ${QRCODE_INCLUDE_DIRS})
     target_link_libraries(external_qr_code_generator INTERFACE ${QRCODE_LIBRARIES})
 else()
-    add_library(external_qr_code_generator OBJECT)
+    add_library(external_qr_code_generator STATIC)
     add_library(desktop-app::external_qr_code_generator ALIAS external_qr_code_generator)
     init_target(external_qr_code_generator "(external)")
 

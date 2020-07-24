@@ -32,6 +32,7 @@ else()
     target_include_directories(external_fcitx5_qt5
     PRIVATE
         ${fcitx5_qt5_src}
+        ${fcitx5_qt_loc}/common
     )
 
     target_compile_definitions(external_fcitx5_qt5

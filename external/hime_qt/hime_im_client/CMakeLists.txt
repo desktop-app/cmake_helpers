@@ -8,7 +8,7 @@ if (DESKTOP_APP_USE_PACKAGED AND NOT DESKTOP_APP_USE_PACKAGED_LAZY)
     add_library(external_hime_im_client INTERFACE IMPORTED GLOBAL)
     add_library(desktop-app::external_hime_im_client ALIAS external_hime_im_client)
 else()
-    add_library(external_hime_im_client OBJECT)
+    add_library(external_hime_im_client STATIC)
     add_library(desktop-app::external_hime_im_client ALIAS external_hime_im_client)
     init_target(external_hime_im_client "(external)")
 
@@ -59,7 +59,7 @@ else()
         pkg_check_modules(GLIB2 REQUIRED IMPORTED_TARGET glib-2.0)
 
         target_link_libraries(external_hime_im_client
-        PUBLIC
+        PRIVATE
             PkgConfig::X11
             PkgConfig::GLIB2
         )
@@ -68,13 +68,13 @@ else()
         pkg_check_modules(GLIB2 REQUIRED glib-2.0)
 
         target_include_directories(external_hime_im_client
-        PUBLIC
+        PRIVATE
             ${X11_INCLUDE_DIRS}
             ${GLIB2_INCLUDE_DIRS}
         )
 
         target_link_libraries(external_hime_im_client
-        PUBLIC
+        PRIVATE
             X11
             glib-2.0
         )

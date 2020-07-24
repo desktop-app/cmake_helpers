@@ -13,7 +13,7 @@ if (DESKTOP_APP_USE_PACKAGED AND NOT DESKTOP_APP_USE_PACKAGED_LAZY)
 
     target_link_libraries(external_lz4 INTERFACE PkgConfig::LZ4)
 else()
-    add_library(external_lz4 OBJECT)
+    add_library(external_lz4 STATIC)
     add_library(desktop-app::external_lz4 ALIAS external_lz4)
     init_target(external_lz4 "(external)")
 

@@ -17,7 +17,7 @@ if (DESKTOP_APP_USE_PACKAGED_RLOTTIE AND NOT DESKTOP_APP_USE_PACKAGED_LAZY)
         target_link_libraries(external_rlottie INTERFACE PkgConfig::RLOTTIE)
     endif()
 else()
-    add_library(external_rlottie OBJECT)
+    add_library(external_rlottie STATIC)
     add_library(desktop-app::external_rlottie ALIAS external_rlottie)
     init_target(external_rlottie "(external)")
 
@@ -124,7 +124,7 @@ else()
 
     if (LINUX)
         target_link_libraries(external_rlottie
-        PUBLIC
+        PRIVATE
             pthread
         )
     endif()

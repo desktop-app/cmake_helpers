@@ -8,7 +8,7 @@ if (DESKTOP_APP_USE_PACKAGED AND NOT DESKTOP_APP_USE_PACKAGED_LAZY_PLATFORMTHEME
     add_library(external_xdgiconloader INTERFACE IMPORTED GLOBAL)
     add_library(desktop-app::external_xdgiconloader ALIAS external_xdgiconloader)
 else()
-    add_library(external_xdgiconloader OBJECT)
+    add_library(external_xdgiconloader STATIC)
     add_library(desktop-app::external_xdgiconloader ALIAS external_xdgiconloader)
     init_target(external_xdgiconloader "(external)")
 
@@ -53,7 +53,7 @@ else()
     )
 
     target_link_libraries(external_xdgiconloader
-    PUBLIC
+    PRIVATE
         desktop-app::external_qt
     )
 endif()
