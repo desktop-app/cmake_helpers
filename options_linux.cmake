@@ -48,14 +48,14 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
 endif()
 
 if (DESKTOP_APP_USE_PACKAGED)
-    target_link_libraries(common_options
-    INTERFACE
-        atomic
-    )
+    find_library(ATOMIC_LIBRARY atomic)
 else()
-    target_link_static_libraries(common_options
-    INTERFACE
-        atomic
-    )
+    find_library(ATOMIC_LIBRARY libatomic.a)
 endif()
 
+if (ATOMIC_LIBRARY)
+    target_link_libraries(common_options
+    INTERFACE
+        ${ATOMIC_LIBRARY}
+    )
+endif()
