@@ -27,14 +27,8 @@ if (LINUX)
     find_package(Qt5 COMPONENTS WaylandClient REQUIRED)
     find_package(Qt5 OPTIONAL_COMPONENTS XkbCommonSupport QUIET)
 
-    if (NOT DESKTOP_APP_USE_PACKAGED)
-        find_package(Qt5 COMPONENTS Svg X11Extras REQUIRED)
-    elseif (DESKTOP_APP_USE_PACKAGED_LAZY)
-        find_package(Qt5 COMPONENTS X11Extras REQUIRED)
-
-        if (DESKTOP_APP_USE_PACKAGED_LAZY_PLATFORMTHEMES)
-            find_package(Qt5 COMPONENTS Svg REQUIRED)
-        endif()
+    if (NOT DESKTOP_APP_USE_PACKAGED OR DESKTOP_APP_USE_PACKAGED_LAZY_PLATFORMTHEMES)
+        find_package(Qt5 COMPONENTS Svg REQUIRED)
     endif()
 
     if (DESKTOP_APP_DISABLE_DBUS_INTEGRATION)
