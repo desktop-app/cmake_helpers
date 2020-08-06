@@ -54,6 +54,6 @@ else()
 
     target_compile_options(external_nimf_qt5
     PRIVATE
-        -Wno-error=register
+        -Wno-register
     )
 endif()
