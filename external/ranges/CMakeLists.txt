@@ -7,10 +7,19 @@
 add_library(external_ranges INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_ranges ALIAS external_ranges)
 
-if (DESKTOP_APP_USE_PACKAGED AND NOT DESKTOP_APP_USE_PACKAGED_LAZY)
-    find_package(range-v3 REQUIRED)
-    target_link_libraries(external_ranges INTERFACE range-v3::range-v3)
-else()
+if (DESKTOP_APP_USE_PACKAGED)
+    if (DESKTOP_APP_USE_PACKAGED_LAZY)
+        find_package(range-v3 QUIET)
+    else()
+        find_package(range-v3)
+    endif()
+
+    if (range-v3_FOUND)
+        target_link_libraries(external_ranges INTERFACE range-v3::range-v3)
+    endif()
+endif()
+
+if (NOT range-v3_FOUND)
     target_include_directories(external_ranges SYSTEM
     INTERFACE
         ${third_party_loc}/range-v3/include

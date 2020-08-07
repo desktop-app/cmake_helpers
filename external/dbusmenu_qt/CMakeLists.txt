@@ -4,16 +4,24 @@
 # For license and copyright information please follow this link:
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
-if (DESKTOP_APP_USE_PACKAGED AND NOT DESKTOP_APP_USE_PACKAGED_LAZY)
-    add_library(external_dbusmenu_qt INTERFACE IMPORTED GLOBAL)
-    add_library(desktop-app::external_dbusmenu_qt ALIAS external_dbusmenu_qt)
+add_library(external_dbusmenu_qt INTERFACE IMPORTED GLOBAL)
+add_library(desktop-app::external_dbusmenu_qt ALIAS external_dbusmenu_qt)
 
-    find_package(dbusmenu-qt5 REQUIRED)
-    target_link_libraries(external_dbusmenu_qt INTERFACE dbusmenu-qt5)
-else()
-    add_library(external_dbusmenu_qt STATIC)
-    add_library(desktop-app::external_dbusmenu_qt ALIAS external_dbusmenu_qt)
-    init_target(external_dbusmenu_qt "(external)")
+if (DESKTOP_APP_USE_PACKAGED)
+    if (DESKTOP_APP_USE_PACKAGED_LAZY)
+        find_package(dbusmenu-qt5 QUIET)
+    else()
+        find_package(dbusmenu-qt5)
+    endif()
+
+    if (dbusmenu-qt5_FOUND)
+        target_link_libraries(external_dbusmenu_qt INTERFACE dbusmenu-qt5)
+    endif()
+endif()
+
+if (NOT dbusmenu-qt5_FOUND)
+    add_library(external_dbusmenu_qt_bundled STATIC)
+    init_target(external_dbusmenu_qt_bundled "(external)")
 
     set(dbusmenu_qt_VERSION_MAJOR 0)
     set(dbusmenu_qt_VERSION_MINOR 9)
@@ -21,7 +29,7 @@ else()
 
     set(dbusmenu_qt_loc ${third_party_loc}/libdbusmenu-qt/src)
 
-    set_target_properties(external_dbusmenu_qt PROPERTIES AUTOMOC ON)
+    set_target_properties(external_dbusmenu_qt_bundled PROPERTIES AUTOMOC ON)
 
     # QIcon::name was introduced in Qt 4.7.
     set(HAVE_QICON_NAME ON)
@@ -29,7 +37,7 @@ else()
     configure_file(${dbusmenu_qt_loc}/dbusmenu_config.h.in "${CMAKE_CURRENT_BINARY_DIR}/dbusmenu_config.h" @ONLY)
     configure_file(${dbusmenu_qt_loc}/dbusmenu_version.h.in "${CMAKE_CURRENT_BINARY_DIR}/dbusmenu_version.h")
 
-    nice_target_sources(external_dbusmenu_qt ${dbusmenu_qt_loc}
+    nice_target_sources(external_dbusmenu_qt_bundled ${dbusmenu_qt_loc}
     PRIVATE
         dbusmenu_p.cpp
         dbusmenuexporter.cpp
@@ -46,16 +54,21 @@ else()
         DBusMenuExporterDBus
     )
 
-    target_sources(external_dbusmenu_qt PRIVATE ${dbusmenu_adaptor})
+    target_sources(external_dbusmenu_qt_bundled PRIVATE ${dbusmenu_adaptor})
 
-    target_include_directories(external_dbusmenu_qt
+    target_include_directories(external_dbusmenu_qt_bundled
     PUBLIC
         ${dbusmenu_qt_loc}
         "${CMAKE_CURRENT_BINARY_DIR}"
     )
 
-    target_link_libraries(external_dbusmenu_qt
+    target_link_libraries(external_dbusmenu_qt_bundled
     PRIVATE
         desktop-app::external_qt
+    )
+
+    target_link_libraries(external_dbusmenu_qt
+    INTERFACE
+        external_dbusmenu_qt_bundled
     )
 endif()
