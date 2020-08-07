@@ -26,7 +26,7 @@ INTERFACE
     -Wno-error=class-memaccess
 )
 
-if (NOT DESKTOP_APP_USE_PACKAGED)
+if (DESKTOP_APP_SPECIAL_TARGET)
     target_compile_options(common_options
     INTERFACE
         $<IF:$<CONFIG:Debug>,,-Ofast>
