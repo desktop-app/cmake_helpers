@@ -4,23 +4,26 @@
 # For license and copyright information please follow this link:
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
-if (DESKTOP_APP_USE_PACKAGED AND NOT DESKTOP_APP_USE_PACKAGED_LAZY)
-    add_library(external_hunspell INTERFACE IMPORTED GLOBAL)
-    add_library(desktop-app::external_hunspell ALIAS external_hunspell)
+add_library(external_hunspell INTERFACE IMPORTED GLOBAL)
+add_library(desktop-app::external_hunspell ALIAS external_hunspell)
 
+if (DESKTOP_APP_USE_PACKAGED)
     find_package(PkgConfig REQUIRED)
-    pkg_check_modules(HUNSPELL REQUIRED IMPORTED_TARGET hunspell)
+    pkg_check_modules(HUNSPELL IMPORTED_TARGET hunspell)
 
-    target_link_libraries(external_hunspell INTERFACE PkgConfig::HUNSPELL)
-else()
-    add_library(external_hunspell STATIC)
-    add_library(desktop-app::external_hunspell ALIAS external_hunspell)
-    init_target(external_hunspell "(external)")
+    if (HUNSPELL_FOUND)
+        target_link_libraries(external_hunspell INTERFACE PkgConfig::HUNSPELL)
+    endif()
+endif()
+
+if (NOT HUNSPELL_FOUND)
+    add_library(external_hunspell_bundled STATIC)
+    init_target(external_hunspell_bundled "(external)")
 
     set(hunspell_loc ${third_party_loc}/hunspell)
     set(hunspell_src ${hunspell_loc}/src)
 
-    nice_target_sources(external_hunspell ${hunspell_src}
+    nice_target_sources(external_hunspell_bundled ${hunspell_src}
     PRIVATE
         hunspell/affentry.cxx
         hunspell/affentry.hxx
@@ -50,14 +53,19 @@ else()
         hunspell/utf_info.hxx
     )
 
-    target_include_directories(external_hunspell
+    target_include_directories(external_hunspell_bundled
     PUBLIC
         ${hunspell_src}
     )
 
-    target_compile_definitions(external_hunspell
+    target_compile_definitions(external_hunspell_bundled
     PUBLIC
         HUNSPELL_STATIC
         MAXSUGGESTION=5
+    )
+
+    target_link_libraries(external_hunspell
+    INTERFACE
+        external_hunspell_bundled
     )
 endif()

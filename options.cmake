@@ -54,7 +54,7 @@ if (DESKTOP_APP_USE_PACKAGED_FONTS)
     )
 endif()
 
-if (DESKTOP_APP_USE_PACKAGED_RLOTTIE)
+if (rlottie_FOUND OR RLOTTIE_FOUND)
     target_compile_definitions(common_options
     INTERFACE
         DESKTOP_APP_USE_PACKAGED_RLOTTIE
