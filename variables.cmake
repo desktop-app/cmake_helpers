@@ -36,6 +36,7 @@ option(DESKTOP_APP_DISABLE_CRASH_REPORTS "Disable crash report generation." ${no
 option(DESKTOP_APP_USE_PACKAGED_FFMPEG_STATIC "Link found ffmpeg statically." OFF)
 option(DESKTOP_APP_USE_HUNSPELL_ONLY "Disable system spellchecker and use bundled Hunspell only. (For debugging purposes)" OFF)
 option(DESKTOP_APP_USE_ENCHANT "Use Enchant instead of bundled Hunspell. (Linux only)" OFF)
+set(DESKTOP_APP_WEBRTC_LOCATION "" CACHE STRING "WebRTC source root location.")
 
 option(DESKTOP_APP_ENABLE_IPO_OPTIMIZATIONS "Enable IPO build optimizations." ${WIN32})
 if (DESKTOP_APP_ENABLE_IPO_OPTIMIZATIONS AND CMAKE_CXX_COMPILER_ID MATCHES "Clang")

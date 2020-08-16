@@ -7,7 +7,12 @@
 add_library(external_webrtc INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_webrtc ALIAS external_webrtc)
 
-set(webrtc_loc ${libs_loc}/webrtc/src)
+if (DESKTOP_APP_WEBRTC_LOCATION)
+    set(webrtc_loc ${DESKTOP_APP_WEBRTC_LOCATION})
+else()
+    set(webrtc_loc ${libs_loc}/webrtc/src)
+endif()
+
 set(webrtc_build_loc ${webrtc_loc}/out/$<CONFIG>/obj)
 
 target_compile_definitions(external_webrtc
