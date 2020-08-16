@@ -38,12 +38,6 @@ option(DESKTOP_APP_USE_HUNSPELL_ONLY "Disable system spellchecker and use bundle
 option(DESKTOP_APP_USE_ENCHANT "Use Enchant instead of bundled Hunspell. (Linux only)" OFF)
 set(DESKTOP_APP_WEBRTC_LOCATION "" CACHE STRING "WebRTC source root location.")
 
-option(DESKTOP_APP_ENABLE_IPO_OPTIMIZATIONS "Enable IPO build optimizations." ${WIN32})
-if (DESKTOP_APP_ENABLE_IPO_OPTIMIZATIONS AND CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    message(WARNING "Clang cannot build Qt applications with IPO enabled due to upstream bug: https://bugreports.qt.io/browse/QTBUG-61710.")
-    set(DESKTOP_APP_ENABLE_IPO_OPTIMIZATIONS OFF)
-endif()
-
 set(disable_autoupdate 0)
 if (DESKTOP_APP_SPECIAL_TARGET STREQUAL ""
     OR DESKTOP_APP_SPECIAL_TARGET STREQUAL "uwp"
@@ -94,7 +88,7 @@ else()
             report_bad_special_target()
         endif()
     endif()
-    if (DESKTOP_APP_SPECIAL_TARGET OR DESKTOP_APP_ENABLE_IPO_OPTIMIZATIONS)
+    if (DESKTOP_APP_SPECIAL_TARGET)
         set(CMAKE_AR "gcc-ar")
         set(CMAKE_RANLIB "gcc-ranlib")
         set(CMAKE_NM "gcc-nm")
