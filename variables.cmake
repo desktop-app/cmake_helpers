@@ -19,6 +19,13 @@ if (DESKTOP_APP_SPECIAL_TARGET STREQUAL "osx")
     set(osx_special_target 1)
 endif()
 
+set(disable_autoupdate 0)
+if (DESKTOP_APP_SPECIAL_TARGET STREQUAL ""
+    OR DESKTOP_APP_SPECIAL_TARGET STREQUAL "uwp"
+    OR DESKTOP_APP_SPECIAL_TARGET STREQUAL "macstore")
+    set(disable_autoupdate 1)
+endif()
+
 set(webrtc_not_supported 0)
 if (osx_special_target OR (LINUX AND CMAKE_SIZEOF_VOID_P EQUAL 4))
     set(webrtc_not_supported 1)
@@ -31,20 +38,14 @@ option(DESKTOP_APP_USE_GLIBC_WRAPS "Use wraps for new GLIBC features." ${linux_s
 option(DESKTOP_APP_USE_PACKAGED "Find libraries using CMake instead of exact paths." ${no_special_target})
 option(DESKTOP_APP_USE_PACKAGED_LAZY "Bundle recommended Qt plugins for self-contained packages. (Linux only)" OFF)
 option(DESKTOP_APP_USE_PACKAGED_LAZY_PLATFORMTHEMES "Bundle recommended Qt platform themes for self-contained packages. (Linux only)" ${DESKTOP_APP_USE_PACKAGED_LAZY})
+option(DESKTOP_APP_USE_PACKAGED_FFMPEG_STATIC "Link ffmpeg statically in packaged mode." OFF)
 option(DESKTOP_APP_DISABLE_SPELLCHECK "Disable spellcheck library." ${osx_special_target})
 option(DESKTOP_APP_DISABLE_CRASH_REPORTS "Disable crash report generation." ${no_special_target})
-option(DESKTOP_APP_USE_PACKAGED_FFMPEG_STATIC "Link found ffmpeg statically." OFF)
+option(DESKTOP_APP_DISABLE_AUTOUPDATE "Disable autoupdate." ${disable_autoupdate})
 option(DESKTOP_APP_USE_HUNSPELL_ONLY "Disable system spellchecker and use bundled Hunspell only. (For debugging purposes)" OFF)
 option(DESKTOP_APP_USE_ENCHANT "Use Enchant instead of bundled Hunspell. (Linux only)" OFF)
+set(DESKTOP_APP_QTWAYLANDCLIENT_PRIVATE_HEADERS "" CACHE STRING "QtWaylandClient headers location.")
 set(DESKTOP_APP_WEBRTC_LOCATION "" CACHE STRING "WebRTC source root location.")
-
-set(disable_autoupdate 0)
-if (DESKTOP_APP_SPECIAL_TARGET STREQUAL ""
-    OR DESKTOP_APP_SPECIAL_TARGET STREQUAL "uwp"
-    OR DESKTOP_APP_SPECIAL_TARGET STREQUAL "macstore")
-    set(disable_autoupdate 1)
-endif()
-option(DESKTOP_APP_DISABLE_AUTOUPDATE "Disable autoupdate." ${disable_autoupdate})
 
 set(dont_bundle_fonts 0)
 if (DESKTOP_APP_USE_PACKAGED AND NOT DESKTOP_APP_USE_PACKAGED_LAZY)
