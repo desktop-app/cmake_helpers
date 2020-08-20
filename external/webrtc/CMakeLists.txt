@@ -10,10 +10,10 @@ add_library(desktop-app::external_webrtc ALIAS external_webrtc)
 if (DESKTOP_APP_WEBRTC_LOCATION)
     set(webrtc_loc ${DESKTOP_APP_WEBRTC_LOCATION})
 else()
-    set(webrtc_loc ${libs_loc}/webrtc/src)
+    set(webrtc_loc ${libs_loc}/tg_owt/src)
 endif()
 
-set(webrtc_build_loc ${webrtc_loc}/out/$<CONFIG>/obj)
+set(webrtc_build_loc ${libs_loc}/tg_owt/out/$<CONFIG>)
 
 target_compile_definitions(external_webrtc
 INTERFACE
@@ -64,7 +64,7 @@ INTERFACE
 )
 
 set(webrtc_libs
-    ${webrtc_lib_prefix}webrtc
+    ${webrtc_lib_prefix}tg_owt
 )
 if (APPLE)
     target_include_directories(external_webrtc
@@ -87,7 +87,7 @@ if (WIN32)
         wmcodecdspuuid.lib
         amstrmid.lib
         msdmo.lib
-  )
+    )
 elseif (APPLE)
     target_link_libraries(external_webrtc
     INTERFACE

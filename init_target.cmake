@@ -17,7 +17,7 @@ endfunction()
 
 function(init_target target_name) # init_target(my_target folder_name)
     if (ARGC GREATER 1)
-        if (${ARGV1} STREQUAL cxx_std_14 OR ${ARGV1} STREQUAL cxx_std_11)
+        if (${ARGV1} STREQUAL cxx_std_14 OR ${ARGV1} STREQUAL cxx_std_11 OR ${ARGV1} STREQUAL cxx_std_17)
             target_compile_features(${target_name} PUBLIC ${ARGV1})
         else()
             target_compile_features(${target_name} PUBLIC ${MAXIMUM_CXX_STANDARD})
