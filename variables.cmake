@@ -27,7 +27,7 @@ if (DESKTOP_APP_SPECIAL_TARGET STREQUAL ""
 endif()
 
 set(webrtc_not_supported 0)
-if (osx_special_target OR (LINUX AND CMAKE_SIZEOF_VOID_P EQUAL 4))
+if (LINUX AND CMAKE_SIZEOF_VOID_P EQUAL 4)
     set(webrtc_not_supported 1)
 endif()
 

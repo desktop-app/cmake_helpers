@@ -13,15 +13,10 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
         INTERFACE
             /usr/local/desktop-app/openssl-1.1.1/include
         )
-    elseif (NOT APPLE OR NOT build_osx)
-        target_include_directories(external_openssl_common SYSTEM
-        INTERFACE
-            ${libs_loc}/openssl_1_1_1/include
-        )
     else()
         target_include_directories(external_openssl_common SYSTEM
         INTERFACE
-            ${libs_loc}/openssl/include
+            ${libs_loc}/openssl_1_1_1/include
         )
     endif()
 
