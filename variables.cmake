@@ -40,7 +40,6 @@ option(DESKTOP_APP_DISABLE_AUTOUPDATE "Disable autoupdate." ${disable_autoupdate
 option(DESKTOP_APP_USE_HUNSPELL_ONLY "Disable system spellchecker and use bundled Hunspell only. (For debugging purposes)" OFF)
 option(DESKTOP_APP_USE_ENCHANT "Use Enchant instead of bundled Hunspell. (Linux only)" OFF)
 set(DESKTOP_APP_QTWAYLANDCLIENT_PRIVATE_HEADERS "" CACHE STRING "QtWaylandClient headers location.")
-set(DESKTOP_APP_WEBRTC_LOCATION "" CACHE STRING "WebRTC source root location.")
 
 set(dont_bundle_fonts 0)
 if (DESKTOP_APP_USE_PACKAGED AND NOT DESKTOP_APP_USE_PACKAGED_LAZY)
