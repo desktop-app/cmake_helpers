@@ -51,9 +51,4 @@ else()
         desktop-app::external_qt
         ${CMAKE_DL_LIBS}
     )
-
-    target_compile_options(external_nimf_qt5
-    PRIVATE
-        -Wno-register
-    )
 endif()
