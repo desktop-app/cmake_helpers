@@ -342,10 +342,6 @@ else()
             Xfixes
             Xrender
             ffi
-            icutu
-            icui18n
-            icuuc
-            icudata
         )
         if (DESKTOP_APP_USE_GLIBC_WRAPS)
             target_link_libraries(external_qt
@@ -356,6 +352,7 @@ else()
         endif()
         target_link_libraries(external_qt
         INTERFACE
+            desktop-app::external_zlib
             ICE
             SM
             fontconfig
