@@ -335,11 +335,11 @@ else()
             wayland-egl
             wayland-cursor
             wayland-client
-            xcb-shm
-            xcb-xfixes
-            xcb-render
             xkbcommon
             xkbcommon-x11
+            Xi
+            Xext
+            Xfixes
             Xrender
             ffi
             icutu
