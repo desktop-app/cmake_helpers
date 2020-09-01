@@ -68,13 +68,13 @@ else()
             va-drm
             va
             vdpau
-            Xi
+            wayland-client
             Xext
             Xfixes
-            Xrender
         )
         target_link_libraries(external_ffmpeg
         INTERFACE
+            X11
             drm
             pthread
         )
