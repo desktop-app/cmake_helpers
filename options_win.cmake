@@ -86,7 +86,6 @@ INTERFACE
     Version
     Dwmapi
     Wtsapi32
-    Rstrtmgr
     Crypt32
 )
 
