@@ -5,7 +5,7 @@
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
 set(MAXIMUM_CXX_STANDARD cxx_std_20)
-if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     set(MAXIMUM_CXX_STANDARD cxx_std_17)
 endif()
 
