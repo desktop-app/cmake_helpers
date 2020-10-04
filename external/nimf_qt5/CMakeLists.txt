@@ -23,18 +23,10 @@ else()
         im-nimf-qt5.cpp
     )
 
-    find_package(PkgConfig REQUIRED)
-    pkg_check_modules(GLIB2 REQUIRED glib-2.0)
-    pkg_check_modules(GOBJECT REQUIRED gobject-2.0)
-    pkg_check_modules(GIO REQUIRED gio-2.0)
-
     target_include_directories(external_nimf_qt5
     PRIVATE
         ${nimf_qt5_src}
         ${libnimf_src}
-        ${GLIB2_INCLUDE_DIRS}
-        ${GOBJECT_INCLUDE_DIRS}
-        ${GIO_INCLUDE_DIRS}
     )
 
     target_compile_definitions(external_nimf_qt5
@@ -49,6 +41,7 @@ else()
     target_link_libraries(external_nimf_qt5
     PRIVATE
         desktop-app::external_qt
+        desktop-app::external_glib
         ${CMAKE_DL_LIBS}
     )
 endif()
