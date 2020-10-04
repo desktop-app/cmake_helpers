@@ -54,29 +54,29 @@ else()
         CLIENT_LIB=1
     )
 
+    target_link_libraries(external_hime_im_client
+    PRIVATE
+        desktop-app::external_glib
+    )
+
     if (DESKTOP_APP_USE_PACKAGED)
         pkg_check_modules(X11 REQUIRED IMPORTED_TARGET x11)
-        pkg_check_modules(GLIB2 REQUIRED IMPORTED_TARGET glib-2.0)
 
         target_link_libraries(external_hime_im_client
         PRIVATE
             PkgConfig::X11
-            PkgConfig::GLIB2
         )
     else()
         pkg_check_modules(X11 REQUIRED x11)
-        pkg_check_modules(GLIB2 REQUIRED glib-2.0)
 
         target_include_directories(external_hime_im_client
         PRIVATE
             ${X11_INCLUDE_DIRS}
-            ${GLIB2_INCLUDE_DIRS}
         )
 
         target_link_libraries(external_hime_im_client
         PRIVATE
             X11
-            glib-2.0
         )
     endif()
 endif()
