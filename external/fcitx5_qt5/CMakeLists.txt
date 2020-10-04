@@ -46,12 +46,12 @@ else()
     PRIVATE
         desktop-app::external_fcitx5_qt5_dbusaddons
         desktop-app::external_qt
+        desktop-app::external_xcb
     )
 
     if (DESKTOP_APP_USE_PACKAGED)
         find_package(PkgConfig REQUIRED)
         pkg_check_modules(XKBCOMMON REQUIRED IMPORTED_TARGET xkbcommon)
-        pkg_check_modules(XCB REQUIRED IMPORTED_TARGET xcb)
 
         target_link_libraries(external_fcitx5_qt5
         PRIVATE
@@ -61,22 +61,15 @@ else()
     else()
         find_package(PkgConfig REQUIRED)
         pkg_check_modules(XKBCOMMON REQUIRED xkbcommon)
-        pkg_check_modules(XCB REQUIRED xcb)
 
         target_include_directories(external_fcitx5_qt5
         PUBLIC
             ${XKBCOMMON_INCLUDE_DIRS}
-            ${XCB_INCLUDE_DIRS}
         )
 
         target_link_static_libraries(external_fcitx5_qt5
         PRIVATE
             xkbcommon
-        )
-
-        target_link_libraries(external_fcitx5_qt5
-        PRIVATE
-            xcb
         )
     endif()
 endif()
