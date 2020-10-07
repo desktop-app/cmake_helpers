@@ -202,6 +202,11 @@ else()
         foreach (lib ${qt_libs})
             list(APPEND qt_libs_list "${qt_loc}/${lib}${qt_lib_suffix}")
         endforeach()
+        target_link_libraries(external_qt
+        INTERFACE
+            desktop-app::external_jpeg
+            desktop-app::external_zlib
+        )
     elseif (APPLE)
         if (NOT build_osx)
             set(qt_libs
@@ -235,6 +240,7 @@ else()
         endforeach()
         target_link_libraries(external_qt
         INTERFACE
+            desktop-app::external_jpeg
             desktop-app::external_zlib
             cups
         )
@@ -354,6 +360,7 @@ else()
         endif()
         target_link_libraries(external_qt
         INTERFACE
+            desktop-app::external_jpeg
             desktop-app::external_zlib
             ICE
             SM
