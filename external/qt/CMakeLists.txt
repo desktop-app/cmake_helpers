@@ -34,6 +34,7 @@ if (DESKTOP_APP_USE_PACKAGED)
         find_library(Qt5ThemeSupport_LIBRARY
         NAMES
             Qt5ThemeSupport
+        REQUIRED
         )
 
         find_path(Qt5ThemeSupport_INCLUDE_DIR
@@ -43,6 +44,7 @@ if (DESKTOP_APP_USE_PACKAGED)
             ${Qt5Gui_INCLUDE_DIRS}
         PATH_SUFFIXES
             QtThemeSupport/${Qt5Gui_VERSION}
+        REQUIRED
         )
 
         target_link_libraries(external_qt
