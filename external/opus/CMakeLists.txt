@@ -29,7 +29,7 @@ else()
     elseif (APPLE AND NOT build_osx)
         target_include_directories(external_opus
         INTERFACE
-            /usr/local/macos/include
+            /usr/local/macos/include/opus
         )
         set_target_properties(external_opus PROPERTIES
             IMPORTED_LOCATION /usr/local/macos/lib/libopus.a
@@ -37,12 +37,16 @@ else()
     elseif (APPLE)
         target_include_directories(external_opus
         INTERFACE
-            /usr/local/include
+            /usr/local/include/opus
         )
         set_target_properties(external_opus PROPERTIES
             IMPORTED_LOCATION /usr/local/lib/libopus.a
         )
     else()
+        target_include_directories(external_opus
+        INTERFACE
+            /usr/local/include/opus
+        )
         find_library(OPUS_LIBRARY libopus.a)
         set_target_properties(external_opus PROPERTIES
             IMPORTED_LOCATION "${OPUS_LIBRARY}"
