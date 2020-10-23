@@ -56,7 +56,6 @@ else()
         target_link_libraries(external_fcitx5_qt5
         PRIVATE
             PkgConfig::XKBCOMMON
-            PkgConfig::XCB
         )
     else()
         find_package(PkgConfig REQUIRED)
