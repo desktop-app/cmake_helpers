@@ -75,6 +75,7 @@ INTERFACE
     AppKit
     CoreWLAN
     IOKit
+    GSS
 )
 
 if (NOT build_osx)
