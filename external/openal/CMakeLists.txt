@@ -25,7 +25,7 @@ elseif (WIN32)
     )
     target_link_libraries(external_openal
     INTERFACE
-        ${libs_loc}/openal-soft/build/$<IF:$<CONFIG:Debug>,Debug,Release>/OpenAL32.lib
+        ${libs_loc}/openal-soft/build/$<IF:$<CONFIG:Debug>,Debug,RelWithDebInfo>/OpenAL32.lib
     )
 elseif(APPLE AND NOT build_osx)
     target_include_directories(external_openal SYSTEM
