@@ -99,5 +99,6 @@ else()
         ${webrtc_libs_list}
         desktop-app::external_openssl
         desktop-app::external_jpeg
+        desktop-app::external_opus
     )
 endif()
