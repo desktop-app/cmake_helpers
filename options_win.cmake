@@ -26,6 +26,8 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
         /w15038 # wrong initialization order
         /w14265 # class has virtual functions, but destructor is not virtual
         /wd4068 # Disable "warning C4068: unknown pragma"
+        /wd4267 # 'initializing': conversion from 'size_t' to 'int', possible loss of data.
+        /wd4244 # '=': conversion from 'size_t' to 'int', possible loss of data.
         /Zc:wchar_t- # don't tread wchar_t as builtin type
         /Zi
     )
@@ -34,6 +36,13 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     INTERFACE
         $<IF:$<CONFIG:Debug>,/NODEFAULTLIB:LIBCMT,/DEBUG;/OPT:REF>
     )
+
+    if (build_win64)
+        target_compile_options(common_options
+        INTERFACE
+            /bigobj # scheme.cpp has too many sections.
+        )
+    endif()
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     target_compile_definitions(common_options
     INTERFACE

@@ -22,6 +22,7 @@ endif()
 set(disable_autoupdate 0)
 if (DESKTOP_APP_SPECIAL_TARGET STREQUAL ""
     OR DESKTOP_APP_SPECIAL_TARGET STREQUAL "uwp"
+    OR DESKTOP_APP_SPECIAL_TARGET STREQUAL "uwp64"
     OR DESKTOP_APP_SPECIAL_TARGET STREQUAL "macstore")
     set(disable_autoupdate 1)
 endif()
@@ -57,12 +58,20 @@ endif()
 
 set(build_osx 0)
 set(build_macstore 0)
-set(build_winstore 0)
+set(build_winstore 0) # 32 or 64 bit
 set(build_linux32 0)
+set(build_win64 0) # normal or uwp
+set(build_winstore64 0)
 
 if (WIN32)
-    if (DESKTOP_APP_SPECIAL_TARGET STREQUAL "uwp")
+    if (DESKTOP_APP_SPECIAL_TARGET STREQUAL "win64")
+        set(build_win64 1)
+    elseif (DESKTOP_APP_SPECIAL_TARGET STREQUAL "uwp")
         set(build_winstore 1)
+    elseif (DESKTOP_APP_SPECIAL_TARGET STREQUAL "uwp64")
+        set(build_win64 1)
+        set(build_winstore 1)
+        set(build_winstore64 1)
     endif()
 elseif (APPLE)
     if (DESKTOP_APP_SPECIAL_TARGET STREQUAL "osx")
@@ -90,7 +99,9 @@ else()
     endif()
 endif()
 
-if (NOT APPLE OR build_osx)
+if (build_win64)
+    get_filename_component(libs_loc "../Libraries/win64" REALPATH)
+elseif (NOT APPLE OR build_osx)
     get_filename_component(libs_loc "../Libraries" REALPATH)
 else()
     get_filename_component(libs_loc "../Libraries/macos" REALPATH)

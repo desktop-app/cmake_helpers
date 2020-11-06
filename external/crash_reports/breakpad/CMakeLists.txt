@@ -12,7 +12,13 @@ INTERFACE
     ${libs_loc}/breakpad/src
 )
 
-set(breakpad_lib_loc ${libs_loc}/breakpad/src/out/$<IF:$<CONFIG:Debug>,Debug,Release>/obj/client)
+if (build_win64)
+    set(breakpad_config_add _x64)
+else()
+    set(breakpad_config_add "")
+endif()
+
+set(breakpad_lib_loc ${libs_loc}/breakpad/src/out/$<IF:$<CONFIG:Debug>,Debug${breakpad_config_add},Release${breakpad_config_add}>/obj/client)
 
 if (WIN32)
     target_link_libraries(external_breakpad

@@ -12,14 +12,22 @@ def run(project, arguments, buildType=''):
     basePath = scriptPath + '/../out/' + buildType
 
     cmake = ['cmake']
+    windowsArch = ''
     for arg in arguments:
         if arg == 'debug':
             cmake.append('-DCMAKE_BUILD_TYPE=Debug')
+        elif arg == 'x86' or arg == 'x64':
+            windowsArch = arg
         elif arg != 'force':
             cmake.append(arg)
-
     if sys.platform == 'win32':
-        cmake.append('-AWin32')
+        if windowsArch == 'x64':
+            cmake.append('-Ax64')
+        else:
+            cmake.append('-AWin32') # default
+    elif windowsArch != '':
+        print("[ERROR] x86/x64 switch is supported only on Windows.")
+        return 1
     elif sys.platform == 'darwin':
         cmake.append('-GXcode')
     elif buildType:

@@ -12,7 +12,13 @@ INTERFACE
     ${libs_loc}/lzma/C
 )
 
-set(lzma_lib_loc ${libs_loc}/lzma/C/Util/LzmaLib/$<IF:$<CONFIG:Debug>,Debug,Release>)
+if (build_win64)
+    set(lzma_platform_dir x64/)
+else()
+    set(lzma_platform_dir "")
+endif()
+
+set(lzma_lib_loc ${libs_loc}/lzma/C/Util/LzmaLib/${lzma_platform_dir}$<IF:$<CONFIG:Debug>,Debug,Release>)
 
 target_link_libraries(external_lzma
 INTERFACE
