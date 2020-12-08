@@ -380,6 +380,7 @@ else()
             xcb-util
             xcb-render-util
             xcb-keysyms
+            xcb-record
             ffi
         )
         if (DESKTOP_APP_USE_GLIBC_WRAPS)
