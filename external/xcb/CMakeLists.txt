@@ -7,6 +7,8 @@
 add_library(external_xcb INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_xcb ALIAS external_xcb)
 
+add_subdirectory(xcb_keysyms)
+add_subdirectory(xcb_record)
 add_subdirectory(xcb_screensaver)
 
 if (DESKTOP_APP_USE_PACKAGED)
