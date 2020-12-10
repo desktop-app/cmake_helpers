@@ -10,66 +10,66 @@ add_library(desktop-app::external_qt ALIAS external_qt)
 if (DESKTOP_APP_USE_PACKAGED)
     target_link_libraries(external_qt
     INTERFACE
-        Qt5::Core
-        Qt5::Gui
-        Qt5::Widgets
-        Qt5::Network
+        Qt6::Core
+        Qt6::Gui
+        Qt6::Widgets
+        Qt6::Network
     )
 
     target_include_directories(external_qt
     INTERFACE
-        ${Qt5Core_PRIVATE_INCLUDE_DIRS}
-        ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
+        ${Qt6Core_PRIVATE_INCLUDE_DIRS}
+        ${Qt6Gui_PRIVATE_INCLUDE_DIRS}
     )
 
-    if (Qt5DBus_FOUND)
-        target_link_libraries(external_qt INTERFACE Qt5::DBus)
+    if (Qt6DBus_FOUND)
+        target_link_libraries(external_qt INTERFACE Qt6::DBus)
     endif()
 
-    if (Qt5Svg_FOUND)
-        target_link_libraries(external_qt INTERFACE Qt5::Svg)
+    if (Qt6Svg_FOUND)
+        target_link_libraries(external_qt INTERFACE Qt6::Svg)
     endif()
 
     if (LINUX AND DESKTOP_APP_USE_PACKAGED_LAZY_PLATFORMTHEMES)
-        find_library(Qt5ThemeSupport_LIBRARY
+        find_library(Qt6ThemeSupport_LIBRARY
         NAMES
-            Qt5ThemeSupport
+            Qt6ThemeSupport
         REQUIRED
         )
 
-        find_path(Qt5ThemeSupport_INCLUDE_DIR
+        find_path(Qt6ThemeSupport_INCLUDE_DIR
         NAMES
             QtThemeSupport/private/qgenericunixthemes_p.h
         HINTS
-            ${Qt5Gui_INCLUDE_DIRS}
+            ${Qt6Gui_INCLUDE_DIRS}
         PATH_SUFFIXES
-            QtThemeSupport/${Qt5Gui_VERSION}
+            QtThemeSupport/${Qt6Gui_VERSION}
         REQUIRED
         )
 
         target_link_libraries(external_qt
         INTERFACE
-            ${Qt5ThemeSupport_LIBRARY}
+            ${Qt6ThemeSupport_LIBRARY}
         )
 
         target_include_directories(external_qt
         INTERFACE
-            ${Qt5ThemeSupport_INCLUDE_DIR}
-            ${Qt5ThemeSupport_INCLUDE_DIR}/QtThemeSupport
+            ${Qt6ThemeSupport_INCLUDE_DIR}
+            ${Qt6ThemeSupport_INCLUDE_DIR}/QtThemeSupport
         )
     endif()
 
-    if (Qt5XkbCommonSupport_FOUND)
-        target_link_libraries(external_qt INTERFACE Qt5::XkbCommonSupport)
+    if (Qt6XkbCommonSupport_FOUND)
+        target_link_libraries(external_qt INTERFACE Qt6::XkbCommonSupport)
 
         target_include_directories(external_qt
         INTERFACE
-            ${Qt5XkbCommonSupport_PRIVATE_INCLUDE_DIRS}
+            ${Qt6XkbCommonSupport_PRIVATE_INCLUDE_DIRS}
         )
     endif()
 
-    if (Qt5WaylandClient_FOUND)
-        target_link_libraries(external_qt INTERFACE Qt5::WaylandClient)
+    if (Qt6WaylandClient_FOUND)
+        target_link_libraries(external_qt INTERFACE Qt6::WaylandClient)
 
         if (DESKTOP_APP_QTWAYLANDCLIENT_PRIVATE_HEADERS)
             target_include_directories(external_qt
@@ -80,7 +80,7 @@ if (DESKTOP_APP_USE_PACKAGED)
         else()
             target_include_directories(external_qt
             INTERFACE
-                ${Qt5WaylandClient_PRIVATE_INCLUDE_DIRS}
+                ${Qt6WaylandClient_PRIVATE_INCLUDE_DIRS}
             )
         endif()
     endif()
@@ -89,6 +89,7 @@ else()
     INTERFACE
         ${qt_loc}/include
         ${qt_loc}/include/QtCore
+        ${qt_loc}/include/QtCore5Compat
         ${qt_loc}/include/QtGui
         ${qt_loc}/include/QtWidgets
         ${qt_loc}/include/QtCore/${qt_version}
@@ -97,14 +98,14 @@ else()
         ${qt_loc}/include/QtGui/${qt_version}/QtGui
     )
 
-    if (Qt5DBus_FOUND)
+    if (Qt6DBus_FOUND)
         target_include_directories(external_qt SYSTEM
         INTERFACE
             ${qt_loc}/include/QtDBus
         )
     endif()
 
-    if (Qt5XkbCommonSupport_FOUND)
+    if (Qt6XkbCommonSupport_FOUND)
         target_include_directories(external_qt SYSTEM
         INTERFACE
             ${qt_loc}/include/QtXkbCommonSupport
@@ -113,7 +114,7 @@ else()
         )
     endif()
 
-    if (Qt5WaylandClient_FOUND)
+    if (Qt6WaylandClient_FOUND)
         target_include_directories(external_qt SYSTEM
         INTERFACE
             ${qt_loc}/include/QtWaylandClient
@@ -143,21 +144,21 @@ else()
         QT_CORE_LIB
     )
 
-    if (Qt5DBus_FOUND)
+    if (Qt6DBus_FOUND)
         target_compile_definitions(external_qt
         INTERFACE
             QT_DBUS_LIB
         )
     endif()
 
-    if (Qt5XkbCommonSupport_FOUND)
+    if (Qt6XkbCommonSupport_FOUND)
         target_compile_definitions(external_qt
         INTERFACE
             QT_XKBCOMMON_SUPPORT_LIB
         )
     endif()
 
-    if (Qt5WaylandClient_FOUND)
+    if (Qt6WaylandClient_FOUND)
         target_compile_definitions(external_qt
         INTERFACE
             QT_WAYLANDCLIENT_LIB
@@ -188,28 +189,26 @@ else()
         plugins/imageformats/${qt_lib_prefix}qwebp
         plugins/imageformats/${qt_lib_prefix}qgif
         plugins/imageformats/${qt_lib_prefix}qjpeg
-        lib/${qt_lib_prefix}Qt5PrintSupport
-        lib/${qt_lib_prefix}Qt5AccessibilitySupport
-        lib/${qt_lib_prefix}Qt5FontDatabaseSupport
-        lib/${qt_lib_prefix}Qt5EventDispatcherSupport
-        lib/${qt_lib_prefix}Qt5ThemeSupport
-        lib/${qt_lib_prefix}Qt5Network
-        lib/${qt_lib_prefix}Qt5Widgets
-        lib/${qt_lib_prefix}Qt5Gui
-        lib/${qt_lib_prefix}qtharfbuzz
-        lib/${qt_lib_prefix}qtlibpng
+        lib/${qt_lib_prefix}Qt6PrintSupport
+        lib/${qt_lib_prefix}Qt6Network
+        lib/${qt_lib_prefix}Qt6Widgets
+        lib/${qt_lib_prefix}Qt6Gui
+        lib/${qt_lib_prefix}Qt6BundledHarfbuzz
+        lib/${qt_lib_prefix}Qt6BundledLibpng
+        lib/${qt_lib_prefix}Qt6Core_qobject
     )
 
     set(qt_libs_list "")
     if (WIN32)
         set(qt_libs
             ${common_qt_libs}
-            lib/${qt_lib_prefix}Qt5Core
-            lib/${qt_lib_prefix}Qt5WindowsUIAutomationSupport
-            lib/${qt_lib_prefix}qtmain
-            lib/${qt_lib_prefix}qtfreetype
-            lib/${qt_lib_prefix}qtpcre2
+            lib/${qt_lib_prefix}Qt6Core
+            lib/${qt_lib_prefix}Qt6Core5Compat
+            lib/${qt_lib_prefix}Qt6EntryPoint
+            lib/${qt_lib_prefix}Qt6BundledFreetype
+            lib/${qt_lib_prefix}Qt6BundledPcre2
             plugins/platforms/${qt_lib_prefix}qwindows
+            plugins/platforms/${qt_lib_prefix}qdirect2d
         )
         foreach (lib ${qt_libs})
             list(APPEND qt_libs_list "${qt_loc}/${lib}${qt_lib_suffix}")
@@ -218,14 +217,17 @@ else()
         INTERFACE
             desktop-app::external_jpeg
             desktop-app::external_zlib
+            ${libs_loc}/WebP/lib/webp.lib
+            ${libs_loc}/WebP/lib/webpdemux.lib
+            ${libs_loc}/WebP/lib/webpmux.lib
         )
     elseif (APPLE)
         if (NOT build_osx)
             set(qt_libs
                 ${common_qt_libs}
-                lib/${qt_lib_prefix}Qt5Core
-                lib/${qt_lib_prefix}Qt5GraphicsSupport
-                lib/${qt_lib_prefix}Qt5ClipboardSupport
+                lib/${qt_lib_prefix}Qt6Core
+                lib/${qt_lib_prefix}Qt6GraphicsSupport
+                lib/${qt_lib_prefix}Qt6ClipboardSupport
                 lib/${qt_lib_prefix}qtfreetype
                 lib/${qt_lib_prefix}qtpcre2
                 plugins/platforms/${qt_lib_prefix}qcocoa
@@ -233,12 +235,12 @@ else()
             )
         else()
             set(qt_libs
-                lib/${qt_lib_prefix}Qt5PrintSupport
-                lib/${qt_lib_prefix}Qt5PlatformSupport
-                lib/${qt_lib_prefix}Qt5Network
-                lib/${qt_lib_prefix}Qt5Widgets
-                lib/${qt_lib_prefix}Qt5Gui
-                lib/${qt_lib_prefix}Qt5Core
+                lib/${qt_lib_prefix}Qt6PrintSupport
+                lib/${qt_lib_prefix}Qt6PlatformSupport
+                lib/${qt_lib_prefix}Qt6Network
+                lib/${qt_lib_prefix}Qt6Widgets
+                lib/${qt_lib_prefix}Qt6Gui
+                lib/${qt_lib_prefix}Qt6Core
                 lib/${qt_lib_prefix}qtharfbuzzng
                 lib/${qt_lib_prefix}qtfreetype
                 lib/${qt_lib_prefix}qtpcre
@@ -261,9 +263,9 @@ else()
         set(qt_libs_dbus_support)
         set(qt_libs_dbus_plugins)
         set(qt_libs_dbus_bearers)
-        if (Qt5DBus_FOUND)
-            set(qt_libs_dbus lib/${qt_lib_prefix}Qt5DBus)
-            set(qt_libs_dbus_support lib/${qt_lib_prefix}Qt5LinuxAccessibilitySupport)
+        if (Qt6DBus_FOUND)
+            set(qt_libs_dbus lib/${qt_lib_prefix}Qt6DBus)
+            set(qt_libs_dbus_support lib/${qt_lib_prefix}Qt6LinuxAccessibilitySupport)
             set(qt_libs_dbus_plugins
                 plugins/platforminputcontexts/${qt_lib_prefix}ibusplatforminputcontextplugin
                 plugins/platformthemes/${qt_lib_prefix}qxdgdesktopportal
@@ -275,8 +277,8 @@ else()
         endif()
         set(qt_libs_waylandclient)
         set(qt_libs_waylandclient_plugins)
-        if (Qt5WaylandClient_FOUND)
-            set(qt_libs_waylandclient lib/${qt_lib_prefix}Qt5WaylandClient)
+        if (Qt6WaylandClient_FOUND)
+            set(qt_libs_waylandclient lib/${qt_lib_prefix}Qt6WaylandClient)
             set(qt_libs_waylandclient_plugins
                 plugins/wayland-decoration-client/${qt_lib_prefix}bradient
                 plugins/wayland-shell-integration/${qt_lib_prefix}ivi-shell
@@ -299,20 +301,20 @@ else()
             plugins/platforms/${qt_lib_prefix}qxcb
             plugins/imageformats/${qt_lib_prefix}qsvg
             plugins/iconengines/${qt_lib_prefix}qsvgicon
-            lib/${qt_lib_prefix}Qt5XcbQpa
-            lib/${qt_lib_prefix}Qt5EglSupport
-            lib/${qt_lib_prefix}Qt5ServiceSupport
-            lib/${qt_lib_prefix}Qt5EdidSupport
-            lib/${qt_lib_prefix}Qt5XkbCommonSupport
+            lib/${qt_lib_prefix}Qt6XcbQpa
+            lib/${qt_lib_prefix}Qt6EglSupport
+            lib/${qt_lib_prefix}Qt6ServiceSupport
+            lib/${qt_lib_prefix}Qt6EdidSupport
+            lib/${qt_lib_prefix}Qt6XkbCommonSupport
             ${qt_libs_dbus_support}
             plugins/bearer/${qt_lib_prefix}qgenericbearer
             ${qt_libs_dbus_bearers}
             ${qt_libs_waylandclient}
-            lib/${qt_lib_prefix}Qt5ServiceSupport
+            lib/${qt_lib_prefix}Qt6ServiceSupport
             ${common_qt_libs}
             ${qt_libs_dbus}
-            lib/${qt_lib_prefix}Qt5Svg
-            lib/${qt_lib_prefix}Qt5Core
+            lib/${qt_lib_prefix}Qt6Svg
+            lib/${qt_lib_prefix}Qt6Core
             lib/${qt_lib_prefix}qtpcre2
         )
         foreach (lib ${qt_libs})

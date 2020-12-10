@@ -96,6 +96,7 @@ INTERFACE
     Dwmapi
     Wtsapi32
     Crypt32
+    Dnsapi
 )
 
 if (build_winstore)
