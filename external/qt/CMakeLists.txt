@@ -365,7 +365,6 @@ else()
             wayland-client
             xkbcommon
             xkbcommon-x11
-            Xext
             xcb-xkb
             xcb-randr
             xcb-icccm
