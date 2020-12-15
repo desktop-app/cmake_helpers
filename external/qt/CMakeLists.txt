@@ -26,10 +26,6 @@ if (DESKTOP_APP_USE_PACKAGED)
         target_link_libraries(external_qt INTERFACE Qt5::DBus)
     endif()
 
-    if (Qt5Svg_FOUND)
-        target_link_libraries(external_qt INTERFACE Qt5::Svg)
-    endif()
-
     if (LINUX AND DESKTOP_APP_USE_PACKAGED_LAZY_PLATFORMTHEMES)
         find_library(Qt5ThemeSupport_LIBRARY
         NAMES
@@ -125,7 +121,6 @@ else()
     if (LINUX)
         target_include_directories(external_qt SYSTEM
         INTERFACE
-            ${qt_loc}/include/QtSvg
             ${qt_loc}/include/QtThemeSupport
             ${qt_loc}/include/QtThemeSupport/${qt_version}
             ${qt_loc}/include/QtThemeSupport/${qt_version}/QtThemeSupport
@@ -168,7 +163,6 @@ else()
         target_compile_definitions(external_qt
         INTERFACE
             QT_THEME_SUPPORT_LIB
-            QT_SVG_LIB
         )
     endif()
 
@@ -281,13 +275,8 @@ else()
                 plugins/wayland-decoration-client/${qt_lib_prefix}bradient
                 plugins/wayland-shell-integration/${qt_lib_prefix}ivi-shell
                 plugins/wayland-shell-integration/${qt_lib_prefix}wl-shell
-                plugins/wayland-shell-integration/${qt_lib_prefix}xdg-shell-v5
-                plugins/wayland-shell-integration/${qt_lib_prefix}xdg-shell-v6
                 plugins/wayland-shell-integration/${qt_lib_prefix}xdg-shell
                 plugins/wayland-graphics-integration-client/${qt_lib_prefix}qt-plugin-wayland-egl
-                plugins/wayland-graphics-integration-client/${qt_lib_prefix}drm-egl-server
-                plugins/wayland-graphics-integration-client/${qt_lib_prefix}dmabuf-server
-                plugins/wayland-graphics-integration-client/${qt_lib_prefix}shm-emulation-server
                 plugins/platforms/${qt_lib_prefix}qwayland-egl
                 plugins/platforms/${qt_lib_prefix}qwayland-generic
             )
@@ -297,7 +286,6 @@ else()
             ${qt_libs_dbus_plugins}
             ${qt_libs_waylandclient_plugins}
             plugins/platforms/${qt_lib_prefix}qxcb
-            plugins/imageformats/${qt_lib_prefix}qsvg
             plugins/iconengines/${qt_lib_prefix}qsvgicon
             lib/${qt_lib_prefix}Qt5XcbQpa
             lib/${qt_lib_prefix}Qt5EglSupport
