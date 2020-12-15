@@ -373,8 +373,6 @@ else()
         endif()
         target_link_libraries(external_qt
         INTERFACE
-            ICE
-            SM
             fontconfig
             freetype
             EGL
