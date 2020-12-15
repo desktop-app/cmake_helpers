@@ -68,6 +68,7 @@ else()
             va-drm
             va
             vdpau
+            Xv
             Xext
             Xfixes
         )
