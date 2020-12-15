@@ -29,7 +29,7 @@ if (LINUX)
         find_package(Qt5 OPTIONAL_COMPONENTS XkbCommonSupport QUIET)
     endif()
 
-    if (NOT DESKTOP_APP_USE_PACKAGED OR DESKTOP_APP_USE_PACKAGED_LAZY_PLATFORMTHEMES)
+    if (NOT DESKTOP_APP_USE_PACKAGED)
         find_package(Qt5 COMPONENTS Svg REQUIRED)
     endif()
 
