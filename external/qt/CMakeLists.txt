@@ -381,8 +381,8 @@ else()
             xcb
             X11
             X11-xcb
-            dl
             glib-2.0
+            ${CMAKE_DL_LIBS}
             pthread
         )
     endif()
