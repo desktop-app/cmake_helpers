@@ -7,6 +7,8 @@
 add_library(external_qt INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_qt ALIAS external_qt)
 
+add_subdirectory(qt_static_plugins)
+
 if (DESKTOP_APP_USE_PACKAGED)
     target_link_libraries(external_qt
     INTERFACE
