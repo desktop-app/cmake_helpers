@@ -280,9 +280,12 @@ else()
             ${qt_libs_dbus_plugins}
             ${qt_libs_waylandclient_plugins}
             plugins/platforms/${qt_lib_prefix}qxcb
+            plugins/xcbglintegrations/${qt_lib_prefix}qxcb-egl-integration
+            plugins/xcbglintegrations/${qt_lib_prefix}qxcb-glx-integration
             plugins/iconengines/${qt_lib_prefix}qsvgicon
             lib/${qt_lib_prefix}Qt5XcbQpa
             lib/${qt_lib_prefix}Qt5EglSupport
+            lib/${qt_lib_prefix}Qt5GlxSupport
             lib/${qt_lib_prefix}Qt5ServiceSupport
             lib/${qt_lib_prefix}Qt5EdidSupport
             lib/${qt_lib_prefix}Qt5XkbCommonSupport
@@ -349,6 +352,7 @@ else()
             wayland-client
             xkbcommon
             xkbcommon-x11
+            xcb-glx
             xcb-xkb
             xcb-randr
             xcb-icccm
