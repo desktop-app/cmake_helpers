@@ -55,3 +55,11 @@ target_link_libraries(external_ton
 INTERFACE
     ${ton_libs_list}
 )
+
+if (WIN32)
+    target_link_libraries(external_ton
+    INTERFACE
+        Psapi
+        Normaliz
+    )
+endif()
