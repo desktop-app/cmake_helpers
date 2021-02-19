@@ -33,11 +33,4 @@ if (LINUX)
             desktop-app::external_hime_qt
         )
     endif()
-
-    if (NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
-        target_link_libraries(external_qt_static_plugins
-        PUBLIC
-            desktop-app::external_materialdecoration
-        )
-    endif()
 endif()
