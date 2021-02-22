@@ -29,6 +29,7 @@ endif()
 
 option(DESKTOP_APP_LOTTIE_USE_CACHE "Use caching in lottie animations." ON)
 option(DESKTOP_APP_DISABLE_DBUS_INTEGRATION "Disable all code for D-Bus integration (Linux only)." OFF)
+option(DESKTOP_APP_DISABLE_X11_INTEGRATION "Disable all code for X11 integration (Linux only)." OFF)
 option(DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION "Disable all code for Wayland integration (Linux only)." OFF)
 option(DESKTOP_APP_DISABLE_GTK_INTEGRATION "Disable all code for GTK integration (Linux only)." OFF)
 option(DESKTOP_APP_USE_GLIBC_WRAPS "Use wraps for new GLIBC features." OFF)
