@@ -74,6 +74,7 @@ INTERFACE
     QuartzCore
     AppKit
     CoreWLAN
+    WebKit
     IOKit
     GSS
 )
