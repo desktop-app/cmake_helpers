@@ -24,6 +24,12 @@ else()
     PRIVATE
         qfcitxplatforminputcontext.cpp
         qfcitxplatforminputcontext.h
+        fcitxcandidatewindow.cpp
+        fcitxcandidatewindow.h
+        fcitxtheme.cpp
+        fcitxtheme.h
+        font.cpp
+        font.h
         qtkey.cpp
         main.cpp
         main.h
