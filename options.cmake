@@ -10,6 +10,7 @@ add_library(desktop-app::common_options ALIAS common_options)
 target_compile_definitions(common_options
 INTERFACE
     $<IF:$<CONFIG:Debug>,_DEBUG,NDEBUG>
+    QT_NO_KEYWORDS
     QT_NO_CAST_FROM_BYTEARRAY
 )
 
