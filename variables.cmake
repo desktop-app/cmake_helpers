@@ -42,6 +42,7 @@ option(DESKTOP_APP_DISABLE_CRASH_REPORTS "Disable crash report generation." ${no
 option(DESKTOP_APP_DISABLE_AUTOUPDATE "Disable autoupdate." ${disable_autoupdate})
 option(DESKTOP_APP_USE_HUNSPELL_ONLY "Disable system spellchecker and use bundled Hunspell only. (For debugging purposes)" OFF)
 option(DESKTOP_APP_USE_ENCHANT "Use Enchant instead of bundled Hunspell. (Linux only)" OFF)
+option(DESKTOP_APP_NO_PDB "Disable PDB file generation. (Windows only)" OFF)
 set(DESKTOP_APP_QTWAYLANDCLIENT_PRIVATE_HEADERS "" CACHE STRING "QtWaylandClient headers location.")
 
 set(dont_bundle_fonts 0)

@@ -35,6 +35,7 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     target_link_options(common_options
     INTERFACE
         $<IF:$<CONFIG:Debug>,/NODEFAULTLIB:LIBCMT,/DEBUG;/OPT:REF>
+        $<$<BOOL:${DESKTOP_APP_NO_PDB}>:/DEBUG:NONE>
     )
 
     if (build_win64)
