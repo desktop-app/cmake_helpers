@@ -1,0 +1,52 @@
+# This file is part of Desktop App Toolkit,
+# a set of libraries for developing nice desktop applications.
+#
+# For license and copyright information please follow this link:
+# https://github.com/desktop-app/legal/blob/master/LEGAL
+
+if (DESKTOP_APP_USE_PACKAGED)
+    add_library(external_rnnoise INTERFACE IMPORTED GLOBAL)
+    add_library(desktop-app::external_rnnoise ALIAS external_rnnoise)
+
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(RNNOISE IMPORTED_TARGET rnnoise)
+
+    target_link_libraries(external_rnnoise INTERFACE PkgConfig::RNNOISE)
+else()
+    add_library(external_rnnoise STATIC IMPORTED GLOBAL)
+    add_library(desktop-app::external_rnnoise ALIAS external_rnnoise)
+
+    if (WIN32)
+        target_include_directories(external_rnnoise
+        INTERFACE
+            ${libs_loc}/rnnoise/include
+        )
+        if (build_win64)
+            set(opus_config_folder x64)
+        else()
+            set(opus_config_folder Win32)
+        endif()
+        set(opus_lib_loc ${libs_loc}/rnnoise/out)
+        set_target_properties(external_rnnoise PROPERTIES
+            IMPORTED_LOCATION "${opus_lib_loc}/Release/rnnoise.lib"
+            IMPORTED_LOCATION_DEBUG "${opus_lib_loc}/Debug/rnnoise.lib"
+        )
+    elseif (APPLE)
+        target_include_directories(external_rnnoise
+        INTERFACE
+            /usr/local/macos/include/rnnoise
+        )
+        set_target_properties(external_rnnoise PROPERTIES
+            IMPORTED_LOCATION /usr/local/macos/lib/librnnoise.a
+        )
+    else()
+        target_include_directories(external_rnnoise
+        INTERFACE
+            /usr/local/include/rnnoise
+        )
+        find_library(RNNOISE_LIBRARY librnnoise.a)
+        set_target_properties(external_rnnoise PROPERTIES
+            IMPORTED_LOCATION "${RNNOISE_LIBRARY}"
+        )
+    endif()
+endif()
