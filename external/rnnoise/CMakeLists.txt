@@ -16,28 +16,24 @@ else()
     add_library(external_rnnoise STATIC IMPORTED GLOBAL)
     add_library(desktop-app::external_rnnoise ALIAS external_rnnoise)
 
+    set(rnnoise_lib_loc ${libs_loc}/rnnoise/out)
     if (WIN32)
         target_include_directories(external_rnnoise
         INTERFACE
             ${libs_loc}/rnnoise/include
         )
-        if (build_win64)
-            set(opus_config_folder x64)
-        else()
-            set(opus_config_folder Win32)
-        endif()
-        set(opus_lib_loc ${libs_loc}/rnnoise/out)
         set_target_properties(external_rnnoise PROPERTIES
-            IMPORTED_LOCATION "${opus_lib_loc}/Release/rnnoise.lib"
-            IMPORTED_LOCATION_DEBUG "${opus_lib_loc}/Debug/rnnoise.lib"
+            IMPORTED_LOCATION "${rnnoise_lib_loc}/Release/rnnoise.lib"
+            IMPORTED_LOCATION_DEBUG "${rnnoise_lib_loc}/Debug/rnnoise.lib"
         )
     elseif (APPLE)
         target_include_directories(external_rnnoise
         INTERFACE
-            /usr/local/macos/include/rnnoise
+            ${libs_loc}/rnnoise/include
         )
         set_target_properties(external_rnnoise PROPERTIES
-            IMPORTED_LOCATION /usr/local/macos/lib/librnnoise.a
+            IMPORTED_LOCATION "${rnnoise_lib_loc}/Release/librnnoise.a"
+            IMPORTED_LOCATION_DEBUG "${rnnoise_lib_loc}/Debug/librnnoise.a"
         )
     else()
         target_include_directories(external_rnnoise
