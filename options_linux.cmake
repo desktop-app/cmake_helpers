@@ -4,6 +4,8 @@
 # For license and copyright information please follow this link:
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
+include(CheckCXXCompilerFlag)
+
 target_compile_options(common_options
 INTERFACE
     -fPIC
@@ -48,15 +50,11 @@ if (DESKTOP_APP_SPECIAL_TARGET)
     endif()
 endif()
 
-if (DESKTOP_APP_USE_PACKAGED)
-    find_library(ATOMIC_LIBRARY atomic)
-else()
-    find_library(ATOMIC_LIBRARY libatomic.a)
-endif()
-
-if (ATOMIC_LIBRARY)
-    target_link_libraries(common_options
-    INTERFACE
-        ${ATOMIC_LIBRARY}
-    )
+check_cxx_compiler_flag(-latomic HAS_ATOMIC_LIBRARY)
+if (HAS_ATOMIC_LIBRARY)
+    if (DESKTOP_APP_USE_PACKAGED)
+        target_link_libraries(common_options INTERFACE atomic)
+    else()
+        target_link_libraries(common_options INTERFACE libatomic.a)
+    endif()
 endif()
