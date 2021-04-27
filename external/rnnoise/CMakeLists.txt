@@ -38,7 +38,7 @@ else()
     else()
         target_include_directories(external_rnnoise
         INTERFACE
-            /usr/local/include/rnnoise
+            /usr/local/include
         )
         find_library(RNNOISE_LIBRARY librnnoise.a)
         set_target_properties(external_rnnoise PROPERTIES

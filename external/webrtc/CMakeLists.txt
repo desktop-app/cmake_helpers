@@ -60,6 +60,7 @@ else()
     INTERFACE
         ${webrtc_loc}
         ${webrtc_loc}/third_party/abseil-cpp
+        ${webrtc_loc}/third_party/libyuv/include
     )
 
     set(webrtc_libs
@@ -71,7 +72,6 @@ else()
             ${webrtc_loc}/sdk/objc
             ${webrtc_loc}/sdk/objc/base
             ${webrtc_loc}/sdk/objc/components/video_codec
-            ${webrtc_loc}/third_party/libyuv/include
         )
     endif()
     foreach (lib ${webrtc_libs})
