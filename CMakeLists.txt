@@ -10,6 +10,6 @@ if (DESKTOP_APP_USE_GLIBC_WRAPS)
 endif()
 if (LINUX
     AND NOT DESKTOP_APP_USE_PACKAGED
-    AND NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
+    AND Qt5WaylandClient_FOUND)
     add_subdirectory(linux_wayland_helper)
 endif()
