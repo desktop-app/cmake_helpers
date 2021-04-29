@@ -25,15 +25,10 @@ else()
         /usr/local/include/KF5/KWayland/Client
     )
 
-    # target_link_static_libraries(external_kwayland
-    # INTERFACE
-        # wayland-client # We load system libwayland-*.so dynamically now.
-        # ffi
-    # )
-
     target_link_libraries(external_kwayland
     INTERFACE
-        $<TARGET_FILE:desktop-app::lib_base> # For wayland-* stubs.
+        desktop-app::linux_wayland_helper
+        $<TARGET_FILE:desktop-app::linux_wayland_helper>
         ${qt_loc}/lib/libQt5Concurrent.a
         desktop-app::external_qt
     )
