@@ -347,9 +347,6 @@ else()
         endif()
         target_link_static_libraries(external_qt
         INTERFACE
-            # wayland-egl # We load system libwayland-*.so dynamically now.
-            # wayland-cursor
-            # wayland-client
             xkbcommon
             xkbcommon-x11
             xcb-glx
@@ -367,7 +364,6 @@ else()
             xcb-util
             xcb-render-util
             xcb-keysyms
-            # ffi
         )
         if (DESKTOP_APP_USE_GLIBC_WRAPS)
             target_link_libraries(external_qt
@@ -376,9 +372,15 @@ else()
                 $<TARGET_FILE:desktop-app::linux_glibc_wraps>
             )
         endif()
+        if (Qt5WaylandClient_FOUND)
+            target_link_libraries(external_qt
+            INTERFACE
+                desktop-app::linux_wayland_helper
+                $<TARGET_FILE:desktop-app::linux_wayland_helper>
+            )
+        endif()
         target_link_libraries(external_qt
         INTERFACE
-            $<TARGET_FILE:desktop-app::lib_base> # For wayland-* stubs.
             fontconfig
             freetype
             EGL
