@@ -63,6 +63,13 @@ if (DESKTOP_APP_USE_PACKAGED_LAZY)
     )
 endif()
 
+if (DESKTOP_APP_DISABLE_WEBKITGTK)
+    target_compile_definitions(common_options
+    INTERFACE
+        DESKTOP_APP_DISABLE_WEBKITGTK
+    )
+endif()
+
 if (DESKTOP_APP_USE_PACKAGED_FONTS)
     target_compile_definitions(common_options
     INTERFACE
