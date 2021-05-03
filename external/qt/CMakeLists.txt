@@ -347,6 +347,7 @@ else()
         endif()
         target_link_static_libraries(external_qt
         INTERFACE
+            proxy
             xkbcommon
             xkbcommon-x11
             xcb-glx
