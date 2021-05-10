@@ -49,6 +49,7 @@ else()
             INTERFACE
                 WEBRTC_LINUX
                 WEBRTC_USE_X11
+                WEBRTC_USE_PIPEWIRE
             )
         endif()
 
