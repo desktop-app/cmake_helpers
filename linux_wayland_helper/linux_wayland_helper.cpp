@@ -11,6 +11,8 @@
 #include <wayland-egl.h>
 #include <wayland-cursor.h>
 
+#include <iostream>
+
 #define LOAD_SYMBOL(handle, func) LoadSymbol(handle, #func, func)
 
 namespace Wayland {
@@ -171,27 +173,58 @@ void wl_argument_from_va_list(
 	}
 }
 
-bool LoadLibrary(void **handle, const char *name) {
-	*handle = dlopen(name, RTLD_LAZY | RTLD_NODELETE);
-	if (!*handle) {
-		g_warning("Could not load '%s': %s", name, dlerror());
+using Handle = void*;
+
+bool LoadLibrary(Handle &handle, const char *name) {
+	handle = dlopen(name, RTLD_LAZY | RTLD_NODELETE);
+	if (handle) {
+		std::cout << "Loaded library '" << name << "'." << std::endl;
+		return true;
 	}
-	return (*handle != nullptr);
+	const auto error = dlerror();
+	g_warning("Could not load library '%s': %s", name, error);
+	std::cerr
+		<< "Could not load library '"
+		<< name
+		<< "', error: '"
+		<< error
+		<< "'."
+		<< std::endl;
+	return false;
 }
 
 template <typename Function>
-inline bool LoadSymbol(void *handle, const char *name, Function &func) {
-	func = reinterpret_cast<Function>(dlsym(handle, name));
+inline bool LoadSymbol(Handle handle, const char *name, Function &func) {
+	func = handle
+		? reinterpret_cast<Function>(dlsym(handle, name))
+		: nullptr;
 	if (const auto error = dlerror()) {
-		g_warning("Failed to load '%1' function: %2", name, error);
+		g_warning("Failed to load function '%s': %s", name, error);
+		std::cerr
+			<< "Could not load function '"
+			<< name
+			<< "', error: '"
+			<< error
+			<< "'."
+			<< std::endl;
+	} else if (handle && !func) {
+		std::cerr
+			<< "Could not load function '"
+			<< name
+			<< "', error unknown."
+			<< std::endl;
+	} else if (func) {
+		std::cout << "Loaded function '" << name << "'." << std::endl;
 	}
 	return (func != nullptr);
 }
 
 bool Resolve() {
 	static const auto loaded = [&] {
-		void *egl, *cursor, *client = nullptr;
-		gsl::finally([&] {
+		auto egl = Handle();
+		auto cursor = Handle();
+		auto client = Handle();
+		const auto guard = gsl::finally([&] {
 			if (egl) {
 				dlclose(egl);
 			}
@@ -202,18 +235,18 @@ bool Resolve() {
 				dlclose(client);
 			}
 		});
-		return LoadLibrary(&egl, "libwayland-egl.so.1")
+		return LoadLibrary(egl, "libwayland-egl.so.1")
 			&& LOAD_SYMBOL(egl, wl_egl_window_create)
 			&& LOAD_SYMBOL(egl, wl_egl_window_destroy)
 			&& LOAD_SYMBOL(egl, wl_egl_window_resize)
 			&& LOAD_SYMBOL(egl, wl_egl_window_get_attached_size)
-			&& LoadLibrary(&cursor, "libwayland-cursor.so.0")
+			&& LoadLibrary(cursor, "libwayland-cursor.so.0")
 			&& LOAD_SYMBOL(cursor, wl_cursor_image_get_buffer)
 			&& LOAD_SYMBOL(cursor, wl_cursor_theme_load)
 			&& LOAD_SYMBOL(cursor, wl_cursor_theme_destroy)
 			&& LOAD_SYMBOL(cursor, wl_cursor_theme_get_cursor)
 			&& LOAD_SYMBOL(cursor, wl_cursor_frame_and_duration)
-			&& LoadLibrary(&client, "libwayland-client.so.0")
+			&& LoadLibrary(client, "libwayland-client.so.0")
 			&& LOAD_SYMBOL(client, wl_proxy_destroy)
 			&& LOAD_SYMBOL(client, wl_proxy_get_version)
 			&& LOAD_SYMBOL(client, wl_array_init)
