@@ -34,7 +34,7 @@ else()
     )
 
     find_package(PkgConfig REQUIRED)
-    pkg_search_module(GTK REQUIRED gtk+-2.0 gtk+-3.0)
+    pkg_search_module(GTK REQUIRED gtk+-3.0)
 
     target_include_directories(external_hime_im_client
     PUBLIC
