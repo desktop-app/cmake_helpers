@@ -178,18 +178,9 @@ using Handle = void*;
 bool LoadLibrary(Handle &handle, const char *name) {
 	handle = dlopen(name, RTLD_LAZY | RTLD_NODELETE);
 	if (handle) {
-		std::cout << "Loaded library '" << name << "'." << std::endl;
 		return true;
 	}
-	const auto error = dlerror();
-	g_warning("Could not load library '%s': %s", name, error);
-	std::cerr
-		<< "Could not load library '"
-		<< name
-		<< "', error: '"
-		<< error
-		<< "'."
-		<< std::endl;
+	g_warning("Could not load library '%s': %s", name, dlerror());
 	return false;
 }
 
@@ -200,21 +191,6 @@ inline bool LoadSymbol(Handle handle, const char *name, Function &func) {
 		: nullptr;
 	if (const auto error = dlerror()) {
 		g_warning("Failed to load function '%s': %s", name, error);
-		std::cerr
-			<< "Could not load function '"
-			<< name
-			<< "', error: '"
-			<< error
-			<< "'."
-			<< std::endl;
-	} else if (handle && !func) {
-		std::cerr
-			<< "Could not load function '"
-			<< name
-			<< "', error unknown."
-			<< std::endl;
-	} else if (func) {
-		std::cout << "Loaded function '" << name << "'." << std::endl;
 	}
 	return (func != nullptr);
 }
