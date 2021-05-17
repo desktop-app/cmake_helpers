@@ -34,7 +34,7 @@ else()
     )
 
     find_package(PkgConfig REQUIRED)
-    pkg_search_module(GTK REQUIRED gtk+-3.0)
+    pkg_check_modules(GTK REQUIRED gtk+-3.0)
 
     target_include_directories(external_hime_im_client
     PUBLIC
@@ -52,6 +52,7 @@ else()
         UNIX=1
         FREEBSD=0
         CLIENT_LIB=1
+        GTK_DISABLE_DEPRECATED
     )
 
     target_link_libraries(external_hime_im_client
