@@ -24,6 +24,11 @@ PRIVATE
     glue.h
 )
 
+target_compile_options(external_mallocng
+PRIVATE
+    -Wno-unused-value
+)
+
 target_include_directories(external_mallocng
 PRIVATE
     ${mallocng_loc}
