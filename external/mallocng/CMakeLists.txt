@@ -24,6 +24,8 @@ PRIVATE
     malloc_usable_size.c
     meta.h
     glue.h
+    valloc.c
+    pvalloc.c
 )
 
 target_compile_options(external_mallocng_bundled
@@ -41,12 +43,4 @@ INTERFACE
     -Wl,--whole-archive
     external_mallocng_bundled
     -Wl,--no-whole-archive
-)
-
-target_compile_options(external_mallocng
-INTERFACE
-    -fno-builtin-malloc
-    -fno-builtin-calloc
-    -fno-builtin-realloc
-    -fno-builtin-free
 )
