@@ -4,13 +4,15 @@
 # For license and copyright information please follow this link:
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
-add_library(external_mallocng STATIC)
+add_library(external_mallocng INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_mallocng ALIAS external_mallocng)
-init_target(external_mallocng "(external)")
+
+add_library(external_mallocng_bundled STATIC)
+init_target(external_mallocng_bundled "(external)")
 
 set(mallocng_loc ${third_party_loc}/mallocng)
 
-nice_target_sources(external_mallocng ${mallocng_loc}
+nice_target_sources(external_mallocng_bundled ${mallocng_loc}
 PRIVATE
     malloc.c
     calloc.c
@@ -24,18 +26,25 @@ PRIVATE
     glue.h
 )
 
-target_compile_options(external_mallocng
+target_compile_options(external_mallocng_bundled
 PRIVATE
     -Wno-unused-value
 )
 
-target_include_directories(external_mallocng
+target_include_directories(external_mallocng_bundled
 PRIVATE
     ${mallocng_loc}
 )
 
+target_link_libraries(external_mallocng
+INTERFACE
+    -Wl,--whole-archive
+    external_mallocng_bundled
+    -Wl,--no-whole-archive
+)
+
 target_compile_options(external_mallocng
-PUBLIC
+INTERFACE
     -fno-builtin-malloc
     -fno-builtin-calloc
     -fno-builtin-realloc
