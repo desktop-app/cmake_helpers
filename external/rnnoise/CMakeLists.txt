@@ -9,7 +9,7 @@ if (DESKTOP_APP_USE_PACKAGED)
     add_library(desktop-app::external_rnnoise ALIAS external_rnnoise)
 
     find_package(PkgConfig REQUIRED)
-    pkg_check_modules(RNNOISE IMPORTED_TARGET rnnoise)
+    pkg_check_modules(RNNOISE REQUIRED IMPORTED_TARGET rnnoise)
 
     target_link_libraries(external_rnnoise INTERFACE PkgConfig::RNNOISE)
 else()
