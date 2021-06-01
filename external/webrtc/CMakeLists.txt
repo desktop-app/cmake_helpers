@@ -12,7 +12,7 @@ if (DESKTOP_APP_USE_PACKAGED)
     target_link_libraries(external_webrtc INTERFACE tg_owt::tg_owt)
 else()
     set(webrtc_loc ${libs_loc}/tg_owt/src)
-    set(webrtc_build_loc ${libs_loc}/tg_owt/out/$<CONFIG>)
+    set(webrtc_build_loc ${libs_loc}/tg_owt/out/$<IF:$<CONFIG:Debug>,Debug,Release>)
 
     target_compile_definitions(external_webrtc
     INTERFACE
