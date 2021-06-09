@@ -77,6 +77,7 @@ INTERFACE
     WebKit
     IOKit
     GSS
+    MediaPlayer
 )
 
 if (NOT build_osx)
