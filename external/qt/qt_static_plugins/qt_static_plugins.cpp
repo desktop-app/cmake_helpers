@@ -36,7 +36,6 @@ Q_IMPORT_PLUGIN(QXdgDesktopPortalThemePlugin)
 #ifndef DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION
 Q_IMPORT_PLUGIN(QWaylandEglClientBufferPlugin)
 Q_IMPORT_PLUGIN(QWaylandWlShellIntegrationPlugin)
-Q_IMPORT_PLUGIN(QWaylandXdgShellIntegrationPlugin)
 Q_IMPORT_PLUGIN(QWaylandBradientDecorationPlugin)
 Q_IMPORT_PLUGIN(QWaylandIntegrationPlugin)
 Q_IMPORT_PLUGIN(QWaylandEglPlatformIntegrationPlugin)

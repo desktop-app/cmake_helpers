@@ -269,7 +269,6 @@ else()
             set(qt_libs_waylandclient_plugins
                 plugins/wayland-decoration-client/${qt_lib_prefix}bradient
                 plugins/wayland-shell-integration/${qt_lib_prefix}wl-shell
-                plugins/wayland-shell-integration/${qt_lib_prefix}xdg-shell
                 plugins/wayland-graphics-integration-client/${qt_lib_prefix}qt-plugin-wayland-egl
                 plugins/platforms/${qt_lib_prefix}qwayland-egl
                 plugins/platforms/${qt_lib_prefix}qwayland-generic
