@@ -39,6 +39,7 @@ option(DESKTOP_APP_USE_PACKAGED_LAZY "Bundle recommended Qt plugins for self-con
 option(DESKTOP_APP_USE_PACKAGED_LAZY_PLATFORMTHEMES "Bundle recommended Qt platform themes for self-contained packages. (Linux only)" ${DESKTOP_APP_USE_PACKAGED_LAZY})
 option(DESKTOP_APP_USE_PACKAGED_FFMPEG_STATIC "Link ffmpeg statically in packaged mode." OFF)
 option(DESKTOP_APP_DISABLE_SPELLCHECK "Disable spellcheck library." ${osx_special_target})
+option(DESKTOP_APP_DISABLE_WEBKIT "Disable WebkitGTK library (Linux only)." OFF)
 option(DESKTOP_APP_DISABLE_CRASH_REPORTS "Disable crash report generation." ${no_special_target})
 option(DESKTOP_APP_DISABLE_AUTOUPDATE "Disable autoupdate." ${disable_autoupdate})
 option(DESKTOP_APP_USE_HUNSPELL_ONLY "Disable system spellchecker and use bundled Hunspell only. (For debugging purposes)" OFF)
