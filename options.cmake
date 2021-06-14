@@ -77,13 +77,6 @@ if (DESKTOP_APP_USE_PACKAGED_FONTS)
     )
 endif()
 
-if (rlottie_FOUND OR RLOTTIE_FOUND)
-    target_compile_definitions(common_options
-    INTERFACE
-        DESKTOP_APP_USE_PACKAGED_RLOTTIE
-    )
-endif()
-
 if (NOT DESKTOP_APP_SPECIAL_TARGET STREQUAL "")
     target_compile_definitions(common_options
     INTERFACE
