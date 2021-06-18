@@ -31,14 +31,13 @@ Q_IMPORT_PLUGIN(QSvgIconPlugin)
 Q_IMPORT_PLUGIN(QConnmanEnginePlugin)
 Q_IMPORT_PLUGIN(QNetworkManagerEnginePlugin)
 Q_IMPORT_PLUGIN(QIbusPlatformInputContextPlugin)
-Q_IMPORT_PLUGIN(QXdgDesktopPortalThemePlugin)
 #endif // !DESKTOP_APP_DISABLE_DBUS_INTEGRATION
 #ifndef DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION
+Q_IMPORT_PLUGIN(QWaylandIntegrationPlugin)
+Q_IMPORT_PLUGIN(QWaylandEglPlatformIntegrationPlugin)
 Q_IMPORT_PLUGIN(QWaylandEglClientBufferPlugin)
 Q_IMPORT_PLUGIN(QWaylandWlShellIntegrationPlugin)
 Q_IMPORT_PLUGIN(QWaylandBradientDecorationPlugin)
-Q_IMPORT_PLUGIN(QWaylandIntegrationPlugin)
-Q_IMPORT_PLUGIN(QWaylandEglPlatformIntegrationPlugin)
 #endif // !DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION
 #endif // Q_OS_WIN | Q_OS_MAC | Q_OS_UNIX
 #endif // !DESKTOP_APP_USE_PACKAGED
@@ -54,9 +53,4 @@ Q_IMPORT_PLUGIN(QFcitx5PlatformInputContextPlugin)
 Q_IMPORT_PLUGIN(QHimePlatformInputContextPlugin)
 #endif // !DESKTOP_APP_DISABLE_DBUS_INTEGRATION
 #endif // !DESKTOP_APP_USE_PACKAGED || DESKTOP_APP_USE_PACKAGED_LAZY
-
-#if !defined DESKTOP_APP_USE_PACKAGED || defined DESKTOP_APP_USE_PACKAGED_LAZY_PLATFORMTHEMES
-Q_IMPORT_PLUGIN(Qt5CTPlatformThemePlugin)
-Q_IMPORT_PLUGIN(Qt5CTStylePlugin)
-#endif // !DESKTOP_APP_USE_PACKAGED || DESKTOP_APP_USE_PACKAGED_LAZY_PLATFORMTHEMES
 #endif // Q_OS_UNIX && !Q_OS_MAC
