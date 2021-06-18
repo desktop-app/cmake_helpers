@@ -22,7 +22,6 @@ if (LINUX)
     target_link_libraries(external_qt_static_plugins
     PUBLIC
         desktop-app::external_nimf_qt5
-        desktop-app::external_qt5ct_support
     )
 
     if (NOT DESKTOP_APP_DISABLE_DBUS_INTEGRATION)

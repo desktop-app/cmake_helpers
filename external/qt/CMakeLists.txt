@@ -28,35 +28,6 @@ if (DESKTOP_APP_USE_PACKAGED)
         target_link_libraries(external_qt INTERFACE Qt5::DBus)
     endif()
 
-    if (LINUX AND DESKTOP_APP_USE_PACKAGED_LAZY_PLATFORMTHEMES)
-        find_library(Qt5ThemeSupport_LIBRARY
-        NAMES
-            Qt5ThemeSupport
-        REQUIRED
-        )
-
-        find_path(Qt5ThemeSupport_INCLUDE_DIR
-        NAMES
-            QtThemeSupport/private/qgenericunixthemes_p.h
-        HINTS
-            ${Qt5Gui_INCLUDE_DIRS}
-        PATH_SUFFIXES
-            QtThemeSupport/${Qt5Gui_VERSION}
-        REQUIRED
-        )
-
-        target_link_libraries(external_qt
-        INTERFACE
-            ${Qt5ThemeSupport_LIBRARY}
-        )
-
-        target_include_directories(external_qt
-        INTERFACE
-            ${Qt5ThemeSupport_INCLUDE_DIR}
-            ${Qt5ThemeSupport_INCLUDE_DIR}/QtThemeSupport
-        )
-    endif()
-
     if (Qt5XkbCommonSupport_FOUND)
         target_link_libraries(external_qt INTERFACE Qt5::XkbCommonSupport)
 
@@ -69,18 +40,10 @@ if (DESKTOP_APP_USE_PACKAGED)
     if (Qt5WaylandClient_FOUND)
         target_link_libraries(external_qt INTERFACE Qt5::WaylandClient)
 
-        if (DESKTOP_APP_QTWAYLANDCLIENT_PRIVATE_HEADERS)
-            target_include_directories(external_qt
-            INTERFACE
-                ${DESKTOP_APP_QTWAYLANDCLIENT_PRIVATE_HEADERS}
-                ${DESKTOP_APP_QTWAYLANDCLIENT_PRIVATE_HEADERS}/QtWaylandClient
-            )
-        else()
-            target_include_directories(external_qt
-            INTERFACE
-                ${Qt5WaylandClient_PRIVATE_INCLUDE_DIRS}
-            )
-        endif()
+        target_include_directories(external_qt
+        INTERFACE
+            ${Qt5WaylandClient_PRIVATE_INCLUDE_DIRS}
+        )
     endif()
 else()
     target_include_directories(external_qt SYSTEM
@@ -120,15 +83,6 @@ else()
         )
     endif()
 
-    if (LINUX)
-        target_include_directories(external_qt SYSTEM
-        INTERFACE
-            ${qt_loc}/include/QtThemeSupport
-            ${qt_loc}/include/QtThemeSupport/${qt_version}
-            ${qt_loc}/include/QtThemeSupport/${qt_version}/QtThemeSupport
-        )
-    endif()
-
     target_compile_definitions(external_qt
     INTERFACE
         _REENTRANT
@@ -158,13 +112,6 @@ else()
         target_compile_definitions(external_qt
         INTERFACE
             QT_WAYLANDCLIENT_LIB
-        )
-    endif()
-
-    if (LINUX)
-        target_compile_definitions(external_qt
-        INTERFACE
-            QT_THEME_SUPPORT_LIB
         )
     endif()
 
@@ -255,7 +202,6 @@ else()
             set(qt_libs_dbus_support lib/${qt_lib_prefix}Qt5LinuxAccessibilitySupport)
             set(qt_libs_dbus_plugins
                 plugins/platforminputcontexts/${qt_lib_prefix}ibusplatforminputcontextplugin
-                plugins/platformthemes/${qt_lib_prefix}qxdgdesktopportal
             )
             set(qt_libs_dbus_bearers
                 plugins/bearer/${qt_lib_prefix}qconnmanbearer
@@ -267,11 +213,11 @@ else()
         if (Qt5WaylandClient_FOUND)
             set(qt_libs_waylandclient lib/${qt_lib_prefix}Qt5WaylandClient)
             set(qt_libs_waylandclient_plugins
-                plugins/wayland-decoration-client/${qt_lib_prefix}bradient
-                plugins/wayland-shell-integration/${qt_lib_prefix}wl-shell
-                plugins/wayland-graphics-integration-client/${qt_lib_prefix}qt-plugin-wayland-egl
-                plugins/platforms/${qt_lib_prefix}qwayland-egl
                 plugins/platforms/${qt_lib_prefix}qwayland-generic
+                plugins/platforms/${qt_lib_prefix}qwayland-egl
+                plugins/wayland-graphics-integration-client/${qt_lib_prefix}qt-plugin-wayland-egl
+                plugins/wayland-shell-integration/${qt_lib_prefix}wl-shell
+                plugins/wayland-decoration-client/${qt_lib_prefix}bradient
             )
         endif()
         set(qt_libs
