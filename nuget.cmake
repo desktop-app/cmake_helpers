@@ -5,24 +5,27 @@
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
 function(nuget_add_package package_name package package_version)
-    if (NOT DEFINED NUGET_EXE_PATH)
+    get_property(nuget_exe_defined GLOBAL PROPERTY nuget_exe_path_property SET)
+    if (NOT nuget_exe_defined)
         # Thanks https://github.com/clarkezone/flutter_win_webview/blob/master/webview_popupauth/windows/CMakeLists.txt
         find_program(NUGET_EXE NAMES nuget)
         if (NOT NUGET_EXE)
             message("NUGET.EXE not found.")
             message(FATAL_ERROR "Please install this executable, and run CMake again.")
         endif()
-        set(NUGET_EXE_PATH ${NUGET_EXE} PARENT_SCOPE)
+        message("Resolved NuGet executable: ${NUGET_EXE}")
+        set_property(GLOBAL PROPERTY nuget_exe_path_property ${NUGET_EXE})
     else()
-        set(NUGET_EXE ${NUGET_EXE_PATH})
+        get_property(NUGET_EXE GLOBAL PROPERTY nuget_exe_path_property)
     endif()
 
-    set(package_key NUGET_${package_name}_VERSION)
-    if (NOT DEFINED ${package_key})
+    set(package_key nuget_${package_name}_version_property)
+    get_property(package_version_defined GLOBAL PROPERTY ${package_key} SET)
+    if (NOT package_version_defined)
         set(packages_loc ${CMAKE_BINARY_DIR}/packages)
         file(MAKE_DIRECTORY ${packages_loc})
 
-        set(${package_key} ${package_version})
+        set_property(GLOBAL PROPERTY ${package_key} ${package_version})
         execute_process(
         COMMAND
             ${NUGET_EXE}
@@ -32,10 +35,13 @@ function(nuget_add_package package_name package package_version)
             -ExcludeVersion
             -OutputDirectory ${packages_loc}
         )
-        set(${package_name}_loc ${CMAKE_BINARY_DIR}/packages/${package} PARENT_SCOPE)
-    elseif ("${${package_key}}" != ${package_version})
-        message(FATAL_ERROR "Package ${package_name} requested with both ${${package_key}} and ${package_version}")
+    else()
+        get_property(package_version_cached GLOBAL PROPERTY ${package_key})
+        if (NOT (${package_version_cached} EQUAL ${package_version}))
+            message(FATAL_ERROR "Package ${package_name} requested with both ${package_version_cached} and ${package_version}")
+        endif()
     endif()
+    set(${package_name}_loc ${CMAKE_BINARY_DIR}/packages/${package} PARENT_SCOPE)
 endfunction()
 
 function(nuget_add_webview target_name)
