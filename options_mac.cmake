@@ -71,6 +71,7 @@ INTERFACE
     AVFoundation
     CoreAudio
     CoreVideo
+    CoreMediaIO
     QuartzCore
     AppKit
     CoreWLAN
