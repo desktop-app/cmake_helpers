@@ -41,7 +41,12 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     if (build_win64)
         target_compile_options(common_options
         INTERFACE
-            /bigobj # scheme.cpp has too many sections.
+            /BIGOBJ # scheme.cpp has too many sections.
+        )
+    else()
+        target_link_options(common_options
+        INTERFACE
+            /LARGEADDRESSAWARE # Allow more than 2 GB in 32 bit application.ß
         )
     endif()
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
