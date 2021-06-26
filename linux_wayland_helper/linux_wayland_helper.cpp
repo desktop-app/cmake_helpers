@@ -11,8 +11,6 @@
 #include <wayland-egl.h>
 #include <wayland-cursor.h>
 
-#include <iostream>
-
 #define LOAD_SYMBOL(handle, func) LoadSymbol(handle, #func, func)
 
 namespace Wayland {
@@ -173,10 +171,16 @@ void wl_argument_from_va_list(
 	}
 }
 
-using Handle = void*;
+struct HandleDeleter {
+	void operator()(void *handle) {
+		dlclose(handle);
+	}
+};
+
+using Handle = std::unique_ptr<void, HandleDeleter>;
 
 bool LoadLibrary(Handle &handle, const char *name) {
-	handle = dlopen(name, RTLD_LAZY | RTLD_NODELETE);
+	handle = Handle(dlopen(name, RTLD_LAZY | RTLD_NODELETE));
 	if (handle) {
 		return true;
 	}
@@ -185,9 +189,9 @@ bool LoadLibrary(Handle &handle, const char *name) {
 }
 
 template <typename Function>
-inline bool LoadSymbol(Handle handle, const char *name, Function &func) {
+inline bool LoadSymbol(const Handle &handle, const char *name, Function &func) {
 	func = handle
-		? reinterpret_cast<Function>(dlsym(handle, name))
+		? reinterpret_cast<Function>(dlsym(handle.get(), name))
 		: nullptr;
 	if (const auto error = dlerror()) {
 		g_warning("Failed to load function '%s': %s", name, error);
@@ -200,17 +204,6 @@ bool Resolve() {
 		auto egl = Handle();
 		auto cursor = Handle();
 		auto client = Handle();
-		const auto guard = gsl::finally([&] {
-			if (egl) {
-				dlclose(egl);
-			}
-			if (cursor) {
-				dlclose(cursor);
-			}
-			if (client) {
-				dlclose(client);
-			}
-		});
 		return LoadLibrary(egl, "libwayland-egl.so.1")
 			&& LOAD_SYMBOL(egl, wl_egl_window_create)
 			&& LOAD_SYMBOL(egl, wl_egl_window_destroy)
