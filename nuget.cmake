@@ -90,6 +90,7 @@ function(nuget_add_winrt target_name)
         /?
     OUTPUT_FILE
         ${winrt_version_test}
+    COMMAND_ERROR_IS_FATAL ANY
     )
     execute_process(
     COMMAND
@@ -97,6 +98,7 @@ function(nuget_add_winrt target_name)
         ${winrt_sdk_version}
     OUTPUT_FILE
         ${sdk_version_test}
+    COMMAND_ERROR_IS_FATAL ANY
     )
     execute_process(
     COMMAND
@@ -118,11 +120,10 @@ function(nuget_add_winrt target_name)
             ${winrt_loc}/bin/cppwinrt
             -input ${winrt_sdk_version}
             -output ${gen_dst}
-        COMMAND
-            cp ${winrt_version_test} ${winrt_version_key}
-        COMMAND
-            cp ${sdk_version_test} ${sdk_version_key}
+        COMMAND_ERROR_IS_FATAL ANY
         )
+        file(RENAME ${winrt_version_test} ${winrt_version_key})
+        file(RENAME ${sdk_version_test} ${sdk_version_key})
     endif()
 
     target_include_directories(${target_name}
