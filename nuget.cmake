@@ -92,14 +92,7 @@ function(nuget_add_winrt target_name)
         ${winrt_version_test}
     COMMAND_ERROR_IS_FATAL ANY
     )
-    execute_process(
-    COMMAND
-        echo
-        ${winrt_sdk_version}
-    OUTPUT_FILE
-        ${sdk_version_test}
-    COMMAND_ERROR_IS_FATAL ANY
-    )
+    file(WRITE ${sdk_version_test} ${winrt_sdk_version})
     execute_process(
     COMMAND
         ${CMAKE_COMMAND} -E compare_files ${winrt_version_key} ${winrt_version_test}
