@@ -287,26 +287,6 @@ else()
                 -Wl,--no-as-needed,-lrt
             )
         endif()
-        if (DESKTOP_APP_USE_GLIBC_WRAPS)
-            target_link_options(external_qt
-            INTERFACE
-                -Wl,-wrap,aligned_alloc
-                -Wl,-wrap,secure_getenv
-                -Wl,-wrap,clock_gettime
-                -Wl,--no-as-needed,-lrt
-            )
-            if (NOT build_linux32)
-                target_link_options(external_qt
-                INTERFACE
-                    -Wl,-wrap,__divmodti4
-                )
-            else()
-                target_link_options(external_qt
-                INTERFACE
-                    -Wl,-wrap,__divmoddi4
-                )
-            endif()
-        endif()
         target_link_static_libraries(external_qt
         INTERFACE
             proxy
@@ -333,13 +313,6 @@ else()
             INTERFACE
                 desktop-app::linux_allocation_tracer
                 $<TARGET_FILE:desktop-app::linux_allocation_tracer>
-            )
-        endif()
-        if (DESKTOP_APP_USE_GLIBC_WRAPS)
-            target_link_libraries(external_qt
-            INTERFACE
-                desktop-app::linux_glibc_wraps
-                $<TARGET_FILE:desktop-app::linux_glibc_wraps>
             )
         endif()
         if (Qt5WaylandClient_FOUND)
