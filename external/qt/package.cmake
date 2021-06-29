@@ -12,7 +12,7 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
     endif()
 
     if (WIN32)
-        set(qt_loc ${libs_loc}/Qt-${qt_version})
+        set(qt_loc ${libs_loc}/Al-${qt_version})
     else()
         set(qt_loc /usr/local/desktop-app/Qt-${qt_version})
     endif()

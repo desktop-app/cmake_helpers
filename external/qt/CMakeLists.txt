@@ -157,6 +157,22 @@ else()
         foreach (lib ${qt_libs})
             list(APPEND qt_libs_list "${qt_loc}/${lib}${qt_lib_suffix}")
         endforeach()
+
+        target_include_directories(external_qt
+        INTERFACE
+            ${libs_loc}/angle/include
+        )
+        set(angle_libs_loc ${libs_loc}/angle/out/$<IF:$<CONFIG:Debug>,Debug,Release>/obj)
+        target_link_libraries(external_qt
+        INTERFACE
+            ${angle_libs_loc}/libANGLE_static.lib
+            ${angle_libs_loc}/libGLESv2_static.lib
+            ${angle_libs_loc}/libEGL_static.lib
+            d3d9.lib
+            d3d11.lib
+            dxgi.lib
+            dxguid.lib
+        )
     elseif (APPLE)
         if (NOT build_osx)
             set(qt_libs
