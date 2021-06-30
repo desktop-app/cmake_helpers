@@ -49,33 +49,8 @@ HRESULT (__stdcall *CreateDXGIFactory1)(
 	_COM_Outptr_ void **ppFactory);
 
 Handle SafeLoadLibrary(const wchar_t *name) {
-	static const auto SystemPath = [] {
-		WCHAR buffer[MAX_PATH + 1] = { 0 };
-		return GetSystemDirectory(buffer, MAX_PATH)
-			? std::wstring(buffer)
-			: std::wstring();
-	}();
-	static const auto WindowsPath = [] {
-		WCHAR buffer[MAX_PATH + 1] = { 0 };
-		return GetWindowsDirectory(buffer, MAX_PATH)
-			? std::wstring(buffer)
-			: std::wstring();
-	}();
-	const auto tryPath = [&](const std::wstring &path) {
-		if (!path.empty()) {
-			const auto full = path + L'\\' + name;
-			if (const auto result = Handle(LoadLibrary(full.c_str()))) {
-				return result;
-			}
-		}
-		return Handle();
-	};
-	if (const auto result1 = tryPath(SystemPath)) {
-		return result1;
-	} else if (const auto result2 = tryPath(WindowsPath)) {
-		return result2;
-	}
-	return nullptr;
+	SetDefaultDllDirectories(LOAD_LIBRARY_SEARCH_SYSTEM32);
+	return LoadLibrary(name);
 }
 
 template <typename Function>
