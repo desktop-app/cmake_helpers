@@ -48,11 +48,6 @@ HRESULT (__stdcall *CreateDXGIFactory1)(
 	REFIID riid,
 	_COM_Outptr_ void **ppFactory);
 
-Handle SafeLoadLibrary(const wchar_t *name) {
-	SetDefaultDllDirectories(LOAD_LIBRARY_SEARCH_SYSTEM32);
-	return LoadLibrary(name);
-}
-
 template <typename Function>
 inline bool LoadSymbol(Handle handle, const char *name, Function &func) {
 	func = handle
@@ -63,7 +58,7 @@ inline bool LoadSymbol(Handle handle, const char *name, Function &func) {
 
 bool ResolveD3D9() {
 	static const auto loaded = [] {
-		const auto d3d9 = SafeLoadLibrary(L"d3d9.dll");
+		const auto d3d9 = LoadLibrary(L"d3d9.dll");
 		LOAD_SYMBOL(d3d9, D3DPERF_BeginEvent);
 		LOAD_SYMBOL(d3d9, D3DPERF_EndEvent);
 		LOAD_SYMBOL(d3d9, D3DPERF_SetMarker);
@@ -76,7 +71,7 @@ bool ResolveD3D9() {
 
 bool ResolveD3D11() {
 	static const auto loaded = [] {
-		const auto d3d11 = SafeLoadLibrary(L"d3d11.dll");
+		const auto d3d11 = LoadLibrary(L"d3d11.dll");
 		return true
 			&& LOAD_SYMBOL(d3d11, D3D11CreateDevice);
 	}();
@@ -85,7 +80,7 @@ bool ResolveD3D11() {
 
 bool ResolveDXGI() {
 	static const auto loaded = [&] {
-		const auto dxgi = SafeLoadLibrary(L"dxgi.dll");
+		const auto dxgi = LoadLibrary(L"dxgi.dll");
 		LOAD_SYMBOL(dxgi, CreateDXGIFactory1);
 		return true
 			&& LOAD_SYMBOL(dxgi, CreateDXGIFactory);
