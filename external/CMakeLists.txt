@@ -11,6 +11,7 @@ macro(add_checked_subdirectory name)
     endif()
 endmacro()
 
+add_checked_subdirectory(angle)
 add_checked_subdirectory(auto_updates)
 add_checked_subdirectory(crash_reports)
 if (LINUX AND NOT DESKTOP_APP_DISABLE_DBUS_INTEGRATION)

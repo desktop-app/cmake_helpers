@@ -200,7 +200,7 @@ inline bool LoadSymbol(const Handle &handle, const char *name, Function &func) {
 }
 
 bool Resolve() {
-	static const auto loaded = [&] {
+	static const auto loaded = [] {
 		auto egl = Handle();
 		auto cursor = Handle();
 		auto client = Handle();
@@ -618,4 +618,5 @@ struct wl_proxy *wl_proxy_marshal_constructor_versioned(
 							    args, interface,
 							    version);
 }
+
 } // extern "C"
