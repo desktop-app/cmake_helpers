@@ -40,12 +40,19 @@ if (NOT JEMALLOC_FOUND)
         ${SOURCE_DIR}/include
     )
 
+    target_link_libraries(external_jemalloc_bundled
+    INTERFACE
+        dl
+        pthread
+    )
+
     add_dependencies(external_jemalloc_bundled jemalloc)
 
     target_link_libraries(external_jemalloc
     INTERFACE
         -Wl,--whole-archive
-        external_jemalloc_bundled
+        $<TARGET_FILE:external_jemalloc_bundled>
         -Wl,--no-whole-archive
+        external_jemalloc_bundled
     )
 endif()
