@@ -7,6 +7,11 @@
 add_library(external_mallocng INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_mallocng ALIAS external_mallocng)
 
+set(DESKTOP_APP_USE_MALLOCNG ON CACHE BOOL "Prefer mallocng by musl or use system memory allocator?")
+if (NOT DESKTOP_APP_USE_MALLOCNG)
+    return()
+endif()
+
 add_library(external_mallocng_bundled STATIC)
 init_target(external_mallocng_bundled "(external)")
 
