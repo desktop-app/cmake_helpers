@@ -16,16 +16,22 @@ INTERFACE
     -Wno-unused-function
     -Wno-switch
     -Wno-comment
-    -Wno-unused-but-set-variable
     -Wno-missing-field-initializers
     -Wno-sign-compare
     -Wno-attributes
     -Wno-parentheses
-    -Wno-stringop-overflow
-    -Wno-maybe-uninitialized
-    -Wno-error=class-memaccess
     $<$<NOT:$<COMPILE_LANGUAGE:C>>:-Wno-register>
 )
+
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    target_compile_options(common_options
+    INTERFACE
+        -Wno-unused-but-set-variable
+        -Wno-stringop-overflow
+        -Wno-maybe-uninitialized
+        -Wno-error=class-memaccess
+    )
+endif()
 
 if (DESKTOP_APP_SPECIAL_TARGET)
     target_compile_options(common_options
@@ -43,8 +49,12 @@ if (DESKTOP_APP_SPECIAL_TARGET)
         target_compile_options(common_options INTERFACE -g0)
         target_link_options(common_options INTERFACE -g0)
     else()
-        target_compile_options(common_options INTERFACE $<IF:$<CONFIG:Debug>,,-g -flto>)
-        target_link_options(common_options INTERFACE $<IF:$<CONFIG:Debug>,,-g -flto -fuse-linker-plugin>)
+        target_compile_options(common_options INTERFACE $<IF:$<CONFIG:Debug>,,-g>)
+        target_link_options(common_options INTERFACE $<IF:$<CONFIG:Debug>,,-g>)
+        if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+            target_compile_options(common_options INTERFACE $<IF:$<CONFIG:Debug>,,-flto>)
+            target_link_options(common_options INTERFACE $<IF:$<CONFIG:Debug>,,-flto -fuse-linker-plugin>)
+        endif()
     endif()
 endif()
 

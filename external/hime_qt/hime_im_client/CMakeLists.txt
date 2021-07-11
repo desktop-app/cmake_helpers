@@ -55,6 +55,20 @@ else()
         GTK_DISABLE_DEPRECATED
     )
 
+    if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+        add_library(external_hime_im_client_options INTERFACE)
+
+        target_compile_options(external_hime_im_client_options
+        INTERFACE
+            -Wno-sometimes-uninitialized
+        )
+
+        target_link_libraries(external_hime_im_client
+        PRIVATE
+            external_hime_im_client_options
+        )
+    endif()
+
     target_link_libraries(external_hime_im_client
     PRIVATE
         desktop-app::external_glib
