@@ -63,6 +63,10 @@ void (*gtk_color_chooser_set_use_alpha)(
 	gboolean use_alpha);
 GType (*gtk_container_get_type)(void);
 void (*gtk_container_remove)(GtkContainer *container, GtkWidget *widget);
+GtkWidget *(*gtk_dialog_add_button)(
+	GtkDialog *dialog,
+	const gchar *button_text,
+	gint response_id);
 GType (*gtk_dialog_get_type)(void);
 GtkWidget* (*gtk_dialog_get_widget_for_response)(
 	GtkDialog *dialog,
@@ -71,12 +75,7 @@ gint (*gtk_dialog_run)(GtkDialog *dialog);
 void (*gtk_file_chooser_add_filter)(
 	GtkFileChooser *chooser,
 	GtkFileFilter *filter);
-GtkWidget *(*gtk_file_chooser_dialog_new)(
-	const gchar *title,
-	GtkWindow *parent,
-	GtkFileChooserAction action,
-	const gchar *first_button_text,
-	...);
+GType (*gtk_file_chooser_dialog_get_type)(void);
 gchar *(*gtk_file_chooser_get_current_folder)(GtkFileChooser *chooser);
 gchar *(*gtk_file_chooser_get_filename)(GtkFileChooser *chooser);
 GSList *(*gtk_file_chooser_get_filenames)(GtkFileChooser *chooser);
@@ -179,6 +178,7 @@ void (*gtk_widget_set_visible)(GtkWidget *widget, gboolean visible);
 void (*gtk_widget_show)(GtkWidget *widget);
 GType (*gtk_window_get_type)(void);
 void (*gtk_window_set_title)(GtkWindow *window, const gchar *title);
+void (*gtk_window_set_transient_for)(GtkWindow *window, GtkWindow *parent);
 void (*pango_font_description_free)(PangoFontDescription *desc);
 PangoFontDescription *(*pango_font_description_from_string)(const char *str);
 const char *(*pango_font_description_get_family)(
@@ -264,11 +264,12 @@ bool Resolve() {
 			&& LOAD_SYMBOL(lib, gtk_color_chooser_set_use_alpha)
 			&& LOAD_SYMBOL(lib, gtk_container_get_type)
 			&& LOAD_SYMBOL(lib, gtk_container_remove)
+			&& LOAD_SYMBOL(lib, gtk_dialog_add_button)
 			&& LOAD_SYMBOL(lib, gtk_dialog_get_type)
 			&& LOAD_SYMBOL(lib, gtk_dialog_get_widget_for_response)
 			&& LOAD_SYMBOL(lib, gtk_dialog_run)
 			&& LOAD_SYMBOL(lib, gtk_file_chooser_add_filter)
-			&& LOAD_SYMBOL(lib, gtk_file_chooser_dialog_new)
+			&& LOAD_SYMBOL(lib, gtk_file_chooser_dialog_get_type)
 			&& LOAD_SYMBOL(lib, gtk_file_chooser_get_current_folder)
 			&& LOAD_SYMBOL(lib, gtk_file_chooser_get_filename)
 			&& LOAD_SYMBOL(lib, gtk_file_chooser_get_filenames)
@@ -325,6 +326,7 @@ bool Resolve() {
 			&& LOAD_SYMBOL(lib, gtk_widget_show)
 			&& LOAD_SYMBOL(lib, gtk_window_get_type)
 			&& LOAD_SYMBOL(lib, gtk_window_set_title)
+			&& LOAD_SYMBOL(lib, gtk_window_set_transient_for)
 			&& LOAD_SYMBOL(lib, pango_font_description_free)
 			&& LOAD_SYMBOL(lib, pango_font_description_from_string)
 			&& LOAD_SYMBOL(lib, pango_font_description_get_family)
@@ -546,12 +548,35 @@ GtkWidget *gtk_file_chooser_dialog_new(
 	const gchar *first_button_text,
 	...) {
 	GtkHelper::Resolve();
-	__builtin_return(
-		__builtin_apply(
-			reinterpret_cast<void (*)(...)>(
-				GtkHelper::gtk_file_chooser_dialog_new),
-			__builtin_apply_args(),
-			1000));
+
+	va_list varargs;
+	va_start(varargs, first_button_text);
+
+	const auto result = static_cast<GtkWidget*>(g_object_new(
+		GtkHelper::gtk_file_chooser_dialog_get_type(),
+		"title",
+		title,
+		"action",
+		action,
+		nullptr));
+
+	if (parent) {
+		GtkHelper::gtk_window_set_transient_for(GTK_WINDOW(result), parent);
+	}
+
+	auto button_text = first_button_text;
+	gint response_id;
+	while (button_text) {
+		response_id = va_arg(varargs, gint);
+		GtkHelper::gtk_dialog_add_button(
+			GTK_DIALOG(result),
+			button_text,
+			response_id);
+		button_text = va_arg(varargs, const gchar *);
+	}
+
+	va_end(varargs);
+	return result;
 }
 
 gchar *gtk_file_chooser_get_current_folder(GtkFileChooser *chooser) {
