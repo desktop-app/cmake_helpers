@@ -22,7 +22,7 @@ if (DESKTOP_APP_USE_PACKAGED)
         PkgConfig::GLIB2
     )
 else()
-    target_include_directories(external_glib
+    target_include_directories(external_glib SYSTEM
     INTERFACE
         ${GIO_UNIX_INCLUDE_DIRS}
         ${GIO_INCLUDE_DIRS}

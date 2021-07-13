@@ -18,7 +18,7 @@ if (DESKTOP_APP_USE_PACKAGED)
         Qt5::Network
     )
 
-    target_include_directories(external_qt
+    target_include_directories(external_qt SYSTEM
     INTERFACE
         ${Qt5Core_PRIVATE_INCLUDE_DIRS}
         ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
@@ -31,7 +31,7 @@ if (DESKTOP_APP_USE_PACKAGED)
     if (Qt5XkbCommonSupport_FOUND)
         target_link_libraries(external_qt INTERFACE Qt5::XkbCommonSupport)
 
-        target_include_directories(external_qt
+        target_include_directories(external_qt SYSTEM
         INTERFACE
             ${Qt5XkbCommonSupport_PRIVATE_INCLUDE_DIRS}
         )
@@ -40,7 +40,7 @@ if (DESKTOP_APP_USE_PACKAGED)
     if (Qt5WaylandClient_FOUND)
         target_link_libraries(external_qt INTERFACE Qt5::WaylandClient)
 
-        target_include_directories(external_qt
+        target_include_directories(external_qt SYSTEM
         INTERFACE
             ${Qt5WaylandClient_PRIVATE_INCLUDE_DIRS}
         )

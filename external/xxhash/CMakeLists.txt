@@ -12,7 +12,7 @@ if (DESKTOP_APP_USE_PACKAGED)
     find_path(XXHASH_INCLUDE_DIRS xxhash.h)
 
     if (XXHASH_LIBRARY AND XXHASH_INCLUDE_DIRS)
-        target_include_directories(external_xxhash INTERFACE ${XXHASH_INCLUDE_DIRS})
+        target_include_directories(external_xxhash SYSTEM INTERFACE ${XXHASH_INCLUDE_DIRS})
         target_link_libraries(external_xxhash INTERFACE ${XXHASH_LIBRARY})
     endif()
 endif()

@@ -12,7 +12,7 @@ if (DESKTOP_APP_USE_PACKAGED)
     find_path(QRCODE_INCLUDE_DIRS QrCode.hpp PATH_SUFFIXES qrcodegencpp qrcodegen)
 
     if (QRCODE_LIBRARIES AND QRCODE_INCLUDE_DIRS)
-        target_include_directories(external_qr_code_generator INTERFACE ${QRCODE_INCLUDE_DIRS})
+        target_include_directories(external_qr_code_generator SYSTEM INTERFACE ${QRCODE_INCLUDE_DIRS})
         target_link_libraries(external_qr_code_generator INTERFACE ${QRCODE_LIBRARIES})
     endif()
 endif()

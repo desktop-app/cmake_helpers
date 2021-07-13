@@ -35,7 +35,7 @@ if (NOT JEMALLOC_FOUND)
         IMPORTED_LOCATION "${BINARY_DIR}/lib/libjemalloc.a"
     )
 
-    target_include_directories(external_jemalloc_bundled
+    target_include_directories(external_jemalloc_bundled SYSTEM
     INTERFACE
         ${SOURCE_DIR}/include
     )

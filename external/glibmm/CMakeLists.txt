@@ -18,7 +18,7 @@ if (DESKTOP_APP_USE_PACKAGED)
         PkgConfig::GLIBMM
     )
 else()
-    target_include_directories(external_glibmm
+    target_include_directories(external_glibmm SYSTEM
     INTERFACE
         ${GIOMM_INCLUDE_DIRS}
         ${GLIBMM_INCLUDE_DIRS}

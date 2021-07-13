@@ -21,4 +21,4 @@ PUBLIC
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTK REQUIRED gtk+-3.0)
-target_include_directories(linux_gtk_helper PRIVATE ${GTK_INCLUDE_DIRS})
+target_include_directories(linux_gtk_helper SYSTEM PRIVATE ${GTK_INCLUDE_DIRS})

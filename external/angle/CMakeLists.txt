@@ -8,7 +8,7 @@ add_library(external_angle INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_angle ALIAS external_angle)
 
 if (WIN32)
-    target_include_directories(external_angle
+    target_include_directories(external_angle SYSTEM
     INTERFACE
         ${libs_loc}/tg_angle/include
     )

@@ -17,7 +17,7 @@ else()
     set(ton_lib_suffix .a)
 endif()
 
-target_include_directories(external_ton
+target_include_directories(external_ton SYSTEM
 INTERFACE
     ${ton_loc}
     ${ton_loc}/crypto

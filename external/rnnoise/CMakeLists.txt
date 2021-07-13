@@ -18,7 +18,7 @@ else()
 
     set(rnnoise_lib_loc ${libs_loc}/rnnoise/out)
     if (WIN32)
-        target_include_directories(external_rnnoise
+        target_include_directories(external_rnnoise SYSTEM
         INTERFACE
             ${libs_loc}/rnnoise/include
         )
@@ -27,7 +27,7 @@ else()
             IMPORTED_LOCATION_DEBUG "${rnnoise_lib_loc}/Debug/rnnoise.lib"
         )
     elseif (APPLE)
-        target_include_directories(external_rnnoise
+        target_include_directories(external_rnnoise SYSTEM
         INTERFACE
             ${libs_loc}/rnnoise/include
         )
@@ -36,7 +36,7 @@ else()
             IMPORTED_LOCATION_DEBUG "${rnnoise_lib_loc}/Debug/librnnoise.a"
         )
     else()
-        target_include_directories(external_rnnoise
+        target_include_directories(external_rnnoise SYSTEM
         INTERFACE
             /usr/local/include
         )
