@@ -11,7 +11,7 @@ if (DESKTOP_APP_USE_PACKAGED)
     find_package(LibLZMA REQUIRED)
     target_link_libraries(external_xz INTERFACE LibLZMA::LibLZMA)
 elseif (APPLE AND NOT build_osx)
-    target_include_directories(external_xz
+    target_include_directories(external_xz SYSTEM
     INTERFACE
         /usr/local/macos/include
     )
@@ -20,7 +20,7 @@ elseif (APPLE AND NOT build_osx)
         /usr/local/macos/lib/liblzma.a
     )
 elseif (APPLE)
-    target_include_directories(external_xz
+    target_include_directories(external_xz SYSTEM
     INTERFACE
         /usr/local/include
     )

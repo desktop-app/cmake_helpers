@@ -84,7 +84,7 @@ else()
     else()
         pkg_check_modules(X11 REQUIRED x11)
 
-        target_include_directories(external_hime_im_client
+        target_include_directories(external_hime_im_client SYSTEM
         PRIVATE
             ${X11_INCLUDE_DIRS}
         )
