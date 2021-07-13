@@ -67,7 +67,7 @@ else()
         find_package(PkgConfig REQUIRED)
         pkg_check_modules(XKBCOMMON REQUIRED xkbcommon)
 
-        target_include_directories(external_fcitx5_qt5
+        target_include_directories(external_fcitx5_qt5 SYSTEM
         PUBLIC
             ${XKBCOMMON_INCLUDE_DIRS}
         )

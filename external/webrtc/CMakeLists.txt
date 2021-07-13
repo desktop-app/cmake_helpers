@@ -59,7 +59,7 @@ else()
         )
     endif()
 
-    target_include_directories(external_webrtc
+    target_include_directories(external_webrtc SYSTEM
     INTERFACE
         ${webrtc_loc}
         ${webrtc_loc}/third_party/abseil-cpp
@@ -70,7 +70,7 @@ else()
         ${webrtc_lib_prefix}tg_owt
     )
     if (APPLE)
-        target_include_directories(external_webrtc
+        target_include_directories(external_webrtc SYSTEM
         INTERFACE
             ${webrtc_loc}/sdk/objc
             ${webrtc_loc}/sdk/objc/base

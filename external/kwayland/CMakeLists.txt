@@ -19,7 +19,7 @@ else()
         IMPORTED_LOCATION "${KWAYLAND_LIBRARY}"
     )
 
-    target_include_directories(external_kwayland
+    target_include_directories(external_kwayland SYSTEM
     INTERFACE
         /usr/local/include/KF5
         /usr/local/include/KF5/KWayland/Client
