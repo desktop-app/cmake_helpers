@@ -11,25 +11,16 @@ INTERFACE
     -pipe
     -Wall
     -W
-    -Wno-unused-variable
     -Wno-unused-parameter
-    -Wno-unused-function
     -Wno-switch
-    -Wno-comment
     -Wno-missing-field-initializers
     -Wno-sign-compare
-    -Wno-attributes
-    -Wno-parentheses
-    $<$<NOT:$<COMPILE_LANGUAGE:C>>:-Wno-register>
 )
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     target_compile_options(common_options
     INTERFACE
-        -Wno-unused-but-set-variable
-        -Wno-stringop-overflow
         -Wno-maybe-uninitialized
-        -Wno-error=class-memaccess
     )
 endif()
 
