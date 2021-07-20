@@ -28,6 +28,7 @@ INTERFACE
     -Wall
     -W
     -fPIE
+    $<$<COMPILE_LANGUAGE:OBJC,OBJCXX>:-fobjc-weak>
     -Wno-deprecated-declarations # temp for range-v3
     -Wno-unused-variable
     -Wno-unused-parameter
