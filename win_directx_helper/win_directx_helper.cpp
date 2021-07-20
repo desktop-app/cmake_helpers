@@ -7,14 +7,42 @@
 
 #include <d3d9.h>
 #include <d3d11.h>
+#include <d3dcompiler.h>
+#include <openssl/sha.h>
 #include <string>
+#include <vector>
+#include <array>
 
 #define LOAD_SYMBOL(handle, func) LoadSymbol(handle, #func, func)
 
 namespace DirectX {
 namespace {
 
+constexpr auto kMaxPathLong = 32767;
+
 using Handle = HINSTANCE;
+
+// d3dcompiler_47.dll
+
+HRESULT (__stdcall *D3DCompile)(
+	LPCVOID pSrcData,
+	SIZE_T SrcDataSize,
+	LPCSTR pFileName,
+	CONST D3D_SHADER_MACRO* pDefines,
+	ID3DInclude* pInclude,
+	LPCSTR pEntrypoint,
+	LPCSTR pTarget,
+	UINT Flags1,
+	UINT Flags2,
+	ID3DBlob** ppCode,
+	ID3DBlob** ppErrorMsgs);
+
+HRESULT (__stdcall *D3DDisassemble)(
+	_In_reads_bytes_(SrcDataSize) LPCVOID pSrcData,
+	_In_ SIZE_T SrcDataSize,
+	_In_ UINT Flags,
+	_In_opt_ LPCSTR szComments,
+	_Out_ ID3DBlob** ppDisassembly);
 
 // d3d9.dll
 
@@ -56,6 +84,100 @@ inline bool LoadSymbol(Handle handle, const char *name, Function &func) {
 	return (func != nullptr);
 }
 
+// For win_directx_helper.
+std::string FileSha256(const wchar_t *path) {
+	using uchar = unsigned char;
+	constexpr auto kLimit = 10 * 1024 * 1024;
+	auto buffer = std::vector<uchar>(kLimit);
+	auto size = DWORD();
+
+	const auto file = CreateFile(
+		path,
+		GENERIC_READ,
+		FILE_SHARE_READ,
+		nullptr,
+		OPEN_EXISTING,
+		FILE_ATTRIBUTE_NORMAL,
+		nullptr);
+	if (file == INVALID_HANDLE_VALUE) {
+		return {};
+	}
+	const auto read = ReadFile(file, buffer.data(), kLimit, &size, nullptr);
+	CloseHandle(file);
+
+	if (!read || !size || size >= kLimit) {
+		return {};
+	}
+	auto binary = std::array<uchar, SHA256_DIGEST_LENGTH>{};
+	SHA256(buffer.data(), size, binary.data());
+	const auto hex = [](uchar value) {
+		return (value >= 10) ? ('a' + (value - 10)) : ('0' + value);
+	};
+	auto result = std::string();
+	result.reserve(binary.size() * 2);
+	auto index = 0;
+	for (const auto byte : binary) {
+		result.push_back(hex(byte / 16));
+		result.push_back(hex(byte % 16));
+	}
+	return result;
+}
+
+bool ResolveD3DCompiler(const wchar_t *path) {
+	const auto d3dcompiler = LoadLibrary(path);
+	return true
+		&& LOAD_SYMBOL(d3dcompiler, D3DCompile)
+		&& LOAD_SYMBOL(d3dcompiler, D3DDisassemble);
+}
+
+bool ResolveD3DCompiler() {
+	static const auto loaded = [] {
+#ifdef DESKTOP_APP_D3DCOMPILER_HASH
+		auto exePath = std::array<WCHAR, kMaxPathLong + 1>{ 0 };
+		const auto exeLength = GetModuleFileName(
+			nullptr,
+			exePath.data(),
+			kMaxPathLong + 1);
+		if (!exeLength || exeLength >= kMaxPathLong + 1) {
+			return false;
+		}
+		const auto exe = std::wstring(exePath.data());
+		const auto last1 = exe.find_last_of('\\');
+		const auto last2 = exe.find_last_of('/');
+		const auto last = std::max(
+			(last1 == std::wstring::npos) ? -1 : int(last1),
+			(last2 == std::wstring::npos) ? -1 : int(last2));
+		if (last < 0) {
+			return false;
+		}
+
+#if defined _WIN32
+		const auto arch = L"x86";
+#elif defined _WIN64 // _WIN32
+		const auto arch = L"x64";
+#else // _WIN32 || _WIN64
+#error "Invalid configuration."
+#endif // _WIN32 || _WIN64
+
+#define DESKTOP_APP_STRINGIFY2(x) #x
+#define DESKTOP_APP_STRINGIFY(x) DESKTOP_APP_STRINGIFY2(x)
+		const auto hash = DESKTOP_APP_STRINGIFY(DESKTOP_APP_D3DCOMPILER_HASH);
+#undef DESKTOP_APP_STRINGIFY
+#undef DESKTOP_APP_STRINGIFY2
+
+		const auto compiler = exe.substr(0, last + 1)
+			+ L"modules\\" + arch + L"\\d3d\\d3dcompiler_47.dll";
+		const auto path = compiler.c_str();
+		if (FileSha256(path) == hash && ResolveD3DCompiler(path)) {
+			return true;
+		}
+#endif // DESKTOP_APP_D3DCOMPILER_HASH
+
+		return ResolveD3DCompiler(L"d3dcompiler_47.dll");
+	}();
+	return loaded;
+}
+
 bool ResolveD3D9() {
 	static const auto loaded = [] {
 		const auto d3d9 = LoadLibrary(L"d3d9.dll");
@@ -63,7 +185,7 @@ bool ResolveD3D9() {
 		LOAD_SYMBOL(d3d9, D3DPERF_EndEvent);
 		LOAD_SYMBOL(d3d9, D3DPERF_SetMarker);
 		LOAD_SYMBOL(d3d9, D3DPERF_GetStatus);
-		return true
+		return ResolveD3DCompiler()
 			&& LOAD_SYMBOL(d3d9, Direct3DCreate9);
 	}();
 	return loaded;
@@ -72,7 +194,7 @@ bool ResolveD3D9() {
 bool ResolveD3D11() {
 	static const auto loaded = [] {
 		const auto d3d11 = LoadLibrary(L"d3d11.dll");
-		return true
+		return ResolveD3DCompiler()
 			&& LOAD_SYMBOL(d3d11, D3D11CreateDevice);
 	}();
 	return loaded;
