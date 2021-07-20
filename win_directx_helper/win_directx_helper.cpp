@@ -151,13 +151,13 @@ bool ResolveD3DCompiler() {
 			return false;
 		}
 
-#if defined _WIN32
-		const auto arch = L"x86";
-#elif defined _WIN64 // _WIN32
+#if defined _WIN64
 		const auto arch = L"x64";
-#else // _WIN32 || _WIN64
+#elif defined _WIN32 // _WIN64
+		const auto arch = L"x86";
+#else // _WIN64 || _WIN32
 #error "Invalid configuration."
-#endif // _WIN32 || _WIN64
+#endif // _WIN64 || _WIN32
 
 #define DESKTOP_APP_STRINGIFY2(x) #x
 #define DESKTOP_APP_STRINGIFY(x) DESKTOP_APP_STRINGIFY2(x)
@@ -171,7 +171,9 @@ bool ResolveD3DCompiler() {
 		if (FileSha256(path) == hash && ResolveD3DCompiler(path)) {
 			return true;
 		}
-#endif // DESKTOP_APP_D3DCOMPILER_HASH
+#elif defined DESKTOP_APP_SPECIAL_TARGET // DESKTOP_APP_D3DCOMPILER_HASH
+#error "Special target build should have d3dcompiler hash."
+#endif // !DESKTOP_APP_D3DCOMPILER_HASH && DESKTOP_APP_SPECIAL_TARGET
 
 		return ResolveD3DCompiler(L"d3dcompiler_47.dll");
 	}();
