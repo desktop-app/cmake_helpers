@@ -69,7 +69,6 @@ function(nuget_add_webview target_name)
     PRIVATE
         ${webview2_loc_native}/${webview2_lib_folder}/WebView2LoaderStatic.lib
     )
-
 endfunction()
 
 function(nuget_add_winrt target_name)
