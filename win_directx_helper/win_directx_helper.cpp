@@ -213,6 +213,10 @@ bool ResolveDXGI() {
 } // namespace
 } // namespace DirectX
 
+bool DirectXResolveCompiler() {
+	return DirectX::ResolveD3DCompiler();
+}
+
 namespace D = DirectX;
 
 extern "C" {
