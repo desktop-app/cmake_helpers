@@ -16,7 +16,7 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
     else()
         target_include_directories(external_openssl_common SYSTEM
         INTERFACE
-            ${libs_loc}/openssl_1_1_1/include
+            ${libs_loc}/openssl/include
         )
     endif()
 

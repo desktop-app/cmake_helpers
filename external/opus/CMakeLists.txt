@@ -34,10 +34,10 @@ else()
     elseif (APPLE)
         target_include_directories(external_opus SYSTEM
         INTERFACE
-            /usr/local/macos/include/opus
+            ${libs_loc}/local/include/opus
         )
         set_target_properties(external_opus PROPERTIES
-            IMPORTED_LOCATION /usr/local/macos/lib/libopus.a
+            IMPORTED_LOCATION ${libs_loc}/local/lib/libopus.a
         )
     else()
         target_include_directories(external_opus SYSTEM

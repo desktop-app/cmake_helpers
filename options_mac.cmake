@@ -14,7 +14,7 @@ endif()
 if (NOT DESKTOP_APP_USE_PACKAGED)
     target_include_directories(common_options SYSTEM
     INTERFACE
-        /usr/local/macos/include
+        ${libs_loc}/local/include
     )
 endif()
 

@@ -13,11 +13,11 @@ if (DESKTOP_APP_USE_PACKAGED)
 elseif (APPLE)
     target_include_directories(external_xz SYSTEM
     INTERFACE
-        /usr/local/macos/include
+        ${libs_loc}/local/include
     )
     target_link_libraries(external_xz
     INTERFACE
-        /usr/local/macos/lib/liblzma.a
+        ${libs_loc}/local/lib/liblzma.a
     )
 else()
     target_link_static_libraries(external_xz

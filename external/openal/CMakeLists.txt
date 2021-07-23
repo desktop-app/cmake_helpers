@@ -27,15 +27,15 @@ elseif (WIN32)
     INTERFACE
         ${libs_loc}/openal-soft/build/$<IF:$<CONFIG:Debug>,Debug,RelWithDebInfo>/OpenAL32.lib
     )
-elseif(APPLE)
+elseif (APPLE)
     target_include_directories(external_openal SYSTEM
     INTERFACE
-        /usr/local/macos/include
-        /usr/local/macos/include/AL
+        ${libs_loc}/local/include
+        ${libs_loc}/local/include/AL
     )
     target_link_libraries(external_openal
     INTERFACE
-        /usr/local/macos/lib/libopenal.a
+        ${libs_loc}/local/lib/libopenal.a
     )
 else()
     target_include_directories(external_openal SYSTEM

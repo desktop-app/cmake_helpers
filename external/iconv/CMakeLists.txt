@@ -13,6 +13,6 @@ if (APPLE AND DESKTOP_APP_USE_PACKAGED)
 elseif (APPLE)
     target_link_libraries(external_iconv
     INTERFACE
-        /usr/local/macos/lib/libiconv.a
+        ${libs_loc}/local/lib/libiconv.a
     )
 endif()
