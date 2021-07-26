@@ -21,4 +21,8 @@ if (WIN32)
     INTERFACE
         desktop-app::win_directx_helper
     )
+    target_compile_definitions(external_angle
+    INTERFACE
+        KHRONOS_STATIC
+    )
 endif()
