@@ -74,9 +74,24 @@ if (DESKTOP_APP_USE_ALLOCATION_TRACER)
 endif()
 
 if (NOT DESKTOP_APP_USE_PACKAGED)
+    if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        target_link_options(common_options
+        INTERFACE
+            -static-libstdc++
+        )
+    elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+        target_link_static_libraries(common_options
+        INTERFACE
+            c++
+            c++abi
+        )
+        target_link_options(common_options
+        INTERFACE
+            -nostdlib++
+        )
+    endif()
     target_link_options(common_options
     INTERFACE
-        -static-libstdc++
         -pthread
         -rdynamic
     )
