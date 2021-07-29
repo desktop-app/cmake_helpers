@@ -21,6 +21,4 @@ PRIVATE
     linux_allocation_trace_reader.cpp
 )
 
-target_link_options(allocation_trace_reader PRIVATE -static-libstdc++)
-
 set_target_properties(allocation_trace_reader PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})

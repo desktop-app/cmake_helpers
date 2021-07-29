@@ -50,6 +50,38 @@ INTERFACE
     desktop-app::external_jemalloc
 )
 
+if (DESKTOP_APP_USE_ALLOCATION_TRACER)
+    target_link_options(common_options
+    INTERFACE
+        # -Wl,-wrap,__malloc
+        -Wl,-wrap,__libc_malloc
+        -Wl,-wrap,malloc
+        -Wl,-wrap,valloc
+        -Wl,-wrap,pvalloc
+        -Wl,-wrap,calloc
+        -Wl,-wrap,realloc
+        -Wl,-wrap,memalign
+        -Wl,-wrap,aligned_alloc
+        -Wl,-wrap,posix_memalign
+        -Wl,-wrap,free
+        -Wl,--no-as-needed,-lrt
+    )
+    target_link_libraries(common_options
+    INTERFACE
+        desktop-app::linux_allocation_tracer
+        $<TARGET_FILE:desktop-app::linux_allocation_tracer>
+    )
+endif()
+
+if (NOT DESKTOP_APP_USE_PACKAGED)
+    target_link_options(common_options
+    INTERFACE
+        -static-libstdc++
+        -pthread
+        -rdynamic
+    )
+endif()
+
 if (DESKTOP_APP_USE_PACKAGED)
     find_library(ATOMIC_LIBRARY atomic)
 else()
