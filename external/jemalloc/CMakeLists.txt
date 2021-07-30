@@ -21,8 +21,9 @@ if (NOT JEMALLOC_FOUND)
 
     include(ExternalProject)
     ExternalProject_Add(jemalloc
-        URL https://github.com/jemalloc/jemalloc/releases/download/5.2.1/jemalloc-5.2.1.tar.bz2
-        CONFIGURE_COMMAND cd "${CMAKE_CURRENT_BINARY_DIR}/jemalloc-prefix/src/jemalloc" && ./configure
+        SOURCE_DIR ${third_party_loc}/jemalloc
+        CONFIGURE_COMMAND cd "${third_party_loc}/jemalloc" && ./autogen.sh
+        INSTALL_COMMAND :
         BUILD_IN_SOURCE 1
     )
 
