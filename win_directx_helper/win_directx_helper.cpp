@@ -8,7 +8,9 @@
 #include <d3d9.h>
 #include <d3d11.h>
 #include <d3dcompiler.h>
+extern "C" {
 #include <openssl/sha.h>
+} // extern "C"
 #include <string>
 #include <vector>
 #include <array>

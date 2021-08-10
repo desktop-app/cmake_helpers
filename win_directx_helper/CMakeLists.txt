@@ -14,3 +14,8 @@ PRIVATE
 )
 
 validate_d3d_compiler(win_directx_helper)
+
+target_link_libraries(win_directx_helper
+PUBLIC
+    desktop-app::external_openssl
+)
