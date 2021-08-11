@@ -139,6 +139,7 @@ else()
         lib/${qt_lib_prefix}Qt5Network
         lib/${qt_lib_prefix}Qt5Widgets
         lib/${qt_lib_prefix}Qt5Gui
+        lib/${qt_lib_prefix}Qt5Svg
         lib/${qt_lib_prefix}qtharfbuzz
         lib/${qt_lib_prefix}qtlibpng
     )
@@ -236,7 +237,6 @@ else()
             lib/${qt_lib_prefix}Qt5ServiceSupport
             ${common_qt_libs}
             ${qt_libs_dbus}
-            lib/${qt_lib_prefix}Qt5Svg
             lib/${qt_lib_prefix}Qt5Core
             lib/${qt_lib_prefix}qtpcre2
         )
