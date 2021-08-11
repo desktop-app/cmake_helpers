@@ -10,14 +10,9 @@ add_library(desktop-app::external_iconv ALIAS external_iconv)
 if (APPLE AND DESKTOP_APP_USE_PACKAGED)
     find_package(Iconv REQUIRED)
     target_link_libraries(external_iconv INTERFACE Iconv::Iconv)
-elseif (APPLE AND NOT build_osx)
-    target_link_libraries(external_iconv
-    INTERFACE
-        /usr/local/macos/lib/libiconv.a
-    )
 elseif (APPLE)
     target_link_libraries(external_iconv
     INTERFACE
-        /usr/local/lib/libiconv.a
+        /usr/local/macos/lib/libiconv.a
     )
 endif()

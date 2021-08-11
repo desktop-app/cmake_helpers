@@ -26,15 +26,13 @@ if (WIN32)
         report_bad_special_target()
     endif()
 elseif (APPLE)
-    if (NOT DESKTOP_APP_SPECIAL_TARGET STREQUAL "osx"
-        AND NOT DESKTOP_APP_SPECIAL_TARGET STREQUAL "macstore"
+    if (NOT DESKTOP_APP_SPECIAL_TARGET STREQUAL "macstore"
         AND NOT DESKTOP_APP_SPECIAL_TARGET STREQUAL "mac")
         report_bad_special_target()
     endif()
 else()
     set(LINUX 1)
-    if (NOT DESKTOP_APP_SPECIAL_TARGET STREQUAL "linux"
-        AND NOT DESKTOP_APP_SPECIAL_TARGET STREQUAL "linux32")
+    if (NOT DESKTOP_APP_SPECIAL_TARGET STREQUAL "linux")
         report_bad_special_target()
     endif()
 endif()

@@ -36,13 +36,8 @@ if (DESKTOP_APP_SPECIAL_TARGET)
         $<IF:$<CONFIG:Debug>,,-Ofast>
     )
 
-    if (build_linux32)
-        target_compile_options(common_options INTERFACE -g0)
-        target_link_options(common_options INTERFACE -g0)
-    else()
-        target_compile_options(common_options INTERFACE $<IF:$<CONFIG:Debug>,,-g -flto>)
-        target_link_options(common_options INTERFACE $<IF:$<CONFIG:Debug>,,-g -flto -fuse-linker-plugin>)
-    endif()
+    target_compile_options(common_options INTERFACE $<IF:$<CONFIG:Debug>,,-g -flto>)
+    target_link_options(common_options INTERFACE $<IF:$<CONFIG:Debug>,,-g -flto -fuse-linker-plugin>)
 endif()
 
 target_link_libraries(common_options
