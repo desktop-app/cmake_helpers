@@ -53,6 +53,7 @@ else()
         ${qt_loc}/include/QtCore
         ${qt_loc}/include/QtGui
         ${qt_loc}/include/QtWidgets
+        ${qt_loc}/include/QtSvg
         ${qt_loc}/include/QtCore/${qt_version}
         ${qt_loc}/include/QtGui/${qt_version}
         ${qt_loc}/include/QtCore/${qt_version}/QtCore
@@ -93,6 +94,7 @@ else()
         QT_NETWORK_LIB
         QT_GUI_LIB
         QT_CORE_LIB
+        QT_SVG_LIB
     )
 
     if (Qt5DBus_FOUND)
