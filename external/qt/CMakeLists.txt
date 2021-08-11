@@ -16,6 +16,7 @@ if (DESKTOP_APP_USE_PACKAGED)
         Qt5::Gui
         Qt5::Widgets
         Qt5::Network
+        Qt5::Svg
     )
 
     target_include_directories(external_qt SYSTEM
