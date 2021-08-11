@@ -5,11 +5,7 @@
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
 if (NOT DESKTOP_APP_USE_PACKAGED)
-    if (NOT APPLE OR NOT build_osx)
-        set(qt_version 5.15.2)
-    else()
-        set(qt_version 5.6.2)
-    endif()
+    set(qt_version 5.15.2)
 
     if (WIN32)
         set(qt_loc ${libs_loc}/Qt-${qt_version})

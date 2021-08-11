@@ -163,33 +163,16 @@ else()
             desktop-app::external_angle
         )
     elseif (APPLE)
-        if (NOT build_osx)
-            set(qt_libs
-                ${common_qt_libs}
-                lib/${qt_lib_prefix}Qt5Core
-                lib/${qt_lib_prefix}Qt5GraphicsSupport
-                lib/${qt_lib_prefix}Qt5ClipboardSupport
-                lib/${qt_lib_prefix}qtfreetype
-                lib/${qt_lib_prefix}qtpcre2
-                plugins/platforms/${qt_lib_prefix}qcocoa
-                plugins/bearer/${qt_lib_prefix}qgenericbearer
-            )
-        else()
-            set(qt_libs
-                lib/${qt_lib_prefix}Qt5PrintSupport
-                lib/${qt_lib_prefix}Qt5PlatformSupport
-                lib/${qt_lib_prefix}Qt5Network
-                lib/${qt_lib_prefix}Qt5Widgets
-                lib/${qt_lib_prefix}Qt5Gui
-                lib/${qt_lib_prefix}Qt5Core
-                lib/${qt_lib_prefix}qtharfbuzzng
-                lib/${qt_lib_prefix}qtfreetype
-                lib/${qt_lib_prefix}qtpcre
-                plugins/platforms/${qt_lib_prefix}qcocoa
-                plugins/imageformats/${qt_lib_prefix}qwebp
-                plugins/bearer/${qt_lib_prefix}qgenericbearer
-            )
-        endif()
+        set(qt_libs
+            ${common_qt_libs}
+            lib/${qt_lib_prefix}Qt5Core
+            lib/${qt_lib_prefix}Qt5GraphicsSupport
+            lib/${qt_lib_prefix}Qt5ClipboardSupport
+            lib/${qt_lib_prefix}qtfreetype
+            lib/${qt_lib_prefix}qtpcre2
+            plugins/platforms/${qt_lib_prefix}qcocoa
+            plugins/bearer/${qt_lib_prefix}qgenericbearer
+        )
         foreach (lib ${qt_libs})
             list(APPEND qt_libs_list "${qt_loc}/${lib}${qt_lib_suffix}")
         endforeach()

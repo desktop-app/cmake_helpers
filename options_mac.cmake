@@ -4,22 +4,18 @@
 # For license and copyright information please follow this link:
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
-if (build_osx)
-    target_compile_definitions(common_options INTERFACE OS_OSX)
-else()
-    if (build_macstore)
-        target_compile_definitions(common_options
-        INTERFACE
-            OS_MAC_STORE
-            MAC_USE_BREAKPAD
-        )
-    endif()
-    if (NOT DESKTOP_APP_USE_PACKAGED)
-        target_include_directories(common_options SYSTEM
-        INTERFACE
-            /usr/local/macos/include
-        )
-    endif()
+if (build_macstore)
+    target_compile_definitions(common_options
+    INTERFACE
+        OS_MAC_STORE
+        MAC_USE_BREAKPAD
+    )
+endif()
+if (NOT DESKTOP_APP_USE_PACKAGED)
+    target_include_directories(common_options SYSTEM
+    INTERFACE
+        /usr/local/macos/include
+    )
 endif()
 
 target_compile_options(common_options
@@ -80,12 +76,6 @@ INTERFACE
     IOKit
     GSS
     MediaPlayer
+    IOSurface
+    Metal
 )
-
-if (NOT build_osx)
-    target_link_frameworks(common_options
-    INTERFACE
-        IOSurface
-        Metal
-    )
-endif()

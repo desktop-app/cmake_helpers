@@ -27,7 +27,7 @@ elseif (WIN32)
     INTERFACE
         ${libs_loc}/openal-soft/build/$<IF:$<CONFIG:Debug>,Debug,RelWithDebInfo>/OpenAL32.lib
     )
-elseif(APPLE AND NOT build_osx)
+elseif(APPLE)
     target_include_directories(external_openal SYSTEM
     INTERFACE
         /usr/local/macos/include

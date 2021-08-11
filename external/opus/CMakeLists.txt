@@ -31,21 +31,13 @@ else()
             IMPORTED_LOCATION "${opus_lib_loc}/Release/opus.lib"
             IMPORTED_LOCATION_DEBUG "${opus_lib_loc}/Debug/opus.lib"
         )
-    elseif (APPLE AND NOT build_osx)
+    elseif (APPLE)
         target_include_directories(external_opus SYSTEM
         INTERFACE
             /usr/local/macos/include/opus
         )
         set_target_properties(external_opus PROPERTIES
             IMPORTED_LOCATION /usr/local/macos/lib/libopus.a
-        )
-    elseif (APPLE)
-        target_include_directories(external_opus SYSTEM
-        INTERFACE
-            /usr/local/include/opus
-        )
-        set_target_properties(external_opus PROPERTIES
-            IMPORTED_LOCATION /usr/local/lib/libopus.a
         )
     else()
         target_include_directories(external_opus SYSTEM
