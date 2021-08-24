@@ -45,10 +45,10 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
             /bigobj # scheme.cpp has too many sections.
         )
     else()
-        target_compile_options(common_options
-        INTERFACE
-            /fp:except # Crash-report fp exceptions in 32 bit build.
-        )
+        # target_compile_options(common_options
+        # INTERFACE
+        #     /fp:except # Crash-report fp exceptions in 32 bit build.
+        # )
         target_link_options(common_options
         INTERFACE
             /LARGEADDRESSAWARE # Allow more than 2 GB in 32 bit application.
