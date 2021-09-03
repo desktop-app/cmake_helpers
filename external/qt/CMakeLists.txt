@@ -212,17 +212,11 @@ else()
                 plugins/wayland-decoration-client/${qt_lib_prefix}bradient
             )
         endif()
-        set(qt_libs_gtk_plugins)
-        if (NOT DESKTOP_APP_DISABLE_GTK_INTEGRATION)
-            set(qt_libs_gtk_plugins
-                plugins/platformthemes/${qt_lib_prefix}qgtk3
-            )
-        endif()
         set(qt_libs
             plugins/platforminputcontexts/${qt_lib_prefix}composeplatforminputcontextplugin
             ${qt_libs_dbus_plugins}
             ${qt_libs_waylandclient_plugins}
-            ${qt_libs_gtk_plugins}
+            plugins/platformthemes/${qt_lib_prefix}qgtk3
             plugins/platforms/${qt_lib_prefix}qxcb
             plugins/xcbglintegrations/${qt_lib_prefix}qxcb-egl-integration
             plugins/xcbglintegrations/${qt_lib_prefix}qxcb-glx-integration
@@ -290,13 +284,11 @@ else()
                 $<TARGET_FILE:desktop-app::linux_wayland_helper>
             )
         endif()
-        if (NOT DESKTOP_APP_DISABLE_GTK_INTEGRATION)
-            target_link_libraries(external_qt
-            INTERFACE
-                desktop-app::linux_gtk_helper
-                $<TARGET_FILE:desktop-app::linux_gtk_helper>
-            )
-        endif()
+        target_link_libraries(external_qt
+        INTERFACE
+            desktop-app::linux_gtk_helper
+            $<TARGET_FILE:desktop-app::linux_gtk_helper>
+        )
         target_link_libraries(external_qt
         INTERFACE
             fontconfig
