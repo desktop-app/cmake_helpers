@@ -17,6 +17,7 @@ target_compile_definitions(linux_gtk_helper PRIVATE G_LOG_DOMAIN="GtkHelper")
 target_link_libraries(linux_gtk_helper
 PUBLIC
     desktop-app::external_glib
+    ${CMAKE_DL_LIBS}
 )
 
 find_package(PkgConfig REQUIRED)
