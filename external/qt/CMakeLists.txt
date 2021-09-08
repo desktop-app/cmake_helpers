@@ -259,6 +259,7 @@ else()
         target_link_static_libraries(external_qt
         INTERFACE
             proxy
+            epoxy
             xkbcommon
             xkbcommon-x11
             xcb-glx
@@ -276,6 +277,7 @@ else()
             xcb-util
             xcb-render-util
             xcb-keysyms
+            z
         )
         if (Qt5WaylandClient_FOUND)
             target_link_libraries(external_qt
@@ -288,13 +290,8 @@ else()
         INTERFACE
             desktop-app::linux_gtk_helper
             $<TARGET_FILE:desktop-app::linux_gtk_helper>
-        )
-        target_link_libraries(external_qt
-        INTERFACE
             fontconfig
             freetype
-            EGL
-            GL
             xcb
             X11
             X11-xcb
