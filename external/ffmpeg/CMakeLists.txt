@@ -72,11 +72,11 @@ else()
             Xv
             Xext
             Xfixes
+            drm
         )
         target_link_libraries(external_ffmpeg
         INTERFACE
             X11
-            drm
             pthread
         )
     endif()
