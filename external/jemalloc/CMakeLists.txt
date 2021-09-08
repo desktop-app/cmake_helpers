@@ -42,7 +42,7 @@ if (NOT JEMALLOC_FOUND)
 
     target_link_libraries(external_jemalloc_bundled
     INTERFACE
-        dl
+        ${CMAKE_DL_LIBS}
         pthread
     )
 
