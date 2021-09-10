@@ -17,6 +17,11 @@ INTERFACE
     -Wno-sign-compare
 )
 
+target_link_options(common_options
+INTERFACE
+    -Wl,--as-needed
+)
+
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     target_compile_options(common_options
     INTERFACE
