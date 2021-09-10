@@ -290,12 +290,13 @@ else()
         INTERFACE
             desktop-app::linux_gtk_helper
             $<TARGET_FILE:desktop-app::linux_gtk_helper>
+            desktop-app::linux_glib_helper
+            $<TARGET_FILE:desktop-app::linux_glib_helper>
             fontconfig
             freetype
             xcb
             X11
             X11-xcb
-            glib-2.0
             ${CMAKE_DL_LIBS}
             pthread
         )
