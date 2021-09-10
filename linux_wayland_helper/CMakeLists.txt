@@ -12,11 +12,8 @@ PRIVATE
     linux_wayland_helper.cpp
 )
 
-target_compile_definitions(linux_wayland_helper PRIVATE G_LOG_DOMAIN="WaylandHelper")
-
 target_link_libraries(linux_wayland_helper
 PUBLIC
-    desktop-app::external_glib
     desktop-app::external_gsl
     ${CMAKE_DL_LIBS}
 )
