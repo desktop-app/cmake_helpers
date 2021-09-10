@@ -35,7 +35,6 @@ INTERFACE
     -Wno-sign-compare
     -Wno-unknown-attributes
     -Wno-pragma-system-header-outside-header
-    -Wno-range-loop-analysis
 )
 
 if (DESKTOP_APP_SPECIAL_TARGET)
