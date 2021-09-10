@@ -5,11 +5,10 @@
 // https://github.com/desktop-app/legal/blob/master/LEGAL
 //
 #include <dlfcn.h>
-#include <errno.h>
-#include <glib.h>
 #include <gdk/gdkx.h>
 #include <gtk/gtk.h>
 #include <memory>
+#include <iostream>
 
 #define LOAD_SYMBOL(handle, func) LoadSymbol(handle, #func, func)
 
@@ -218,7 +217,7 @@ bool LoadLibrary(Handle &handle, const char *name) {
 	if (handle) {
 		return true;
 	}
-	g_warning("Could not load library '%s': %s", name, dlerror());
+	std::cerr << dlerror() << std::endl;
 	return false;
 }
 
@@ -228,7 +227,7 @@ inline bool LoadSymbol(const Handle &handle, const char *name, Function &func) {
 		? reinterpret_cast<Function>(dlsym(handle.get(), name))
 		: nullptr;
 	if (const auto error = dlerror()) {
-		g_warning("Failed to load function '%s': %s", name, error);
+		std::cerr << error << std::endl;
 	}
 	return (func != nullptr);
 }
