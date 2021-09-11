@@ -12,7 +12,13 @@ if (DESKTOP_APP_USE_PACKAGED)
     pkg_check_modules(JEMALLOC IMPORTED_TARGET jemalloc)
 
     if (JEMALLOC_FOUND)
-        target_link_libraries(external_jemalloc INTERFACE PkgConfig::JEMALLOC)
+        target_link_libraries(external_jemalloc
+        INTERFACE
+            -Wl,--no-as-needed
+            PkgConfig::JEMALLOC
+            ${JEMALLOC_LINK_LIBRARIES}
+            -Wl,--as-needed
+        )
     endif()
 endif()
 
