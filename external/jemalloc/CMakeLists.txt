@@ -23,7 +23,7 @@ if (NOT JEMALLOC_FOUND)
     include(ExternalProject)
     ExternalProject_Add(jemalloc
         SOURCE_DIR ${jemalloc_loc}
-        CONFIGURE_COMMAND cd "${jemalloc_loc}" && ./autogen.sh
+        CONFIGURE_COMMAND cd "${jemalloc_loc}" && CC=clang CXX=clang++ ./autogen.sh
         INSTALL_COMMAND :
         BUILD_IN_SOURCE 1
         BUILD_BYPRODUCTS ${jemalloc_loc}/lib/libjemalloc.a
