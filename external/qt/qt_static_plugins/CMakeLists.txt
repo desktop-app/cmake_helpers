@@ -28,7 +28,6 @@ if (LINUX)
         target_link_libraries(external_qt_static_plugins
         PUBLIC
             desktop-app::external_fcitx_qt5
-            desktop-app::external_hime_qt
         )
 
         if (NOT DESKTOP_APP_DISABLE_X11_INTEGRATION)
@@ -37,5 +36,12 @@ if (LINUX)
                 desktop-app::external_fcitx5_qt5
             )
         endif()
+    endif()
+
+    if (NOT DESKTOP_APP_DISABLE_X11_INTEGRATION)
+        target_link_libraries(external_qt_static_plugins
+        PUBLIC
+            desktop-app::external_hime_qt
+        )
     endif()
 endif()

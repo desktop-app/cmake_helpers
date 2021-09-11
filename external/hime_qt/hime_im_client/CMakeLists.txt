@@ -13,85 +13,28 @@ else()
     init_target(external_hime_im_client "(external)")
 
     set(hime_loc ${third_party_loc}/hime)
-    set(hime_src ${hime_loc}/src)
-    set(hime_im_client_src ${hime_src}/im-client)
+    set(hime_im_client_src ${hime_loc}/src/im-client)
 
-    nice_target_sources(external_hime_im_client ${hime_im_client_src}
+    nice_target_sources(external_hime_im_client ${CMAKE_CURRENT_SOURCE_DIR}
     PRIVATE
-        hime-im-client-attr.h
-        hime-im-client.c
-        hime-im-client.h
-        hime-protocol.h
-        hime-send.c
+        hime_im_client_helper.cpp
     )
-
-    nice_target_sources(external_hime_im_client ${hime_src}
-    PRIVATE
-        hime-conf.c
-        util.c
-        im-addr.c
-        hime-crypt.c
-    )
-
-    find_package(PkgConfig REQUIRED)
-    pkg_check_modules(GTK REQUIRED gtk+-3.0)
 
     target_include_directories(external_hime_im_client
     PUBLIC
         ${hime_im_client_src}
-    PRIVATE
-        ${hime_src}
-        ${hime_src}/IMdkit/include
-        ${GTK_INCLUDE_DIRS}
     )
 
-    target_compile_definitions(external_hime_im_client
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(X11 REQUIRED x11)
+
+    target_include_directories(external_hime_im_client SYSTEM
     PRIVATE
-        HIME_BIN_DIR="/usr/bin"
-        HIME_TABLE_DIR="/usr/share/hime/table"
-        UNIX=1
-        FREEBSD=0
-        CLIENT_LIB=1
-        GTK_DISABLE_DEPRECATED
+        ${X11_INCLUDE_DIRS}
     )
-
-    if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-        add_library(external_hime_im_client_options INTERFACE)
-
-        target_compile_options(external_hime_im_client_options
-        INTERFACE
-            -Wno-sometimes-uninitialized
-        )
-
-        target_link_libraries(external_hime_im_client
-        PRIVATE
-            external_hime_im_client_options
-        )
-    endif()
 
     target_link_libraries(external_hime_im_client
     PRIVATE
-        desktop-app::external_glib
+        ${CMAKE_DL_LIBS}
     )
-
-    if (DESKTOP_APP_USE_PACKAGED)
-        pkg_check_modules(X11 REQUIRED IMPORTED_TARGET x11)
-
-        target_link_libraries(external_hime_im_client
-        PRIVATE
-            PkgConfig::X11
-        )
-    else()
-        pkg_check_modules(X11 REQUIRED x11)
-
-        target_include_directories(external_hime_im_client SYSTEM
-        PRIVATE
-            ${X11_INCLUDE_DIRS}
-        )
-
-        target_link_libraries(external_hime_im_client
-        PRIVATE
-            X11
-        )
-    endif()
 endif()
