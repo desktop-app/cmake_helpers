@@ -111,5 +111,12 @@ else()
             Xrender
             Xtst
         )
+        target_link_libraries(external_webrtc
+        INTERFACE
+            X11
+            gio-2.0
+            gobject-2.0
+            glib-2.0
+        )
     endif()
 endif()
