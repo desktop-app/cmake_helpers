@@ -64,7 +64,7 @@ if (DESKTOP_APP_USE_ALLOCATION_TRACER)
         -Wl,-wrap,aligned_alloc
         -Wl,-wrap,posix_memalign
         -Wl,-wrap,free
-        -Wl,--no-as-needed,-lrt
+        -Wl,--no-as-needed,-lrt,--as-needed
     )
     target_link_libraries(common_options
     INTERFACE
