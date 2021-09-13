@@ -49,10 +49,12 @@ if (DESKTOP_APP_SPECIAL_TARGET)
     target_link_options(common_options INTERFACE $<IF:$<CONFIG:Debug>,,-g -flto -fuse-linker-plugin>)
 endif()
 
-target_link_libraries(common_options
-INTERFACE
-    desktop-app::external_jemalloc
-)
+if (NOT FREEBSD)
+    target_link_libraries(common_options
+    INTERFACE
+        desktop-app::external_jemalloc
+    )
+endif()
 
 if (DESKTOP_APP_USE_ALLOCATION_TRACER)
     target_link_options(common_options
