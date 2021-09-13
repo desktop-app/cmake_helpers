@@ -4,6 +4,10 @@
 # For license and copyright information please follow this link:
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
+if (CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
+    set(FREEBSD ON CACHE BOOL "Not really a Linux, but LINUX=ON")
+endif()
+
 target_compile_options(common_options
 INTERFACE
     -fPIC
