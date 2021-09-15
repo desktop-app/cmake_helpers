@@ -7,6 +7,10 @@
 add_library(external_jemalloc INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_jemalloc ALIAS external_jemalloc)
 
+if (CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
+    return()
+endif()
+
 if (DESKTOP_APP_USE_PACKAGED)
     find_package(PkgConfig REQUIRED)
     pkg_check_modules(JEMALLOC IMPORTED_TARGET jemalloc)
