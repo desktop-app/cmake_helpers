@@ -95,6 +95,7 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
     INTERFACE
         -pthread
         -rdynamic
+        -fwhole-program
     )
 endif()
 
