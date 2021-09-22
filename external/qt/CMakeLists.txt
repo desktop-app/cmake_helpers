@@ -131,6 +131,7 @@ else()
     endif()
 
     set(common_qt_libs
+        plugins/bearer/${qt_lib_prefix}qgenericbearer
         plugins/imageformats/${qt_lib_prefix}qwebp
         plugins/imageformats/${qt_lib_prefix}qgif
         plugins/imageformats/${qt_lib_prefix}qjpeg
@@ -175,7 +176,6 @@ else()
             lib/${qt_lib_prefix}qtfreetype
             lib/${qt_lib_prefix}qtpcre2
             plugins/platforms/${qt_lib_prefix}qcocoa
-            plugins/bearer/${qt_lib_prefix}qgenericbearer
         )
         foreach (lib ${qt_libs})
             list(APPEND qt_libs_list "${qt_loc}/${lib}${qt_lib_suffix}")
@@ -228,7 +228,6 @@ else()
             lib/${qt_lib_prefix}Qt5EdidSupport
             lib/${qt_lib_prefix}Qt5XkbCommonSupport
             ${qt_libs_dbus_support}
-            plugins/bearer/${qt_lib_prefix}qgenericbearer
             ${qt_libs_dbus_bearers}
             ${qt_libs_waylandclient}
             lib/${qt_lib_prefix}Qt5ServiceSupport

@@ -8,6 +8,7 @@ https://github.com/desktop-app/legal/blob/master/LEGAL
 #include <QtCore/QtPlugin>
 
 #ifndef DESKTOP_APP_USE_PACKAGED
+Q_IMPORT_PLUGIN(QGenericEnginePlugin)
 Q_IMPORT_PLUGIN(QWebpPlugin)
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
@@ -19,12 +20,10 @@ Q_IMPORT_PLUGIN(QGifPlugin)
 Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin)
 #elif defined Q_OS_MAC // Q_OS_WIN
 Q_IMPORT_PLUGIN(QCocoaIntegrationPlugin)
-Q_IMPORT_PLUGIN(QGenericEnginePlugin)
 #elif defined Q_OS_UNIX // Q_OS_WIN | Q_OS_MAC
 Q_IMPORT_PLUGIN(QXcbIntegrationPlugin)
 Q_IMPORT_PLUGIN(QXcbEglIntegrationPlugin)
 Q_IMPORT_PLUGIN(QXcbGlxIntegrationPlugin)
-Q_IMPORT_PLUGIN(QGenericEnginePlugin)
 Q_IMPORT_PLUGIN(QComposePlatformInputContextPlugin)
 Q_IMPORT_PLUGIN(QSvgIconPlugin)
 #ifndef DESKTOP_APP_DISABLE_DBUS_INTEGRATION
