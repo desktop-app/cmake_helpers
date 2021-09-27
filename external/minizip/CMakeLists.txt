@@ -17,14 +17,6 @@ if (DESKTOP_APP_USE_PACKAGED)
     endif()
 endif()
 
-if (WIN32)
-    target_include_directories(external_minizip SYSTEM
-    INTERFACE
-        ${libs_loc}/zlib/contrib/minizip
-    )
-    return()
-endif()
-
 add_library(external_minizip_bundled STATIC)
 init_target(external_minizip_bundled "(external)")
 
@@ -44,6 +36,11 @@ PRIVATE
 target_include_directories(external_minizip_bundled SYSTEM
 PUBLIC
     ${minizip_loc}
+)
+
+target_link_libraries(external_minizip_bundled
+PRIVATE
+    desktop-app::external_zlib
 )
 
 target_link_libraries(external_minizip
