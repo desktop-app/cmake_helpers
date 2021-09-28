@@ -6,6 +6,8 @@
 
 target_compile_options(common_options
 INTERFACE
+    -fstack-protector-all
+    -fstack-clash-protection
     -fPIC
     $<IF:$<CONFIG:Debug>,,-fno-strict-aliasing>
     -pipe
@@ -17,9 +19,17 @@ INTERFACE
     -Wno-sign-compare
 )
 
+target_compile_definitions(common_options
+INTERFACE
+    $<IF:$<CONFIG:Debug>,,_FORTIFY_SOURCE=2>
+)
+
 target_link_options(common_options
 INTERFACE
     -Wl,--as-needed
+    -Wl,-z,relro
+    -Wl,-z,now
+    -pie
 )
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")

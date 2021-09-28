@@ -5,6 +5,7 @@
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
 add_library(linux_wayland_helper STATIC)
+init_target(linux_wayland_helper "(external)")
 add_library(desktop-app::linux_wayland_helper ALIAS linux_wayland_helper)
 
 nice_target_sources(linux_wayland_helper ${CMAKE_CURRENT_SOURCE_DIR}

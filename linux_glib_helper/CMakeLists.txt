@@ -5,6 +5,7 @@
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
 add_library(linux_glib_helper STATIC)
+init_target(linux_glib_helper "(external)")
 add_library(desktop-app::linux_glib_helper ALIAS linux_glib_helper)
 
 nice_target_sources(linux_glib_helper ${CMAKE_CURRENT_SOURCE_DIR}
