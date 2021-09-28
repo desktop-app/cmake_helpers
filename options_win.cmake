@@ -105,6 +105,7 @@ INTERFACE
     Userenv
     Version
     Dwmapi
+    UxTheme
     Wtsapi32
     Crypt32
 )
