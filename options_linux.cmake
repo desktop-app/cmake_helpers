@@ -27,9 +27,6 @@ INTERFACE
 target_link_options(common_options
 INTERFACE
     -Wl,--as-needed
-    -Wl,-z,relro
-    -Wl,-z,now
-    -pie
 )
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
@@ -106,6 +103,9 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
         -pthread
         -rdynamic
         -fwhole-program
+        -Wl,-z,relro
+        -Wl,-z,now
+        -pie
     )
 endif()
 
