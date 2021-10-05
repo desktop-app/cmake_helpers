@@ -108,6 +108,7 @@ INTERFACE
     UxTheme
     Wtsapi32
     Crypt32
+    Propsys
 )
 
 if (build_winstore)
