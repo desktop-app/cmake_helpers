@@ -5,22 +5,22 @@
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
 if (DESKTOP_APP_USE_PACKAGED AND NOT DESKTOP_APP_USE_PACKAGED_LAZY)
-    add_library(external_fcitx5_qt5 INTERFACE IMPORTED GLOBAL)
-    add_library(desktop-app::external_fcitx5_qt5 ALIAS external_fcitx5_qt5)
+    add_library(external_fcitx5_qt INTERFACE IMPORTED GLOBAL)
+    add_library(desktop-app::external_fcitx5_qt ALIAS external_fcitx5_qt)
 else()
-    add_library(external_fcitx5_qt5 STATIC)
-    add_library(desktop-app::external_fcitx5_qt5 ALIAS external_fcitx5_qt5)
-    init_target(external_fcitx5_qt5 "(external)")
+    add_library(external_fcitx5_qt STATIC)
+    add_library(desktop-app::external_fcitx5_qt ALIAS external_fcitx5_qt)
+    init_target(external_fcitx5_qt "(external)")
 
     set(fcitx5_qt_loc ${third_party_loc}/fcitx5-qt)
-    set(fcitx5_qt5_src ${fcitx5_qt_loc}/qt5/platforminputcontext)
+    set(fcitx5_qt_src ${fcitx5_qt_loc}/qt5/platforminputcontext)
 
-    set_target_properties(external_fcitx5_qt5 PROPERTIES AUTOMOC ON)
+    set_target_properties(external_fcitx5_qt PROPERTIES AUTOMOC ON)
 
     set(FCITX5_QT_EXTRA_PLUGIN_NAME "")
-    configure_file("${fcitx5_qt5_src}/fcitx5.json.in" "${CMAKE_CURRENT_BINARY_DIR}/fcitx5.json")
+    configure_file("${fcitx5_qt_src}/fcitx5.json.in" "${CMAKE_CURRENT_BINARY_DIR}/fcitx5.json")
 
-    nice_target_sources(external_fcitx5_qt5 ${fcitx5_qt5_src}
+    nice_target_sources(external_fcitx5_qt ${fcitx5_qt_src}
     PRIVATE
         qfcitxplatforminputcontext.cpp
         qfcitxplatforminputcontext.h
@@ -35,22 +35,22 @@ else()
         main.h
     )
 
-    target_include_directories(external_fcitx5_qt5
+    target_include_directories(external_fcitx5_qt
     PRIVATE
-        ${fcitx5_qt5_src}
+        ${fcitx5_qt_src}
         ${fcitx5_qt_loc}/common
     )
 
-    target_compile_definitions(external_fcitx5_qt5
+    target_compile_definitions(external_fcitx5_qt
     PRIVATE
         QT_STATICPLUGIN
         FCITX_PLUGIN_DATA_FILE_PATH="${CMAKE_CURRENT_BINARY_DIR}/fcitx5.json"
     )
 
-    add_subdirectory(fcitx5_qt5_dbusaddons)
-    target_link_libraries(external_fcitx5_qt5
+    add_subdirectory(fcitx5_qt_dbusaddons)
+    target_link_libraries(external_fcitx5_qt
     PRIVATE
-        desktop-app::external_fcitx5_qt5_dbusaddons
+        desktop-app::external_fcitx5_qt_dbusaddons
         desktop-app::external_qt
         desktop-app::external_xcb
     )
@@ -59,7 +59,7 @@ else()
         find_package(PkgConfig REQUIRED)
         pkg_check_modules(XKBCOMMON REQUIRED IMPORTED_TARGET xkbcommon)
 
-        target_link_libraries(external_fcitx5_qt5
+        target_link_libraries(external_fcitx5_qt
         PRIVATE
             PkgConfig::XKBCOMMON
         )
@@ -67,12 +67,12 @@ else()
         find_package(PkgConfig REQUIRED)
         pkg_check_modules(XKBCOMMON REQUIRED xkbcommon)
 
-        target_include_directories(external_fcitx5_qt5 SYSTEM
+        target_include_directories(external_fcitx5_qt SYSTEM
         PUBLIC
             ${XKBCOMMON_INCLUDE_DIRS}
         )
 
-        target_link_static_libraries(external_fcitx5_qt5
+        target_link_static_libraries(external_fcitx5_qt
         PRIVATE
             xkbcommon
         )

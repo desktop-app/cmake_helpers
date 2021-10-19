@@ -33,7 +33,7 @@ if (LINUX)
         if (NOT DESKTOP_APP_DISABLE_X11_INTEGRATION)
             target_link_libraries(external_qt_static_plugins
             PUBLIC
-                desktop-app::external_fcitx5_qt5
+                desktop-app::external_fcitx5_qt
             )
         endif()
     endif()
