@@ -10,11 +10,8 @@ https://github.com/desktop-app/legal/blob/master/LEGAL
 #ifndef DESKTOP_APP_USE_PACKAGED
 Q_IMPORT_PLUGIN(QGenericEnginePlugin)
 Q_IMPORT_PLUGIN(QWebpPlugin)
-
-#if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
 Q_IMPORT_PLUGIN(QJpegPlugin)
 Q_IMPORT_PLUGIN(QGifPlugin)
-#endif // Qt 5.8.0
 
 #ifdef Q_OS_WIN
 Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin)
@@ -35,7 +32,6 @@ Q_IMPORT_PLUGIN(QIbusPlatformInputContextPlugin)
 Q_IMPORT_PLUGIN(QWaylandIntegrationPlugin)
 Q_IMPORT_PLUGIN(QWaylandEglPlatformIntegrationPlugin)
 Q_IMPORT_PLUGIN(QWaylandEglClientBufferPlugin)
-Q_IMPORT_PLUGIN(QWaylandWlShellIntegrationPlugin)
 Q_IMPORT_PLUGIN(QWaylandBradientDecorationPlugin)
 #endif // !DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION
 Q_IMPORT_PLUGIN(QGtk3ThemePlugin)
