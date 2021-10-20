@@ -13,7 +13,12 @@ else()
     init_target(external_fcitx5_qt_dbusaddons "(external)")
 
     set(fcitx5_qt_loc ${third_party_loc}/fcitx5-qt)
-    set(fcitx5_qt_dbusaddons_src ${fcitx5_qt_loc}/qt5/dbusaddons)
+
+    if (DESKTOP_APP_QT6)
+        set(fcitx5_qt_dbusaddons_src ${fcitx5_qt_loc}/qt6/dbusaddons)
+    else()
+        set(fcitx5_qt_dbusaddons_src ${fcitx5_qt_loc}/qt5/dbusaddons)
+    endif()
 
     set_target_properties(external_fcitx5_qt_dbusaddons PROPERTIES AUTOMOC ON)
 
@@ -33,7 +38,12 @@ else()
     )
 
     include(GenerateExportHeader)
-    generate_export_header(external_fcitx5_qt_dbusaddons BASE_NAME Fcitx5Qt5DBusAddons)
+
+    if (DESKTOP_APP_QT6)
+        generate_export_header(external_fcitx5_qt_dbusaddons BASE_NAME Fcitx5Qt6DBusAddons)
+    else()
+        generate_export_header(external_fcitx5_qt_dbusaddons BASE_NAME Fcitx5Qt5DBusAddons)
+    endif()
 
     target_include_directories(external_fcitx5_qt_dbusaddons
     PUBLIC
@@ -41,10 +51,12 @@ else()
         "${CMAKE_CURRENT_BINARY_DIR}"
     )
 
-    target_compile_definitions(external_fcitx5_qt_dbusaddons
-    PRIVATE
-        FCITX5QT5DBUSADDONS_STATIC_DEFINE
-    )
+    if (NOT DESKTOP_APP_QT6)
+        target_compile_definitions(external_fcitx5_qt_dbusaddons
+        PRIVATE
+            FCITX5QT5DBUSADDONS_STATIC_DEFINE
+        )
+    endif()
 
     target_link_libraries(external_fcitx5_qt_dbusaddons
     PRIVATE
