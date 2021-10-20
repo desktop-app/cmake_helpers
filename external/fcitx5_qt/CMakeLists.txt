@@ -13,11 +13,21 @@ else()
     init_target(external_fcitx5_qt "(external)")
 
     set(fcitx5_qt_loc ${third_party_loc}/fcitx5-qt)
-    set(fcitx5_qt_src ${fcitx5_qt_loc}/qt5/platforminputcontext)
+
+    if (DESKTOP_APP_QT6)
+        set(fcitx5_qt_src ${fcitx5_qt_loc}/qt6/platforminputcontext)
+    else()
+        set(fcitx5_qt_src ${fcitx5_qt_loc}/qt5/platforminputcontext)
+    endif()
 
     set_target_properties(external_fcitx5_qt PROPERTIES AUTOMOC ON)
 
-    set(FCITX5_QT_EXTRA_PLUGIN_NAME "")
+    if (DESKTOP_APP_QT6)
+        set(FCITX5_QT_EXTRA_PLUGIN_NAME "\"fcitx\",")
+    else()
+        set(FCITX5_QT_EXTRA_PLUGIN_NAME "")
+    endif()
+
     configure_file("${fcitx5_qt_src}/fcitx5.json.in" "${CMAKE_CURRENT_BINARY_DIR}/fcitx5.json")
 
     nice_target_sources(external_fcitx5_qt ${fcitx5_qt_src}

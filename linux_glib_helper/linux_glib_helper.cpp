@@ -29,6 +29,7 @@ guint (*g_log_set_handler)(
 GMainContext* (*g_main_context_default)(void);
 gboolean (*g_main_context_iteration)(GMainContext* context, gboolean may_block);
 GMainContext* (*g_main_context_new)(void);
+// TODO: Remove when Qt 5 support will be dropped
 gboolean (*g_main_context_pending)(GMainContext* context);
 void (*g_main_context_pop_thread_default)(GMainContext* context);
 void (*g_main_context_push_thread_default)(GMainContext* context);
@@ -46,6 +47,7 @@ void (*g_source_destroy)(GSource* source);
 GSource* (*g_source_new)(GSourceFuncs* source_funcs, guint struct_size);
 void (*g_source_remove_poll)(GSource* source, GPollFD* fd);
 void (*g_source_set_can_recurse)(GSource* source, gboolean can_recurse);
+void (*g_source_set_name)(GSource* source, const char* name);
 void (*g_source_unref)(GSource* source);
 int (*g_strcmp0)(const char* str1, const char* str2);
 
@@ -140,6 +142,7 @@ bool Resolve() {
 			&& LOAD_SYMBOL(lib, g_source_new)
 			&& LOAD_SYMBOL(lib, g_source_remove_poll)
 			&& LOAD_SYMBOL(lib, g_source_set_can_recurse)
+			&& LOAD_SYMBOL(lib, g_source_set_name)
 			&& LOAD_SYMBOL(lib, g_source_unref)
 			&& LOAD_SYMBOL(lib, g_strcmp0)
 			&& LoadLibrary(lib, "libgobject-2.0.so.0")
@@ -281,6 +284,11 @@ void g_source_remove_poll(GSource* source, GPollFD* fd) {
 void g_source_set_can_recurse(GSource* source, gboolean can_recurse) {
 	GlibHelper::Resolve();
 	GlibHelper::g_source_set_can_recurse(source, can_recurse);
+}
+
+void g_source_set_name(GSource* source, const char* name) {
+	GlibHelper::Resolve();
+	GlibHelper::g_source_set_name(source, name);
 }
 
 void g_source_unref(GSource* source) {
