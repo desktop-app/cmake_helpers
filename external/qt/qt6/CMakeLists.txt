@@ -119,6 +119,7 @@ else()
     endif()
 
     set(common_qt_libs
+        plugins/tls/${qt_lib_prefix}qopensslbackend
         plugins/imageformats/${qt_lib_prefix}qwebp
         plugins/imageformats/${qt_lib_prefix}qgif
         plugins/imageformats/${qt_lib_prefix}qjpeg
