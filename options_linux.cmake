@@ -36,6 +36,14 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     )
 endif()
 
+# TODO: Remove when there will be no Qt 5 support
+if (DESKTOP_APP_QT6)
+    target_compile_options(common_options
+    INTERFACE
+        -Wno-deprecated-declarations
+    )
+endif()
+
 if (DESKTOP_APP_SPECIAL_TARGET)
     target_compile_options(common_options
     INTERFACE
