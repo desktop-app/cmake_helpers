@@ -30,7 +30,7 @@ if (DESKTOP_APP_USE_PACKAGED)
         target_link_libraries(external_qt INTERFACE Qt6::DBus)
     endif()
 
-    if (NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
+    if (LINUX AND NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
         target_link_libraries(external_qt INTERFACE Qt6::WaylandClient)
 
         target_include_directories(external_qt SYSTEM
@@ -62,7 +62,7 @@ else()
         )
     endif()
 
-    if (NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
+    if (LINUX AND NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
         target_include_directories(external_qt SYSTEM
         INTERFACE
             ${qt_loc}/include/QtWaylandClient
@@ -93,7 +93,7 @@ else()
         )
     endif()
 
-    if (NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
+    if (LINUX AND NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
         target_compile_definitions(external_qt
         INTERFACE
             QT_WAYLANDCLIENT_LIB
