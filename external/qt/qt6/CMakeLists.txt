@@ -119,7 +119,6 @@ else()
     endif()
 
     set(common_qt_libs
-        plugins/tls/${qt_lib_prefix}qopensslbackend
         plugins/imageformats/${qt_lib_prefix}qwebp
         plugins/imageformats/${qt_lib_prefix}qgif
         plugins/imageformats/${qt_lib_prefix}qjpeg
@@ -142,8 +141,9 @@ else()
             ${common_qt_libs}
             lib/${qt_lib_prefix}Qt6WindowsUIAutomationSupport
             lib/${qt_lib_prefix}qtmain
-            lib/${qt_lib_prefix}qtfreetype
+            lib/${qt_lib_prefix}Qt6BundledFreetype
             plugins/platforms/${qt_lib_prefix}qwindows
+            plugins/tls/${qt_lib_prefix}qopensslbackend
         )
         foreach (lib ${qt_libs})
             list(APPEND qt_libs_list "${qt_loc}/${lib}${qt_lib_suffix}")
@@ -156,14 +156,16 @@ else()
     elseif (APPLE)
         set(qt_libs
             ${common_qt_libs}
-            lib/${qt_lib_prefix}Qt6GraphicsSupport
-            lib/${qt_lib_prefix}Qt6ClipboardSupport
-            lib/${qt_lib_prefix}qtfreetype
+            lib/${qt_lib_prefix}Qt6BundledFreetype
             plugins/platforms/${qt_lib_prefix}qcocoa
+            plugins/tls/${qt_lib_prefix}qsecuretransportbackend
         )
         foreach (lib ${qt_libs})
             list(APPEND qt_libs_list "${qt_loc}/${lib}${qt_lib_suffix}")
         endforeach()
+        list(APPEND qt_libs_list
+            "${qt_loc}/lib/${qt_lib_objects}/QCocoaIntegrationPlugin_resources_1/.rcc/qrc_qcocoaresources.cpp.o"
+        )
     else()
         set(qt_libs_dbus)
         set(qt_libs_dbus_plugins)
@@ -196,6 +198,7 @@ else()
             ${qt_libs_waylandclient_plugins}
             plugins/platformthemes/${qt_lib_prefix}qgtk3
             plugins/platforms/${qt_lib_prefix}qxcb
+            plugins/tls/${qt_lib_prefix}qopensslbackend
             plugins/xcbglintegrations/${qt_lib_prefix}qxcb-egl-integration
             plugins/xcbglintegrations/${qt_lib_prefix}qxcb-glx-integration
             plugins/iconengines/${qt_lib_prefix}qsvgicon

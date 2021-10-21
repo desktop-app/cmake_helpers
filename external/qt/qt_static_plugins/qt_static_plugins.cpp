@@ -9,7 +9,13 @@ https://github.com/desktop-app/legal/blob/master/LEGAL
 
 #ifndef DESKTOP_APP_USE_PACKAGED
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+
+#ifdef Q_OS_MAC
+Q_IMPORT_PLUGIN(QSecureTransportBackend)
+#else // Q_OS_MAC
 Q_IMPORT_PLUGIN(QTlsBackendOpenSSL)
+#endif // Q_OS_MAC
+
 #else // Qt >= 6.0.0
 Q_IMPORT_PLUGIN(QGenericEnginePlugin)
 #endif // Qt < 6.0.0
