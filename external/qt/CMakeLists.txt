@@ -42,7 +42,7 @@ if (DESKTOP_APP_USE_PACKAGED)
         )
     endif()
 
-    if (Qt5WaylandClient_FOUND)
+    if (NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
         target_link_libraries(external_qt INTERFACE Qt5::WaylandClient)
 
         target_include_directories(external_qt SYSTEM
@@ -80,7 +80,7 @@ else()
         )
     endif()
 
-    if (Qt5WaylandClient_FOUND)
+    if (NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
         target_include_directories(external_qt SYSTEM
         INTERFACE
             ${qt_loc}/include/QtWaylandClient
@@ -115,7 +115,7 @@ else()
         )
     endif()
 
-    if (Qt5WaylandClient_FOUND)
+    if (NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
         target_compile_definitions(external_qt
         INTERFACE
             QT_WAYLANDCLIENT_LIB
@@ -206,7 +206,7 @@ else()
         endif()
         set(qt_libs_waylandclient)
         set(qt_libs_waylandclient_plugins)
-        if (Qt5WaylandClient_FOUND)
+        if (NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
             set(qt_libs_waylandclient lib/${qt_lib_prefix}Qt5WaylandClient)
             set(qt_libs_waylandclient_plugins
                 plugins/platforms/${qt_lib_prefix}qwayland-generic
@@ -281,7 +281,7 @@ else()
             xcb-keysyms
             z
         )
-        if (Qt5WaylandClient_FOUND)
+        if (NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
             target_link_libraries(external_qt
             INTERFACE
                 desktop-app::linux_wayland_helper
