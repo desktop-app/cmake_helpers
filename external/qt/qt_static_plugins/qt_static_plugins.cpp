@@ -8,7 +8,9 @@ https://github.com/desktop-app/legal/blob/master/LEGAL
 #include <QtCore/QtPlugin>
 
 #ifndef DESKTOP_APP_USE_PACKAGED
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+Q_IMPORT_PLUGIN(QTlsBackendOpenSSL)
+#else // Qt >= 6.0.0
 Q_IMPORT_PLUGIN(QGenericEnginePlugin)
 #endif // Qt < 6.0.0
 
