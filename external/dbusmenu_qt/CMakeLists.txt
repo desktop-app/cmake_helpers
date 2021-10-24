@@ -7,7 +7,7 @@
 add_library(external_dbusmenu_qt INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_dbusmenu_qt ALIAS external_dbusmenu_qt)
 
-if (DESKTOP_APP_USE_PACKAGED)
+if (DESKTOP_APP_USE_PACKAGED AND NOT DESKTOP_APP_QT6)
     if (DESKTOP_APP_USE_PACKAGED_LAZY)
         find_package(dbusmenu-qt5 QUIET)
     else()
@@ -48,11 +48,19 @@ if (NOT dbusmenu-qt5_FOUND)
         utils.cpp
     )
 
-    qt5_add_dbus_adaptor(dbusmenu_adaptor
-        ${dbusmenu_qt_loc}/com.canonical.dbusmenu.xml
-        ${dbusmenu_qt_loc}/dbusmenuexporterdbus_p.h
-        DBusMenuExporterDBus
-    )
+    if (DESKTOP_APP_QT6)
+        qt6_add_dbus_adaptor(dbusmenu_adaptor
+            ${dbusmenu_qt_loc}/com.canonical.dbusmenu.xml
+            ${dbusmenu_qt_loc}/dbusmenuexporterdbus_p.h
+            DBusMenuExporterDBus
+        )
+    else()
+        qt5_add_dbus_adaptor(dbusmenu_adaptor
+            ${dbusmenu_qt_loc}/com.canonical.dbusmenu.xml
+            ${dbusmenu_qt_loc}/dbusmenuexporterdbus_p.h
+            DBusMenuExporterDBus
+        )
+    endif()
 
     target_sources(external_dbusmenu_qt_bundled PRIVATE ${dbusmenu_adaptor})
 

@@ -18,11 +18,19 @@ PRIVATE
     statusnotifieritem.h
 )
 
-qt5_add_dbus_adaptor(sni_adaptor
-    ${statusnotifieritem_loc}/org.kde.StatusNotifierItem.xml
-    ${statusnotifieritem_loc}/statusnotifieritem.h
-    StatusNotifierItem
-)
+if (DESKTOP_APP_QT6)
+    qt6_add_dbus_adaptor(sni_adaptor
+        ${statusnotifieritem_loc}/org.kde.StatusNotifierItem.xml
+        ${statusnotifieritem_loc}/statusnotifieritem.h
+        StatusNotifierItem
+    )
+else()
+    qt5_add_dbus_adaptor(sni_adaptor
+        ${statusnotifieritem_loc}/org.kde.StatusNotifierItem.xml
+        ${statusnotifieritem_loc}/statusnotifieritem.h
+        StatusNotifierItem
+    )
+endif()
 
 set_target_properties(external_statusnotifieritem PROPERTIES AUTOMOC ON)
 
