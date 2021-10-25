@@ -10,14 +10,15 @@ add_library(desktop-app::external_crashpad ALIAS external_crashpad)
 target_include_directories(external_crashpad SYSTEM
 INTERFACE
     ${libs_loc}/crashpad
-    ${libs_loc}/crashpad/third_party/mini_chromium/mini_chromium
+    ${libs_loc}/crashpad/gen
+    ${libs_loc}/crashpad/third_party/mini_chromium
 )
 
 set(crashpad_lib_loc ${libs_loc}/crashpad/out/$<IF:$<CONFIG:Debug>,Debug,Release>)
 
 target_link_libraries(external_crashpad
 INTERFACE
-    ${crashpad_lib_loc}/libbase.a
+    ${crashpad_lib_loc}/libmini_chromium_base.a
     ${crashpad_lib_loc}/libcrashpad_client.a
     ${crashpad_lib_loc}/libcrashpad_util.a
     bsm
