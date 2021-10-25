@@ -32,7 +32,6 @@ option(DESKTOP_APP_DISABLE_AUTOUPDATE "Disable autoupdate." ${disable_autoupdate
 option(DESKTOP_APP_USE_HUNSPELL_ONLY "Disable system spellchecker and use bundled Hunspell only. (For debugging purposes)" OFF)
 option(DESKTOP_APP_USE_ENCHANT "Use Enchant instead of bundled Hunspell. (Linux only)" OFF)
 option(DESKTOP_APP_NO_PDB "Disable PDB file generation. (Windows only)" OFF)
-option(DESKTOP_APP_QT6 "Build with Qt 6" OFF)
 
 set(dont_bundle_fonts 0)
 if (DESKTOP_APP_USE_PACKAGED AND NOT DESKTOP_APP_USE_PACKAGED_LAZY)
