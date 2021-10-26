@@ -119,6 +119,7 @@ else()
     PRIVATE
         _USE_MATH_DEFINES
         "RAPIDJSON_ASSERT=(void)"
+        LOTTIE_DISABLE_ARM_NEON
     )
 
     target_include_directories(external_rlottie_bundled
