@@ -21,12 +21,7 @@ else()
     endif()
 
     set_target_properties(external_fcitx5_qt PROPERTIES AUTOMOC ON)
-
-    if (DESKTOP_APP_QT6)
-        set(FCITX5_QT_EXTRA_PLUGIN_NAME "\"fcitx\",")
-    else()
-        set(FCITX5_QT_EXTRA_PLUGIN_NAME "")
-    endif()
+    set(FCITX5_QT_EXTRA_PLUGIN_NAME "")
 
     configure_file("${fcitx5_qt_src}/fcitx5.json.in" "${CMAKE_CURRENT_BINARY_DIR}/fcitx5.json")
 
