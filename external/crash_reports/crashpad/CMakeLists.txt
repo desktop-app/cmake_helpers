@@ -18,8 +18,6 @@ set(crashpad_lib_loc ${libs_loc}/crashpad/out/$<IF:$<CONFIG:Debug>,Debug,Release
 
 target_link_libraries(external_crashpad
 INTERFACE
-    ${crashpad_lib_loc}/libmini_chromium_base.a
     ${crashpad_lib_loc}/libcrashpad_client.a
-    ${crashpad_lib_loc}/libcrashpad_util.a
     bsm
 )
