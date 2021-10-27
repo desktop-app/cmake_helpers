@@ -15,9 +15,7 @@ function(report_bad_special_target)
 endfunction()
 
 set(CMAKE_OSX_DEPLOYMENT_TARGET 10.12 CACHE STRING "Minimum macOS deployment version" FORCE)
-if (DESKTOP_APP_QT6)
-    set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64" CACHE STRING "Target macOS architectures" FORCE)
-else()
+if (NOT DESKTOP_APP_QT6)
     set(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE STRING "Target macOS architectures" FORCE)
 endif()
 
