@@ -6,7 +6,11 @@
 
 set(DESKTOP_APP_SPECIAL_TARGET "" CACHE STRING "Use special platform target, like 'macstore' for Mac App Store.")
 
-option(DESKTOP_APP_QT6 "Build with Qt 6" ${UNIX})
+set(default_to_qt6 1)
+if (WIN32)
+    set(default_to_qt6 0)
+endif()
+option(DESKTOP_APP_QT6 "Build with Qt 6" ${default_to_qt6})
 
 function(report_bad_special_target)
     if (NOT DESKTOP_APP_SPECIAL_TARGET STREQUAL "")
