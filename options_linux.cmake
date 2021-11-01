@@ -112,6 +112,7 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
         -rdynamic
         -fwhole-program
         -Wl,-z,relro
+        -Wl,-z,now
         -pie
     )
 endif()
