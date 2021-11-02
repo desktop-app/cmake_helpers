@@ -12,6 +12,7 @@ https://github.com/desktop-app/legal/blob/master/LEGAL
 
 #ifdef Q_OS_MAC
 Q_IMPORT_PLUGIN(QSecureTransportBackend)
+Q_IMPORT_PLUGIN(QSCNetworkReachabilityNetworkInformationBackendFactory)
 #else // Q_OS_MAC
 Q_IMPORT_PLUGIN(QTlsBackendOpenSSL)
 #endif // Q_OS_MAC

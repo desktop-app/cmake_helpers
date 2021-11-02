@@ -159,6 +159,7 @@ else()
             lib/${qt_lib_prefix}Qt6BundledFreetype
             plugins/platforms/${qt_lib_prefix}qcocoa
             plugins/tls/${qt_lib_prefix}qsecuretransportbackend
+            plugins/networkinformation/${qt_lib_prefix}qscnetworkreachability
         )
         foreach (lib ${qt_libs})
             list(APPEND qt_libs_list "${qt_loc}/${lib}${qt_lib_suffix}")
