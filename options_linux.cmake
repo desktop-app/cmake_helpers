@@ -113,7 +113,7 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
         -fwhole-program
         -Wl,-z,relro
         -Wl,-z,now
-        -pie
+        # -pie # https://gitlab.gnome.org/GNOME/nautilus/-/issues/1601
     )
 endif()
 
