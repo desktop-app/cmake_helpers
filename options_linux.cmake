@@ -17,6 +17,7 @@ INTERFACE
     -Wno-switch
     -Wno-missing-field-initializers
     -Wno-sign-compare
+    -Wno-deprecated # implicit capture of 'this' via '[=]' is deprecated in C++20
 )
 
 target_compile_definitions(common_options
