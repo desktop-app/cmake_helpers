@@ -12,12 +12,15 @@ def run(project, arguments, buildType=''):
 
     cmake = ['cmake']
     windowsArch = ''
+    explicitGenerator = False
     for arg in arguments:
         if arg == 'debug':
             cmake.append('-DCMAKE_BUILD_TYPE=Debug')
         elif arg == 'x86' or arg == 'x64':
             windowsArch = arg
         elif arg != 'force':
+            if arg.startswith('-G'):
+                explicitGenerator = True
             cmake.append(arg)
     if sys.platform == 'win32':
         if windowsArch == 'x64':
@@ -28,11 +31,15 @@ def run(project, arguments, buildType=''):
         print("[ERROR] x86/x64 switch is supported only on Windows.")
         return 1
     elif sys.platform == 'darwin':
-        cmake.append('-GXcode')
-    elif buildType:
-        cmake.append('-DCMAKE_BUILD_TYPE=' + buildType)
-    elif not '-DCMAKE_BUILD_TYPE=Debug' in cmake:
-        cmake.append('-DCMAKE_BUILD_TYPE=Release')
+        if not explicitGenerator:
+            cmake.append('-GXcode')
+    else:
+        if not explicitGenerator:
+            cmake.append('-GNinja Multi-Config')
+        elif buildType:
+            cmake.append('-DCMAKE_BUILD_TYPE=' + buildType)
+        elif not '-DCMAKE_BUILD_TYPE=Debug' in cmake:
+            cmake.append('-DCMAKE_BUILD_TYPE=Release')
 
     specialTarget = ''
     specialTargetFile = scriptPath + '/../' + project + '/build/target'
