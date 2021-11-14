@@ -5,9 +5,6 @@
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
 set(MAXIMUM_CXX_STANDARD cxx_std_20)
-if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    set(MAXIMUM_CXX_STANDARD cxx_std_17)
-endif()
 
 function(init_target_folder target_name folder_name)
     if (NOT "${folder_name}" STREQUAL "")
