@@ -42,7 +42,7 @@ function(init_target target_name) # init_target(my_target folder_name)
             XCODE_ATTRIBUTE_LLVM_LTO $<IF:$<CONFIG:Debug>,NO,YES>
         )
     endif()
-    if (DESKTOP_APP_SPECIAL_TARGET AND WIN32)
+    if (DESKTOP_APP_SPECIAL_TARGET AND WIN32 AND NOT build_win64)
         set_target_properties(${target_name} PROPERTIES
             INTERPROCEDURAL_OPTIMIZATION_RELEASE True
             INTERPROCEDURAL_OPTIMIZATION_RELWITHDEBINFO True
