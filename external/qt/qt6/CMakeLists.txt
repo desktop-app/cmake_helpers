@@ -267,10 +267,6 @@ else()
         INTERFACE
             desktop-app::linux_xcb_helper
             $<TARGET_FILE:desktop-app::linux_xcb_helper>
-            desktop-app::linux_gtk_helper
-            $<TARGET_FILE:desktop-app::linux_gtk_helper>
-            desktop-app::linux_glib_helper
-            $<TARGET_FILE:desktop-app::linux_glib_helper>
             fontconfig
             freetype
             xcb
