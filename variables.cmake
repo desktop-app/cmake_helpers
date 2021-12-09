@@ -22,7 +22,6 @@ option(DESKTOP_APP_DISABLE_DBUS_INTEGRATION "Disable all code for D-Bus integrat
 option(DESKTOP_APP_DISABLE_X11_INTEGRATION "Disable all code for X11 integration (Linux only)." OFF)
 option(DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION "Disable all code for Wayland integration (Linux only)." OFF)
 option(DESKTOP_APP_USE_ALLOCATION_TRACER "Use simple allocation tracer (Linux only)." OFF)
-option(DESKTOP_APP_USE_PACKAGED "Find libraries using CMake instead of exact paths." ${no_special_target})
 option(DESKTOP_APP_USE_PACKAGED_LAZY "Bundle recommended Qt plugins for self-contained packages. (Linux only)" OFF)
 option(DESKTOP_APP_USE_PACKAGED_FFMPEG_STATIC "Link ffmpeg statically in packaged mode." OFF)
 option(DESKTOP_APP_DISABLE_SPELLCHECK "Disable spellcheck library." OFF)
@@ -31,7 +30,12 @@ option(DESKTOP_APP_DISABLE_AUTOUPDATE "Disable autoupdate." ${disable_autoupdate
 option(DESKTOP_APP_USE_HUNSPELL_ONLY "Disable system spellchecker and use bundled Hunspell only. (For debugging purposes)" OFF)
 option(DESKTOP_APP_USE_ENCHANT "Use Enchant instead of bundled Hunspell. (Linux only)" OFF)
 option(DESKTOP_APP_NO_PDB "Disable PDB file generation. (Windows only)" OFF)
-set(DESKTOP_APP_MAC_ARCH "x86_64;arm64" CACHE STRING "Target macOS arch. (macOS only)")
+
+if (NOT DESKTOP_APP_USE_PACKAGED)
+    set(DESKTOP_APP_MAC_ARCH "${CMAKE_OSX_ARCHITECTURES}" CACHE STRING "Target macOS arch. (macOS only)")
+else()
+    set(DESKTOP_APP_MAC_ARCH "x86_64;arm64" CACHE STRING "Target macOS arch. (macOS only)")
+endif()
 
 set(dont_bundle_fonts 0)
 if (DESKTOP_APP_USE_PACKAGED AND NOT DESKTOP_APP_USE_PACKAGED_LAZY)
