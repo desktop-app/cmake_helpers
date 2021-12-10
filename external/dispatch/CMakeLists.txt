@@ -19,10 +19,7 @@ if (DESKTOP_APP_USE_PACKAGED)
 endif()
 
 add_library(external_dispatch_bundled STATIC IMPORTED)
-
 set(dispatch_loc ${third_party_loc}/dispatch)
-set(dispatch_prefix ${CMAKE_CURRENT_BINARY_DIR}/dispatch-prefix)
-set(dispatch_binary_dir ${dispatch_prefix}/src/dispatch-build)
 
 include(ExternalProject)
 ExternalProject_Add(dispatch
@@ -34,14 +31,16 @@ ExternalProject_Add(dispatch
         -DCMAKE_CXX_COMPILER=clang++
         -DBUILD_SHARED_LIBS=OFF
         -DBUILD_TESTING=OFF
-    INSTALL_COMMAND :
+    STEP_TARGETS build
+    EXCLUDE_FROM_ALL TRUE
     BUILD_BYPRODUCTS
-        ${dispatch_binary_dir}/src/libdispatch.a
-        ${dispatch_binary_dir}/src/BlocksRuntime/libBlocksRuntime.a
+        <BINARY_DIR>/src/libdispatch.a
+        <BINARY_DIR>/src/BlocksRuntime/libBlocksRuntime.a
 )
 
+ExternalProject_Get_property(jemalloc BINARY_DIR)
 set_target_properties(external_dispatch_bundled PROPERTIES
-    IMPORTED_LOCATION "${dispatch_binary_dir}/src/libdispatch.a"
+    IMPORTED_LOCATION "${BINARY_DIR}/src/libdispatch.a"
 )
 
 target_include_directories(external_dispatch_bundled SYSTEM
@@ -51,11 +50,11 @@ INTERFACE
 
 target_link_libraries(external_dispatch_bundled
 INTERFACE
-    ${dispatch_binary_dir}/src/BlocksRuntime/libBlocksRuntime.a
+    ${BINARY_DIR}/src/BlocksRuntime/libBlocksRuntime.a
     pthread
 )
 
-add_dependencies(external_dispatch_bundled dispatch)
+add_dependencies(external_dispatch_bundled dispatch-build)
 
 target_link_libraries(external_dispatch
 INTERFACE
