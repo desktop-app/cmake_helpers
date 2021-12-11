@@ -27,7 +27,7 @@ if (DESKTOP_APP_USE_PACKAGED)
 endif()
 
 if (NOT JEMALLOC_FOUND)
-    add_library(external_jemalloc_bundled STATIC IMPORTED GLOBAL)
+    add_library(external_jemalloc_bundled STATIC IMPORTED)
     set(jemalloc_loc ${third_party_loc}/jemalloc)
 
     include(ExternalProject)
