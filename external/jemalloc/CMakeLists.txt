@@ -34,8 +34,9 @@ if (NOT JEMALLOC_FOUND)
     ExternalProject_Add(jemalloc
         SOURCE_DIR ${jemalloc_loc}
         CONFIGURE_COMMAND cd "${jemalloc_loc}" && export EXTRA_CFLAGS=-fstack-protector-all\ -fPIC\ -D_FORTIFY_SOURCE=2 && export EXTRA_CXXFLAGS=-fstack-protector-all\ -fPIC\ -D_FORTIFY_SOURCE=2 && CC=clang CXX=clang++ ./autogen.sh
-        INSTALL_COMMAND :
         BUILD_IN_SOURCE 1
+        STEP_TARGETS build
+        EXCLUDE_FROM_ALL TRUE
         BUILD_BYPRODUCTS ${jemalloc_loc}/lib/libjemalloc.a
     )
 
@@ -56,7 +57,7 @@ if (NOT JEMALLOC_FOUND)
         pthread
     )
 
-    add_dependencies(external_jemalloc_bundled jemalloc)
+    add_dependencies(external_jemalloc_bundled jemalloc-build)
 
     target_link_libraries(external_jemalloc
     INTERFACE
