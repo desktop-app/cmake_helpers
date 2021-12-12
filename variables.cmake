@@ -31,7 +31,7 @@ option(DESKTOP_APP_USE_HUNSPELL_ONLY "Disable system spellchecker and use bundle
 option(DESKTOP_APP_USE_ENCHANT "Use Enchant instead of bundled Hunspell. (Linux only)" OFF)
 option(DESKTOP_APP_NO_PDB "Disable PDB file generation. (Windows only)" OFF)
 
-if (DESKTOP_APP_USE_PACKAGED)
+if (DESKTOP_APP_USE_PACKAGED AND DEFINED CMAKE_OSX_ARCHITECTURES)
     set(DESKTOP_APP_MAC_ARCH "${CMAKE_OSX_ARCHITECTURES}" CACHE STRING "Target macOS arch. (macOS only)")
 else()
     set(DESKTOP_APP_MAC_ARCH "x86_64;arm64" CACHE STRING "Target macOS arch. (macOS only)")
