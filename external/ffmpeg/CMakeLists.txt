@@ -16,34 +16,14 @@ if (DESKTOP_APP_USE_PACKAGED)
     pkg_check_modules(SWSCALE REQUIRED IMPORTED_TARGET libswscale)
     pkg_check_modules(SWRESAMPLE REQUIRED IMPORTED_TARGET libswresample)
 
-    if (DESKTOP_APP_USE_PACKAGED_FFMPEG_STATIC)
-        target_include_directories(external_ffmpeg SYSTEM
-        INTERFACE
-            ${AVCODEC_STATIC_INCLUDE_DIRS}
-            ${AVFORMAT_STATIC_INCLUDE_DIRS}
-            ${AVUTIL_STATIC_INCLUDE_DIRS}
-            ${SWSCALE_STATIC_INCLUDE_DIRS}
-            ${SWRESAMPLE_STATIC_INCLUDE_DIRS}
-        )
-
-        target_link_static_libraries(external_ffmpeg IGNORE_NONEXISTING
-        INTERFACE
-            ${AVCODEC_STATIC_LIBRARIES}
-            ${AVFORMAT_STATIC_LIBRARIES}
-            ${AVUTIL_STATIC_LIBRARIES}
-            ${SWSCALE_STATIC_LIBRARIES}
-            ${SWRESAMPLE_STATIC_LIBRARIES}
-        )
-    else()
-        target_link_libraries(external_ffmpeg
-        INTERFACE
-            PkgConfig::AVCODEC
-            PkgConfig::AVFORMAT
-            PkgConfig::AVUTIL
-            PkgConfig::SWSCALE
-            PkgConfig::SWRESAMPLE
-        )
-    endif()
+    target_link_libraries(external_ffmpeg
+    INTERFACE
+        PkgConfig::AVCODEC
+        PkgConfig::AVFORMAT
+        PkgConfig::AVUTIL
+        PkgConfig::SWSCALE
+        PkgConfig::SWRESAMPLE
+    )
 else()
     target_include_directories(external_ffmpeg SYSTEM
     INTERFACE
