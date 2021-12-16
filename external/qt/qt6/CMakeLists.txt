@@ -137,6 +137,10 @@ else()
 
     set(qt_libs_list "")
     if (WIN32)
+        target_include_directories(external_qt SYSTEM
+        INTERFACE
+            ${qt_loc}/mkspecs/win32-msvc
+        )
         set(qt_libs
             ${common_qt_libs}
             lib/${qt_lib_prefix}Qt6WindowsUIAutomationSupport
@@ -154,6 +158,10 @@ else()
             desktop-app::external_angle
         )
     elseif (APPLE)
+        target_include_directories(external_qt SYSTEM
+        INTERFACE
+            ${qt_loc}/mkspecs/macx-clang
+        )
         set(qt_libs
             ${common_qt_libs}
             lib/${qt_lib_prefix}Qt6BundledFreetype
