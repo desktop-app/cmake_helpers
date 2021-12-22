@@ -9,7 +9,7 @@ add_library(desktop-app::external_qr_code_generator ALIAS external_qr_code_gener
 
 if (DESKTOP_APP_USE_PACKAGED)
     find_library(QRCODE_LIBRARIES NAMES qrcodegencpp)
-    find_path(QRCODE_INCLUDE_DIRS QrCode.hpp PATH_SUFFIXES qrcodegencpp qrcodegen)
+    find_path(QRCODE_INCLUDE_DIRS qrcodegen.hpp PATH_SUFFIXES qrcodegencpp qrcodegen)
 
     if (QRCODE_LIBRARIES AND QRCODE_INCLUDE_DIRS)
         target_include_directories(external_qr_code_generator SYSTEM INTERFACE ${QRCODE_INCLUDE_DIRS})
@@ -26,12 +26,8 @@ if (NOT QRCODE_LIBRARIES OR NOT QRCODE_INCLUDE_DIRS)
 
     nice_target_sources(external_qr_code_generator_bundled ${qr_src}
     PRIVATE
-        BitBuffer.cpp
-        BitBuffer.hpp
-        QrCode.cpp
-        QrCode.hpp
-        QrSegment.cpp
-        QrSegment.hpp
+        qrcodegen.cpp
+        qrcodegen.hpp
     )
 
     target_include_directories(external_qr_code_generator_bundled
