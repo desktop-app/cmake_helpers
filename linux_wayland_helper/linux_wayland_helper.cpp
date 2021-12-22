@@ -12,6 +12,7 @@
 #include <iostream>
 
 #define LOAD_SYMBOL(handle, func) LoadSymbol(handle, #func, func)
+#define LOAD_SYMBOL_SILENT(handle, func) LoadSymbol(handle, #func, func, true)
 
 namespace Wayland {
 namespace {
@@ -95,6 +96,13 @@ struct wl_proxy *(*wl_proxy_marshal_array_constructor_versioned)(
 	union wl_argument *args,
 	const struct wl_interface *interface,
 	uint32_t version);
+struct wl_proxy *(*wl_proxy_marshal_array_flags)(
+	struct wl_proxy *proxy,
+	uint32_t opcode,
+	const struct wl_interface *interface,
+	uint32_t version,
+	uint32_t flags,
+	union wl_argument *args);
 uint32_t (*wl_proxy_get_id)(struct wl_proxy *proxy);
 const void *(*wl_proxy_get_listener)(struct wl_proxy *proxy);
 
@@ -189,11 +197,15 @@ bool LoadLibrary(Handle &handle, const char *name) {
 }
 
 template <typename Function>
-inline bool LoadSymbol(const Handle &handle, const char *name, Function &func) {
+inline bool LoadSymbol(
+		const Handle &handle,
+		const char *name,
+		Function &func,
+		bool silent = false) {
 	func = handle
 		? reinterpret_cast<Function>(dlsym(handle.get(), name))
 		: nullptr;
-	if (const auto error = dlerror()) {
+	if (const auto error = dlerror(); error && !silent) {
 		std::cerr << error << std::endl;
 	}
 	return (func != nullptr);
@@ -204,7 +216,7 @@ bool Resolve() {
 		auto egl = Handle();
 		auto cursor = Handle();
 		auto client = Handle();
-		return LoadLibrary(egl, "libwayland-egl.so.1")
+		const auto required = LoadLibrary(egl, "libwayland-egl.so.1")
 			&& LOAD_SYMBOL(egl, wl_egl_window_create)
 			&& LOAD_SYMBOL(egl, wl_egl_window_destroy)
 			&& LOAD_SYMBOL(egl, wl_egl_window_resize)
@@ -247,6 +259,8 @@ bool Resolve() {
 			&& LOAD_SYMBOL(client, wl_proxy_marshal_array_constructor_versioned)
 			&& LOAD_SYMBOL(client, wl_proxy_get_id)
 			&& LOAD_SYMBOL(client, wl_proxy_get_listener);
+		LOAD_SYMBOL_SILENT(client, wl_proxy_marshal_array_flags);
+		return required;
 	}();
 	return loaded;
 }
@@ -536,6 +550,24 @@ struct wl_proxy *wl_proxy_marshal_array_constructor_versioned(
 		version);
 }
 
+struct wl_proxy *wl_proxy_marshal_array_flags(
+		struct wl_proxy *proxy,
+		uint32_t opcode,
+		const struct wl_interface *interface,
+		uint32_t version,
+		uint32_t flags,
+		union wl_argument *args) {
+	Expects(W::wl_proxy_marshal_array_flags != nullptr);
+
+	return W::wl_proxy_marshal_array_flags(
+		proxy,
+		opcode,
+		interface,
+		version,
+		flags,
+		args);
+}
+
 uint32_t wl_proxy_get_id(struct wl_proxy *proxy) {
 	Expects(W::wl_proxy_get_id != nullptr);
 
@@ -617,6 +649,53 @@ struct wl_proxy *wl_proxy_marshal_constructor_versioned(
 	return wl_proxy_marshal_array_constructor_versioned(proxy, opcode,
 							    args, interface,
 							    version);
+}
+
+struct wl_proxy *wl_proxy_marshal_flags(
+		struct wl_proxy *proxy,
+		uint32_t opcode,
+		const struct wl_interface *interface,
+		uint32_t version,
+		uint32_t flags,
+		...) {
+	union wl_argument args[W::WL_CLOSURE_MAX_ARGS];
+	va_list ap;
+
+	va_start(ap, flags);
+
+	// wl_proxy { wl_object { wl_interface *, ... }, ... }
+	struct wl_object *object = (struct wl_object*)proxy;
+	struct wl_interface *i = *((struct wl_interface**)object);
+	W::wl_argument_from_va_list(
+		i->methods[opcode].signature,
+		args,
+		W::WL_CLOSURE_MAX_ARGS,
+		ap);
+
+	va_end(ap);
+
+	if (W::wl_proxy_marshal_array_flags == nullptr) {
+		const auto result = wl_proxy_marshal_array_constructor_versioned(
+			proxy,
+			opcode,
+			args,
+			interface,
+			version);
+		
+		if (flags & WL_MARSHAL_FLAG_DESTROY) {
+			wl_proxy_destroy(proxy);
+		}
+
+		return result;
+	}
+
+	return wl_proxy_marshal_array_flags(
+		proxy,
+		opcode,
+		interface,
+		version,
+		flags,
+		args);
 }
 
 } // extern "C"
