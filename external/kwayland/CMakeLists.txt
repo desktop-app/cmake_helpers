@@ -40,6 +40,8 @@ ExternalProject_Add(kwayland
 )
 
 ExternalProject_Get_property(kwayland BINARY_DIR)
+file(MAKE_DIRECTORY "${BINARY_DIR}/src/client")
+
 set_target_properties(external_kwayland_bundled PROPERTIES
     IMPORTED_LOCATION "${BINARY_DIR}/lib/libKF5WaylandClient.a"
 )
