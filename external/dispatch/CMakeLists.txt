@@ -38,7 +38,7 @@ ExternalProject_Add(dispatch
         <BINARY_DIR>/src/BlocksRuntime/libBlocksRuntime.a
 )
 
-ExternalProject_Get_property(jemalloc BINARY_DIR)
+ExternalProject_Get_property(dispatch BINARY_DIR)
 set_target_properties(external_dispatch_bundled PROPERTIES
     IMPORTED_LOCATION "${BINARY_DIR}/src/libdispatch.a"
 )
