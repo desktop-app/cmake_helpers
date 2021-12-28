@@ -9,7 +9,7 @@ add_library(desktop-app::external_minizip ALIAS external_minizip)
 
 if (DESKTOP_APP_USE_PACKAGED)
     find_package(PkgConfig REQUIRED)
-    pkg_check_modules(MINIZIP IMPORTED_TARGET minizip)
+    pkg_check_modules(MINIZIP IMPORTED_TARGET minizip<2.0.0)
 
     if (MINIZIP_FOUND)
         target_link_libraries(external_minizip INTERFACE PkgConfig::MINIZIP)
