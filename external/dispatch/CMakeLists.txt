@@ -19,11 +19,10 @@ if (DESKTOP_APP_USE_PACKAGED)
 endif()
 
 add_library(external_dispatch_bundled STATIC IMPORTED)
-set(dispatch_loc ${third_party_loc}/dispatch)
 
 include(ExternalProject)
 ExternalProject_Add(dispatch
-    SOURCE_DIR ${dispatch_loc}
+    URL ${third_party_loc}/dispatch
     CMAKE_GENERATOR Ninja
     CMAKE_ARGS
         -DCMAKE_BUILD_TYPE=Release
@@ -38,14 +37,16 @@ ExternalProject_Add(dispatch
         <BINARY_DIR>/src/BlocksRuntime/libBlocksRuntime.a
 )
 
+ExternalProject_Get_property(dispatch SOURCE_DIR)
 ExternalProject_Get_property(dispatch BINARY_DIR)
+
 set_target_properties(external_dispatch_bundled PROPERTIES
     IMPORTED_LOCATION "${BINARY_DIR}/src/libdispatch.a"
 )
 
 target_include_directories(external_dispatch_bundled SYSTEM
 INTERFACE
-    ${dispatch_loc}
+    ${SOURCE_DIR}
 )
 
 target_link_libraries(external_dispatch_bundled

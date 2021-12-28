@@ -17,7 +17,6 @@ if (DESKTOP_APP_USE_PACKAGED AND NOT DESKTOP_APP_QT6)
 endif()
 
 add_library(external_kwayland_bundled STATIC IMPORTED)
-set(kwayland_loc ${third_party_loc}/kwayland)
 
 set(kwayland_patch_command :)
 if (DESKTOP_APP_QT6)
@@ -26,7 +25,7 @@ endif()
 
 include(ExternalProject)
 ExternalProject_Add(kwayland
-    SOURCE_DIR ${kwayland_loc}
+    URL ${third_party_loc}/kwayland
     CMAKE_GENERATOR Ninja
     CMAKE_ARGS
         -DCMAKE_BUILD_TYPE=Release
@@ -39,7 +38,10 @@ ExternalProject_Add(kwayland
     BUILD_BYPRODUCTS <BINARY_DIR>/lib/libKF5WaylandClient.a
 )
 
+ExternalProject_Get_property(kwayland SOURCE_DIR)
 ExternalProject_Get_property(kwayland BINARY_DIR)
+
+file(MAKE_DIRECTORY "${SOURCE_DIR}/src/client")
 file(MAKE_DIRECTORY "${BINARY_DIR}/src/client")
 
 set_target_properties(external_kwayland_bundled PROPERTIES
@@ -48,7 +50,7 @@ set_target_properties(external_kwayland_bundled PROPERTIES
 
 target_include_directories(external_kwayland_bundled SYSTEM
 INTERFACE
-    ${kwayland_loc}/src/client
+    ${SOURCE_DIR}/src/client
     ${BINARY_DIR}/src/client
 )
 
