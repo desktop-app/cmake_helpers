@@ -133,13 +133,6 @@ else()
         ${rlottie_loc}/src/vector/freetype
     )
 
-    if (LINUX)
-        target_link_libraries(external_rlottie_bundled
-        PRIVATE
-            pthread
-        )
-    endif()
-
     if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
         target_compile_options(external_rlottie_bundled
         PRIVATE

@@ -32,9 +32,4 @@ else()
     PRIVATE
         ${X11_INCLUDE_DIRS}
     )
-
-    target_link_libraries(external_hime_im_client
-    PRIVATE
-        ${CMAKE_DL_LIBS}
-    )
 endif()

@@ -19,12 +19,4 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
             ${libs_loc}/openssl/include
         )
     endif()
-
-    if (LINUX)
-        target_link_libraries(external_openssl_common
-        INTERFACE
-            ${CMAKE_DL_LIBS}
-            pthread
-        )
-    endif()
 endif()

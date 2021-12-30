@@ -45,6 +45,5 @@ else()
     target_link_libraries(external_nimf_qt5
     PRIVATE
         desktop-app::external_qt
-        ${CMAKE_DL_LIBS}
     )
 endif()

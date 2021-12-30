@@ -24,9 +24,4 @@ else()
     INTERFACE
         lzma
     )
-
-    target_link_libraries(external_xz
-    INTERFACE
-        ${CMAKE_DL_LIBS}
-    )
 endif()

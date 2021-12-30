@@ -47,11 +47,6 @@ else()
     INTERFACE
         openal
     )
-    target_link_libraries(external_openal
-    INTERFACE
-        ${CMAKE_DL_LIBS}
-        pthread
-    )
 endif()
 
 if (NOT DESKTOP_APP_USE_PACKAGED)

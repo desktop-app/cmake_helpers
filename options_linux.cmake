@@ -28,6 +28,7 @@ INTERFACE
 target_link_options(common_options
 INTERFACE
     -Wl,--as-needed
+    -pthread
 )
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
@@ -64,6 +65,7 @@ endif()
 target_link_libraries(common_options
 INTERFACE
     desktop-app::external_jemalloc
+    ${CMAKE_DL_LIBS}
 )
 
 if (DESKTOP_APP_USE_ALLOCATION_TRACER)
@@ -109,24 +111,10 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
     endif()
     target_link_options(common_options
     INTERFACE
-        -pthread
         -rdynamic
         -fwhole-program
         -Wl,-z,relro
         -Wl,-z,now
         # -pie # https://gitlab.gnome.org/GNOME/nautilus/-/issues/1601
-    )
-endif()
-
-if (DESKTOP_APP_USE_PACKAGED)
-    find_library(ATOMIC_LIBRARY atomic)
-else()
-    find_library(ATOMIC_LIBRARY libatomic.a)
-endif()
-
-if (ATOMIC_LIBRARY)
-    target_link_libraries(common_options
-    INTERFACE
-        ${ATOMIC_LIBRARY}
     )
 endif()
