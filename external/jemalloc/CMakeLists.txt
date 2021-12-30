@@ -18,10 +18,10 @@ if (DESKTOP_APP_USE_PACKAGED)
     if (JEMALLOC_FOUND)
         target_link_libraries(external_jemalloc
         INTERFACE
-            -Wl,--no-as-needed
+            -Wl,--push-state,--no-as-needed
             PkgConfig::JEMALLOC
             ${JEMALLOC_LINK_LIBRARIES}
-            -Wl,--as-needed
+            -Wl,--pop-state
         )
         return()
     endif()
@@ -61,8 +61,8 @@ add_dependencies(external_jemalloc_bundled jemalloc-build)
 
 target_link_libraries(external_jemalloc
 INTERFACE
-    -Wl,--whole-archive
+    -Wl,--push-state,--whole-archive
     $<TARGET_FILE:external_jemalloc_bundled>
-    -Wl,--no-whole-archive
+    -Wl,--pop-state
     external_jemalloc_bundled
 )
