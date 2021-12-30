@@ -18,9 +18,9 @@ endif()
 
 add_library(external_kwayland_bundled STATIC IMPORTED)
 
-set(kwayland_patch_command :)
+set(kwayland_patch_command)
 if (DESKTOP_APP_QT6)
-    set(kwayland_patch_command patch -p1 < ${CMAKE_CURRENT_SOURCE_DIR}/../../patches/kwayland-qt6.patch)
+    set(kwayland_patch_command PATCH_COMMAND patch -p1 < ${CMAKE_CURRENT_SOURCE_DIR}/../../patches/kwayland-qt6.patch)
 endif()
 
 include(ExternalProject)
@@ -31,7 +31,7 @@ ExternalProject_Add(kwayland
         -DCMAKE_BUILD_TYPE=Release
         -DBUILD_SHARED_LIBS=OFF
         -DBUILD_TESTING=OFF
-    PATCH_COMMAND ${kwayland_patch_command}
+    ${kwayland_patch_command}
     BUILD_COMMAND ${CMAKE_COMMAND} --build <BINARY_DIR> --target KF5WaylandClient
     STEP_TARGETS build
     EXCLUDE_FROM_ALL TRUE
