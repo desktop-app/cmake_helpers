@@ -9,7 +9,7 @@ add_library(desktop-app::external_qr_code_generator ALIAS external_qr_code_gener
 
 if (DESKTOP_APP_USE_PACKAGED)
     find_library(QRCODE_LIBRARIES NAMES qrcodegencpp)
-    find_path(QRCODE_INCLUDE_DIRS qrcodegen.hpp PATH_SUFFIXES qrcodegencpp qrcodegen)
+    find_path(QRCODE_INCLUDE_DIRS NAMES qrcodegen.hpp QrCode.hpp PATH_SUFFIXES qrcodegencpp qrcodegen)
 
     if (QRCODE_LIBRARIES AND QRCODE_INCLUDE_DIRS)
         target_include_directories(external_qr_code_generator SYSTEM INTERFACE ${QRCODE_INCLUDE_DIRS})
