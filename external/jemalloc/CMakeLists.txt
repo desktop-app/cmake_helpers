@@ -51,12 +51,6 @@ INTERFACE
     ${SOURCE_DIR}/include
 )
 
-target_link_libraries(external_jemalloc_bundled
-INTERFACE
-    ${CMAKE_DL_LIBS}
-    pthread
-)
-
 add_dependencies(external_jemalloc_bundled jemalloc-build)
 
 target_link_libraries(external_jemalloc

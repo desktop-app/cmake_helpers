@@ -12,8 +12,3 @@ nice_target_sources(linux_xcb_helper ${CMAKE_CURRENT_SOURCE_DIR}
 PRIVATE
     linux_xcb_helper.cpp
 )
-
-target_link_libraries(linux_xcb_helper
-PUBLIC
-    ${CMAKE_DL_LIBS}
-)

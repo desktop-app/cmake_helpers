@@ -57,7 +57,6 @@ else()
         target_link_libraries(external_ffmpeg
         INTERFACE
             X11
-            pthread
         )
     endif()
 endif()

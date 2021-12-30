@@ -61,7 +61,6 @@ INTERFACE
 target_link_libraries(external_dispatch_bundled
 INTERFACE
     ${dispatch_binary_dir}/src/BlocksRuntime/libBlocksRuntime.a
-    pthread
 )
 
 target_link_libraries(external_dispatch

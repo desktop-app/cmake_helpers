@@ -305,8 +305,6 @@ else()
             xcb
             X11
             X11-xcb
-            ${CMAKE_DL_LIBS}
-            pthread
         )
     endif()
 endif()
