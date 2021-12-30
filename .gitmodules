@@ -1,3 +1,0 @@
-[submodule "patches"]
-	path = patches
-	url = https://github.com/desktop-app/patches.git

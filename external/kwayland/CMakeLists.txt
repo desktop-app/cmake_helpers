@@ -20,7 +20,7 @@ add_library(external_kwayland_bundled STATIC IMPORTED)
 
 set(kwayland_patch_command)
 if (DESKTOP_APP_QT6)
-    set(kwayland_patch_command PATCH_COMMAND patch -p1 < ${CMAKE_CURRENT_SOURCE_DIR}/../../patches/kwayland-qt6.patch)
+    set(kwayland_patch_command PATCH_COMMAND patch -p1 < ${CMAKE_CURRENT_SOURCE_DIR}/kwayland-qt6.patch)
 endif()
 
 include(ExternalProject)
