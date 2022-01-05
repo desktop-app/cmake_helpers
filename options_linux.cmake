@@ -23,6 +23,7 @@ INTERFACE
 target_compile_definitions(common_options
 INTERFACE
     $<IF:$<CONFIG:Debug>,,_FORTIFY_SOURCE=2>
+    _GLIBCXX_ASSERTIONS
 )
 
 target_link_options(common_options
