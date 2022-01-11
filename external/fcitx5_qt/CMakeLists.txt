@@ -7,79 +7,80 @@
 if (DESKTOP_APP_USE_PACKAGED AND NOT DESKTOP_APP_USE_PACKAGED_LAZY)
     add_library(external_fcitx5_qt INTERFACE IMPORTED GLOBAL)
     add_library(desktop-app::external_fcitx5_qt ALIAS external_fcitx5_qt)
+    return()
+endif()
+
+add_library(external_fcitx5_qt STATIC)
+add_library(desktop-app::external_fcitx5_qt ALIAS external_fcitx5_qt)
+init_target(external_fcitx5_qt "(external)")
+
+set(fcitx5_qt_loc ${third_party_loc}/fcitx5-qt)
+
+if (DESKTOP_APP_QT6)
+    set(fcitx5_qt_src ${fcitx5_qt_loc}/qt6/platforminputcontext)
 else()
-    add_library(external_fcitx5_qt STATIC)
-    add_library(desktop-app::external_fcitx5_qt ALIAS external_fcitx5_qt)
-    init_target(external_fcitx5_qt "(external)")
+    set(fcitx5_qt_src ${fcitx5_qt_loc}/qt5/platforminputcontext)
+endif()
 
-    set(fcitx5_qt_loc ${third_party_loc}/fcitx5-qt)
+set_target_properties(external_fcitx5_qt PROPERTIES AUTOMOC ON)
+set(FCITX5_QT_EXTRA_PLUGIN_NAME "")
 
-    if (DESKTOP_APP_QT6)
-        set(fcitx5_qt_src ${fcitx5_qt_loc}/qt6/platforminputcontext)
-    else()
-        set(fcitx5_qt_src ${fcitx5_qt_loc}/qt5/platforminputcontext)
-    endif()
+configure_file("${fcitx5_qt_src}/fcitx5.json.in" "${CMAKE_CURRENT_BINARY_DIR}/fcitx5.json")
 
-    set_target_properties(external_fcitx5_qt PROPERTIES AUTOMOC ON)
-    set(FCITX5_QT_EXTRA_PLUGIN_NAME "")
+nice_target_sources(external_fcitx5_qt ${fcitx5_qt_src}
+PRIVATE
+    qfcitxplatforminputcontext.cpp
+    qfcitxplatforminputcontext.h
+    fcitxcandidatewindow.cpp
+    fcitxcandidatewindow.h
+    fcitxtheme.cpp
+    fcitxtheme.h
+    font.cpp
+    font.h
+    qtkey.cpp
+    main.cpp
+    main.h
+)
 
-    configure_file("${fcitx5_qt_src}/fcitx5.json.in" "${CMAKE_CURRENT_BINARY_DIR}/fcitx5.json")
+target_include_directories(external_fcitx5_qt
+PRIVATE
+    ${fcitx5_qt_src}
+    ${fcitx5_qt_loc}/common
+)
 
-    nice_target_sources(external_fcitx5_qt ${fcitx5_qt_src}
-    PRIVATE
-        qfcitxplatforminputcontext.cpp
-        qfcitxplatforminputcontext.h
-        fcitxcandidatewindow.cpp
-        fcitxcandidatewindow.h
-        fcitxtheme.cpp
-        fcitxtheme.h
-        font.cpp
-        font.h
-        qtkey.cpp
-        main.cpp
-        main.h
-    )
+target_compile_definitions(external_fcitx5_qt
+PRIVATE
+    QT_STATICPLUGIN
+    FCITX_PLUGIN_DATA_FILE_PATH="${CMAKE_CURRENT_BINARY_DIR}/fcitx5.json"
+)
 
-    target_include_directories(external_fcitx5_qt
-    PRIVATE
-        ${fcitx5_qt_src}
-        ${fcitx5_qt_loc}/common
-    )
+add_subdirectory(fcitx5_qt_dbusaddons)
+target_link_libraries(external_fcitx5_qt
+PRIVATE
+    desktop-app::external_fcitx5_qt_dbusaddons
+    desktop-app::external_qt
+    desktop-app::external_xcb
+)
 
-    target_compile_definitions(external_fcitx5_qt
-    PRIVATE
-        QT_STATICPLUGIN
-        FCITX_PLUGIN_DATA_FILE_PATH="${CMAKE_CURRENT_BINARY_DIR}/fcitx5.json"
-    )
+if (DESKTOP_APP_USE_PACKAGED)
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(XKBCOMMON REQUIRED IMPORTED_TARGET xkbcommon)
 
-    add_subdirectory(fcitx5_qt_dbusaddons)
     target_link_libraries(external_fcitx5_qt
     PRIVATE
-        desktop-app::external_fcitx5_qt_dbusaddons
-        desktop-app::external_qt
-        desktop-app::external_xcb
+        PkgConfig::XKBCOMMON
+    )
+else()
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(XKBCOMMON REQUIRED xkbcommon)
+
+    target_include_directories(external_fcitx5_qt SYSTEM
+    PUBLIC
+        ${XKBCOMMON_INCLUDE_DIRS}
     )
 
-    if (DESKTOP_APP_USE_PACKAGED)
-        find_package(PkgConfig REQUIRED)
-        pkg_check_modules(XKBCOMMON REQUIRED IMPORTED_TARGET xkbcommon)
-
-        target_link_libraries(external_fcitx5_qt
-        PRIVATE
-            PkgConfig::XKBCOMMON
-        )
-    else()
-        find_package(PkgConfig REQUIRED)
-        pkg_check_modules(XKBCOMMON REQUIRED xkbcommon)
-
-        target_include_directories(external_fcitx5_qt SYSTEM
-        PUBLIC
-            ${XKBCOMMON_INCLUDE_DIRS}
-        )
-
-        target_link_static_libraries(external_fcitx5_qt
-        PRIVATE
-            xkbcommon
-        )
-    endif()
+    target_link_static_libraries(external_fcitx5_qt
+    PRIVATE
+        xkbcommon
+    )
 endif()

@@ -12,36 +12,37 @@ if (DESKTOP_APP_USE_PACKAGED)
     pkg_check_modules(OPUS IMPORTED_TARGET opus)
 
     target_link_libraries(external_opus INTERFACE PkgConfig::OPUS)
-else()
-    add_library(external_opus STATIC IMPORTED GLOBAL)
-    add_library(desktop-app::external_opus ALIAS external_opus)
+    return()
+endif()
 
-    if (WIN32)
-        target_include_directories(external_opus SYSTEM
-        INTERFACE
-            ${libs_loc}/opus/include
-        )
-        set(opus_lib_loc ${libs_loc}/opus/out)
-        set_target_properties(external_opus PROPERTIES
-            IMPORTED_LOCATION "${opus_lib_loc}/Release/opus.lib"
-            IMPORTED_LOCATION_DEBUG "${opus_lib_loc}/Debug/opus.lib"
-        )
-    elseif (APPLE)
-        target_include_directories(external_opus SYSTEM
-        INTERFACE
-            ${libs_loc}/local/include/opus
-        )
-        set_target_properties(external_opus PROPERTIES
-            IMPORTED_LOCATION ${libs_loc}/local/lib/libopus.a
-        )
-    else()
-        target_include_directories(external_opus SYSTEM
-        INTERFACE
-            /usr/local/include/opus
-        )
-        find_library(OPUS_LIBRARY libopus.a REQUIRED)
-        set_target_properties(external_opus PROPERTIES
-            IMPORTED_LOCATION "${OPUS_LIBRARY}"
-        )
-    endif()
+add_library(external_opus STATIC IMPORTED GLOBAL)
+add_library(desktop-app::external_opus ALIAS external_opus)
+
+if (WIN32)
+    target_include_directories(external_opus SYSTEM
+    INTERFACE
+        ${libs_loc}/opus/include
+    )
+    set(opus_lib_loc ${libs_loc}/opus/out)
+    set_target_properties(external_opus PROPERTIES
+        IMPORTED_LOCATION "${opus_lib_loc}/Release/opus.lib"
+        IMPORTED_LOCATION_DEBUG "${opus_lib_loc}/Debug/opus.lib"
+    )
+elseif (APPLE)
+    target_include_directories(external_opus SYSTEM
+    INTERFACE
+        ${libs_loc}/local/include/opus
+    )
+    set_target_properties(external_opus PROPERTIES
+        IMPORTED_LOCATION ${libs_loc}/local/lib/libopus.a
+    )
+else()
+    target_include_directories(external_opus SYSTEM
+    INTERFACE
+        /usr/local/include/opus
+    )
+    find_library(OPUS_LIBRARY libopus.a REQUIRED)
+    set_target_properties(external_opus PROPERTIES
+        IMPORTED_LOCATION "${OPUS_LIBRARY}"
+    )
 endif()

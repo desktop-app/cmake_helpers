@@ -7,82 +7,83 @@
 if (DESKTOP_APP_USE_PACKAGED AND NOT DESKTOP_APP_USE_PACKAGED_LAZY)
     add_library(external_fcitx_qt5 INTERFACE IMPORTED GLOBAL)
     add_library(desktop-app::external_fcitx_qt5 ALIAS external_fcitx_qt5)
+    return()
+endif()
+
+add_library(external_fcitx_qt5 STATIC)
+add_library(desktop-app::external_fcitx_qt5 ALIAS external_fcitx_qt5)
+init_target(external_fcitx_qt5 "(external)")
+
+set(fcitx_qt5_loc ${third_party_loc}/fcitx-qt5)
+
+if (DESKTOP_APP_QT6)
+    set(fcitx_qt5_src ${fcitx_qt5_loc}/qt6/platforminputcontext)
 else()
-    add_library(external_fcitx_qt5 STATIC)
-    add_library(desktop-app::external_fcitx_qt5 ALIAS external_fcitx_qt5)
-    init_target(external_fcitx_qt5 "(external)")
+    set(fcitx_qt5_src ${fcitx_qt5_loc}/qt5/platforminputcontext)
+endif()
 
-    set(fcitx_qt5_loc ${third_party_loc}/fcitx-qt5)
+set_target_properties(external_fcitx_qt5 PROPERTIES AUTOMOC ON)
 
-    if (DESKTOP_APP_QT6)
-        set(fcitx_qt5_src ${fcitx_qt5_loc}/qt6/platforminputcontext)
-    else()
-        set(fcitx_qt5_src ${fcitx_qt5_loc}/qt5/platforminputcontext)
-    endif()
+nice_target_sources(external_fcitx_qt5 ${fcitx_qt5_src}
+PRIVATE
+    fcitxinputcontextproxy.cpp
+    fcitxqtdbustypes.cpp
+    fcitxwatcher.cpp
+    qfcitxplatforminputcontext.cpp
+    main.cpp
+    qtkey.cpp
+)
 
-    set_target_properties(external_fcitx_qt5 PROPERTIES AUTOMOC ON)
+set_source_files_properties(${fcitx_qt5_src}/org.fcitx.Fcitx.InputContext.xml PROPERTIES
+INCLUDE ${fcitx_qt5_src}/fcitxqtdbustypes.h)
+set_source_files_properties(${fcitx_qt5_src}/org.fcitx.Fcitx.InputContext1.xml PROPERTIES
+INCLUDE ${fcitx_qt5_src}/fcitxqtdbustypes.h)
+set_source_files_properties(${fcitx_qt5_src}/org.fcitx.Fcitx.InputMethod.xml PROPERTIES
+INCLUDE ${fcitx_qt5_src}/fcitxqtdbustypes.h)
+set_source_files_properties(${fcitx_qt5_src}/org.fcitx.Fcitx.InputMethod1.xml PROPERTIES
+INCLUDE ${fcitx_qt5_src}/fcitxqtdbustypes.h)
 
-    nice_target_sources(external_fcitx_qt5 ${fcitx_qt5_src}
-    PRIVATE
-        fcitxinputcontextproxy.cpp
-        fcitxqtdbustypes.cpp
-        fcitxwatcher.cpp
-        qfcitxplatforminputcontext.cpp
-        main.cpp
-        qtkey.cpp
-    )
+if (DESKTOP_APP_QT6)
+    qt6_add_dbus_interface(fcitx_qt5_adaptors ${fcitx_qt5_src}/org.fcitx.Fcitx.InputContext.xml inputcontextproxy)
+    qt6_add_dbus_interface(fcitx_qt5_adaptors ${fcitx_qt5_src}/org.fcitx.Fcitx.InputContext1.xml inputcontext1proxy)
+    qt6_add_dbus_interface(fcitx_qt5_adaptors ${fcitx_qt5_src}/org.fcitx.Fcitx.InputMethod.xml inputmethodproxy)
+    qt6_add_dbus_interface(fcitx_qt5_adaptors ${fcitx_qt5_src}/org.fcitx.Fcitx.InputMethod1.xml inputmethod1proxy)
+else()
+    qt5_add_dbus_interface(fcitx_qt5_adaptors ${fcitx_qt5_src}/org.fcitx.Fcitx.InputContext.xml inputcontextproxy)
+    qt5_add_dbus_interface(fcitx_qt5_adaptors ${fcitx_qt5_src}/org.fcitx.Fcitx.InputContext1.xml inputcontext1proxy)
+    qt5_add_dbus_interface(fcitx_qt5_adaptors ${fcitx_qt5_src}/org.fcitx.Fcitx.InputMethod.xml inputmethodproxy)
+    qt5_add_dbus_interface(fcitx_qt5_adaptors ${fcitx_qt5_src}/org.fcitx.Fcitx.InputMethod1.xml inputmethod1proxy)
+endif()
 
-    set_source_files_properties(${fcitx_qt5_src}/org.fcitx.Fcitx.InputContext.xml PROPERTIES
-    INCLUDE ${fcitx_qt5_src}/fcitxqtdbustypes.h)
-    set_source_files_properties(${fcitx_qt5_src}/org.fcitx.Fcitx.InputContext1.xml PROPERTIES
-    INCLUDE ${fcitx_qt5_src}/fcitxqtdbustypes.h)
-    set_source_files_properties(${fcitx_qt5_src}/org.fcitx.Fcitx.InputMethod.xml PROPERTIES
-    INCLUDE ${fcitx_qt5_src}/fcitxqtdbustypes.h)
-    set_source_files_properties(${fcitx_qt5_src}/org.fcitx.Fcitx.InputMethod1.xml PROPERTIES
-    INCLUDE ${fcitx_qt5_src}/fcitxqtdbustypes.h)
+target_sources(external_fcitx_qt5 PRIVATE ${fcitx_qt5_adaptors})
 
-    if (DESKTOP_APP_QT6)
-        qt6_add_dbus_interface(fcitx_qt5_adaptors ${fcitx_qt5_src}/org.fcitx.Fcitx.InputContext.xml inputcontextproxy)
-        qt6_add_dbus_interface(fcitx_qt5_adaptors ${fcitx_qt5_src}/org.fcitx.Fcitx.InputContext1.xml inputcontext1proxy)
-        qt6_add_dbus_interface(fcitx_qt5_adaptors ${fcitx_qt5_src}/org.fcitx.Fcitx.InputMethod.xml inputmethodproxy)
-        qt6_add_dbus_interface(fcitx_qt5_adaptors ${fcitx_qt5_src}/org.fcitx.Fcitx.InputMethod1.xml inputmethod1proxy)
-    else()
-        qt5_add_dbus_interface(fcitx_qt5_adaptors ${fcitx_qt5_src}/org.fcitx.Fcitx.InputContext.xml inputcontextproxy)
-        qt5_add_dbus_interface(fcitx_qt5_adaptors ${fcitx_qt5_src}/org.fcitx.Fcitx.InputContext1.xml inputcontext1proxy)
-        qt5_add_dbus_interface(fcitx_qt5_adaptors ${fcitx_qt5_src}/org.fcitx.Fcitx.InputMethod.xml inputmethodproxy)
-        qt5_add_dbus_interface(fcitx_qt5_adaptors ${fcitx_qt5_src}/org.fcitx.Fcitx.InputMethod1.xml inputmethod1proxy)
-    endif()
+target_include_directories(external_fcitx_qt5
+PRIVATE
+    ${fcitx_qt5_src}
+    "${CMAKE_CURRENT_BINARY_DIR}"
+)
 
-    target_sources(external_fcitx_qt5 PRIVATE ${fcitx_qt5_adaptors})
+target_compile_definitions(external_fcitx_qt5
+PRIVATE
+    QT_STATICPLUGIN
+)
 
-    target_include_directories(external_fcitx_qt5
-    PRIVATE
-        ${fcitx_qt5_src}
-        "${CMAKE_CURRENT_BINARY_DIR}"
-    )
+target_link_libraries(external_fcitx_qt5
+PRIVATE
+    desktop-app::external_qt
+)
 
-    target_compile_definitions(external_fcitx_qt5
-    PRIVATE
-        QT_STATICPLUGIN
-    )
+if (DESKTOP_APP_USE_PACKAGED)
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(XKBCOMMON REQUIRED IMPORTED_TARGET xkbcommon)
 
     target_link_libraries(external_fcitx_qt5
     PRIVATE
-        desktop-app::external_qt
+        PkgConfig::XKBCOMMON
     )
-
-    if (DESKTOP_APP_USE_PACKAGED)
-        find_package(PkgConfig REQUIRED)
-        pkg_check_modules(XKBCOMMON REQUIRED IMPORTED_TARGET xkbcommon)
-
-        target_link_libraries(external_fcitx_qt5
-        PRIVATE
-            PkgConfig::XKBCOMMON
-        )
-    else()
-        target_link_static_libraries(external_fcitx_qt5
-        PRIVATE
-            xkbcommon
-        )
-    endif()
+else()
+    target_link_static_libraries(external_fcitx_qt5
+    PRIVATE
+        xkbcommon
+    )
 endif()

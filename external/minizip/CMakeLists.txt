@@ -13,40 +13,40 @@ if (DESKTOP_APP_USE_PACKAGED)
 
     if (MINIZIP_FOUND)
         target_link_libraries(external_minizip INTERFACE PkgConfig::MINIZIP)
+        return()
     endif()
 endif()
 
-if (NOT MINIZIP_FOUND)
-    if (NOT WIN32)
-        add_library(external_minizip_bundled STATIC)
-        init_target(external_minizip_bundled "(external)")
-
-        set(minizip_loc ${third_party_loc}/minizip)
-
-        target_sources(external_minizip_bundled
-        PRIVATE
-            ${minizip_loc}/crypt.h
-            ${minizip_loc}/ioapi.c
-            ${minizip_loc}/ioapi.h
-            ${minizip_loc}/zip.c
-            ${minizip_loc}/zip.h
-            ${minizip_loc}/unzip.c
-            ${minizip_loc}/unzip.h
-        )
-
-        target_include_directories(external_minizip_bundled SYSTEM
-        PUBLIC
-            ${minizip_loc}
-        )
-
-        target_link_libraries(external_minizip
-        INTERFACE
-            external_minizip_bundled
-        )
-    else()
-        target_include_directories(external_minizip SYSTEM
-        INTERFACE
-            ${libs_loc}/zlib/contrib/minizip
-        )
-    endif()
+if (WIN32)
+    target_include_directories(external_minizip SYSTEM
+    INTERFACE
+        ${libs_loc}/zlib/contrib/minizip
+    )
+    return()
 endif()
+
+add_library(external_minizip_bundled STATIC)
+init_target(external_minizip_bundled "(external)")
+
+set(minizip_loc ${third_party_loc}/minizip)
+
+target_sources(external_minizip_bundled
+PRIVATE
+    ${minizip_loc}/crypt.h
+    ${minizip_loc}/ioapi.c
+    ${minizip_loc}/ioapi.h
+    ${minizip_loc}/zip.c
+    ${minizip_loc}/zip.h
+    ${minizip_loc}/unzip.c
+    ${minizip_loc}/unzip.h
+)
+
+target_include_directories(external_minizip_bundled SYSTEM
+PUBLIC
+    ${minizip_loc}
+)
+
+target_link_libraries(external_minizip
+INTERFACE
+    external_minizip_bundled
+)
