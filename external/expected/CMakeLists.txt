@@ -16,12 +16,11 @@ if (DESKTOP_APP_USE_PACKAGED)
 
     if (tl-expected_FOUND)
         target_link_libraries(external_expected INTERFACE tl::expected)
+        return()
     endif()
 endif()
 
-if (NOT tl-expected_FOUND)
-    target_include_directories(external_expected SYSTEM
-    INTERFACE
-        ${third_party_loc}/expected/include
-    )
-endif()
+target_include_directories(external_expected SYSTEM
+INTERFACE
+    ${third_party_loc}/expected/include
+)
