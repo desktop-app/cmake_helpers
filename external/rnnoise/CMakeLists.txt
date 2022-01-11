@@ -40,7 +40,7 @@ else()
         INTERFACE
             /usr/local/include
         )
-        find_library(RNNOISE_LIBRARY librnnoise.a)
+        find_library(RNNOISE_LIBRARY librnnoise.a REQUIRED)
         set_target_properties(external_rnnoise PROPERTIES
             IMPORTED_LOCATION "${RNNOISE_LIBRARY}"
         )
