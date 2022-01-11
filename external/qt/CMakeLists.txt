@@ -255,6 +255,7 @@ else()
     target_link_libraries(external_qt
     INTERFACE
         ${qt_libs_list}
+        desktop-app::external_openssl
         $<TARGET_FILE:desktop-app::external_openssl_ssl>
         $<TARGET_FILE:desktop-app::external_openssl_crypto>
         desktop-app::external_jpeg
