@@ -39,6 +39,7 @@ else()
         ${ffmpeg_lib_loc}/libswresample/libswresample.a
         ${ffmpeg_lib_loc}/libswscale/libswscale.a
         ${ffmpeg_lib_loc}/libavutil/libavutil.a
+        desktop-app::external_opus
         $<TARGET_FILE:desktop-app::external_opus>
     )
     if (LINUX)
