@@ -39,7 +39,7 @@ else()
         INTERFACE
             /usr/local/include/opus
         )
-        find_library(OPUS_LIBRARY libopus.a)
+        find_library(OPUS_LIBRARY libopus.a REQUIRED)
         set_target_properties(external_opus PROPERTIES
             IMPORTED_LOCATION "${OPUS_LIBRARY}"
         )
