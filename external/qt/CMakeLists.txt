@@ -260,6 +260,7 @@ else()
         $<TARGET_FILE:desktop-app::external_openssl_crypto>
         desktop-app::external_jpeg
         desktop-app::external_zlib
+        $<TARGET_FILE:desktop-app::external_zlib>
     )
 
     if (LINUX)
@@ -288,7 +289,6 @@ else()
             xcb-util
             xcb-render-util
             xcb-keysyms
-            z
         )
         if (NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
             target_link_libraries(external_qt
