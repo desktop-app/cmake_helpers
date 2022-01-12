@@ -64,6 +64,13 @@ if (DESKTOP_APP_USE_PACKAGED_FONTS)
     )
 endif()
 
+if (DESKTOP_APP_USE_PACKAGED_RLOTTIE)
+    target_compile_definitions(common_options
+    INTERFACE
+        DESKTOP_APP_USE_PACKAGED_RLOTTIE
+    )
+endif()
+
 if (NOT DESKTOP_APP_SPECIAL_TARGET STREQUAL "")
     target_compile_definitions(common_options
     INTERFACE

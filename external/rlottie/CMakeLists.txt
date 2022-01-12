@@ -7,27 +7,17 @@
 add_library(external_rlottie INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_rlottie ALIAS external_rlottie)
 
-if (DESKTOP_APP_USE_PACKAGED)
+if (DESKTOP_APP_USE_PACKAGED_RLOTTIE)
     find_package(rlottie QUIET)
-
     if (rlottie_FOUND)
         target_link_libraries(external_rlottie INTERFACE rlottie::rlottie)
-    else()
-        find_package(PkgConfig REQUIRED)
-        pkg_check_modules(RLOTTIE IMPORTED_TARGET rlottie)
-
-        if (RLOTTIE_FOUND)
-            target_link_libraries(external_rlottie INTERFACE PkgConfig::RLOTTIE)
-        endif()
-    endif()
-
-    if (rlottie_FOUND OR RLOTTIE_FOUND)
-        target_compile_definitions(external_rlottie
-        INTERFACE
-            DESKTOP_APP_USE_PACKAGED_RLOTTIE
-        )
         return()
     endif()
+
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(RLOTTIE REQUIRED IMPORTED_TARGET rlottie)
+    target_link_libraries(external_rlottie INTERFACE PkgConfig::RLOTTIE)
+    return()
 endif()
 
 add_library(external_rlottie_bundled STATIC)
