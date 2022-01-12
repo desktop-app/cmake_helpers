@@ -23,6 +23,8 @@ option(DESKTOP_APP_DISABLE_X11_INTEGRATION "Disable all code for X11 integration
 option(DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION "Disable all code for Wayland integration (Linux only)." OFF)
 option(DESKTOP_APP_USE_ALLOCATION_TRACER "Use simple allocation tracer (Linux only)." OFF)
 option(DESKTOP_APP_USE_PACKAGED_LAZY "Bundle recommended Qt plugins for self-contained packages. (Linux only)" OFF)
+option(DESKTOP_APP_USE_PACKAGED_FONTS "Use preinstalled fonts instead of bundled patched ones." OFF)
+option(DESKTOP_APP_USE_PACKAGED_RLOTTIE "Find rlottie using CMake instead of bundled patched one." OFF)
 option(DESKTOP_APP_DISABLE_SPELLCHECK "Disable spellcheck library." OFF)
 option(DESKTOP_APP_DISABLE_CRASH_REPORTS "Disable crash report generation." ${no_special_target})
 option(DESKTOP_APP_DISABLE_AUTOUPDATE "Disable autoupdate." ${disable_autoupdate})
@@ -35,12 +37,6 @@ if (DESKTOP_APP_USE_PACKAGED AND DEFINED CMAKE_OSX_ARCHITECTURES)
 else()
     set(DESKTOP_APP_MAC_ARCH "x86_64;arm64" CACHE STRING "Target macOS arch. (macOS only)")
 endif()
-
-set(dont_bundle_fonts 0)
-if (DESKTOP_APP_USE_PACKAGED AND NOT DESKTOP_APP_USE_PACKAGED_LAZY)
-    set(dont_bundle_fonts 1)
-endif()
-option(DESKTOP_APP_USE_PACKAGED_FONTS "Use preinstalled fonts instead of bundled one." ${dont_bundle_fonts})
 
 set(add_hunspell_library 0)
 if ((WIN32
