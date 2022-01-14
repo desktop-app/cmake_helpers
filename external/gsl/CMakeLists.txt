@@ -16,12 +16,11 @@ if (DESKTOP_APP_USE_PACKAGED)
 
     if (Microsoft.GSL_FOUND)
         target_link_libraries(external_gsl INTERFACE Microsoft.GSL::GSL)
+        return()
     endif()
 endif()
 
-if (NOT Microsoft.GSL_FOUND)
-    target_include_directories(external_gsl SYSTEM
-    INTERFACE
-        ${third_party_loc}/GSL/include
-    )
-endif()
+target_include_directories(external_gsl SYSTEM
+INTERFACE
+    ${third_party_loc}/GSL/include
+)

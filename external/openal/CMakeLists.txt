@@ -12,11 +12,13 @@ if (DESKTOP_APP_USE_PACKAGED)
     if (OPENAL_FOUND)
         target_include_directories(external_openal SYSTEM INTERFACE ${OPENAL_INCLUDE_DIR})
         target_link_libraries(external_openal INTERFACE ${OPENAL_LIBRARY})
-    else()
-        find_package(PkgConfig REQUIRED)
-        pkg_check_modules(OPENAL REQUIRED IMPORTED_TARGET openal)
-        target_link_libraries(external_openal INTERFACE PkgConfig::OPENAL)
+        return()
     endif()
+
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(OPENAL REQUIRED IMPORTED_TARGET openal)
+    target_link_libraries(external_openal INTERFACE PkgConfig::OPENAL)
+    return()
 elseif (WIN32)
     target_include_directories(external_openal SYSTEM
     INTERFACE
@@ -49,9 +51,7 @@ else()
     )
 endif()
 
-if (NOT DESKTOP_APP_USE_PACKAGED)
-    target_compile_definitions(external_openal
-    INTERFACE
-        AL_LIBTYPE_STATIC
-    )
-endif()
+target_compile_definitions(external_openal
+INTERFACE
+    AL_LIBTYPE_STATIC
+)
