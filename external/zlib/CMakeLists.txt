@@ -26,7 +26,7 @@ if (WIN32)
     endif()
     set(zlib_lib_loc ${libs_loc}/zlib/contrib/vstudio/vc14/${zlib_config_folder})
     set_target_properties(external_zlib PROPERTIES
-        IMPORTED_LOCATION "${zlib_lib_loc}/ZlibStatReleaseWitoutAsm/zlibstat.lib"
+        IMPORTED_LOCATION "${zlib_lib_loc}/ZlibStatReleaseWithoutAsm/zlibstat.lib"
         IMPORTED_LOCATION_DEBUG "${zlib_lib_loc}/ZlibStatDebug/zlibstat.lib"
     )
 elseif (APPLE)
