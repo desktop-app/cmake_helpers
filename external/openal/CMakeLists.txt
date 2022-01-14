@@ -15,9 +15,8 @@ if (DESKTOP_APP_USE_PACKAGED)
         return()
     endif()
 
-    find_package(PkgConfig REQUIRED)
-    pkg_check_modules(OPENAL REQUIRED IMPORTED_TARGET openal)
-    target_link_libraries(external_openal INTERFACE PkgConfig::OPENAL)
+    find_package(OpenAL REQUIRED CONFIG)
+    target_link_libraries(external_openal INTERFACE OpenAL::OpenAL)
     return()
 elseif (WIN32)
     target_include_directories(external_openal SYSTEM
