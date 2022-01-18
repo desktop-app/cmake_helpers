@@ -11,20 +11,30 @@ if (CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
     return()
 endif()
 
+set(DESKTOP_APP_REQUIRE_JEMALLOC ON CACHE BOOL "Always prefer jemalloc by FreeBSD or use system memory allocator?")
+if (DESKTOP_APP_REQUIRE_JEMALLOC)
+    target_compile_definitions(external_jemalloc INTERFACE DESKTOP_APP_REQUIRE_JEMALLOC)
+endif()
+
 if (DESKTOP_APP_USE_PACKAGED)
     find_package(PkgConfig REQUIRED)
     pkg_check_modules(JEMALLOC jemalloc)
 
     if (JEMALLOC_FOUND)
-        target_include_directories(external_jemalloc SYSTEM
-        INTERFACE
-            ${JEMALLOC_INCLUDE_DIRS}
-        )
+        if (DESKTOP_APP_REQUIRE_JEMALLOC)
+            target_include_directories(external_jemalloc SYSTEM
+            INTERFACE
+                ${JEMALLOC_INCLUDE_DIRS}
+            )
 
-        target_link_options(external_jemalloc
-        INTERFACE
-            -Wl,--push-state,--no-as-needed,${JEMALLOC_LINK_LIBRARIES},--pop-state
-        )
+            target_link_options(external_jemalloc
+            INTERFACE
+                -Wl,--push-state,--no-as-needed,${JEMALLOC_LINK_LIBRARIES},--pop-state
+            )
+        else()
+            target_compile_definitions(external_jemalloc INTERFACE _GNU_SOURCE)
+            target_compile_options(external_jemalloc INTERFACE ${JEMALLOC_CFLAGS})
+        endif()
 
         return()
     endif()
