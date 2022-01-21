@@ -29,7 +29,6 @@ INTERFACE
 target_link_options(common_options
 INTERFACE
     -Wl,--as-needed
-    -pthread
 )
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
@@ -92,7 +91,14 @@ if (DESKTOP_APP_USE_ALLOCATION_TRACER)
     )
 endif()
 
-if (NOT DESKTOP_APP_USE_PACKAGED)
+if (DESKTOP_APP_USE_PACKAGED)
+    set(THREADS_PREFER_PTHREAD_FLAG ON)
+    find_package(Threads REQUIRED)
+    target_link_libraries(common_options
+    INTERFACE
+        Threads::Threads
+    )
+else()
     if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         target_link_options(common_options
         INTERFACE
@@ -112,6 +118,7 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
     endif()
     target_link_options(common_options
     INTERFACE
+        -pthread
         -rdynamic
         -fwhole-program
         -Wl,-z,relro
