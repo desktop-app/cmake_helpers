@@ -38,7 +38,9 @@ if (LINUX)
         endif()
     endif()
 
-    if (NOT DESKTOP_APP_DISABLE_DBUS_INTEGRATION)
+    if ((NOT DESKTOP_APP_USE_PACKAGED
+                OR (DESKTOP_APP_USE_PACKAGED AND DESKTOP_APP_USE_PACKAGED_LAZY))
+            AND NOT DESKTOP_APP_DISABLE_DBUS_INTEGRATION)
         if (DESKTOP_APP_QT6)
             find_package(Qt6 COMPONENTS DBus REQUIRED)
         else()
