@@ -23,7 +23,12 @@ if (WIN32)
     INTERFACE
         ${libs_loc}/local/include
     )
-    set(vpx_lib_loc ${libs_loc}/local/lib/Win32)
+    if (build_win64)
+        set(libvpx_release_folder x64)
+    else()
+        set(libvpx_release_folder Win32)
+    endif()
+    set(vpx_lib_loc ${libs_loc}/local/lib/libvpx_release_folder)
     set_target_properties(external_vpx PROPERTIES
         IMPORTED_LOCATION "${vpx_lib_loc}/vpxmt.lib"
         IMPORTED_LOCATION_DEBUG "${vpx_lib_loc}/vpxmt.lib"
