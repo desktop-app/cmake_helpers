@@ -50,7 +50,7 @@ ExternalProject_Add(wayland-protocols
     COMMAND meson install -C <BINARY_DIR>
     STEP_TARGETS build
     EXCLUDE_FROM_ALL TRUE
-    BUILD_BYPRODUCTS <BINARY_DIR>/lib/wayland-protocols.pc
+    BUILD_BYPRODUCTS <BINARY_DIR>/share/pkgconfig/wayland-protocols.pc
 )
 
 ExternalProject_Get_property(wayland-protocols BINARY_DIR)
