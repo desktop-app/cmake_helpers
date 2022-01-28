@@ -293,12 +293,12 @@ if (LINUX)
     if (NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
         target_link_libraries(external_qt
         INTERFACE
-            $<LINK_ONLY:desktop-app::linux_wayland_helper>
+            desktop-app::linux_wayland_helper
         )
     endif()
     target_link_libraries(external_qt
     INTERFACE
-        $<LINK_ONLY:desktop-app::linux_xcb_helper>
+        desktop-app::linux_xcb_helper
         fontconfig
         freetype
         xcb

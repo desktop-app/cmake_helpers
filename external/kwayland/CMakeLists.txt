@@ -128,10 +128,7 @@ if (DESKTOP_APP_USE_PACKAGED)
     pkg_check_modules(WAYLAND_CLIENT REQUIRED IMPORTED_TARGET wayland-client)
     target_link_libraries(external_kwayland_bundled INTERFACE PkgConfig::WAYLAND_CLIENT)
 else()
-    target_link_libraries(external_kwayland_bundled
-    INTERFACE
-        $<LINK_ONLY:desktop-app::linux_wayland_helper>
-    )
+    target_link_libraries(external_kwayland_bundled INTERFACE desktop-app::linux_wayland_helper)
 endif()
 
 add_dependencies(external_kwayland_bundled kwayland-build)
