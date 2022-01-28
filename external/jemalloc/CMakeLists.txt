@@ -21,7 +21,7 @@ if (DESKTOP_APP_USE_PACKAGED)
             ${JEMALLOC_INCLUDE_DIRS}
         )
 
-        target_link_options(external_jemalloc
+        target_link_libraries(external_jemalloc
         INTERFACE
             -Wl,--push-state,--no-as-needed,${JEMALLOC_LINK_LIBRARIES},--pop-state
         )
@@ -48,7 +48,7 @@ INTERFACE
     ${SOURCE_DIR}/include
 )
 
-target_link_options(external_jemalloc
+target_link_libraries(external_jemalloc
 INTERFACE
     -Wl,--push-state,--whole-archive,${SOURCE_DIR}/lib/libjemalloc.a,--pop-state
 )
