@@ -87,10 +87,10 @@ endforeach()
 target_link_libraries(external_webrtc
 INTERFACE
     ${webrtc_libs_list}
-    desktop-app::external_openssl
-    desktop-app::external_jpeg
-    $<TARGET_FILE:desktop-app::external_opus>
-    $<TARGET_FILE:desktop-app::external_vpx>
+    $<LINK_ONLY:desktop-app::external_openssl>
+    $<LINK_ONLY:desktop-app::external_jpeg>
+    $<LINK_ONLY:desktop-app::external_opus>
+    $<LINK_ONLY:desktop-app::external_vpx>
 )
 
 if (WIN32)
