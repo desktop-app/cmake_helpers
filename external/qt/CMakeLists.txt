@@ -258,12 +258,9 @@ endif()
 target_link_libraries(external_qt
 INTERFACE
     ${qt_libs_list}
-    desktop-app::external_openssl
-    $<TARGET_FILE:desktop-app::external_openssl_ssl>
-    $<TARGET_FILE:desktop-app::external_openssl_crypto>
-    desktop-app::external_jpeg
-    desktop-app::external_zlib
-    $<TARGET_FILE:desktop-app::external_zlib>
+    $<LINK_ONLY:desktop-app::external_openssl>
+    $<LINK_ONLY:desktop-app::external_jpeg>
+    $<LINK_ONLY:desktop-app::external_zlib>
 )
 
 if (LINUX)
@@ -296,14 +293,12 @@ if (LINUX)
     if (NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
         target_link_libraries(external_qt
         INTERFACE
-            desktop-app::linux_wayland_helper
-            $<TARGET_FILE:desktop-app::linux_wayland_helper>
+            $<LINK_ONLY:desktop-app::linux_wayland_helper>
         )
     endif()
     target_link_libraries(external_qt
     INTERFACE
-        desktop-app::linux_xcb_helper
-        $<TARGET_FILE:desktop-app::linux_xcb_helper>
+        $<LINK_ONLY:desktop-app::linux_xcb_helper>
         fontconfig
         freetype
         xcb

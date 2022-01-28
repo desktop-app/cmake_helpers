@@ -130,8 +130,7 @@ if (DESKTOP_APP_USE_PACKAGED)
 else()
     target_link_libraries(external_kwayland_bundled
     INTERFACE
-        desktop-app::linux_wayland_helper
-        $<TARGET_FILE:desktop-app::linux_wayland_helper>
+        $<LINK_ONLY:desktop-app::linux_wayland_helper>
     )
 endif()
 
