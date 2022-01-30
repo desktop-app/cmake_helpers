@@ -48,14 +48,9 @@ else()
         target_link_static_libraries(external_ffmpeg
         INTERFACE
             lzma
-            va-x11
-            va-drm
-            va
-            vdpau
             Xv
             Xext
             Xfixes
-            drm
         )
         target_link_libraries(external_ffmpeg
         INTERFACE
