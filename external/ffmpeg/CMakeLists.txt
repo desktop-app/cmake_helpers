@@ -45,16 +45,6 @@ else()
     if (APPLE)
         target_link_libraries(external_ffmpeg INTERFACE bz2)
     elseif (LINUX)
-        target_link_static_libraries(external_ffmpeg
-        INTERFACE
-            lzma
-            Xv
-            Xext
-            Xfixes
-        )
-        target_link_libraries(external_ffmpeg
-        INTERFACE
-            X11
-        )
+        target_link_static_libraries(external_ffmpeg INTERFACE lzma)
     endif()
 endif()
