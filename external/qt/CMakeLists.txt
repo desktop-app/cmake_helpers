@@ -27,6 +27,7 @@ if (DESKTOP_APP_USE_PACKAGED)
     INTERFACE
         ${Qt5Core_PRIVATE_INCLUDE_DIRS}
         ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
+        ${Qt5Widgets_PRIVATE_INCLUDE_DIRS}
     )
 
     if (Qt5DBus_FOUND)
