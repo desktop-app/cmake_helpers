@@ -237,6 +237,7 @@ INTERFACE
     $<LINK_ONLY:desktop-app::external_openssl>
     $<LINK_ONLY:desktop-app::external_jpeg>
     $<LINK_ONLY:desktop-app::external_zlib>
+    $<TARGET_FILE:desktop-app::external_zlib>
 )
 
 if (LINUX)

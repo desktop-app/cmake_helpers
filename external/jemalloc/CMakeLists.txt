@@ -50,7 +50,7 @@ INTERFACE
 
 target_link_libraries(external_jemalloc
 INTERFACE
-    -Wl,--push-state,--whole-archive,${SOURCE_DIR}/lib/libjemalloc.a,--pop-state
+    -Wl,--push-state,--whole-archive,${SOURCE_DIR}/lib/libjemalloc.a,--pop-state,-ldl
 )
 
 add_dependencies(external_jemalloc jemalloc-build)
