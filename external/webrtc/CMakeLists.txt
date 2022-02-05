@@ -90,7 +90,9 @@ INTERFACE
     $<LINK_ONLY:desktop-app::external_openssl>
     $<LINK_ONLY:desktop-app::external_jpeg>
     $<LINK_ONLY:desktop-app::external_opus>
+    $<TARGET_FILE:desktop-app::external_opus>
     $<LINK_ONLY:desktop-app::external_vpx>
+    $<TARGET_FILE:desktop-app::external_vpx>
 )
 
 if (WIN32)
