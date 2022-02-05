@@ -40,7 +40,9 @@ else()
         ${ffmpeg_lib_loc}/libswscale/libswscale.a
         ${ffmpeg_lib_loc}/libavutil/libavutil.a
         $<LINK_ONLY:desktop-app::external_opus>
+        $<TARGET_FILE:desktop-app::external_opus>
         $<LINK_ONLY:desktop-app::external_vpx>
+        $<TARGET_FILE:desktop-app::external_vpx>
     )
     if (APPLE)
         target_link_libraries(external_ffmpeg INTERFACE bz2)
