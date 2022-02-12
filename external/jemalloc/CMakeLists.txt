@@ -33,11 +33,16 @@ endif()
 include(ExternalProject)
 ExternalProject_Add(jemalloc
     URL ${third_party_loc}/jemalloc
-    CONFIGURE_COMMAND cd "<SOURCE_DIR>" && export EXTRA_CFLAGS=-fstack-protector-all\ -fPIC\ -D_FORTIFY_SOURCE=2 && export EXTRA_CXXFLAGS=-fstack-protector-all\ -fPIC\ -D_FORTIFY_SOURCE=2 && CC=clang CXX=clang++ ./autogen.sh
+    CONFIGURE_COMMAND env
+        CC=clang
+        CXX=clang++
+        "EXTRA_CFLAGS=-fstack-protector-all -D_FORTIFY_SOURCE=2"
+        "EXTRA_CXXFLAGS=-fstack-protector-all -D_FORTIFY_SOURCE=2"
+        ./autogen.sh --disable-shared
     BUILD_IN_SOURCE 1
     STEP_TARGETS build
     EXCLUDE_FROM_ALL TRUE
-    BUILD_BYPRODUCTS <SOURCE_DIR>/lib/libjemalloc.a
+    BUILD_BYPRODUCTS <SOURCE_DIR>/lib/libjemalloc_pic.a
 )
 
 ExternalProject_Get_property(jemalloc SOURCE_DIR)
@@ -50,7 +55,7 @@ INTERFACE
 
 target_link_libraries(external_jemalloc
 INTERFACE
-    -Wl,--push-state,--whole-archive,${SOURCE_DIR}/lib/libjemalloc.a,--pop-state,-ldl
+    -Wl,--push-state,--whole-archive,${SOURCE_DIR}/lib/libjemalloc_pic.a,--pop-state,-ldl
 )
 
 add_dependencies(external_jemalloc jemalloc-build)
