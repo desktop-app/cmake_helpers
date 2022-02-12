@@ -64,8 +64,8 @@ endif()
 
 target_link_libraries(common_options
 INTERFACE
-    desktop-app::linux_jemalloc_helper
     $<TARGET_OBJECTS:desktop-app::linux_jemalloc_helper>
+    $<LINK_ONLY:desktop-app::external_jemalloc>
     ${CMAKE_DL_LIBS}
 )
 
