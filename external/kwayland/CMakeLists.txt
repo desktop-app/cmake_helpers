@@ -76,11 +76,6 @@ ExternalProject_Add_StepDependencies(plasma-wayland-protocols configure extra-cm
 ExternalProject_Get_property(plasma-wayland-protocols BINARY_DIR)
 set(plasma_wayland_protocols_binary_dir ${BINARY_DIR})
 
-set(kwayland_patch_command)
-if (DESKTOP_APP_QT6)
-    set(kwayland_patch_command PATCH_COMMAND patch -p1 < ${CMAKE_CURRENT_SOURCE_DIR}/kwayland-qt6.patch)
-endif()
-
 ExternalProject_Add(kwayland
     URL ${third_party_loc}/kwayland
     CMAKE_GENERATOR Ninja
@@ -88,11 +83,11 @@ ExternalProject_Add(kwayland
         -DCMAKE_BUILD_TYPE=Release
         -DBUILD_SHARED_LIBS=OFF
         -DBUILD_TESTING=OFF
+        -DBUILD_WITH_QT6=${DESKTOP_APP_QT6}
+        -DEXCLUDE_DEPRECATED_BEFORE_AND_AT=5.91.0
         -DCMAKE_PREFIX_PATH=${wayland_protocols_binary_dir}
         -DECM_DIR=${extra_cmake_modules_binary_dir}/share/ECM/cmake
         -DPlasmaWaylandProtocols_DIR=${plasma_wayland_protocols_binary_dir}/lib/cmake/PlasmaWaylandProtocols
-    ${kwayland_patch_command}
-    BUILD_COMMAND ${CMAKE_COMMAND} --build <BINARY_DIR> --target KF5WaylandClient
     STEP_TARGETS build
     EXCLUDE_FROM_ALL TRUE
     BUILD_BYPRODUCTS <BINARY_DIR>/lib/libKF5WaylandClient.a
