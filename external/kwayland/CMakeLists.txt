@@ -38,23 +38,11 @@ ExternalProject_Add(extra-cmake-modules
 ExternalProject_Get_property(extra-cmake-modules BINARY_DIR)
 set(extra_cmake_modules_binary_dir ${BINARY_DIR})
 
-ExternalProject_Add(wayland-protocols
-    URL ${third_party_loc}/wayland-protocols
-    CONFIGURE_COMMAND meson
-        --prefix=<BINARY_DIR>
-        --libdir=lib
-        --buildtype=release
-        -Dtests=false
-        <BINARY_DIR> <SOURCE_DIR>
-    BUILD_COMMAND meson compile -C <BINARY_DIR>
-    COMMAND meson install -C <BINARY_DIR>
-    STEP_TARGETS build
-    EXCLUDE_FROM_ALL TRUE
-    BUILD_BYPRODUCTS <BINARY_DIR>/share/pkgconfig/wayland-protocols.pc
-)
-
-ExternalProject_Get_property(wayland-protocols BINARY_DIR)
-set(wayland_protocols_binary_dir ${BINARY_DIR})
+set(wayland_protocols_source_dir ${third_party_loc}/wayland-protocols)
+file(READ "${wayland_protocols_source_dir}/meson.build" wayland_protocols_meson_build)
+string(REGEX MATCH "\n[ \t]*version: '([0-9.]+)'" _ ${wayland_protocols_meson_build})
+set(wayland_protocols_version ${CMAKE_MATCH_1})
+configure_file("wayland-protocols.pc.in" "${CMAKE_CURRENT_BINARY_DIR}/share/pkgconfig/wayland-protocols.pc" @ONLY)
 
 ExternalProject_Add(plasma-wayland-protocols
     URL ${third_party_loc}/plasma-wayland-protocols
@@ -85,7 +73,7 @@ ExternalProject_Add(kwayland
         -DBUILD_TESTING=OFF
         -DBUILD_WITH_QT6=${DESKTOP_APP_QT6}
         -DEXCLUDE_DEPRECATED_BEFORE_AND_AT=5.91.0
-        -DCMAKE_PREFIX_PATH=${wayland_protocols_binary_dir}
+        -DCMAKE_PREFIX_PATH=${CMAKE_CURRENT_BINARY_DIR}
         -DECM_DIR=${extra_cmake_modules_binary_dir}/share/ECM/cmake
         -DPlasmaWaylandProtocols_DIR=${plasma_wayland_protocols_binary_dir}/lib/cmake/PlasmaWaylandProtocols
     STEP_TARGETS build
@@ -94,7 +82,6 @@ ExternalProject_Add(kwayland
 )
 
 ExternalProject_Add_StepDependencies(kwayland configure extra-cmake-modules-build)
-ExternalProject_Add_StepDependencies(kwayland configure wayland-protocols-build)
 ExternalProject_Add_StepDependencies(kwayland configure plasma-wayland-protocols-build)
 
 ExternalProject_Get_property(kwayland SOURCE_DIR)
