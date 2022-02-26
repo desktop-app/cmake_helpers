@@ -62,10 +62,16 @@ if (DESKTOP_APP_SPECIAL_TARGET)
     target_link_options(common_options INTERFACE $<IF:$<CONFIG:Debug>,,-g -flto -fuse-linker-plugin>)
 endif()
 
+if (NOT DESKTOP_APP_DISABLE_JEMALLOC)
+	target_link_libraries(common_options
+	INTERFACE
+	    $<TARGET_OBJECTS:desktop-app::linux_jemalloc_helper>
+	    $<LINK_ONLY:desktop-app::external_jemalloc>
+	)
+endif()
+
 target_link_libraries(common_options
 INTERFACE
-    $<TARGET_OBJECTS:desktop-app::linux_jemalloc_helper>
-    $<LINK_ONLY:desktop-app::external_jemalloc>
     ${CMAKE_DL_LIBS}
 )
 
