@@ -22,7 +22,7 @@ target_compile_options(common_options
 INTERFACE
     -pipe
     -Wall
-    -W
+    -Wextra
     -fPIE
     $<$<COMPILE_LANGUAGE:OBJC,OBJCXX>:-fobjc-weak>
     -fvisibility-inlines-hidden
