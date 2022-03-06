@@ -12,7 +12,7 @@ INTERFACE
     $<IF:$<CONFIG:Debug>,,-fno-strict-aliasing>
     -pipe
     -Wall
-    -W
+    -Wextra
     -Wno-unused-parameter
     -Wno-switch
     -Wno-missing-field-initializers
