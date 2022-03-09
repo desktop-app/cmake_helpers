@@ -8,7 +8,7 @@ add_library(external_jpeg INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_jpeg ALIAS external_jpeg)
 
 if (DESKTOP_APP_USE_PACKAGED)
-    find_package(JPEG)
+    find_package(JPEG REQUIRED)
     target_link_libraries(external_jpeg INTERFACE JPEG::JPEG)
 elseif (WIN32)
     target_include_directories(external_jpeg SYSTEM INTERFACE ${libs_loc}/mozjpeg)
