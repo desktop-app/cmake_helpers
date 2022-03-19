@@ -8,7 +8,11 @@ add_library(external_kwayland INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_kwayland ALIAS external_kwayland)
 
 if (DESKTOP_APP_USE_PACKAGED AND NOT DESKTOP_APP_QT6)
-    find_package(KF5Wayland)
+    if (DESKTOP_APP_USE_PACKAGED_LAZY)
+        find_package(KF5Wayland QUIET)
+    else()
+        find_package(KF5Wayland)
+    endif()
 
     if (KF5Wayland_FOUND)
         target_link_libraries(external_kwayland INTERFACE KF5::WaylandClient)
