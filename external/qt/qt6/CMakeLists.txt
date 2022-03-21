@@ -238,6 +238,7 @@ INTERFACE
     $<TARGET_FILE:desktop-app::external_openssl_ssl>
     $<TARGET_FILE:desktop-app::external_openssl_crypto>
     $<LINK_ONLY:desktop-app::external_jpeg>
+    $<TARGET_FILE:desktop-app::external_jpeg>
     $<LINK_ONLY:desktop-app::external_zlib>
     $<TARGET_FILE:desktop-app::external_zlib>
 )

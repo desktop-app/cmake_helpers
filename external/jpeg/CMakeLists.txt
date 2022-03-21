@@ -4,17 +4,32 @@
 # For license and copyright information please follow this link:
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
-add_library(external_jpeg INTERFACE IMPORTED GLOBAL)
-add_library(desktop-app::external_jpeg ALIAS external_jpeg)
-
 if (DESKTOP_APP_USE_PACKAGED)
+    add_library(external_jpeg INTERFACE IMPORTED GLOBAL)
+    add_library(desktop-app::external_jpeg ALIAS external_jpeg)
+
     find_package(JPEG REQUIRED)
     target_link_libraries(external_jpeg INTERFACE JPEG::JPEG)
+    return()
+endif()
+
+add_library(external_jpeg STATIC IMPORTED GLOBAL)
+add_library(desktop-app::external_jpeg ALIAS external_jpeg)
+
 elseif (WIN32)
-    target_include_directories(external_jpeg SYSTEM INTERFACE ${libs_loc}/mozjpeg)
-    target_link_libraries(external_jpeg INTERFACE ${libs_loc}/mozjpeg/$<IF:$<CONFIG:Debug>,Debug,Release>/jpeg-static.lib)
+    set(jpeg_lib_loc ${libs_loc}/mozjpeg)
+    target_include_directories(external_jpeg SYSTEM INTERFACE ${jpeg_lib_loc})
+    set_target_properties(external_jpeg PROPERTIES
+        IMPORTED_LOCATION "${jpeg_lib_loc}/Release/jpeg-static.lib"
+        IMPORTED_LOCATION_DEBUG "${jpeg_lib_loc}/Debug/jpeg-static.lib"
+    )
 elseif (APPLE)
-    target_link_libraries(external_jpeg INTERFACE ${libs_loc}/local/lib/libjpeg.a)
+    set_target_properties(external_jpeg PROPERTIES
+        IMPORTED_LOCATION ${libs_loc}/local/lib/libjpeg.a
+    )
 else()
-    target_link_static_libraries(external_jpeg INTERFACE jpeg)
+    find_library(JPEG_LIBRARY libjpeg.a REQUIRED)
+    set_target_properties(external_jpeg PROPERTIES
+        IMPORTED_LOCATION "${JPEG_LIBRARY}"
+    )
 endif()
