@@ -16,7 +16,7 @@ endif()
 add_library(external_jpeg STATIC IMPORTED GLOBAL)
 add_library(desktop-app::external_jpeg ALIAS external_jpeg)
 
-elseif (WIN32)
+if (WIN32)
     set(jpeg_lib_loc ${libs_loc}/mozjpeg)
     target_include_directories(external_jpeg SYSTEM INTERFACE ${jpeg_lib_loc})
     set_target_properties(external_jpeg PROPERTIES
