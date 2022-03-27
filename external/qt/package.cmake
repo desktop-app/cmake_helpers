@@ -6,7 +6,7 @@
 
 if (NOT DESKTOP_APP_USE_PACKAGED)
     if (DESKTOP_APP_QT6)
-        set(qt_version 6.2.3)
+        set(qt_version 6.2.4)
     else()
         set(qt_version 5.15.3)
     endif()
