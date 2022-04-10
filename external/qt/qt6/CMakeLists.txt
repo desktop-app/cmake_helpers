@@ -201,6 +201,7 @@ else()
             plugins/platforms/${qt_lib_prefix}qwayland-generic
             plugins/platforms/${qt_lib_prefix}qwayland-egl
             plugins/wayland-graphics-integration-client/${qt_lib_prefix}qt-plugin-wayland-egl
+            plugins/wayland-shell-integration/${qt_lib_prefix}xdg-shell
             plugins/wayland-decoration-client/${qt_lib_prefix}bradient
         )
     endif()
