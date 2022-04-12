@@ -11,8 +11,10 @@ if (DESKTOP_APP_USE_PACKAGED)
     target_link_libraries(external_qt
     INTERFACE
         Qt6::Core
+        Qt6::CorePrivate
         Qt6::Core5Compat
         Qt6::Gui
+        Qt6::GuiPrivate
         Qt6::OpenGL
         Qt6::Widgets
         Qt6::OpenGLWidgets
@@ -20,23 +22,26 @@ if (DESKTOP_APP_USE_PACKAGED)
         Qt6::Svg
     )
 
-    target_include_directories(external_qt SYSTEM
-    INTERFACE
-        ${Qt6Core_PRIVATE_INCLUDE_DIRS}
-        ${Qt6Gui_PRIVATE_INCLUDE_DIRS}
-    )
-
     if (Qt6DBus_FOUND)
-        target_link_libraries(external_qt INTERFACE Qt6::DBus)
+        target_link_libraries(external_qt
+        INTERFACE
+            Qt6::DBus
+        )
     endif()
 
     if (LINUX AND NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
-        target_link_libraries(external_qt INTERFACE Qt6::WaylandClient)
-
-        target_include_directories(external_qt SYSTEM
+        target_link_libraries(external_qt
         INTERFACE
-            ${Qt6WaylandClient_PRIVATE_INCLUDE_DIRS}
+            Qt6::WaylandClient
+            Qt6::WaylandClientPrivate
         )
+
+        if (Qt6WaylandGlobalPrivate_FOUND)
+            target_link_libraries(external_qt
+            INTERFACE
+                Qt6::WaylandGlobalPrivate
+            )
+        endif()
     endif()
 
     return()
@@ -69,8 +74,11 @@ if (LINUX AND NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
     target_include_directories(external_qt SYSTEM
     INTERFACE
         ${qt_loc}/include/QtWaylandClient
+        ${qt_loc}/include/QtWaylandGlobal
         ${qt_loc}/include/QtWaylandClient/${qt_version}
+        ${qt_loc}/include/QtWaylandGlobal/${qt_version}
         ${qt_loc}/include/QtWaylandClient/${qt_version}/QtWaylandClient
+        ${qt_loc}/include/QtWaylandGlobal/${qt_version}/QtWaylandGlobal
     )
 endif()
 
@@ -100,6 +108,7 @@ if (LINUX AND NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
     target_compile_definitions(external_qt
     INTERFACE
         QT_WAYLANDCLIENT_LIB
+        QT_WAYLANDGLOBAL_LIB
     )
 endif()
 
@@ -252,7 +261,6 @@ if (LINUX)
     target_link_static_libraries(external_qt
     INTERFACE
         proxy
-        epoxy
         xkbcommon
         xkbcommon-x11
         xcb-glx
@@ -263,7 +271,6 @@ if (LINUX)
         xcb-render
         xcb-image
         xcb-xfixes
-        xcb-xinput
         xcb-shape
         xcb-sync
         xcb-util
@@ -281,8 +288,11 @@ if (LINUX)
         desktop-app::linux_xcb_helper
         fontconfig
         freetype
+        EGL
+        GL
         xcb
         X11
         X11-xcb
+        glib-2.0
     )
 endif()
