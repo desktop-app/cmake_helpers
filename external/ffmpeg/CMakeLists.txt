@@ -25,25 +25,41 @@ if (DESKTOP_APP_USE_PACKAGED)
         PkgConfig::SWRESAMPLE
     )
 else()
-    target_include_directories(external_ffmpeg SYSTEM
-    INTERFACE
-        ${libs_loc}/ffmpeg
-    )
+    if (LINUX)
+        target_link_static_libraries(external_ffmpeg
+        INTERFACE
+            avformat
+            avcodec
+            swresample
+            swscale
+            avutil
+        )
+    else()
+        set(ffmpeg_lib_loc ${libs_loc}/ffmpeg)
 
-    set(ffmpeg_lib_loc ${libs_loc}/ffmpeg)
+        target_include_directories(external_ffmpeg SYSTEM
+        INTERFACE
+            ${ffmpeg_lib_loc}
+        )
+
+        target_link_libraries(external_ffmpeg
+        INTERFACE
+            ${ffmpeg_lib_loc}/libavformat/libavformat.a
+            ${ffmpeg_lib_loc}/libavcodec/libavcodec.a
+            ${ffmpeg_lib_loc}/libswresample/libswresample.a
+            ${ffmpeg_lib_loc}/libswscale/libswscale.a
+            ${ffmpeg_lib_loc}/libavutil/libavutil.a
+        )
+    endif()
 
     target_link_libraries(external_ffmpeg
     INTERFACE
-        ${ffmpeg_lib_loc}/libavformat/libavformat.a
-        ${ffmpeg_lib_loc}/libavcodec/libavcodec.a
-        ${ffmpeg_lib_loc}/libswresample/libswresample.a
-        ${ffmpeg_lib_loc}/libswscale/libswscale.a
-        ${ffmpeg_lib_loc}/libavutil/libavutil.a
         $<LINK_ONLY:desktop-app::external_opus>
         $<TARGET_FILE:desktop-app::external_opus>
         $<LINK_ONLY:desktop-app::external_vpx>
         $<TARGET_FILE:desktop-app::external_vpx>
     )
+
     if (APPLE)
         target_link_libraries(external_ffmpeg INTERFACE bz2)
     elseif (LINUX)

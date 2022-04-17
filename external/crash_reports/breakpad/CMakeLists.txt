@@ -7,10 +7,19 @@
 add_library(external_breakpad INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_breakpad ALIAS external_breakpad)
 
-target_include_directories(external_breakpad SYSTEM
-INTERFACE
-    ${libs_loc}/breakpad/src
-)
+if (LINUX)
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(BREAKPAD REQUIRED breakpad)
+    target_include_directories(external_breakpad SYSTEM
+    INTERFACE
+        ${BREAKPAD_INCLUDE_DIRS}
+    )
+else()
+    target_include_directories(external_breakpad SYSTEM
+    INTERFACE
+        ${libs_loc}/breakpad/src
+    )
+endif()
 
 if (build_win64)
     set(breakpad_config_add _x64)
