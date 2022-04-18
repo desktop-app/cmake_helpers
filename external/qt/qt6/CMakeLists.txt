@@ -124,12 +124,6 @@ else()
     endif()
 endif()
 
-if (LINUX)
-    set(qt_lib_objects objects-RelWithDebInfo)
-else()
-    set(qt_lib_objects objects-$<IF:$<CONFIG:Debug>,Debug,RelWithDebInfo>)
-endif()
-
 set(common_qt_libs
     plugins/imageformats/${qt_lib_prefix}qwebp
     plugins/imageformats/${qt_lib_prefix}qgif
@@ -185,7 +179,7 @@ elseif (APPLE)
         list(APPEND qt_libs_list "${qt_loc}/${lib}${qt_lib_suffix}")
     endforeach()
     list(APPEND qt_libs_list
-        "${qt_loc}/lib/${qt_lib_objects}/QCocoaIntegrationPlugin_resources_1/.rcc/qrc_qcocoaresources.cpp.o"
+        $<TARGET_OBJECTS:Qt6::QCocoaIntegrationPlugin_resources_1>
     )
 else()
     set(qt_libs_dbus)
@@ -235,10 +229,10 @@ else()
 endif()
 
 list(APPEND qt_libs_list
-    "${qt_loc}/lib/${qt_lib_objects}/Gui_resources_1/.rcc/qrc_qpdf.cpp.o"
-    "${qt_loc}/lib/${qt_lib_objects}/Widgets_resources_1/.rcc/qrc_qstyle.cpp.o"
-    "${qt_loc}/lib/${qt_lib_objects}/Widgets_resources_2/.rcc/qrc_qstyle1.cpp.o"
-    "${qt_loc}/lib/${qt_lib_objects}/Widgets_resources_3/.rcc/qrc_qmessagebox.cpp.o"
+    $<TARGET_OBJECTS:Qt6::Gui_resources_1>
+    $<TARGET_OBJECTS:Qt6::Widgets_resources_1>
+    $<TARGET_OBJECTS:Qt6::Widgets_resources_2>
+    $<TARGET_OBJECTS:Qt6::Widgets_resources_3>
 )
 
 target_link_libraries(external_qt
