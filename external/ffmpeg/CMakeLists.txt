@@ -24,45 +24,64 @@ if (DESKTOP_APP_USE_PACKAGED)
         PkgConfig::SWSCALE
         PkgConfig::SWRESAMPLE
     )
+
+    return()
+endif()
+
+set(ffmpeg_lib_list)
+
+if (LINUX)
+    list(APPEND ffmpeg_lib_list
+        -lavformat
+        -lavcodec
+        -lswresample
+        -lswscale
+        -lavutil
+    )
 else()
-    if (LINUX)
-        target_link_static_libraries(external_ffmpeg
-        INTERFACE
-            avformat
-            avcodec
-            swresample
-            swscale
-            avutil
-        )
-    else()
-        set(ffmpeg_lib_loc ${libs_loc}/ffmpeg)
+    set(ffmpeg_lib_loc ${libs_loc}/ffmpeg)
 
-        target_include_directories(external_ffmpeg SYSTEM
-        INTERFACE
-            ${ffmpeg_lib_loc}
-        )
-
-        target_link_libraries(external_ffmpeg
-        INTERFACE
-            ${ffmpeg_lib_loc}/libavformat/libavformat.a
-            ${ffmpeg_lib_loc}/libavcodec/libavcodec.a
-            ${ffmpeg_lib_loc}/libswresample/libswresample.a
-            ${ffmpeg_lib_loc}/libswscale/libswscale.a
-            ${ffmpeg_lib_loc}/libavutil/libavutil.a
-        )
-    endif()
-
-    target_link_libraries(external_ffmpeg
+    target_include_directories(external_ffmpeg SYSTEM
     INTERFACE
-        $<LINK_ONLY:desktop-app::external_opus>
-        $<TARGET_FILE:desktop-app::external_opus>
-        $<LINK_ONLY:desktop-app::external_vpx>
-        $<TARGET_FILE:desktop-app::external_vpx>
+        ${ffmpeg_lib_loc}
     )
 
-    if (APPLE)
-        target_link_libraries(external_ffmpeg INTERFACE bz2)
-    elseif (LINUX)
-        target_link_static_libraries(external_ffmpeg INTERFACE lzma)
-    endif()
+    list(APPEND ffmpeg_lib_list
+        ${ffmpeg_lib_loc}/libavformat/libavformat.a
+        ${ffmpeg_lib_loc}/libavcodec/libavcodec.a
+        ${ffmpeg_lib_loc}/libswresample/libswresample.a
+        ${ffmpeg_lib_loc}/libswscale/libswscale.a
+        ${ffmpeg_lib_loc}/libavutil/libavutil.a
+    )
 endif()
+
+list(APPEND ffmpeg_lib_list
+    $<TARGET_FILE:desktop-app::external_opus>
+    $<TARGET_FILE:desktop-app::external_vpx>
+)
+
+if (APPLE)
+    list(APPEND ffmpeg_lib_list bz2)
+elseif (LINUX)
+    list(APPEND ffmpeg_lib_list -llzma)
+endif()
+
+# Workaround cmake's random order on Linux...
+if (LINUX)
+    list(JOIN ffmpeg_lib_list , ffmpeg_lib_link)
+    target_link_libraries(external_ffmpeg
+    INTERFACE
+        -Wl,--push-state,-Bstatic,${ffmpeg_lib_link},--pop-state
+    )
+else()
+    target_link_libraries(external_ffmpeg
+    INTERFACE
+        ${ffmpeg_lib_list}
+    )
+endif()
+
+target_link_libraries(external_ffmpeg
+INTERFACE
+    $<LINK_ONLY:desktop-app::external_opus>
+    $<LINK_ONLY:desktop-app::external_vpx>
+)
