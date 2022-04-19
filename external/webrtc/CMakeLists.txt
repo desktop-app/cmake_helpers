@@ -62,6 +62,10 @@ else()
     )
 endif()
 
+if (NOT EXISTS ${libs_loc}/tg_owt/out/Debug/${webrtc_lib_prefix}tg_owt${webrtc_lib_suffix})
+    set(webrtc_build_loc ${libs_loc}/tg_owt/out/Release)
+endif()
+
 target_include_directories(external_webrtc SYSTEM
 INTERFACE
     ${webrtc_loc}
