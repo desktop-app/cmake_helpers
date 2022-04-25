@@ -7,7 +7,6 @@
 target_compile_options(common_options
 INTERFACE
     -fstack-protector-all
-    -fstack-clash-protection
     -fPIC
     $<IF:$<CONFIG:Debug>,,-fno-strict-aliasing>
     -pipe
@@ -34,6 +33,7 @@ INTERFACE
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     target_compile_options(common_options
     INTERFACE
+        -fstack-clash-protection
         -Wno-maybe-uninitialized
     )
 endif()
