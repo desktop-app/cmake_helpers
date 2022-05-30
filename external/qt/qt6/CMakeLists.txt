@@ -191,6 +191,7 @@ else()
         )
         set(qt_libs_dbus_plugins
             plugins/platforminputcontexts/${qt_lib_prefix}ibusplatforminputcontextplugin
+            plugins/platformthemes/${qt_lib_prefix}qxdgdesktopportal
         )
     endif()
     set(qt_libs_waylandclient)
