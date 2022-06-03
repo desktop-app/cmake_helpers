@@ -1,5 +1,0 @@
-pkgdatadir=@wayland_protocols_source_dir@
-
-Name: Wayland Protocols
-Description: Wayland protocol files
-Version: @wayland_protocols_version@
