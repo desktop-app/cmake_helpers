@@ -39,6 +39,11 @@ else()
     set(DESKTOP_APP_MAC_ARCH "x86_64;arm64" CACHE STRING "Target macOS arch. (macOS only)")
 endif()
 
+# QtWaylandScanner cmake integration from Qt 6 is used
+if (NOT DESKTOP_APP_QT6)
+    set(DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION ON)
+endif()
+
 set(add_hunspell_library 0)
 if ((WIN32
   OR (LINUX AND NOT DESKTOP_APP_USE_ENCHANT)
