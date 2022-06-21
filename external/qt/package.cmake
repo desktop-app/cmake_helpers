@@ -30,13 +30,31 @@ endif()
 
 if (LINUX)
     if (NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
+        find_package(ECM QUIET)
+        if (ECM_FOUND)
+            list(PREPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+        endif()
+
         if (DESKTOP_APP_QT6)
             find_package(Qt6 COMPONENTS WaylandClient REQUIRED)
             find_package(Qt6 OPTIONAL_COMPONENTS WaylandGlobalPrivate QUIET)
         else()
             find_package(Qt5 COMPONENTS WaylandClient REQUIRED)
             find_package(Qt5 OPTIONAL_COMPONENTS XkbCommonSupport QUIET)
+            find_package(QtWaylandScanner REQUIRED)
         endif()
+
+        find_package(WaylandProtocols QUIET)
+        if (NOT WaylandProtocols_FOUND)
+            set(WaylandProtocols_DATADIR ${third_party_loc}/wayland-protocols)
+        endif()
+        message(STATUS "Found WaylandProtocols: ${WaylandProtocols_DATADIR}")
+
+        find_package(PlasmaWaylandProtocols QUIET)
+        if (NOT PlasmaWaylandProtocols_FOUND)
+            set(PLASMA_WAYLAND_PROTOCOLS_DIR ${third_party_loc}/plasma-wayland-protocols/src/protocols)
+        endif()
+        message(STATUS "Found PlasmaWaylandProtocols: ${PLASMA_WAYLAND_PROTOCOLS_DIR}")
     endif()
 
     if ((NOT DESKTOP_APP_USE_PACKAGED
