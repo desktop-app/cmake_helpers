@@ -35,6 +35,7 @@ if (DESKTOP_APP_USE_PACKAGED)
         INTERFACE
             Qt6::WaylandClient
             Qt6::WaylandClientPrivate
+            Qt6::WaylandEglClientHwIntegrationPrivate
         )
 
         if (Qt6WaylandGlobalPrivate_FOUND)
@@ -78,10 +79,13 @@ if (LINUX AND NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
     INTERFACE
         ${qt_loc}/include/QtWaylandClient
         ${qt_loc}/include/QtWaylandGlobal
+        ${qt_loc}/include/QtWaylandEglClientHwIntegration
         ${qt_loc}/include/QtWaylandClient/${qt_version}
         ${qt_loc}/include/QtWaylandGlobal/${qt_version}
+        ${qt_loc}/include/QtWaylandEglClientHwIntegration/${qt_version}
         ${qt_loc}/include/QtWaylandClient/${qt_version}/QtWaylandClient
         ${qt_loc}/include/QtWaylandGlobal/${qt_version}/QtWaylandGlobal
+        ${qt_loc}/include/QtWaylandEglClientHwIntegration/${qt_version}/QtWaylandEglClientHwIntegration
     )
 endif()
 
@@ -112,6 +116,7 @@ if (LINUX AND NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
     INTERFACE
         QT_WAYLANDCLIENT_LIB
         QT_WAYLANDGLOBAL_LIB
+        QT_WAYLAND_EGL_CLIENT_HW_INTEGRATION_LIB
     )
 endif()
 
