@@ -17,37 +17,34 @@ if (DESKTOP_APP_USE_PACKAGED)
     target_link_libraries(external_qt
     INTERFACE
         Qt5::Core
+        Qt5::CorePrivate
         Qt5::Gui
+        Qt5::GuiPrivate
         Qt5::Widgets
         Qt5::Network
         Qt5::Svg
     )
 
-    target_include_directories(external_qt SYSTEM
-    INTERFACE
-        ${Qt5Core_PRIVATE_INCLUDE_DIRS}
-        ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
-    )
-
     if (Qt5DBus_FOUND)
-        target_link_libraries(external_qt INTERFACE Qt5::DBus)
+        target_link_libraries(external_qt
+        INTERFACE
+            Qt5::DBus
+        )
     endif()
 
     if (Qt5XkbCommonSupport_FOUND)
-        target_link_libraries(external_qt INTERFACE Qt5::XkbCommonSupport)
-
-        target_include_directories(external_qt SYSTEM
+        target_link_libraries(external_qt
         INTERFACE
-            ${Qt5XkbCommonSupport_PRIVATE_INCLUDE_DIRS}
+            Qt5::XkbCommonSupport
+            Qt5::XkbCommonSupportPrivate
         )
     endif()
 
     if (LINUX AND NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
-        target_link_libraries(external_qt INTERFACE Qt5::WaylandClient)
-
-        target_include_directories(external_qt SYSTEM
+        target_link_libraries(external_qt
         INTERFACE
-            ${Qt5WaylandClient_PRIVATE_INCLUDE_DIRS}
+            Qt5::WaylandClient
+            Qt5::WaylandClientPrivate
         )
     endif()
 
