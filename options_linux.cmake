@@ -128,6 +128,7 @@ else()
         -pthread
         -rdynamic
         -fwhole-program
+        -Wl,--allow-multiple-definition
         -Wl,-z,relro
         -Wl,-z,now
         # -pie # https://gitlab.gnome.org/GNOME/nautilus/-/issues/1601

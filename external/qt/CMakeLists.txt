@@ -23,9 +23,12 @@ if (DESKTOP_APP_USE_PACKAGED)
         Qt::Network
         Qt::Svg
         $<TARGET_NAME_IF_EXISTS:Qt::DBus>
+        $<TARGET_NAME_IF_EXISTS:Qt::Qml>
+        $<TARGET_NAME_IF_EXISTS:Qt::Quick>
         $<TARGET_NAME_IF_EXISTS:Qt::XkbCommonSupport>
         $<TARGET_NAME_IF_EXISTS:Qt::XkbCommonSupportPrivate>
         $<TARGET_NAME_IF_EXISTS:Qt::WaylandClient>
+        $<TARGET_NAME_IF_EXISTS:Qt::WaylandCompositor>
         $<TARGET_NAME_IF_EXISTS:Qt::WaylandClientPrivate>
         $<TARGET_NAME_IF_EXISTS:Qt::WaylandGlobalPrivate>
     )
@@ -44,8 +47,11 @@ INTERFACE
     $<$<TARGET_EXISTS:Qt::OpenGLWidgets>:${qt_loc}/include/QtOpenGLWidgets>
     ${qt_loc}/include/QtSvg
     $<$<TARGET_EXISTS:Qt::DBus>:${qt_loc}/include/QtDBus>
+    $<$<TARGET_EXISTS:Qt::Qml>:${qt_loc}/include/QtQml>
+    $<$<TARGET_EXISTS:Qt::Quick>:${qt_loc}/include/QtQuick>
     $<$<TARGET_EXISTS:Qt::XkbCommonSupport>:${qt_loc}/include/QtXkbCommonSupport>
     $<$<TARGET_EXISTS:Qt::WaylandClient>:${qt_loc}/include/QtWaylandClient>
+    $<$<TARGET_EXISTS:Qt::WaylandCompositor>:${qt_loc}/include/QtWaylandCompositor>
     ${qt_loc}/include/QtCore/${qt_version}
     ${qt_loc}/include/QtGui/${qt_version}
     $<$<TARGET_EXISTS:Qt::XkbCommonSupportPrivate>:${qt_loc}/include/QtXkbCommonSupport/${qt_version}>
@@ -72,8 +78,11 @@ INTERFACE
     QT_NETWORK_LIB
     QT_SVG_LIB
     $<$<TARGET_EXISTS:Qt::DBus>:QT_DBUS_LIB>
+    $<$<TARGET_EXISTS:Qt::Qml>:QT_QML_LIB>
+    $<$<TARGET_EXISTS:Qt::Quick>:QT_QUICK_LIB>
     $<$<TARGET_EXISTS:Qt::XkbCommonSupport>:QT_XKBCOMMON_SUPPORT_LIB>
     $<$<TARGET_EXISTS:Qt::WaylandClient>:QT_WAYLANDCLIENT_LIB>
+    $<$<TARGET_EXISTS:Qt::WaylandCompositor>:QT_WAYLANDCOMPOSITOR_LIB>
     $<$<TARGET_EXISTS:Qt::WaylandGlobalPrivate>:QT_WAYLANDGLOBAL_LIB>
 )
 
@@ -115,6 +124,25 @@ endif()
 if (TARGET Qt::OpenGLWidgets)
     list(PREPEND common_qt_libs
         lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}OpenGLWidgets
+    )
+endif()
+
+if (TARGET Qt::Qml)
+    list(PREPEND common_qt_libs
+        qml/QtQml/WorkerScript/${qt_lib_prefix}workerscriptplugin
+        qml/QtQml/Models/${qt_lib_prefix}modelsplugin
+        qml/QtQml/${qt_lib_prefix}qmlplugin
+        lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}QmlWorkerScript
+        lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}QmlModels
+        lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}Qml
+    )
+endif()
+
+if (TARGET Qt::Quick)
+    list(PREPEND common_qt_libs
+        qml/QtQuick/Window/${qt_lib_prefix}quickwindowplugin
+        qml/QtQuick/${qt_lib_prefix}qtquick2plugin
+        lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}Quick
     )
 endif()
 
@@ -207,6 +235,26 @@ else()
             lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}WaylandClient
         )
     endif()
+    if (TARGET Qt::WaylandCompositor)
+        list(PREPEND qt_libs
+            lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}WaylandCompositor
+        )
+        list(APPEND qt_libs_list
+            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::WaylandCompositor_resources_1>
+        )
+        if (TARGET Qt::Quick)
+            list(PREPEND qt_libs
+                qml/QtWayland/Compositor/${qt_lib_prefix}qwaylandcompositorplugin
+                qml/QtWayland/Compositor/XdgShell/${qt_lib_prefix}waylandcompositorxdgshellplugin
+            )
+            list(APPEND qt_libs_list
+                $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::WaylandCompositor_qmlcache>
+                $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::WaylandCompositor_resources_2>
+                $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::WaylandCompositor_resources_3>
+                $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::WaylandCompositorXdgShell_resources_1>
+            )
+        endif()
+    endif()
     foreach (lib ${qt_libs})
         list(APPEND qt_libs_list "${qt_loc}/${lib}${qt_lib_suffix}")
     endforeach()
@@ -219,6 +267,22 @@ if (QT_VERSION_MAJOR GREATER_EQUAL 6)
         $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Widgets_resources_2>
         $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Widgets_resources_3>
     )
+
+    if (TARGET Qt::Qml)
+        list(APPEND qt_libs_list
+            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Qml_resources_1>
+            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QmlModels_resources_1>
+            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QmlWorkerScript_resources_1>
+        )
+    endif()
+
+    if (TARGET Qt::Quick)
+        list(APPEND qt_libs_list
+            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Quick_resources_1>
+            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Quick_resources_2>
+            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::quickwindow_resources_1>
+        )
+    endif()
 endif()
 
 target_link_libraries(external_qt
@@ -260,7 +324,17 @@ if (LINUX)
     if (TARGET Qt::WaylandClient)
         target_link_libraries(external_qt
         INTERFACE
-            desktop-app::linux_wayland_helper
+            -Wl,--push-state,-Bstatic,--whole-archive,-lwayland-cursor,--pop-state
+            -Wl,--push-state,-Bstatic,--whole-archive,-lwayland-egl,--pop-state
+            -Wl,--push-state,-Bstatic,--whole-archive,-lwayland-client,--pop-state
+            -Wl,--push-state,-Bstatic,--whole-archive,-lffi,--pop-state
+        )
+    endif()
+    if (TARGET Qt::WaylandCompositor)
+        target_link_libraries(external_qt
+        INTERFACE
+            -Wl,--push-state,-Bstatic,--whole-archive,-lwayland-server,--pop-state
+            -Wl,--push-state,-Bstatic,--whole-archive,-lffi,--pop-state
         )
     endif()
     target_link_libraries(external_qt
