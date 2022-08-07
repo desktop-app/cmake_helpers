@@ -29,6 +29,7 @@ if (NOT DEFINED QT_VERSION_MAJOR)
 endif()
 
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Gui Widgets Network Svg REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} OPTIONAL_COMPONENTS Qml Quick QuickWidgets QUIET)
 
 set(qt_version_6_or_greater 0)
 if (QT_VERSION_MAJOR GREATER_EQUAL 6)
@@ -42,6 +43,7 @@ cmake_dependent_option(DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION "Disable all code
 if (LINUX)
     if (NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
         find_package(Qt${QT_VERSION_MAJOR} COMPONENTS WaylandClient REQUIRED)
+        find_package(Qt${QT_VERSION_MAJOR} OPTIONAL_COMPONENTS WaylandCompositor QUIET)
     endif()
 
     if (NOT DESKTOP_APP_DISABLE_DBUS_INTEGRATION)
