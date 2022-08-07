@@ -190,37 +190,8 @@ elseif (APPLE)
         $<TARGET_OBJECTS:Qt6::QCocoaIntegrationPlugin_resources_1>
     )
 else()
-    set(qt_libs_dbus)
-    set(qt_libs_dbus_plugins)
-    if (Qt6DBus_FOUND)
-        set(qt_libs_dbus
-            lib/${qt_lib_prefix}Qt6DBus
-            lib/${qt_lib_prefix}Qt6Core
-        )
-        set(qt_libs_dbus_plugins
-            plugins/platforminputcontexts/${qt_lib_prefix}ibusplatforminputcontextplugin
-            plugins/platformthemes/${qt_lib_prefix}qxdgdesktopportal
-        )
-    endif()
-    set(qt_libs_waylandclient)
-    set(qt_libs_waylandclient_plugins)
-    if (NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
-        set(qt_libs_waylandclient
-            lib/${qt_lib_prefix}Qt6WaylandEglClientHwIntegration
-            lib/${qt_lib_prefix}Qt6WaylandClient
-        )
-        set(qt_libs_waylandclient_plugins
-            plugins/platforms/${qt_lib_prefix}qwayland-generic
-            plugins/platforms/${qt_lib_prefix}qwayland-egl
-            plugins/wayland-graphics-integration-client/${qt_lib_prefix}qt-plugin-wayland-egl
-            plugins/wayland-shell-integration/${qt_lib_prefix}xdg-shell
-            plugins/wayland-decoration-client/${qt_lib_prefix}bradient
-        )
-    endif()
     set(qt_libs
         plugins/platforminputcontexts/${qt_lib_prefix}composeplatforminputcontextplugin
-        ${qt_libs_dbus_plugins}
-        ${qt_libs_waylandclient_plugins}
         plugins/platformthemes/${qt_lib_prefix}qgtk3
         plugins/platforms/${qt_lib_prefix}qxcb
         plugins/tls/${qt_lib_prefix}qopensslbackend
@@ -228,10 +199,27 @@ else()
         plugins/xcbglintegrations/${qt_lib_prefix}qxcb-glx-integration
         plugins/iconengines/${qt_lib_prefix}qsvgicon
         lib/${qt_lib_prefix}Qt6XcbQpa
-        ${qt_libs_waylandclient}
         ${common_qt_libs}
-        ${qt_libs_dbus}
     )
+    if (Qt6DBus_FOUND)
+        list(APPEND qt_libs
+            plugins/platforminputcontexts/${qt_lib_prefix}ibusplatforminputcontextplugin
+            plugins/platformthemes/${qt_lib_prefix}qxdgdesktopportal
+            lib/${qt_lib_prefix}Qt6DBus
+            lib/${qt_lib_prefix}Qt6Core
+        )
+    endif()
+    if (NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
+        list(PREPEND qt_libs
+            plugins/platforms/${qt_lib_prefix}qwayland-generic
+            plugins/platforms/${qt_lib_prefix}qwayland-egl
+            plugins/wayland-graphics-integration-client/${qt_lib_prefix}qt-plugin-wayland-egl
+            plugins/wayland-shell-integration/${qt_lib_prefix}xdg-shell
+            plugins/wayland-decoration-client/${qt_lib_prefix}bradient
+            lib/${qt_lib_prefix}Qt6WaylandEglClientHwIntegration
+            lib/${qt_lib_prefix}Qt6WaylandClient
+        )
+    endif()
     foreach (lib ${qt_libs})
         list(APPEND qt_libs_list "${qt_loc}/${lib}${qt_lib_suffix}")
     endforeach()
