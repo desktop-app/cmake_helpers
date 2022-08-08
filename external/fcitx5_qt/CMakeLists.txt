@@ -15,12 +15,7 @@ add_library(desktop-app::external_fcitx5_qt ALIAS external_fcitx5_qt)
 init_target(external_fcitx5_qt "(external)")
 
 set(fcitx5_qt_loc ${third_party_loc}/fcitx5-qt)
-
-if (DESKTOP_APP_QT6)
-    set(fcitx5_qt_src ${fcitx5_qt_loc}/qt6/platforminputcontext)
-else()
-    set(fcitx5_qt_src ${fcitx5_qt_loc}/qt5/platforminputcontext)
-endif()
+set(fcitx5_qt_src ${fcitx5_qt_loc}/qt${QT_VERSION_MAJOR}/platforminputcontext)
 
 set_target_properties(external_fcitx5_qt PROPERTIES AUTOMOC ON)
 set(FCITX5_QT_EXTRA_PLUGIN_NAME "")

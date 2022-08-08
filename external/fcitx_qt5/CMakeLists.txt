@@ -15,12 +15,7 @@ add_library(desktop-app::external_fcitx_qt5 ALIAS external_fcitx_qt5)
 init_target(external_fcitx_qt5 "(external)")
 
 set(fcitx_qt5_loc ${third_party_loc}/fcitx-qt5)
-
-if (DESKTOP_APP_QT6)
-    set(fcitx_qt5_src ${fcitx_qt5_loc}/qt6/platforminputcontext)
-else()
-    set(fcitx_qt5_src ${fcitx_qt5_loc}/qt5/platforminputcontext)
-endif()
+set(fcitx_qt5_src ${fcitx_qt5_loc}/qt${QT_VERSION_MAJOR}/platforminputcontext)
 
 set_target_properties(external_fcitx_qt5 PROPERTIES AUTOMOC ON)
 
@@ -43,17 +38,10 @@ INCLUDE ${fcitx_qt5_src}/fcitxqtdbustypes.h)
 set_source_files_properties(${fcitx_qt5_src}/org.fcitx.Fcitx.InputMethod1.xml PROPERTIES
 INCLUDE ${fcitx_qt5_src}/fcitxqtdbustypes.h)
 
-if (DESKTOP_APP_QT6)
-    qt6_add_dbus_interface(fcitx_qt5_adaptors ${fcitx_qt5_src}/org.fcitx.Fcitx.InputContext.xml inputcontextproxy)
-    qt6_add_dbus_interface(fcitx_qt5_adaptors ${fcitx_qt5_src}/org.fcitx.Fcitx.InputContext1.xml inputcontext1proxy)
-    qt6_add_dbus_interface(fcitx_qt5_adaptors ${fcitx_qt5_src}/org.fcitx.Fcitx.InputMethod.xml inputmethodproxy)
-    qt6_add_dbus_interface(fcitx_qt5_adaptors ${fcitx_qt5_src}/org.fcitx.Fcitx.InputMethod1.xml inputmethod1proxy)
-else()
-    qt5_add_dbus_interface(fcitx_qt5_adaptors ${fcitx_qt5_src}/org.fcitx.Fcitx.InputContext.xml inputcontextproxy)
-    qt5_add_dbus_interface(fcitx_qt5_adaptors ${fcitx_qt5_src}/org.fcitx.Fcitx.InputContext1.xml inputcontext1proxy)
-    qt5_add_dbus_interface(fcitx_qt5_adaptors ${fcitx_qt5_src}/org.fcitx.Fcitx.InputMethod.xml inputmethodproxy)
-    qt5_add_dbus_interface(fcitx_qt5_adaptors ${fcitx_qt5_src}/org.fcitx.Fcitx.InputMethod1.xml inputmethod1proxy)
-endif()
+qt_add_dbus_interface(fcitx_qt5_adaptors ${fcitx_qt5_src}/org.fcitx.Fcitx.InputContext.xml inputcontextproxy)
+qt_add_dbus_interface(fcitx_qt5_adaptors ${fcitx_qt5_src}/org.fcitx.Fcitx.InputContext1.xml inputcontext1proxy)
+qt_add_dbus_interface(fcitx_qt5_adaptors ${fcitx_qt5_src}/org.fcitx.Fcitx.InputMethod.xml inputmethodproxy)
+qt_add_dbus_interface(fcitx_qt5_adaptors ${fcitx_qt5_src}/org.fcitx.Fcitx.InputMethod1.xml inputmethod1proxy)
 
 target_sources(external_fcitx_qt5 PRIVATE ${fcitx_qt5_adaptors})
 

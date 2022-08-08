@@ -34,14 +34,9 @@ function(target_prepare_qrc target_name)
         set(rcc_file ${target_name}.rcc)
         set(rcc_path "${CMAKE_BINARY_DIR}/${rcc_file}")
         source_group(TREE ${CMAKE_BINARY_DIR} PREFIX Resources FILES ${rcc_path})
-        if (DESKTOP_APP_QT6)
-            set(rcc_binary Qt6::rcc)
-        else()
-            set(rcc_binary Qt5::rcc)
-        endif()
         add_custom_command(OUTPUT ${rcc_path}
             DEPENDS ${qrc_files}
-            COMMAND ${rcc_binary} ${rcc_flags} -o ${rcc_path} ${qrc_files}
+            COMMAND Qt::rcc ${rcc_flags} -o ${rcc_path} ${qrc_files}
             COMMAND_EXPAND_LISTS VERBATIM
         )
         target_add_resource(${target_name} ${rcc_path})
