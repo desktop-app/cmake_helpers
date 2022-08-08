@@ -21,7 +21,6 @@ if (DESKTOP_APP_USE_PACKAGED)
         Qt5::Gui
         Qt5::GuiPrivate
         Qt5::Widgets
-        Qt5::WidgetsPrivate
         Qt5::Network
         Qt5::Svg
     )
@@ -61,10 +60,8 @@ INTERFACE
     ${qt_loc}/include/QtSvg
     ${qt_loc}/include/QtCore/${qt_version}
     ${qt_loc}/include/QtGui/${qt_version}
-    ${qt_loc}/include/QtWidgets/${qt_version}
     ${qt_loc}/include/QtCore/${qt_version}/QtCore
     ${qt_loc}/include/QtGui/${qt_version}/QtGui
-    ${qt_loc}/include/QtWidgets/${qt_version}/QtWidgets
 )
 
 if (Qt5DBus_FOUND)

@@ -17,7 +17,6 @@ if (DESKTOP_APP_USE_PACKAGED)
         Qt6::GuiPrivate
         Qt6::OpenGL
         Qt6::Widgets
-        Qt6::WidgetsPrivate
         Qt6::OpenGLWidgets
         Qt6::Network
         Qt6::Svg
@@ -60,10 +59,8 @@ INTERFACE
     ${qt_loc}/include/QtSvg
     ${qt_loc}/include/QtCore/${qt_version}
     ${qt_loc}/include/QtGui/${qt_version}
-    ${qt_loc}/include/QtWidgets/${qt_version}
     ${qt_loc}/include/QtCore/${qt_version}/QtCore
     ${qt_loc}/include/QtGui/${qt_version}/QtGui
-    ${qt_loc}/include/QtWidgets/${qt_version}/QtWidgets
 )
 
 if (Qt6DBus_FOUND)
