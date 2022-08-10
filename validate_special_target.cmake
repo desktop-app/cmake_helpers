@@ -4,19 +4,58 @@
 # For license and copyright information please follow this link:
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
+include(CMakeDependentOption)
+
 set(DESKTOP_APP_SPECIAL_TARGET "" CACHE STRING "Use special platform target, like 'macstore' for Mac App Store.")
 
-set(no_special_target 0)
-if (DESKTOP_APP_SPECIAL_TARGET STREQUAL "")
-    set(no_special_target 1)
-endif()
-option(DESKTOP_APP_USE_PACKAGED "Find libraries using CMake instead of exact paths." ${no_special_target})
+set(build_macstore 0)
+set(build_winstore 0) # 32 or 64 bit
+set(build_win64 0) # normal or uwp
+set(build_winstore64 0)
 
-set(default_to_qt6 1)
 if (WIN32)
-    set(default_to_qt6 0)
+    if (DESKTOP_APP_SPECIAL_TARGET STREQUAL "win64")
+        set(build_win64 1)
+    elseif (DESKTOP_APP_SPECIAL_TARGET STREQUAL "uwp")
+        set(build_winstore 1)
+    elseif (DESKTOP_APP_SPECIAL_TARGET STREQUAL "uwp64")
+        set(build_win64 1)
+        set(build_winstore 1)
+        set(build_winstore64 1)
+    elseif (CMAKE_SIZEOF_VOID_P EQUAL 8)
+        set(build_win64 1)
+    endif()
+elseif (APPLE)
+    if (DESKTOP_APP_SPECIAL_TARGET STREQUAL "macstore")
+        set(build_macstore 1)
+    endif()
+else()
+    if (DESKTOP_APP_SPECIAL_TARGET)
+        if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+            set(CMAKE_AR "gcc-ar")
+            set(CMAKE_RANLIB "gcc-ranlib")
+            set(CMAKE_NM "gcc-nm")
+        elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+            set(CMAKE_AR "llvm-ar")
+            set(CMAKE_RANLIB "llvm-ranlib")
+            set(CMAKE_NM "llvm-nm")
+        endif()
+    endif()
 endif()
-option(DESKTOP_APP_QT6 "Build with Qt 6" ${default_to_qt6})
+
+if (build_win64)
+    get_filename_component(libs_loc "../Libraries/win64" REALPATH)
+else()
+    get_filename_component(libs_loc "../Libraries" REALPATH)
+endif()
+
+set(libs_loc_exists 0)
+if (EXISTS ${libs_loc})
+    set(libs_loc_exists 1)
+endif()
+
+cmake_dependent_option(DESKTOP_APP_USE_PACKAGED "Find libraries using CMake instead of exact paths." OFF libs_loc_exists ON)
+cmake_dependent_option(DESKTOP_APP_QT6 "Build with Qt 6." ON "NOT WIN32" OFF)
 
 function(report_bad_special_target)
     if (NOT DESKTOP_APP_SPECIAL_TARGET STREQUAL "")
