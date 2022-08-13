@@ -196,7 +196,7 @@ else()
             lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}Core
         )
     endif()
-    if (TARGET Qt::WaylandClient)
+    if (NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
         list(PREPEND qt_libs
             plugins/platforms/${qt_lib_prefix}qwayland-generic
             plugins/platforms/${qt_lib_prefix}qwayland-egl
@@ -257,7 +257,7 @@ if (LINUX)
         xcb-render-util
         xcb-keysyms
     )
-    if (TARGET Qt::WaylandClient)
+    if (NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
         target_link_libraries(external_qt
         INTERFACE
             desktop-app::linux_wayland_helper
