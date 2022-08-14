@@ -55,7 +55,6 @@ if (EXISTS ${libs_loc})
 endif()
 
 cmake_dependent_option(DESKTOP_APP_USE_PACKAGED "Find libraries using CMake instead of exact paths." OFF libs_loc_exists ON)
-cmake_dependent_option(DESKTOP_APP_QT6 "Build with Qt 6." ON "NOT WIN32" OFF)
 
 function(report_bad_special_target)
     if (NOT DESKTOP_APP_SPECIAL_TARGET STREQUAL "")
@@ -65,11 +64,7 @@ endfunction()
 
 if (NOT DESKTOP_APP_USE_PACKAGED)
     set(CMAKE_OSX_DEPLOYMENT_TARGET 10.12 CACHE STRING "Minimum macOS deployment version" FORCE)
-    if (DESKTOP_APP_QT6)
-        set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64" CACHE STRING "Target macOS architectures" FORCE)
-    else()
-        set(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE STRING "Target macOS architectures" FORCE)
-    endif()
+    set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64" CACHE STRING "Target macOS architectures" FORCE)
 endif()
 
 if (WIN32)
