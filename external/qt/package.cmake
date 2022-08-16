@@ -5,7 +5,13 @@
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
 if (NOT DESKTOP_APP_USE_PACKAGED)
-    set(qt_version $ENV{QT})
+    if (DEFINED ENV{QT})
+        set(qt_version $ENV{QT} CACHE STRING "Qt version" FORCE)
+    endif()
+
+    if (NOT DEFINED qt_version)
+        message(FATAL_ERROR "Qt version is unknown, set `QT' environment variable")
+    endif()
 
     if (WIN32)
         set(qt_loc ${libs_loc}/Qt-${qt_version})
