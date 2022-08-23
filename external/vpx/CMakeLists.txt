@@ -46,8 +46,8 @@ else()
     INTERFACE
         /usr/local/include
     )
-    find_library(VPX_LIBRARY libvpx.a REQUIRED)
+    find_library(DESKTOP_APP_VPX_LIBRARIES libvpx.a REQUIRED)
     set_target_properties(external_vpx PROPERTIES
-        IMPORTED_LOCATION "${VPX_LIBRARY}"
+        IMPORTED_LOCATION "${DESKTOP_APP_VPX_LIBRARIES}"
     )
 endif()

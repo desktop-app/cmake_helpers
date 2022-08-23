@@ -28,8 +28,8 @@ elseif (APPLE)
         IMPORTED_LOCATION ${libs_loc}/local/lib/libjpeg.a
     )
 else()
-    find_library(JPEG_LIBRARY libjpeg.a REQUIRED)
+    find_library(DESKTOP_APP_JPEG_LIBRARIES libjpeg.a REQUIRED)
     set_target_properties(external_jpeg PROPERTIES
-        IMPORTED_LOCATION "${JPEG_LIBRARY}"
+        IMPORTED_LOCATION "${DESKTOP_APP_JPEG_LIBRARIES}"
     )
 endif()

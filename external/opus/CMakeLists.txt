@@ -41,8 +41,8 @@ else()
     INTERFACE
         /usr/local/include/opus
     )
-    find_library(OPUS_LIBRARY libopus.a REQUIRED)
+    find_library(DESKTOP_APP_OPUS_LIBRARIES libopus.a REQUIRED)
     set_target_properties(external_opus PROPERTIES
-        IMPORTED_LOCATION "${OPUS_LIBRARY}"
+        IMPORTED_LOCATION "${DESKTOP_APP_OPUS_LIBRARIES}"
     )
 endif()
