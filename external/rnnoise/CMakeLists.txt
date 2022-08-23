@@ -42,8 +42,8 @@ else()
     INTERFACE
         /usr/local/include
     )
-    find_library(RNNOISE_LIBRARY librnnoise.a REQUIRED)
+    find_library(DESKTOP_APP_RNNOISE_LIBRARIES librnnoise.a REQUIRED)
     set_target_properties(external_rnnoise PROPERTIES
-        IMPORTED_LOCATION "${RNNOISE_LIBRARY}"
+        IMPORTED_LOCATION "${DESKTOP_APP_RNNOISE_LIBRARIES}"
     )
 endif()

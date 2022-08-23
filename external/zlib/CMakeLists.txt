@@ -34,8 +34,8 @@ elseif (APPLE)
         IMPORTED_LOCATION ${libs_loc}/local/lib/libz.a
     )
 else()
-    find_library(ZLIB_LIBRARY libz.a REQUIRED)
+    find_library(DESKTOP_APP_ZLIB_LIBRARIES libz.a REQUIRED)
     set_target_properties(external_zlib PROPERTIES
-        IMPORTED_LOCATION "${ZLIB_LIBRARY}"
+        IMPORTED_LOCATION "${DESKTOP_APP_ZLIB_LIBRARIES}"
     )
 endif()

@@ -9,11 +9,11 @@ set(dispatch_prefix ${CMAKE_CURRENT_BINARY_DIR}/dispatch-prefix)
 set(dispatch_binary_dir ${dispatch_prefix}/src/dispatch-build)
 
 if (DESKTOP_APP_USE_PACKAGED)
-    find_library(DISPATCH_LIBRARIES dispatch)
-    find_path(DISPATCH_INCLUDE_DIRS dispatch/dispatch.h)
+    find_library(DESKTOP_APP_DISPATCH_LIBRARIES dispatch)
+    find_path(DESKTOP_APP_DISPATCH_INCLUDE_DIRS dispatch/dispatch.h)
 endif()
 
-if (NOT DISPATCH_LIBRARIES OR NOT DISPATCH_INCLUDE_DIRS)
+if (NOT DESKTOP_APP_DISPATCH_LIBRARIES OR NOT DESKTOP_APP_DISPATCH_INCLUDE_DIRS)
     execute_process(
         COMMAND ${CMAKE_COMMAND} ${dispatch_loc}
             -B ${dispatch_binary_dir}
@@ -41,9 +41,9 @@ endif()
 add_library(external_dispatch INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_dispatch ALIAS external_dispatch)
 
-if (DESKTOP_APP_USE_PACKAGED AND DISPATCH_LIBRARIES AND DISPATCH_INCLUDE_DIRS)
-    target_include_directories(external_dispatch SYSTEM INTERFACE ${DISPATCH_INCLUDE_DIRS})
-    target_link_libraries(external_dispatch INTERFACE ${DISPATCH_LIBRARIES})
+if (DESKTOP_APP_USE_PACKAGED AND DESKTOP_APP_DISPATCH_LIBRARIES AND DESKTOP_APP_DISPATCH_INCLUDE_DIRS)
+    target_include_directories(external_dispatch SYSTEM INTERFACE ${DESKTOP_APP_DISPATCH_INCLUDE_DIRS})
+    target_link_libraries(external_dispatch INTERFACE ${DESKTOP_APP_DISPATCH_LIBRARIES})
     return()
 endif()
 
