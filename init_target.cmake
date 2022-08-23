@@ -28,9 +28,6 @@ function(init_target target_name) # init_target(my_target folder_name)
             MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
     endif()
     target_link_libraries(${target_name} PRIVATE desktop-app::common_options)
-    if (NOT DESKTOP_APP_USE_PACKAGED)
-        set_target_properties(${target_name} PROPERTIES LINK_SEARCH_START_STATIC 1)
-    endif()
     set_target_properties(${target_name} PROPERTIES
         XCODE_ATTRIBUTE_CLANG_ENABLE_OBJC_WEAK YES
         XCODE_ATTRIBUTE_GCC_INLINES_ARE_PRIVATE_EXTERN YES
