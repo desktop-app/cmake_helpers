@@ -8,7 +8,7 @@ function(nuget_add_package package_name package package_version)
     get_property(nuget_exe_defined GLOBAL PROPERTY nuget_exe_path_property SET)
     if (NOT nuget_exe_defined)
         # Thanks https://github.com/clarkezone/flutter_win_webview/blob/master/webview_popupauth/windows/CMakeLists.txt
-        find_program(NUGET_EXE NAMES nuget)
+        find_program(NUGET_EXE NAMES nuget PATHS "${CMAKE_SOURCE_DIR}/../ThirdParty/NuGet")
         if (NOT NUGET_EXE)
             message("NUGET.EXE not found.")
             message(FATAL_ERROR "Please install this executable, and run CMake again.")
