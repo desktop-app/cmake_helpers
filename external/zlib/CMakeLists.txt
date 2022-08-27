@@ -18,6 +18,7 @@ add_library(desktop-app::external_zlib ALIAS external_zlib)
 
 if (WIN32)
     set(zlib_lib_loc ${libs_loc}/zlib)
+    target_compile_definitions(external_zlib INTERFACE ZLIB_WINAPI)
     target_include_directories(external_zlib SYSTEM INTERFACE ${zlib_lib_loc})
     set_target_properties(external_zlib PROPERTIES
         IMPORTED_LOCATION "${zlib_lib_loc}/Release/zlibstatic.lib"
