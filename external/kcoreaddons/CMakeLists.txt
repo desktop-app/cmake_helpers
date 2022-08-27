@@ -26,7 +26,7 @@ if (DESKTOP_APP_USE_PACKAGED)
     add_library(desktop-app::external_kcoreaddons ALIAS external_kcoreaddons)
 
     find_package(KF5CoreAddons REQUIRED)
-    target_link_libraries(external_kcoreaddons INTERFACE KF5:CoreAddons)
+    target_link_libraries(external_kcoreaddons INTERFACE KF5::CoreAddons)
     return()
 endif()
 
