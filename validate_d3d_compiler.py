@@ -25,7 +25,7 @@ if not os.path.exists(inputPath):
 
 info = GetFileVersionInfo(inputPath, '\\')
 version = [ info['FileVersionMS'] // 65536, info['FileVersionMS'] % 65536, info['FileVersionLS'] // 65536, info['FileVersionLS'] % 65536 ]
-if (version != [10, 0, 22000, 194]):
+if (version != [10, 0, 22000, 832]):
     error('Bad "d3dcompiler_47.dll" version: ' + '.'.join(str(x) for x in version))
 
 bufferSize = 1024 * 1024
