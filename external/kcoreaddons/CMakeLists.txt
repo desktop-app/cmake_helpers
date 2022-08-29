@@ -33,7 +33,7 @@ endif()
 add_library(external_kcoreaddons STATIC IMPORTED GLOBAL)
 add_library(desktop-app::external_kcoreaddons ALIAS external_kcoreaddons)
 
-find_library(DESKTOP_APP_KCOREADDONS_LIBRARIES libKF5CoreAddons.a)
+find_library(DESKTOP_APP_KCOREADDONS_LIBRARIES libKF5CoreAddons.a REQUIRED)
 set_target_properties(external_kcoreaddons PROPERTIES
     IMPORTED_LOCATION "${DESKTOP_APP_KCOREADDONS_LIBRARIES}"
 )
