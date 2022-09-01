@@ -215,6 +215,7 @@ endif()
 if (QT_VERSION_MAJOR GREATER_EQUAL 6)
     list(APPEND qt_libs_list
         $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Gui_resources_1>
+        $<$<TARGET_EXISTS:Qt${QT_VERSION_MAJOR}::Gui_resources_2>:$<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Gui_resources_2>>
         $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Widgets_resources_1>
         $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Widgets_resources_2>
         $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Widgets_resources_3>
