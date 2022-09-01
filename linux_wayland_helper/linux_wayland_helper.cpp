@@ -647,7 +647,7 @@ struct wl_proxy *wl_proxy_marshal_flags(
 			args,
 			interface,
 			version);
-		
+
 		if (flags & WL_MARSHAL_FLAG_DESTROY) {
 			wl_proxy_destroy(proxy);
 		}

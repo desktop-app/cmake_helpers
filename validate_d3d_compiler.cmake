@@ -21,7 +21,7 @@ function(validate_d3d_compiler target_name)
     set(modules_hash_loc ${CMAKE_BINARY_DIR}/modules/${modules_subdir})
     set(modules_debug_loc ${CMAKE_BINARY_DIR}/Debug/modules/${modules_subdir})
     set(modules_release_loc ${CMAKE_BINARY_DIR}/Release/modules/${modules_subdir})
-    
+
     set(key_path ${modules_hash_loc}/d3d/d3dcompiler_47)
     set(module_debug_path ${modules_debug_loc}/d3d)
     set(module_release_path ${modules_release_loc}/d3d)
@@ -39,7 +39,7 @@ function(validate_d3d_compiler target_name)
     if (NOT "${key_length}" STREQUAL "32"
         OR NOT EXISTS ${module_debug_path}/d3dcompiler_47.dll
         OR NOT EXISTS ${module_release_path}/d3dcompiler_47.dll)
-        
+
         if ("${windows_sdk_loc}" STREQUAL "")
             validate_d3d_error("Could not find Windows SDK.")
             return()
@@ -66,7 +66,7 @@ function(validate_d3d_compiler target_name)
         file(MAKE_DIRECTORY ${modules_release_loc}/d3d)
         file(COPY ${sdk_compiler} DESTINATION ${module_release_path})
 
-        file(MAKE_DIRECTORY ${modules_hash_loc}/d3d)    
+        file(MAKE_DIRECTORY ${modules_hash_loc}/d3d)
         file(WRITE ${key_path} ${key})
     endif()
 
