@@ -23,11 +23,6 @@ if (DESKTOP_APP_USE_PACKAGED)
         Qt::Network
         Qt::Svg
         $<TARGET_NAME_IF_EXISTS:Qt::DBus>
-        $<TARGET_NAME_IF_EXISTS:Qt::XkbCommonSupport>
-        $<TARGET_NAME_IF_EXISTS:Qt::XkbCommonSupportPrivate>
-        $<TARGET_NAME_IF_EXISTS:Qt::WaylandClient>
-        $<TARGET_NAME_IF_EXISTS:Qt::WaylandClientPrivate>
-        $<TARGET_NAME_IF_EXISTS:Qt::WaylandGlobalPrivate>
     )
 
     return()
@@ -44,18 +39,10 @@ INTERFACE
     $<$<TARGET_EXISTS:Qt::OpenGLWidgets>:${qt_loc}/include/QtOpenGLWidgets>
     ${qt_loc}/include/QtSvg
     $<$<TARGET_EXISTS:Qt::DBus>:${qt_loc}/include/QtDBus>
-    $<$<TARGET_EXISTS:Qt::XkbCommonSupport>:${qt_loc}/include/QtXkbCommonSupport>
-    $<$<TARGET_EXISTS:Qt::WaylandClient>:${qt_loc}/include/QtWaylandClient>
     ${qt_loc}/include/QtCore/${qt_version}
     ${qt_loc}/include/QtGui/${qt_version}
-    $<$<TARGET_EXISTS:Qt::XkbCommonSupportPrivate>:${qt_loc}/include/QtXkbCommonSupport/${qt_version}>
-    $<$<TARGET_EXISTS:Qt::WaylandClientPrivate>:${qt_loc}/include/QtWaylandClient/${qt_version}>
-    $<$<TARGET_EXISTS:Qt::WaylandGlobalPrivate>:${qt_loc}/include/QtWaylandGlobal/${qt_version}>
     ${qt_loc}/include/QtCore/${qt_version}/QtCore
     ${qt_loc}/include/QtGui/${qt_version}/QtGui
-    $<$<TARGET_EXISTS:Qt::XkbCommonSupportPrivate>:${qt_loc}/include/QtXkbCommonSupport/${qt_version}/QtXkbCommonSupport>
-    $<$<TARGET_EXISTS:Qt::WaylandClientPrivate>:${qt_loc}/include/QtWaylandClient/${qt_version}/QtWaylandClient>
-    $<$<TARGET_EXISTS:Qt::WaylandGlobalPrivate>:${qt_loc}/include/QtWaylandGlobal/${qt_version}/QtWaylandGlobal>
 )
 
 target_compile_definitions(external_qt
@@ -72,9 +59,6 @@ INTERFACE
     QT_NETWORK_LIB
     QT_SVG_LIB
     $<$<TARGET_EXISTS:Qt::DBus>:QT_DBUS_LIB>
-    $<$<TARGET_EXISTS:Qt::XkbCommonSupport>:QT_XKBCOMMON_SUPPORT_LIB>
-    $<$<TARGET_EXISTS:Qt::WaylandClient>:QT_WAYLANDCLIENT_LIB>
-    $<$<TARGET_EXISTS:Qt::WaylandGlobalPrivate>:QT_WAYLANDGLOBAL_LIB>
 )
 
 if (WIN32)

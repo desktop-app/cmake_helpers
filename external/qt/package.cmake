@@ -42,11 +42,6 @@ cmake_dependent_option(DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION "Disable all code
 if (LINUX)
     if (NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
         find_package(Qt${QT_VERSION_MAJOR} COMPONENTS WaylandClient REQUIRED)
-        if (QT_VERSION_MAJOR GREATER_EQUAL 6)
-            find_package(Qt${QT_VERSION_MAJOR} OPTIONAL_COMPONENTS WaylandGlobalPrivate QUIET)
-        else()
-            find_package(Qt${QT_VERSION_MAJOR} OPTIONAL_COMPONENTS XkbCommonSupport QUIET)
-        endif()
     endif()
 
     if ((NOT DESKTOP_APP_USE_PACKAGED
