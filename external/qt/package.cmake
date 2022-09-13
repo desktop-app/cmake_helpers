@@ -36,12 +36,30 @@ if (QT_VERSION_MAJOR GREATER_EQUAL 6)
     find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core5Compat OpenGL OpenGLWidgets REQUIRED)
 endif()
 
-# QtWaylandScanner cmake integration from Qt 6 is used
-cmake_dependent_option(DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION "Disable all code for Wayland integration." OFF "LINUX; qt_version_6_or_greater" ON)
+cmake_dependent_option(DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION "Disable all code for Wayland integration." OFF LINUX ON)
 
 if (LINUX)
     if (NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
         find_package(Qt${QT_VERSION_MAJOR} COMPONENTS WaylandClient REQUIRED)
+
+        find_package(ECM QUIET)
+        if (ECM_FOUND)
+            list(PREPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+        endif()
+        if (QT_VERSION_MAJOR GREATER_EQUAL 5)
+            find_package(QtWaylandScanner REQUIRED)
+
+            # Imitate QtWayland's generator function by means of extra CMake modules.
+            function(qt_generate_wayland_protocol_client_sources target)
+                cmake_parse_arguments(GEN "" "" FILES ${ARGN})
+                foreach(xmldef ${GEN_FILES})
+                    get_filename_component(base ${xmldef} NAME_WE)
+                    ecm_add_qtwayland_client_protocol(generated PROTOCOL ${xmldef} BASENAME ${base})
+                endforeach()
+                target_sources(${target} PRIVATE ${generated})
+                target_include_directories(${target} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+            endfunction()
+        endif()
     endif()
 
     if ((NOT DESKTOP_APP_USE_PACKAGED
