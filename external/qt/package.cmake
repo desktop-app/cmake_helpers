@@ -60,6 +60,18 @@ if (LINUX)
                 target_include_directories(${target} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
             endfunction()
         endif()
+
+        find_package(WaylandProtocols QUIET)
+        if (NOT WaylandProtocols_FOUND)
+            set(WaylandProtocols_DATADIR ${third_party_loc}/wayland-protocols)
+        endif()
+        message(STATUS "Found WaylandProtocols: ${WaylandProtocols_DATADIR}")
+
+        find_package(PlasmaWaylandProtocols QUIET)
+        if (NOT PlasmaWaylandProtocols_FOUND)
+            set(PLASMA_WAYLAND_PROTOCOLS_DIR ${third_party_loc}/plasma-wayland-protocols/src/protocols)
+        endif()
+        message(STATUS "Found PlasmaWaylandProtocols: ${PLASMA_WAYLAND_PROTOCOLS_DIR}")
     endif()
 
     if ((NOT DESKTOP_APP_USE_PACKAGED
