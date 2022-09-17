@@ -16,6 +16,7 @@ PRIVATE
 target_link_libraries(external_qt_static_plugins
 PUBLIC
     desktop-app::external_qt
+    desktop-app::external_kimageformats
 )
 
 if (LINUX)
