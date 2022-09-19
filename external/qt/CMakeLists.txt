@@ -19,6 +19,7 @@ if (DESKTOP_APP_USE_PACKAGED)
         Qt::GuiPrivate
         $<TARGET_NAME_IF_EXISTS:Qt::OpenGL>
         Qt::Widgets
+        Qt::WidgetsPrivate
         $<TARGET_NAME_IF_EXISTS:Qt::OpenGLWidgets>
         Qt::Network
         Qt::Svg
@@ -41,8 +42,10 @@ INTERFACE
     $<$<TARGET_EXISTS:Qt::DBus>:${qt_loc}/include/QtDBus>
     ${qt_loc}/include/QtCore/${qt_version}
     ${qt_loc}/include/QtGui/${qt_version}
+    ${qt_loc}/include/QtWidgets/${qt_version}
     ${qt_loc}/include/QtCore/${qt_version}/QtCore
     ${qt_loc}/include/QtGui/${qt_version}/QtGui
+    ${qt_loc}/include/QtWidgets/${qt_version}/QtWidgets
 )
 
 target_compile_definitions(external_qt
