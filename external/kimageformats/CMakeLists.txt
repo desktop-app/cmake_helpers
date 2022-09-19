@@ -60,9 +60,9 @@ else()
         jxl_threads
         dav1d
         libde265
-        brotlicommon-static
         brotlidec-static
         brotlienc-static
+        brotlicommon-static
         hwy
         lcms2
     )
