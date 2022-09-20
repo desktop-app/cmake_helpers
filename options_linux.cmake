@@ -4,6 +4,8 @@
 # For license and copyright information please follow this link:
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
+include(CheckCXXCompilerFlag)
+
 target_compile_options(common_options
 INTERFACE
     -fstack-protector-all
@@ -91,14 +93,15 @@ if (DESKTOP_APP_USE_ALLOCATION_TRACER)
     )
 endif()
 
-if (DESKTOP_APP_USE_PACKAGED)
-    set(THREADS_PREFER_PTHREAD_FLAG ON)
-    find_package(Threads REQUIRED)
-    target_link_libraries(common_options
+check_cxx_compiler_flag(-pthread DESKTOP_APP_HAVE_PTHREAD_ARG)
+if (DESKTOP_APP_HAVE_PTHREAD_ARG)
+    target_link_options(common_options
     INTERFACE
-        Threads::Threads
+        -pthread
     )
-else()
+endif()
+
+if (NOT DESKTOP_APP_USE_PACKAGED)
     if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         target_link_options(common_options
         INTERFACE
@@ -118,7 +121,6 @@ else()
     endif()
     target_link_options(common_options
     INTERFACE
-        -pthread
         -rdynamic
         -fwhole-program
         -Wl,-z,relro
