@@ -4,11 +4,10 @@
 # For license and copyright information please follow this link:
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
-include(CheckCXXCompilerFlag)
-
-target_compile_options(common_options
+target_compile_options_if_exists(common_options
 INTERFACE
     -fstack-protector-all
+    -fstack-clash-protection
     -fPIC
     $<IF:$<CONFIG:Debug>,,-fno-strict-aliasing>
     -pipe
@@ -16,6 +15,7 @@ INTERFACE
     -Wextra
     -Wno-unused-parameter
     -Wno-switch
+    -Wno-maybe-uninitialized
     -Wno-missing-field-initializers
     -Wno-sign-compare
     -Wno-deprecated # implicit capture of 'this' via '[=]' is deprecated in C++20
@@ -28,18 +28,16 @@ INTERFACE
     _GLIBCXX_ASSERTIONS
 )
 
-target_link_options(common_options
+target_link_options_if_exists(common_options
 INTERFACE
+    -pthread
     -Wl,--as-needed
 )
 
-if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    target_compile_options(common_options
-    INTERFACE
-        -fstack-clash-protection
-        -Wno-maybe-uninitialized
-    )
-endif()
+target_link_libraries(common_options
+INTERFACE
+    ${CMAKE_DL_LIBS}
+)
 
 if (DESKTOP_APP_SPECIAL_TARGET)
     target_compile_options(common_options
@@ -55,50 +53,6 @@ if (DESKTOP_APP_SPECIAL_TARGET)
 
     target_compile_options(common_options INTERFACE $<IF:$<CONFIG:Debug>,,-g -flto>)
     target_link_options(common_options INTERFACE $<IF:$<CONFIG:Debug>,,-g -flto -fuse-linker-plugin>)
-endif()
-
-if (NOT DESKTOP_APP_DISABLE_JEMALLOC)
-	target_link_libraries(common_options
-	INTERFACE
-	    $<TARGET_OBJECTS:desktop-app::linux_jemalloc_helper>
-	    $<LINK_ONLY:desktop-app::external_jemalloc>
-	)
-endif()
-
-target_link_libraries(common_options
-INTERFACE
-    ${CMAKE_DL_LIBS}
-)
-
-if (DESKTOP_APP_USE_ALLOCATION_TRACER)
-    target_link_options(common_options
-    INTERFACE
-        # -Wl,-wrap,__malloc
-        -Wl,-wrap,__libc_malloc
-        -Wl,-wrap,malloc
-        -Wl,-wrap,valloc
-        -Wl,-wrap,pvalloc
-        -Wl,-wrap,calloc
-        -Wl,-wrap,realloc
-        -Wl,-wrap,memalign
-        -Wl,-wrap,aligned_alloc
-        -Wl,-wrap,posix_memalign
-        -Wl,-wrap,free
-        -Wl,--push-state,--no-as-needed,-lrt,--pop-state
-    )
-    target_link_libraries(common_options
-    INTERFACE
-        desktop-app::linux_allocation_tracer
-        $<TARGET_FILE:desktop-app::linux_allocation_tracer>
-    )
-endif()
-
-check_cxx_compiler_flag(-pthread DESKTOP_APP_HAVE_PTHREAD_ARG)
-if (DESKTOP_APP_HAVE_PTHREAD_ARG)
-    target_link_options(common_options
-    INTERFACE
-        -pthread
-    )
 endif()
 
 if (NOT DESKTOP_APP_USE_PACKAGED)
@@ -126,5 +80,36 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
         -Wl,-z,relro
         -Wl,-z,now
         # -pie # https://gitlab.gnome.org/GNOME/nautilus/-/issues/1601
+    )
+endif()
+
+if (NOT DESKTOP_APP_DISABLE_JEMALLOC)
+	target_link_libraries(common_options
+	INTERFACE
+	    $<TARGET_OBJECTS:desktop-app::linux_jemalloc_helper>
+	    $<LINK_ONLY:desktop-app::external_jemalloc>
+	)
+endif()
+
+if (DESKTOP_APP_USE_ALLOCATION_TRACER)
+    target_link_options(common_options
+    INTERFACE
+        # -Wl,-wrap,__malloc
+        -Wl,-wrap,__libc_malloc
+        -Wl,-wrap,malloc
+        -Wl,-wrap,valloc
+        -Wl,-wrap,pvalloc
+        -Wl,-wrap,calloc
+        -Wl,-wrap,realloc
+        -Wl,-wrap,memalign
+        -Wl,-wrap,aligned_alloc
+        -Wl,-wrap,posix_memalign
+        -Wl,-wrap,free
+        -Wl,--push-state,--no-as-needed,-lrt,--pop-state
+    )
+    target_link_libraries(common_options
+    INTERFACE
+        desktop-app::linux_allocation_tracer
+        $<TARGET_FILE:desktop-app::linux_allocation_tracer>
     )
 endif()
