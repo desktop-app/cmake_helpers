@@ -34,11 +34,6 @@ INTERFACE
     -Wl,--as-needed
 )
 
-target_link_libraries(common_options
-INTERFACE
-    ${CMAKE_DL_LIBS}
-)
-
 if (DESKTOP_APP_SPECIAL_TARGET)
     target_compile_options(common_options
     INTERFACE
@@ -113,3 +108,8 @@ if (DESKTOP_APP_USE_ALLOCATION_TRACER)
         $<TARGET_FILE:desktop-app::linux_allocation_tracer>
     )
 endif()
+
+target_link_libraries(common_options
+INTERFACE
+    ${CMAKE_DL_LIBS}
+)
