@@ -20,29 +20,30 @@ endif()
 
 target_compile_options(common_options
 INTERFACE
+    -pipe
+    -Wall
+    -Wextra
+    -fPIE
     $<$<COMPILE_LANGUAGE:OBJC,OBJCXX>:-fobjc-weak>
     -fvisibility-inlines-hidden
     -fvisibility=hidden
     -Wno-deprecated-declarations # temp for range-v3
+    -Wno-unused-variable
+    -Wno-unused-parameter
+    -Wno-unused-function
+    -Wno-switch
+    -Wno-comment
+    -Wno-missing-field-initializers
+    -Wno-sign-compare
+    -Wno-unknown-attributes
+    -Wno-pragma-system-header-outside-header
 )
 
 if (DESKTOP_APP_SPECIAL_TARGET)
     target_compile_options(common_options
     INTERFACE
-        -pipe
         -g
-        -Wall
         -Werror
-        -Wextra
-        -Wno-unused-variable
-        -Wno-unused-parameter
-        -Wno-unused-function
-        -Wno-switch
-        -Wno-comment
-        -Wno-missing-field-initializers
-        -Wno-sign-compare
-        -Wno-unknown-attributes
-        -Wno-pragma-system-header-outside-header
     )
 endif()
 

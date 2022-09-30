@@ -6,9 +6,30 @@
 
 target_compile_options(common_options
 INTERFACE
-    $<$<NOT:$<CONFIG:Debug>>:-fno-strict-aliasing>
+    $<IF:$<CONFIG:Debug>,,-fno-strict-aliasing>
+)
+
+target_compile_options_if_exists(common_options
+INTERFACE
+    -fstack-protector-all
+    -fstack-clash-protection
+    -fPIC
+    -pipe
+    -Wall
+    -Wextra
+    -Wno-unused-parameter
+    -Wno-switch
+    -Wno-maybe-uninitialized
+    -Wno-missing-field-initializers
+    -Wno-sign-compare
     -Wno-deprecated # implicit capture of 'this' via '[=]' is deprecated in C++20
     -Wno-deprecated-declarations # TODO: Remove when there will be no Qt 5 support
+)
+
+target_compile_definitions(common_options
+INTERFACE
+    $<IF:$<CONFIG:Debug>,,_FORTIFY_SOURCE=2>
+    _GLIBCXX_ASSERTIONS
 )
 
 target_link_options_if_exists(common_options
@@ -20,40 +41,17 @@ INTERFACE
 if (DESKTOP_APP_SPECIAL_TARGET)
     target_compile_options(common_options
     INTERFACE
-        $<$<NOT:$<CONFIG:Debug>>:-Ofast>
-        $<$<NOT:$<CONFIG:Debug>>:-g>
-        $<$<NOT:$<CONFIG:Debug>>:-flto>
-    )
-    target_compile_options_if_exists(common_options
-    INTERFACE
-        -fstack-protector-all
-        -fstack-clash-protection
-        -pipe
-        -Wall
+        $<IF:$<CONFIG:Debug>,,-Ofast>
         -Werror
-        -Wextra
-        -Wno-unused-parameter
-        -Wno-switch
-        -Wno-maybe-uninitialized
-        -Wno-missing-field-initializers
-        -Wno-sign-compare
     )
-    target_compile_definitions(common_options
-    INTERFACE
-        $<$<NOT:$<CONFIG:Debug>>:_FORTIFY_SOURCE=2>
-        _GLIBCXX_ASSERTIONS
-    )
+
     target_link_options(common_options
     INTERFACE
-        $<$<NOT:$<CONFIG:Debug>>:-Ofast>
-        $<$<NOT:$<CONFIG:Debug>>:-g>
-        $<$<NOT:$<CONFIG:Debug>>:-flto>
-        $<$<NOT:$<CONFIG:Debug>>:-fuse-linker-plugin>
-        $<$<NOT:$<CONFIG:Debug>>:-fwhole-program>
-        -Wl,-z,relro
-        -Wl,-z,now
-        # -pie # https://gitlab.gnome.org/GNOME/nautilus/-/issues/1601
+        $<IF:$<CONFIG:Debug>,,-Ofast>
     )
+
+    target_compile_options(common_options INTERFACE $<IF:$<CONFIG:Debug>,,-g -flto>)
+    target_link_options(common_options INTERFACE $<IF:$<CONFIG:Debug>,,-g -flto -fuse-linker-plugin>)
 endif()
 
 if (NOT DESKTOP_APP_USE_PACKAGED)
@@ -77,6 +75,10 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
     target_link_options(common_options
     INTERFACE
         -rdynamic
+        -fwhole-program
+        -Wl,-z,relro
+        -Wl,-z,now
+        # -pie # https://gitlab.gnome.org/GNOME/nautilus/-/issues/1601
     )
 endif()
 
