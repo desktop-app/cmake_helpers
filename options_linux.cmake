@@ -4,7 +4,7 @@
 # For license and copyright information please follow this link:
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
-target_compile_options_if_exists(common_options
+target_compile_options(common_options
 INTERFACE
     $<$<NOT:$<CONFIG:Debug>>:-fno-strict-aliasing>
     -Wno-deprecated # implicit capture of 'this' via '[=]' is deprecated in C++20
@@ -18,11 +18,14 @@ INTERFACE
 )
 
 if (DESKTOP_APP_SPECIAL_TARGET)
-    target_compile_options_if_exists(common_options
+    target_compile_options(common_options
     INTERFACE
         $<$<NOT:$<CONFIG:Debug>>:-Ofast>
         $<$<NOT:$<CONFIG:Debug>>:-g>
         $<$<NOT:$<CONFIG:Debug>>:-flto>
+    )
+    target_compile_options_if_exists(common_options
+    INTERFACE
         -fstack-protector-all
         -fstack-clash-protection
         -pipe
