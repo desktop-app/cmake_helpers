@@ -24,10 +24,8 @@ if (DESKTOP_APP_SPECIAL_TARGET)
         $<$<NOT:$<CONFIG:Debug>>:-g>
         $<$<NOT:$<CONFIG:Debug>>:-flto>
     )
-    target_compile_options_if_exists(common_options
+    target_compile_options(common_options
     INTERFACE
-        -fstack-protector-all
-        -fstack-clash-protection
         -pipe
         -Wall
         -Werror
@@ -38,21 +36,12 @@ if (DESKTOP_APP_SPECIAL_TARGET)
         -Wno-missing-field-initializers
         -Wno-sign-compare
     )
-    target_compile_definitions(common_options
-    INTERFACE
-        $<$<NOT:$<CONFIG:Debug>>:_FORTIFY_SOURCE=2>
-        _GLIBCXX_ASSERTIONS
-    )
     target_link_options(common_options
     INTERFACE
         $<$<NOT:$<CONFIG:Debug>>:-Ofast>
         $<$<NOT:$<CONFIG:Debug>>:-g>
         $<$<NOT:$<CONFIG:Debug>>:-flto>
         $<$<NOT:$<CONFIG:Debug>>:-fuse-linker-plugin>
-        $<$<NOT:$<CONFIG:Debug>>:-fwhole-program>
-        -Wl,-z,relro
-        -Wl,-z,now
-        # -pie # https://gitlab.gnome.org/GNOME/nautilus/-/issues/1601
     )
 endif()
 
@@ -77,6 +66,26 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
     target_link_options(common_options
     INTERFACE
         -rdynamic
+    )
+endif()
+
+if (NOT DESKTOP_APP_USE_PACKAGED OR DESKTOP_APP_SPECIAL_TARGET)
+    target_compile_options_if_exists(common_options
+    INTERFACE
+        -fstack-protector-all
+        -fstack-clash-protection
+    )
+    target_compile_definitions(common_options
+    INTERFACE
+        $<$<NOT:$<CONFIG:Debug>>:_FORTIFY_SOURCE=2>
+        _GLIBCXX_ASSERTIONS
+    )
+    target_link_options(common_options
+    INTERFACE
+        $<$<NOT:$<CONFIG:Debug>>:-fwhole-program>
+        -Wl,-z,relro
+        -Wl,-z,now
+        # -pie # https://gitlab.gnome.org/GNOME/nautilus/-/issues/1601
     )
 endif()
 
