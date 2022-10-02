@@ -62,19 +62,6 @@ if (NOT DESKTOP_APP_DISABLE_DBUS_INTEGRATION)
     )
 endif()
 
-file(TOUCH
-    ${CMAKE_CURRENT_BINARY_DIR}/config-util.h
-    ${CMAKE_CURRENT_BINARY_DIR}/config-kdirwatch.h
-)
-
-file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/include/kcoreaddons_export.h
-    "#define KCOREADDONS_ENABLE_DEPRECATED_SINCE(major, minor) 0"
-)
-
-file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/kcoreaddons_debug.h
-    "#pragma once\n#include <QLoggingCategory>\nstatic const QLoggingCategory KCOREADDONS_DEBUG(\"kf.coreaddons\");"
-)
-
 target_compile_definitions(external_kcoreaddons
 PUBLIC
     KCOREADDONS_EXPORT=
@@ -86,8 +73,9 @@ target_include_directories(external_kcoreaddons SYSTEM
 PUBLIC
     ${kcoreaddons_src}/io
     ${kcoreaddons_src}/util
-    ${CMAKE_CURRENT_BINARY_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/headers/public
 PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/headers/private
     ${CMAKE_CURRENT_BINARY_DIR}
 )
 

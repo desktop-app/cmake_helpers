@@ -1,0 +1,1 @@
+#define KCOREADDONS_ENABLE_DEPRECATED_SINCE(major, minor) 0
