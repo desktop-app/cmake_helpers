@@ -36,8 +36,8 @@ ExternalProject_Add(jemalloc
     CONFIGURE_COMMAND env
         CC=clang
         CXX=clang++
-        "EXTRA_CFLAGS=-fstack-protector-all -D_FORTIFY_SOURCE=2"
-        "EXTRA_CXXFLAGS=-fstack-protector-all -D_FORTIFY_SOURCE=2"
+        "$<IF:$<OR:$<NOT:$<BOOL:${DESKTOP_APP_USE_PACKAGED}>>,$<BOOL:${DESKTOP_APP_SPECIAL_TARGET}>>,EXTRA_CFLAGS=$<$<BOOL:${DESKTOP_APP_SPECIAL_TARGET}>:-Ofast> -fstack-protector-all -DNDEBUG -D_FORTIFY_SOURCE=2 -D_GLIBCXX_ASSERTIONS,=>"
+        "$<IF:$<OR:$<NOT:$<BOOL:${DESKTOP_APP_USE_PACKAGED}>>,$<BOOL:${DESKTOP_APP_SPECIAL_TARGET}>>,EXTRA_CXXFLAGS=$<$<BOOL:${DESKTOP_APP_SPECIAL_TARGET}>:-Ofast> -fstack-protector-all -DNDEBUG -D_FORTIFY_SOURCE=2 -D_GLIBCXX_ASSERTIONS,=>"
         ./autogen.sh --disable-shared
     BUILD_IN_SOURCE 1
     STEP_TARGETS build
