@@ -6,14 +6,8 @@
 
 target_compile_options(common_options
 INTERFACE
-    $<IF:$<CONFIG:Debug>,,-fno-strict-aliasing>
-)
-
-target_compile_options_if_exists(common_options
-INTERFACE
-    -fstack-protector-all
-    -fstack-clash-protection
     -fPIC
+    $<$<NOT:$<CONFIG:Debug>>:-fno-strict-aliasing>
     -pipe
     -Wall
     -Wextra
@@ -26,12 +20,6 @@ INTERFACE
     -Wno-deprecated-declarations # TODO: Remove when there will be no Qt 5 support
 )
 
-target_compile_definitions(common_options
-INTERFACE
-    $<IF:$<CONFIG:Debug>,,_FORTIFY_SOURCE=2>
-    _GLIBCXX_ASSERTIONS
-)
-
 target_link_options_if_exists(common_options
 INTERFACE
     -pthread
@@ -41,17 +29,16 @@ INTERFACE
 if (DESKTOP_APP_SPECIAL_TARGET)
     target_compile_options(common_options
     INTERFACE
-        $<IF:$<CONFIG:Debug>,,-Ofast>
+        $<$<NOT:$<CONFIG:Debug>>:-Ofast>
         -Werror
+        $<$<NOT:$<CONFIG:Debug>>:-g>
+        $<$<NOT:$<CONFIG:Debug>>:-flto>
     )
-
     target_link_options(common_options
     INTERFACE
-        $<IF:$<CONFIG:Debug>,,-Ofast>
+        $<$<NOT:$<CONFIG:Debug>>:-flto>
+        $<$<NOT:$<CONFIG:Debug>>:-fuse-linker-plugin>
     )
-
-    target_compile_options(common_options INTERFACE $<IF:$<CONFIG:Debug>,,-g -flto>)
-    target_link_options(common_options INTERFACE $<IF:$<CONFIG:Debug>,,-g -flto -fuse-linker-plugin>)
 endif()
 
 if (NOT DESKTOP_APP_USE_PACKAGED)
@@ -76,9 +63,25 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
     INTERFACE
         -rdynamic
         -fwhole-program
+    )
+endif()
+
+if (NOT DESKTOP_APP_USE_PACKAGED OR DESKTOP_APP_SPECIAL_TARGET)
+    target_compile_options_if_exists(common_options
+    INTERFACE
+        -fstack-protector-all
+        -fstack-clash-protection
+    )
+    target_link_options(common_options
+    INTERFACE
         -Wl,-z,relro
         -Wl,-z,now
         # -pie # https://gitlab.gnome.org/GNOME/nautilus/-/issues/1601
+    )
+    target_compile_definitions(common_options
+    INTERFACE
+        $<$<NOT:$<CONFIG:Debug>>:_FORTIFY_SOURCE=2>
+        _GLIBCXX_ASSERTIONS
     )
 endif()
 
