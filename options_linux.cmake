@@ -22,6 +22,10 @@ INTERFACE
 
 target_link_options_if_exists(common_options
 INTERFACE
+    -Wno-alloc-size-larger-than # Qt + LTO
+    -Wno-stringop-overflow # Qt + LTO
+    -Wno-odr # Qt + LTO
+    -Wno-inline # OpenAL + LTO
     -pthread
     -Wl,--as-needed
 )
