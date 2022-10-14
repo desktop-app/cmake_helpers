@@ -62,7 +62,6 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
     target_link_options(common_options
     INTERFACE
         -rdynamic
-        -fwhole-program
     )
 endif()
 
@@ -74,6 +73,8 @@ if (NOT DESKTOP_APP_USE_PACKAGED OR DESKTOP_APP_SPECIAL_TARGET)
     )
     target_link_options(common_options
     INTERFACE
+        $<$<CONFIG:Debug>:-fno-use-linker-plugin>
+        $<$<NOT:$<CONFIG:Debug>>:-fwhole-program>
         -Wl,-z,relro
         -Wl,-z,now
         # -pie # https://gitlab.gnome.org/GNOME/nautilus/-/issues/1601
