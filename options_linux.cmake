@@ -36,11 +36,11 @@ if (DESKTOP_APP_SPECIAL_TARGET)
         $<$<NOT:$<CONFIG:Debug>>:-Ofast>
         -Werror
         $<$<NOT:$<CONFIG:Debug>>:-g>
-        $<$<NOT:$<CONFIG:Debug>>:-flto>
+        $<$<NOT:$<CONFIG:Debug>>:-flto=auto>
     )
     target_link_options(common_options
     INTERFACE
-        $<$<NOT:$<CONFIG:Debug>>:-flto>
+        $<$<NOT:$<CONFIG:Debug>>:-flto=auto>
         $<$<NOT:$<CONFIG:Debug>>:-fuse-linker-plugin>
     )
 endif()
