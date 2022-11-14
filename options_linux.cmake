@@ -63,19 +63,11 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
             -nostdlib++
         )
     endif()
-    if (CMAKE_INTERPROCEDURAL_OPTIMIZATION)
-        target_link_options(common_options
-        INTERFACE
-            -fwhole-program
-        )
-    elseif (NOT DESKTOP_APP_SPECIAL_TARGET)
-        target_link_options(common_options
-        INTERFACE
-            -fno-use-linker-plugin
-        )
-    endif()
+    set(interprocedural_optimization_config $<TARGET_PROPERTY:INTERPROCEDURAL_OPTIMIZATION_$<UPPER_CASE:$<CONFIG>>>)
+    set(interprocedural_optimization_values -fwhole-program,$<IF:$<BOOL:{DESKTOP_APP_SPECIAL_TARGET}>,$<$<CONFIG:Debug>:-fno-use-linker-plugin>,-fno-use-linker-plugin>)
     target_link_options(common_options
     INTERFACE
+        $<IF:$<NOT:$<STREQUAL:${interprocedural_optimization_config},>>,$<IF:$<BOOL:${interprocedural_optimization_config}>,${interprocedural_optimization_values}>,$<IF:$<BOOL:$<TARGET_PROPERTY:INTERPROCEDURAL_OPTIMIZATION>>,${interprocedural_optimization_values}>>
         -rdynamic
     )
 endif()
