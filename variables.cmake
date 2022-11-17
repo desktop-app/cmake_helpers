@@ -31,6 +31,7 @@ option(DESKTOP_APP_DISABLE_CRASH_REPORTS "Disable crash report generation." ${no
 option(DESKTOP_APP_DISABLE_AUTOUPDATE "Disable autoupdate." ${disable_autoupdate})
 option(DESKTOP_APP_USE_HUNSPELL_ONLY "Disable system spellchecker and use bundled Hunspell only. (For debugging purposes)" OFF)
 cmake_dependent_option(DESKTOP_APP_USE_ENCHANT "Use Enchant instead of bundled Hunspell." OFF LINUX OFF)
+cmake_dependent_option(DESKTOP_APP_USE_CLD3 "Disable system text language recognition and use bundled cld3 only." OFF APPLE ON)
 cmake_dependent_option(DESKTOP_APP_NO_PDB "Disable PDB file generation." OFF WIN32 OFF)
 cmake_dependent_option(DESKTOP_APP_DISABLE_JEMALLOC "Disable jemalloc, use system malloc." OFF LINUX OFF)
 
@@ -48,6 +49,11 @@ if ((WIN32
   OR DESKTOP_APP_USE_HUNSPELL_ONLY)
   AND NOT DESKTOP_APP_DISABLE_SPELLCHECK)
     set(add_hunspell_library 1)
+endif()
+
+set(add_cld3_library 0)
+if (LINUX OR DESKTOP_APP_USE_CLD3)
+    set(add_cld3_library 1)
 endif()
 
 set(build_macstore 0)
