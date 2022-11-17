@@ -84,4 +84,5 @@ INTERFACE
     MediaPlayer
     IOSurface
     Metal
+    NaturalLanguage
 )
