@@ -34,6 +34,9 @@ function(generate_single_protobuf target_name gen_dst protobuf_name executable)
         ${gen_dst}/${protobuf_name_we}.pb.h
     )
 
+    string(TIMESTAMP gen_timestamp_var "%s")
+    file(WRITE ${gen_timestamp} ${gen_timestamp_var})
+
     # Fix warning MSB8065.
     set_source_files_properties(${gen_timestamp} PROPERTIES SYMBOLIC 1)
 
