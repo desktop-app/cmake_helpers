@@ -40,11 +40,9 @@ function(init_target target_name) # init_target(my_target folder_name)
         )
     endif()
     if (DESKTOP_APP_SPECIAL_TARGET AND WIN32 AND NOT build_win64)
-        set_target_properties(${target_name} PROPERTIES
-            INTERPROCEDURAL_OPTIMIZATION_RELEASE True
-            INTERPROCEDURAL_OPTIMIZATION_RELWITHDEBINFO True
-            INTERPROCEDURAL_OPTIMIZATION_MINSIZEREL True
-        )
+        target_compile_options(${target_name} PRIVATE /GL)
+        target_link_options(${target_name} PRIVATE /LTCG)
+        set_property(TARGET ${target_name} APPEND_STRING PROPERTY STATIC_LIBRARY_OPTIONS "/LTCG")
     endif()
 endfunction()
 
