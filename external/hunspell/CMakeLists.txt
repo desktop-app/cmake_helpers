@@ -56,6 +56,7 @@ PRIVATE
 target_include_directories(external_hunspell_bundled
 PUBLIC
     ${hunspell_src}
+    ${hunspell_src}/hunspell
 )
 
 target_compile_definitions(external_hunspell_bundled

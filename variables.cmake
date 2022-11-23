@@ -31,9 +31,21 @@ option(DESKTOP_APP_DISABLE_CRASH_REPORTS "Disable crash report generation." ${no
 option(DESKTOP_APP_DISABLE_AUTOUPDATE "Disable autoupdate." ${disable_autoupdate})
 option(DESKTOP_APP_USE_HUNSPELL_ONLY "Disable system spellchecker and use bundled Hunspell only. (For debugging purposes)" OFF)
 cmake_dependent_option(DESKTOP_APP_USE_ENCHANT "Use Enchant instead of bundled Hunspell." OFF LINUX OFF)
-cmake_dependent_option(DESKTOP_APP_USE_CLD3 "Disable system text language recognition and use bundled cld3 only." OFF APPLE ON)
 cmake_dependent_option(DESKTOP_APP_NO_PDB "Disable PDB file generation." OFF WIN32 OFF)
 cmake_dependent_option(DESKTOP_APP_DISABLE_JEMALLOC "Disable jemalloc, use system malloc." OFF LINUX OFF)
+
+if (APPLE)
+    set(language_recognition_default SYSTEM)
+elseif (WIN32)
+    set(language_recognition_default CLD3)
+else()
+    set(language_recognition_default SONNET)
+endif()
+set(DESKTOP_APP_LANGUAGE_RECOGNITION_BACKEND "${language_recognition_default}" CACHE STRING "Text language recognition backend.")
+set_property(CACHE DESKTOP_APP_LANGUAGE_RECOGNITION_BACKEND PROPERTY STRINGS SYSTEM CLD3 SONNET)
+if (LINUX AND DESKTOP_APP_LANGUAGE_RECOGNITION_BACKEND STREQUAL SYSTEM)
+    set(DESKTOP_APP_LANGUAGE_RECOGNITION_BACKEND "${language_recognition_default}")
+endif()
 
 if (APPLE AND NOT DEFINED DESKTOP_APP_MAC_ARCH)
     if (DEFINED CMAKE_OSX_ARCHITECTURES)
@@ -52,8 +64,14 @@ if ((WIN32
 endif()
 
 set(add_cld3_library 0)
-if (LINUX OR DESKTOP_APP_USE_CLD3)
+if (DESKTOP_APP_LANGUAGE_RECOGNITION_BACKEND STREQUAL CLD3)
     set(add_cld3_library 1)
+endif()
+
+set(add_sonnet_library 0)
+if (DESKTOP_APP_LANGUAGE_RECOGNITION_BACKEND STREQUAL SONNET)
+    set(add_sonnet_library 1)
+    set(add_hunspell_library 1)
 endif()
 
 set(build_macstore 0)
