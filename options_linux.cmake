@@ -9,6 +9,10 @@ INTERFACE
     -fPIC
     $<$<NOT:$<CONFIG:Debug>>:-fno-strict-aliasing>
     -pipe
+)
+
+target_compile_options_if_exists(common_options
+INTERFACE
     -Wall
     -Wextra
     -Wno-unused-parameter
