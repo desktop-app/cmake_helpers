@@ -7,10 +7,6 @@
 add_library(external_cld3 INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_cld3 ALIAS external_cld3)
 
-if (DESKTOP_APP_USE_PACKAGED)
-    # find_package(Protobuf REQUIRED)
-endif()
-
 add_library(external_cld3_bundled STATIC)
 init_target(external_cld3_bundled "(external)")
 
@@ -20,7 +16,11 @@ set(cld3_src ${cld3_loc}/src)
 set(gen_loc ${cld3_loc}/build/gen)
 set(gen_dst ${gen_loc}/cld_3/protos)
 
-if (WIN32)
+if (DESKTOP_APP_USE_PACKAGED)
+    find_package(Protobuf REQUIRED)
+    set(protoc_executable protobuf::protoc)
+    set(protobuf_lib protobuf::libprotobuf-lite)
+elseif (WIN32)
     set(build_loc ${libs_loc}/protobuf/build/$<IF:$<CONFIG:Debug>,Debug,Release>)
     set(protoc_executable ${build_loc}/protoc.exe)
     set(protobuf_lib ${build_loc}/libprotobuf-lite.lib)
@@ -89,9 +89,15 @@ target_include_directories(external_cld3_bundled
 PUBLIC
     ${cld3_src}
     ${gen_loc}
-    ${libs_loc}/protobuf/src
-    ${libs_loc}/protobuf/third_party/abseil-cpp
 )
+
+if (NOT DESKTOP_APP_USE_PACKAGED)
+    target_include_directories(external_cld3_bundled
+    PUBLIC
+        ${libs_loc}/protobuf/src
+        ${libs_loc}/protobuf/third_party/abseil-cpp
+    )
+endif()
 
 target_link_libraries(external_cld3
 INTERFACE
