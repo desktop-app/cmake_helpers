@@ -53,6 +53,16 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
         INTERFACE
             /LARGEADDRESSAWARE # Allow more than 2 GB in 32 bit application.
         )
+        if (DESKTOP_APP_SPECIAL_TARGET)
+            target_compile_options(common_options
+            INTERFACE
+                $<IF:$<CONFIG:Debug>,,/GL>
+            )
+            target_link_options(common_options
+            INTERFACE
+                $<IF:$<CONFIG:Debug>,,/LTCG>
+            )
+        endif()
     endif()
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     target_compile_definitions(common_options
