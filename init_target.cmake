@@ -39,9 +39,6 @@ function(init_target target_name) # init_target(my_target folder_name)
             XCODE_ATTRIBUTE_LLVM_LTO $<IF:$<CONFIG:Debug>,NO,YES>
         )
     endif()
-    if (DESKTOP_APP_SPECIAL_TARGET AND WIN32 AND NOT build_win64)
-        set_property(TARGET ${target_name} APPEND_STRING PROPERTY STATIC_LIBRARY_OPTIONS "$<IF:$<CONFIG:Debug>,,/LTCG>")
-    endif()
 endfunction()
 
 # This code is not supposed to run on build machine, only on target machine.
