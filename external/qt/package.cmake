@@ -25,7 +25,10 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
 endif()
 
 if (NOT DEFINED QT_VERSION_MAJOR)
-    find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core)
+    find_package(QT NAMES Qt6 COMPONENTS Core)
+    if (NOT QT_FOUND)
+        find_package(QT NAMES Qt5 COMPONENTS Core REQUIRED)
+    endif()
 endif()
 
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Gui Widgets Network Svg REQUIRED)
