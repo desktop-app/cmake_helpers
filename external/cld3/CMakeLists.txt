@@ -102,8 +102,12 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
     )
 endif()
 
+target_link_libraries(external_cld3_bundled
+PRIVATE
+    ${protobuf_lib}
+)
+
 target_link_libraries(external_cld3
 INTERFACE
     external_cld3_bundled
-    ${protobuf_lib}
 )
