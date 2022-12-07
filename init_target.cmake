@@ -12,17 +12,31 @@ function(init_target_folder target_name folder_name)
     endif()
 endfunction()
 
-function(init_target target_name) # init_target(my_target folder_name)
-    if (ARGC GREATER 1)
-        if (${ARGV1} STREQUAL cxx_std_14 OR ${ARGV1} STREQUAL cxx_std_11 OR ${ARGV1} STREQUAL cxx_std_17)
-            target_compile_features(${target_name} PRIVATE ${ARGV1})
+function(init_target target_name) # init_target(my_target [cxx_std_..] [ltcg] folder_name)
+    set(argslist ${ARGV})
+    list(REMOVE_AT argslist 0)
+    set(standard ${MAXIMUM_CXX_STANDARD})
+    foreach (entry ${argslist})
+        if (${entry} STREQUAL cxx_std_14 OR ${entry} STREQUAL cxx_std_11 OR ${entry} STREQUAL cxx_std_17)
+            set(standard ${entry})
+        elseif (${entry} STREQUAL ltcg)
+            if (WIN32 AND NOT build_win64 AND DESKTOP_APP_SPECIAL_TARGET)
+                target_compile_options(${target_name}
+                PRIVATE
+                    $<IF:$<CONFIG:Debug>,,/GL>
+                )
+                target_link_options(${target_name}
+                PRIVATE
+                    $<IF:$<CONFIG:Debug>,,/LTCG>
+                )
+                set_property(TARGET ${target_name} APPEND_STRING PROPERTY STATIC_LIBRARY_OPTIONS "$<IF:$<CONFIG:Debug>,,/LTCG>")
+            endif()
         else()
-            target_compile_features(${target_name} PRIVATE ${MAXIMUM_CXX_STANDARD})
-            init_target_folder(${target_name} ${ARGV1})
+            init_target_folder(${target_name} ${entry})
         endif()
-    else()
-        target_compile_features(${target_name} PRIVATE ${MAXIMUM_CXX_STANDARD})
-    endif()
+    endforeach()
+    target_compile_features(${target_name} PRIVATE ${standard})
+
     if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
         set_target_properties(${target_name} PROPERTIES
             MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
@@ -43,7 +57,7 @@ endfunction()
 
 # This code is not supposed to run on build machine, only on target machine.
 function(init_non_host_target target_name)
-    init_target(${target_name})
+    init_target(${ARGV})
     if (APPLE)
         set_target_properties(${target_name} PROPERTIES
             OSX_ARCHITECTURES "${DESKTOP_APP_MAC_ARCH}"
