@@ -65,6 +65,7 @@ endif()
 
 if (NOT EXISTS ${libs_loc}/tg_owt/out/Debug/${webrtc_lib_prefix}tg_owt${webrtc_lib_suffix})
     set(webrtc_build_loc ${libs_loc}/tg_owt/out/Release)
+    target_compile_definitions(external_webrtc INTERFACE $<$<CONFIG:Debug>:NDEBUG>)
 endif()
 
 target_include_directories(external_webrtc SYSTEM
