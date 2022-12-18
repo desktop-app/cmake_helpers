@@ -55,11 +55,13 @@ Q_IMPORT_PLUGIN(QGtk3ThemePlugin)
 #endif // !DESKTOP_APP_USE_PACKAGED
 
 #if !defined DESKTOP_APP_USE_PACKAGED || defined DESKTOP_APP_USE_PACKAGED_LAZY
-#if defined Q_OS_UNIX && !defined Q_OS_MAC
+#if defined Q_OS_WIN || (defined Q_OS_UNIX && !defined Q_OS_MAC)
 Q_IMPORT_PLUGIN(QAVIFPlugin)
 Q_IMPORT_PLUGIN(HEIFPlugin)
 Q_IMPORT_PLUGIN(QJpegXLPlugin)
+#endif // Q_OS_WIN || (Q_OS_UNIX && !Q_OS_MAC)
 
+#if defined Q_OS_UNIX && !defined Q_OS_MAC
 Q_IMPORT_PLUGIN(NimfInputContextPlugin)
 #ifndef DESKTOP_APP_DISABLE_DBUS_INTEGRATION
 Q_IMPORT_PLUGIN(QFcitxPlatformInputContextPlugin)
