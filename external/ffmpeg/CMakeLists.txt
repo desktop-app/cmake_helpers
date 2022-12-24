@@ -60,10 +60,19 @@ list(APPEND ffmpeg_lib_list
     $<TARGET_FILE:desktop-app::external_vpx>
 )
 
-if (APPLE)
-    list(APPEND ffmpeg_lib_list bz2)
+if (WIN32)
+    list(APPEND ffmpeg_lib_list
+        ${libs_loc}/dav1d/builddir-$<IF:$<CONFIG:Debug>,debug,release>/src/libdav1d.a
+    )
+elseif (APPLE)
+    list(APPEND ffmpeg_lib_list
+        bz2
+    )
 elseif (LINUX)
-    list(APPEND ffmpeg_lib_list -llzma)
+    list(APPEND ffmpeg_lib_list
+        -ldav1d
+        -llzma
+    )
 endif()
 
 # Workaround cmake's random order on Linux...
