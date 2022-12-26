@@ -34,12 +34,6 @@ function(generate_single_protobuf target_name gen_dst protobuf_name executable)
         ${gen_dst}/${protobuf_name_we}.pb.h
     )
 
-    string(TIMESTAMP gen_timestamp_var "%s")
-    file(WRITE ${gen_timestamp} ${gen_timestamp_var})
-
-    # Fix warning MSB8065.
-    set_source_files_properties(${gen_timestamp} PROPERTIES SYMBOLIC 1)
-
     set(gen_src ${cld3_src}/${protobuf_name})
     add_custom_command(
     OUTPUT
@@ -52,6 +46,8 @@ function(generate_single_protobuf target_name gen_dst protobuf_name executable)
         ${gen_dst}
         ${_protobuf_include_path}
         ${gen_src}
+    COMMAND
+        echo 1> ${gen_timestamp}
     COMMENT "Generating protobuf ${protobuf_name} (${target_name})"
     DEPENDS
         ${executable}
