@@ -302,6 +302,7 @@ if (LINUX)
     target_link_static_libraries(external_qt
     INTERFACE
         proxy
+        lcms2
         xkbcommon
         xkbcommon-x11
         xcb-glx
