@@ -18,6 +18,7 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     INTERFACE
         /permissive-
         # /Qspectre
+        /utf-8
         /W1
         /WX
         /MP     # Enable multi process build.
