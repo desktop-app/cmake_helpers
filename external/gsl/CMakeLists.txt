@@ -9,9 +9,9 @@ add_library(desktop-app::external_gsl ALIAS external_gsl)
 
 if (DESKTOP_APP_USE_PACKAGED)
     if (DESKTOP_APP_USE_PACKAGED_LAZY)
-        find_package(Microsoft.GSL QUIET)
+        find_package(Microsoft.GSL 4.0.0 QUIET)
     else()
-        find_package(Microsoft.GSL)
+        find_package(Microsoft.GSL 4.0.0)
     endif()
 
     if (Microsoft.GSL_FOUND)
