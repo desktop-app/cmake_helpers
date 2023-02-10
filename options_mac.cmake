@@ -36,6 +36,7 @@ INTERFACE
     -Wno-sign-compare
     -Wno-unknown-attributes
     -Wno-pragma-system-header-outside-header
+    -Wno-shorten-64-to-32
 )
 
 if (DESKTOP_APP_SPECIAL_TARGET)
