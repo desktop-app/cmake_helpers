@@ -21,7 +21,6 @@ INTERFACE
     -Wno-missing-field-initializers
     -Wno-sign-compare
     -Wno-deprecated # implicit capture of 'this' via '[=]' is deprecated in C++20
-    -Wno-deprecated-declarations # TODO: Remove when there will be no Qt 5 support
 )
 
 target_link_options_if_exists(common_options

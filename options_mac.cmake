@@ -27,7 +27,6 @@ INTERFACE
     $<$<COMPILE_LANGUAGE:OBJC,OBJCXX>:-fobjc-weak>
     -fvisibility-inlines-hidden
     -fvisibility=hidden
-    -Wno-deprecated-declarations # temp for range-v3
     -Wno-unused-variable
     -Wno-unused-parameter
     -Wno-unused-function
