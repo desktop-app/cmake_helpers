@@ -97,7 +97,7 @@ else()
         jxl
         jxl_threads
         dav1d
-        libde265
+        de265
         brotlidec-static
         brotlienc-static
         brotlicommon-static
