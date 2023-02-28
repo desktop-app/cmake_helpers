@@ -244,6 +244,8 @@ else()
                 qml/QtWayland/Compositor/XdgShell/${qt_lib_prefix}waylandcompositorxdgshellplugin
             )
             list(APPEND qt_libs_list
+                $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::qwaylandcompositorplugin_init>
+                $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::WaylandCompositorXdgShell_init>
                 $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::WaylandCompositor_qmlcache>
                 $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::WaylandCompositor_resources_2>
                 $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::WaylandCompositor_resources_3>
@@ -267,6 +269,9 @@ if (QT_VERSION_MAJOR GREATER_EQUAL 6)
 
     if (TARGET Qt::Qml)
         list(APPEND qt_libs_list
+            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::qmlplugin_init>
+            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::modelsplugin_init>
+            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::workerscriptplugin_init>
             $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Qml_resources_1>
             $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QmlModels_resources_1>
             $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QmlWorkerScript_resources_1>
@@ -275,6 +280,8 @@ if (QT_VERSION_MAJOR GREATER_EQUAL 6)
 
     if (TARGET Qt::Quick)
         list(APPEND qt_libs_list
+            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::qtquick2plugin_init>
+            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::quickwindow_init>
             $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Quick_resources_1>
             $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Quick_resources_2>
             $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::quickwindow_resources_1>
