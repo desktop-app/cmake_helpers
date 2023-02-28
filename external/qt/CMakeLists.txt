@@ -121,7 +121,8 @@ if (TARGET Qt::Qml)
     list(PREPEND common_qt_libs
         qml/QtQml/WorkerScript/${qt_lib_prefix}workerscriptplugin
         qml/QtQml/Models/${qt_lib_prefix}modelsplugin
-        qml/QtQml/${qt_lib_prefix}qmlplugin
+        qml/QtQml/Base/${qt_lib_prefix}qmlplugin
+        qml/QtQml/${qt_lib_prefix}qmlmetaplugin
         lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}QmlWorkerScript
         lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}QmlModels
         lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}Qml
@@ -269,9 +270,11 @@ if (QT_VERSION_MAJOR GREATER_EQUAL 6)
 
     if (TARGET Qt::Qml)
         list(APPEND qt_libs_list
+            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QmlMeta_init>
             $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::qmlplugin_init>
             $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::modelsplugin_init>
             $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::workerscriptplugin_init>
+            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QmlMeta_resources_1>
             $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Qml_resources_1>
             $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QmlModels_resources_1>
             $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QmlWorkerScript_resources_1>
@@ -312,6 +315,7 @@ if (LINUX)
         lcms2
         xkbcommon
         xkbcommon-x11
+        xcb-cursor
         xcb-glx
         xcb-xkb
         xcb-randr
