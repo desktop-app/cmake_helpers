@@ -10,18 +10,18 @@ add_library(desktop-app::external_ffmpeg ALIAS external_ffmpeg)
 if (DESKTOP_APP_USE_PACKAGED)
     find_package(PkgConfig REQUIRED)
 
-    pkg_check_modules(AVCODEC REQUIRED IMPORTED_TARGET libavcodec)
     pkg_check_modules(AVFILTER REQUIRED IMPORTED_TARGET libavfilter)
     pkg_check_modules(AVFORMAT REQUIRED IMPORTED_TARGET libavformat)
+    pkg_check_modules(AVCODEC REQUIRED IMPORTED_TARGET libavcodec)
     pkg_check_modules(AVUTIL REQUIRED IMPORTED_TARGET libavutil)
     pkg_check_modules(SWSCALE REQUIRED IMPORTED_TARGET libswscale)
     pkg_check_modules(SWRESAMPLE REQUIRED IMPORTED_TARGET libswresample)
 
     target_link_libraries(external_ffmpeg
     INTERFACE
-        PkgConfig::AVCODEC
         PkgConfig::AVFILTER
         PkgConfig::AVFORMAT
+        PkgConfig::AVCODEC
         PkgConfig::AVUTIL
         PkgConfig::SWSCALE
         PkgConfig::SWRESAMPLE
@@ -34,9 +34,9 @@ set(ffmpeg_lib_list)
 
 if (LINUX)
     list(APPEND ffmpeg_lib_list
-        -lavcodec
         -lavfilter
         -lavformat
+        -lavcodec
         -lswresample
         -lswscale
         -lavutil
@@ -50,9 +50,9 @@ else()
     )
 
     list(APPEND ffmpeg_lib_list
-        ${ffmpeg_lib_loc}/libavcodec/libavcodec.a
         ${ffmpeg_lib_loc}/libavfilter/libavfilter.a
         ${ffmpeg_lib_loc}/libavformat/libavformat.a
+        ${ffmpeg_lib_loc}/libavcodec/libavcodec.a
         ${ffmpeg_lib_loc}/libswresample/libswresample.a
         ${ffmpeg_lib_loc}/libswscale/libswscale.a
         ${ffmpeg_lib_loc}/libavutil/libavutil.a
