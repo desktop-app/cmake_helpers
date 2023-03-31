@@ -208,7 +208,6 @@ else()
         plugins/platforms/${qt_lib_prefix}qxcb
         plugins/tls/${qt_lib_prefix}qopensslbackend
         plugins/xcbglintegrations/${qt_lib_prefix}qxcb-egl-integration
-        plugins/xcbglintegrations/${qt_lib_prefix}qxcb-glx-integration
         plugins/iconengines/${qt_lib_prefix}qsvgicon
         lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}XcbQpa
         ${common_qt_libs}
@@ -316,7 +315,6 @@ if (LINUX)
         xkbcommon
         xkbcommon-x11
         xcb-cursor
-        xcb-glx
         xcb-xkb
         xcb-randr
         xcb-icccm
@@ -351,8 +349,6 @@ if (LINUX)
         EGL
         GL
         xcb
-        X11
-        X11-xcb
         glib-2.0
     )
 endif()

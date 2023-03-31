@@ -32,7 +32,6 @@ Q_IMPORT_PLUGIN(QCocoaIntegrationPlugin)
 #elif defined Q_OS_UNIX // Q_OS_WIN | Q_OS_MAC
 Q_IMPORT_PLUGIN(QXcbIntegrationPlugin)
 Q_IMPORT_PLUGIN(QXcbEglIntegrationPlugin)
-Q_IMPORT_PLUGIN(QXcbGlxIntegrationPlugin)
 Q_IMPORT_PLUGIN(QComposePlatformInputContextPlugin)
 Q_IMPORT_PLUGIN(QSvgIconPlugin)
 #ifndef DESKTOP_APP_DISABLE_DBUS_INTEGRATION
