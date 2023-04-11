@@ -30,6 +30,8 @@ INTERFACE
     -Wno-unused-variable
     -Wno-unused-parameter
     -Wno-unused-function
+    -Wno-unused-lambda-capture # remove after migration is complete.
+    -Wno-unused-local-typedef # remove after migration is complete.
     -Wno-switch
     -Wno-comment
     -Wno-missing-field-initializers
