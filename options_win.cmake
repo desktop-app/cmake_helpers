@@ -52,6 +52,8 @@ if (CMAKE_CXX_COMPILER_FRONTEND_VARIANT STREQUAL "MSVC")
         /wd4702 # unreachable code
         /Zi
 
+        /wd4189 # local variable is initialized but not referenced - remove after migration is complete.
+
         # Taken from Qt 6.
         # https://developercommunity.visualstudio.com/content/problem/139261/msvc-incorrectly-defines-cplusplus.html
         # No support for the flag in upstream CMake as of 3.17.

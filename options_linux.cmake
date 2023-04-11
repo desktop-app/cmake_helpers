@@ -15,6 +15,10 @@ target_compile_options_if_exists(common_options
 INTERFACE
     -Wall
     -Wextra
+    -Wno-unused-function # remove after migration is complete.
+    -Wno-unused-variable # remove after migration is complete.
+    -Wno-unused-but-set-variable # remove after migration is complete.
+    -Wno-unused-local-typedefs # remove after migration is complete.
     -Wno-unused-parameter
     -Wno-switch
     -Wno-maybe-uninitialized
