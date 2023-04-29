@@ -45,7 +45,7 @@ if (NOT DESKTOP_APP_DISPATCH_LIBRARIES OR NOT DESKTOP_APP_DISPATCH_INCLUDE_DIRS)
     )
 
     execute_process(
-        COMMAND ${CMAKE_COMMAND} --build ${dispatch_binary_dir}
+        COMMAND ${CMAKE_COMMAND} --build ${dispatch_binary_dir} --parallel
     )
 
     if (NOT EXISTS ${dispatch_binary_dir}/src/libdispatch.a)
