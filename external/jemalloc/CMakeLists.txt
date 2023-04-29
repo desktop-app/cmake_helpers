@@ -30,6 +30,9 @@ if (DESKTOP_APP_USE_PACKAGED)
     endif()
 endif()
 
+include(ProcessorCount)
+ProcessorCount(N)
+
 include(ExternalProject)
 ExternalProject_Add(jemalloc
     URL ${third_party_loc}/jemalloc
@@ -39,6 +42,7 @@ ExternalProject_Add(jemalloc
         "$<IF:$<OR:$<NOT:$<BOOL:${DESKTOP_APP_USE_PACKAGED}>>,$<BOOL:${DESKTOP_APP_SPECIAL_TARGET}>>,EXTRA_CFLAGS=$<$<BOOL:${DESKTOP_APP_SPECIAL_TARGET}>:-Ofast> -fstack-protector-all -DNDEBUG -D_FORTIFY_SOURCE=2 -D_GLIBCXX_ASSERTIONS,=>"
         "$<IF:$<OR:$<NOT:$<BOOL:${DESKTOP_APP_USE_PACKAGED}>>,$<BOOL:${DESKTOP_APP_SPECIAL_TARGET}>>,EXTRA_CXXFLAGS=$<$<BOOL:${DESKTOP_APP_SPECIAL_TARGET}>:-Ofast> -fstack-protector-all -DNDEBUG -D_FORTIFY_SOURCE=2 -D_GLIBCXX_ASSERTIONS,=>"
         ./autogen.sh --disable-shared
+    BUILD_COMMAND make $<$<NOT:$<EQUAL:${N},0>>:-j${N}>
     BUILD_IN_SOURCE 1
     STEP_TARGETS build
     EXCLUDE_FROM_ALL TRUE
