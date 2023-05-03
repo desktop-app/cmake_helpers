@@ -36,7 +36,6 @@ INTERFACE
 if (DESKTOP_APP_SPECIAL_TARGET)
     target_compile_options(common_options
     INTERFACE
-        $<$<NOT:$<CONFIG:Debug>>:-Ofast>
         -Werror
         $<$<NOT:$<CONFIG:Debug>>:-g>
         $<$<NOT:$<CONFIG:Debug>>:-flto=auto>
