@@ -14,17 +14,11 @@ if (DESKTOP_APP_USE_PACKAGED)
 endif()
 
 if (NOT DESKTOP_APP_DISPATCH_LIBRARIES OR NOT DESKTOP_APP_DISPATCH_INCLUDE_DIRS)
-    if (DESKTOP_APP_SPECIAL_TARGET)
-        set(dispatch_extra_args
-            -DCMAKE_BUILD_TYPE=None
-            "-DCMAKE_C_FLAGS=-g -Ofast -pipe -fPIC -fstack-protector-all -DNDEBUG -D_FORTIFY_SOURCE=2 -D_GLIBCXX_ASSERTIONS"
-            "-DCMAKE_CXX_FLAGS=-g -Ofast -pipe -fPIC -fstack-protector-all -DNDEBUG -D_FORTIFY_SOURCE=2 -D_GLIBCXX_ASSERTIONS"
-        )
-    elseif (NOT DESKTOP_APP_USE_PACKAGED)
+    if (NOT DESKTOP_APP_USE_PACKAGED OR DESKTOP_APP_SPECIAL_TARGET)
         set(dispatch_extra_args
             -DCMAKE_BUILD_TYPE=Release
-            "-DCMAKE_C_FLAGS=-pipe -fPIC -fstack-protector-all -D_GLIBCXX_ASSERTIONS"
-            "-DCMAKE_CXX_FLAGS=-pipe -fPIC -fstack-protector-all -D_GLIBCXX_ASSERTIONS"
+            "-DCMAKE_C_FLAGS=-g -pipe -fPIC -fstack-protector-all -D_FORTIFY_SOURCE=2 -D_GLIBCXX_ASSERTIONS"
+            "-DCMAKE_CXX_FLAGS=-g -pipe -fPIC -fstack-protector-all -D_FORTIFY_SOURCE=2 -D_GLIBCXX_ASSERTIONS"
         )
     elseif (DEFINED CMAKE_BUILD_TYPE)
         set(dispatch_extra_args
