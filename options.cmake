@@ -23,13 +23,6 @@ if (DESKTOP_APP_DISABLE_CRASH_REPORTS)
     )
 endif()
 
-if (DESKTOP_APP_DISABLE_DBUS_INTEGRATION)
-    target_compile_definitions(common_options
-    INTERFACE
-        DESKTOP_APP_DISABLE_DBUS_INTEGRATION
-    )
-endif()
-
 if (DESKTOP_APP_DISABLE_X11_INTEGRATION)
     target_compile_definitions(common_options
     INTERFACE

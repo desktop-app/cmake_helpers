@@ -34,14 +34,14 @@ Q_IMPORT_PLUGIN(QXcbIntegrationPlugin)
 Q_IMPORT_PLUGIN(QXcbEglIntegrationPlugin)
 Q_IMPORT_PLUGIN(QComposePlatformInputContextPlugin)
 Q_IMPORT_PLUGIN(QSvgIconPlugin)
-#ifndef DESKTOP_APP_DISABLE_DBUS_INTEGRATION
+#ifdef QT_DBUS_LIB
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 Q_IMPORT_PLUGIN(QConnmanEnginePlugin)
 Q_IMPORT_PLUGIN(QNetworkManagerEnginePlugin)
 #endif // Qt < 6.0.0
 Q_IMPORT_PLUGIN(QIbusPlatformInputContextPlugin)
 Q_IMPORT_PLUGIN(QXdgDesktopPortalThemePlugin)
-#endif // !DESKTOP_APP_DISABLE_DBUS_INTEGRATION
+#endif // QT_DBUS_LIB
 #ifndef DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION
 Q_IMPORT_PLUGIN(QWaylandIntegrationPlugin)
 Q_IMPORT_PLUGIN(QWaylandEglPlatformIntegrationPlugin)
@@ -62,12 +62,12 @@ Q_IMPORT_PLUGIN(QJpegXLPlugin)
 
 #if defined Q_OS_UNIX && !defined Q_OS_MAC
 Q_IMPORT_PLUGIN(NimfInputContextPlugin)
-#ifndef DESKTOP_APP_DISABLE_DBUS_INTEGRATION
+#ifdef QT_DBUS_LIB
 Q_IMPORT_PLUGIN(QFcitxPlatformInputContextPlugin)
 #ifndef DESKTOP_APP_DISABLE_X11_INTEGRATION
 Q_IMPORT_PLUGIN(QFcitx5PlatformInputContextPlugin)
 #endif // !DESKTOP_APP_DISABLE_X11_INTEGRATION
-#endif // !DESKTOP_APP_DISABLE_DBUS_INTEGRATION
+#endif // QT_DBUS_LIB
 #ifndef DESKTOP_APP_DISABLE_X11_INTEGRATION
 Q_IMPORT_PLUGIN(QHimePlatformInputContextPlugin)
 #endif // !DESKTOP_APP_DISABLE_X11_INTEGRATION

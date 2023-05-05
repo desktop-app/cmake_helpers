@@ -47,7 +47,7 @@ if (NOT LINUX)
     )
 endif()
 
-if (NOT DESKTOP_APP_DISABLE_DBUS_INTEGRATION)
+if (TARGET Qt::DBus)
     set_source_files_properties(${kcoreaddons_src}/io/org.freedesktop.portal.FileTransfer.xml PROPERTIES INCLUDE ${kcoreaddons_src}/io/dbustypes_p.h)
     qt_add_dbus_interface(_dbus_SRCS ${kcoreaddons_src}/io/org.freedesktop.portal.FileTransfer.xml org.freedesktop.portal.FileTransfer)
 
