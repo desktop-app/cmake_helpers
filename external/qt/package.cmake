@@ -51,11 +51,7 @@ if (LINUX)
         find_package(Qt${QT_VERSION_MAJOR} OPTIONAL_COMPONENTS WaylandCompositor QUIET)
     endif()
 
-    if (NOT DESKTOP_APP_DISABLE_DBUS_INTEGRATION)
-        find_package(Qt${QT_VERSION_MAJOR} COMPONENTS DBus REQUIRED)
-    elseif (NOT DESKTOP_APP_USE_PACKAGED)
-        find_package(Qt${QT_VERSION_MAJOR} OPTIONAL_COMPONENTS DBus QUIET)
-    endif()
+    find_package(Qt${QT_VERSION_MAJOR} OPTIONAL_COMPONENTS DBus QUIET)
 endif()
 
 set_property(GLOBAL PROPERTY AUTOGEN_SOURCE_GROUP "(gen)")
