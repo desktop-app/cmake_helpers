@@ -5,8 +5,8 @@
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
 function(target_add_resource target_name)
-    set(list ${ARGV})
-    list(REMOVE_AT list 0)
+    set(list ${ARGN})
+
     target_sources(${target_name} PRIVATE ${list})
     get_target_property(existing_resources ${target_name} RESOURCE)
     if (NOT "${existing_resources}" STREQUAL "existing_resources-NOTFOUND")
@@ -18,7 +18,13 @@ function(target_add_resource target_name)
 endfunction()
 
 function(target_prepare_qrc target_name)
-    if (NOT APPLE)
+    if (ARGC GREATER 1)
+        set(rcc_file ${ARGV1})
+    else()
+        set(rcc_file ${target_name}.rcc)
+    endif()
+
+    if (NOT DESKTOP_APP_USE_PACKED_RESOURCES)
         set_target_properties(${target_name} PROPERTIES AUTORCC ON)
     else()
         set(rcc_flags --binary "$<TARGET_PROPERTY:${target_name},AUTORCC_OPTIONS>")
@@ -35,12 +41,12 @@ function(target_prepare_qrc target_name)
         if (NOT qrc_files)
             return()
         endif()
-        set(rcc_file ${target_name}.rcc)
         set(rcc_path "${CMAKE_BINARY_DIR}/${rcc_file}")
         source_group(TREE ${CMAKE_BINARY_DIR} PREFIX Resources FILES ${rcc_path})
+        set(cmd_run "$<IF:$<BOOL:${qrc_files}>,,true>")  # do nothing if qrc_files are empty
         add_custom_command(OUTPUT ${rcc_path}
             DEPENDS ${qrc_files}
-            COMMAND Qt::rcc ${rcc_flags} -o ${rcc_path} ${qrc_files}
+            COMMAND ${cmd_run} Qt::rcc ${rcc_flags} -o ${rcc_path} ${qrc_files}
             COMMAND_EXPAND_LISTS VERBATIM
         )
         target_add_resource(${target_name} ${rcc_path})
