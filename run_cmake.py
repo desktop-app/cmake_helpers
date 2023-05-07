@@ -1,71 +1,57 @@
-# This file is part of Desktop App Toolkit,
-# a set of libraries for developing nice desktop applications.
-#
-# For license and copyright information please follow this link:
-# https://github.com/desktop-app/legal/blob/master/LEGAL
+import sys
+import os
+import shutil
+import subprocess
 
-import sys, os, shutil, subprocess
 
 def run(project, arguments, buildType=''):
     scriptPath = os.path.dirname(os.path.realpath(__file__))
-    basePath = scriptPath + '/../out/' + buildType
+    basePath = os.path.join(scriptPath, '..', 'out', buildType)
 
     cmake = ['cmake']
-    windowsArch = ''
-    explicitGenerator = False
+    cmake_args = []
+
     for arg in arguments:
         if arg == 'debug':
-            cmake.append('-DCMAKE_BUILD_TYPE=Debug')
-        elif arg == 'x86' or arg == 'x64':
-            windowsArch = arg
+            cmake_args.append('-DCMAKE_BUILD_TYPE=Debug')
         elif arg != 'force':
-            if arg.startswith('-G'):
-                explicitGenerator = True
-            cmake.append(arg)
+            cmake_args.append(arg)
+
     if sys.platform == 'win32':
-        if windowsArch == 'x64':
-            cmake.append('-Ax64')
-        else:
-            cmake.append('-AWin32') # default
-    elif windowsArch != '':
-        print("[ERROR] x86/x64 switch is supported only on Windows.")
-        return 1
+        cmake_args.append('-AWin32')
     elif sys.platform == 'darwin':
-        if not explicitGenerator:
-            cmake.append('-GXcode')
-    else:
-        if not explicitGenerator:
-            cmake.append('-GNinja Multi-Config')
-        elif buildType:
-            cmake.append('-DCMAKE_BUILD_TYPE=' + buildType)
-        elif not '-DCMAKE_BUILD_TYPE=Debug' in cmake:
-            cmake.append('-DCMAKE_BUILD_TYPE=Release')
+        cmake_args.append('-GXcode')
+    elif buildType:
+        cmake_args.append('-DCMAKE_BUILD_TYPE=' + buildType)
+    elif '-DCMAKE_BUILD_TYPE=Debug' not in cmake_args:
+        cmake_args.append('-DCMAKE_BUILD_TYPE=Release')
 
     specialTarget = ''
-    specialTargetFile = scriptPath + '/../' + project + '/build/target'
+    specialTargetFile = os.path.join(scriptPath, '..', project, 'build', 'target')
     if os.path.isfile(specialTargetFile):
         with open(specialTargetFile, 'r') as f:
             for line in f:
                 target = line.strip()
                 if len(target) > 0:
-                    cmake.append('-DDESKTOP_APP_SPECIAL_TARGET=' + target)
+                    cmake_args.append('-DDESKTOP_APP_SPECIAL_TARGET=' + target)
 
-    cmake.extend(['-Werror=dev', '-Werror=deprecated', '--warn-uninitialized', '..' if not buildType else '../..'])
-    command = '"' + '" "'.join(cmake) + '"'
+    cmake_args.extend(['-Werror=dev', '-Werror=deprecated', '--warn-uninitialized', '..' if not buildType else '../..'])
+    command = ' '.join(cmake + cmake_args)
 
-    if not os.path.exists(basePath):
-        os.makedirs(basePath)
-    elif 'force' in arguments:
+    os.makedirs(basePath, exist_ok=True)
+
+    if 'force' in arguments:
         paths = os.listdir(basePath)
         for path in paths:
             if path.lower().startswith('cmake'):
-                full = basePath + '/' + path
+                full = os.path.join(basePath, path)
                 if os.path.isdir(full):
                     shutil.rmtree(full, ignore_errors=False)
                 else:
                     os.remove(full)
         print('Cleared previous.')
+
     os.chdir(basePath)
-    subprocess.call(command, shell=True)
+    subprocess.run(command, shell=True, check=True)
 
     return 0
