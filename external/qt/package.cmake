@@ -39,7 +39,7 @@ find_package(Qt${QT_VERSION_MAJOR} OPTIONAL_COMPONENTS Qml Quick QuickWidgets QU
 set(qt_version_6_or_greater 0)
 if (QT_VERSION_MAJOR GREATER_EQUAL 6)
     set(qt_version_6_or_greater 1)
-    find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core5Compat OpenGL OpenGLWidgets REQUIRED)
+    find_package(Qt${QT_VERSION_MAJOR} COMPONENTS OpenGL OpenGLWidgets REQUIRED)
 endif()
 
 # QtWaylandScanner cmake integration from Qt 6 is used

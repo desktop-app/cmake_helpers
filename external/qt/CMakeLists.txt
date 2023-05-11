@@ -14,7 +14,6 @@ if (DESKTOP_APP_USE_PACKAGED)
     INTERFACE
         Qt::Core
         Qt::CorePrivate
-        $<TARGET_NAME_IF_EXISTS:Qt::Core5Compat>
         Qt::Gui
         Qt::GuiPrivate
         $<TARGET_NAME_IF_EXISTS:Qt::OpenGL>
@@ -37,7 +36,6 @@ target_include_directories(external_qt SYSTEM
 INTERFACE
     ${qt_loc}/include
     ${qt_loc}/include/QtCore
-    $<$<TARGET_EXISTS:Qt::Core5Compat>:${qt_loc}/include/QtCore5Compat>
     ${qt_loc}/include/QtGui
     $<$<TARGET_EXISTS:Qt::OpenGL>:${qt_loc}/include/QtOpenGL>
     ${qt_loc}/include/QtWidgets
@@ -62,7 +60,6 @@ INTERFACE
     QT_STATICPLUGIN
     QT_PLUGIN
     QT_CORE_LIB
-    $<$<TARGET_EXISTS:Qt::Core5Compat>:QT_CORE5COMPAT_LIB>
     QT_GUI_LIB
     $<$<TARGET_EXISTS:Qt::OpenGL>:QT_OPENGL_LIB>
     QT_WIDGETS_LIB
@@ -98,12 +95,6 @@ set(common_qt_libs
     lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}Gui
     lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}Core
 )
-
-if (TARGET Qt::Core5Compat)
-    list(PREPEND common_qt_libs
-        lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}Core5Compat
-    )
-endif()
 
 if (TARGET Qt::OpenGL)
     list(PREPEND common_qt_libs
