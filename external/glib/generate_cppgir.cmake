@@ -11,6 +11,11 @@ function(generate_cppgir target_name gir)
 
     set(gen_timestamp ${gen_dst}/${target_name}_cppgir.timestamp)
 
+    set(gir_path)
+    if (IS_ABSOLUTE "${gir}")
+        set(gir_path ${gir})
+    endif()
+
     add_custom_command(
     OUTPUT
         ${gen_timestamp}
@@ -28,7 +33,7 @@ function(generate_cppgir target_name gir)
     COMMENT "Generating C++ wrapper for ${gir} (${target_name})"
     DEPENDS
         cppgir
-        $<$<PATH:IS_ABSOLUTE,${gir}>:${gir}>
+        ${gir_path}
     )
     generate_target(${target_name} cppgir ${gen_timestamp} "" ${gen_dst})
 
