@@ -10,7 +10,8 @@ include(${cmake_helpers_loc}/external/glib/generate_cppgir.cmake)
 function(generate_dbus target_name interface_prefix namespace interface_file)
     find_program(DESKTOP_APP_GDBUSCODEGEN gdbus-codegen REQUIRED)
 
-    set(gen_dst ${CMAKE_CURRENT_BINARY_DIR}/gen)
+    set(gen_loc ${CMAKE_CURRENT_BINARY_DIR}/gen)
+    set(gen_dst ${gen_loc}/dbus)
     file(MAKE_DIRECTORY ${gen_dst})
 
     set(gen_timestamp ${gen_dst}/${target_name}_${namespace}_dbus.timestamp)
@@ -44,7 +45,7 @@ function(generate_dbus target_name interface_prefix namespace interface_file)
     add_library(${target_name}_${namespace}_dbus STATIC)
     init_target(${target_name}_${namespace}_dbus "(gen)")
     target_link_libraries(${target_name}_${namespace}_dbus PUBLIC desktop-app::external_glib)
-    generate_target(${target_name}_${namespace}_dbus timestamp ${gen_timestamp} "${gen_files}" ${gen_dst})
+    generate_target(${target_name}_${namespace}_dbus timestamp ${gen_timestamp} "${gen_files}" ${gen_loc})
 
     add_library(${target_name}_${namespace} INTERFACE)
     init_target_folder(${target_name}_${namespace} "(gen)")
