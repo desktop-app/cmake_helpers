@@ -1,3 +1,6 @@
 [submodule "external/glib/cppgir"]
 	path = external/glib/cppgir
 	url = https://gitlab.com/mnauw/cppgir.git
+[submodule "external/Implib.so"]
+	path = external/Implib.so
+	url = https://github.com/yugr/Implib.so.git
