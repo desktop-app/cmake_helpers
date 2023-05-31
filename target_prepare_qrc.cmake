@@ -5,8 +5,7 @@
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
 function(target_add_resource target_name)
-    set(list ${ARGV})
-    list(REMOVE_AT list 0)
+    set(list ${ARGN})
     target_sources(${target_name} PRIVATE ${list})
     get_target_property(existing_resources ${target_name} RESOURCE)
     if (NOT "${existing_resources}" STREQUAL "existing_resources-NOTFOUND")

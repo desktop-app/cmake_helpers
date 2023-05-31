@@ -7,14 +7,11 @@
 include(CheckCXXCompilerFlag)
 
 function(target_compile_options_if_exists target_name)
-    set(list ${ARGV})
-    list(REMOVE_AT list 0)
-
     set(writing_now "")
     set(private_options "")
     set(public_options "")
     set(interface_options "")
-    foreach (entry ${list})
+    foreach (entry ${ARGN})
         if (${entry} STREQUAL "PRIVATE" OR ${entry} STREQUAL "PUBLIC" OR ${entry} STREQUAL "INTERFACE")
             set(writing_now ${entry})
         else()
