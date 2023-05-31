@@ -306,28 +306,31 @@ if (LINUX)
         xcb-keysyms
     )
     if (TARGET Qt::WaylandClient)
-        target_link_libraries(external_qt
+        target_link_optional_libraries(external_qt
         INTERFACE
-            desktop-app::linux_wayland_helper
+            wayland-egl
+            wayland-cursor
+            wayland-client
         )
     endif()
     if (TARGET Qt::WaylandCompositor)
-        target_link_static_libraries(external_qt
+        target_link_optional_libraries(external_qt
         INTERFACE
             wayland-server
-            ffi
         )
     endif()
-    target_link_libraries(external_qt
+    target_link_optional_libraries(external_qt
     INTERFACE
-        desktop-app::linux_xcb_helper
-        fontconfig
-        freetype
         EGL
         GL
-        xcb
-        X11
         X11-xcb
+        xcb
+    )
+    target_link_libraries(external_qt
+    INTERFACE
+        fontconfig
+        freetype
+        X11
         glib-2.0
     )
 endif()

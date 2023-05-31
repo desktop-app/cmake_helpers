@@ -48,6 +48,10 @@ if (DESKTOP_APP_SPECIAL_TARGET)
 endif()
 
 if (NOT DESKTOP_APP_USE_PACKAGED)
+    target_link_options(common_options
+    INTERFACE
+        -Wl,-z,muldefs
+    )
     if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         target_link_options(common_options
         INTERFACE
