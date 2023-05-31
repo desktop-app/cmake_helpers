@@ -76,15 +76,35 @@ elseif (LINUX)
     list(APPEND ffmpeg_lib_list
         -ldav1d
         -llzma
+        $<TARGET_FILE:implib_vdpau>
+        $<TARGET_FILE:implib_va_x11>
+        $<TARGET_FILE:implib_va_drm>
+        $<TARGET_FILE:implib_va>
+        $<TARGET_FILE:implib_drm>
+        -lXv
+        -lXext
     )
 endif()
 
 # Workaround cmake's random order on Linux...
 if (LINUX)
+    generate_implib(
+        vdpau
+        va-x11
+        va-drm
+        va
+        drm
+    )
     list(JOIN ffmpeg_lib_list , ffmpeg_lib_link)
     target_link_libraries(external_ffmpeg
     INTERFACE
         -Wl,--push-state,-Bstatic,${ffmpeg_lib_link},--pop-state
+        $<LINK_ONLY:implib_vdpau>
+        $<LINK_ONLY:implib_va_x11>
+        $<LINK_ONLY:implib_va_drm>
+        $<LINK_ONLY:implib_va>
+        $<LINK_ONLY:implib_drm>
+        X11
     )
 else()
     target_link_libraries(external_ffmpeg
