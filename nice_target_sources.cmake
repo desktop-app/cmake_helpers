@@ -5,9 +5,6 @@
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
 function(nice_target_sources target_name src_loc)
-    set(list ${ARGV})
-    list(REMOVE_AT list 0 1)
-
     set(writing_now "")
     set(private_sources "")
     set(public_sources "")
@@ -15,7 +12,7 @@ function(nice_target_sources target_name src_loc)
     set(not_win_sources "")
     set(not_mac_sources "")
     set(not_linux_sources "")
-    foreach (entry ${list})
+    foreach (entry ${ARGN})
         if (${entry} STREQUAL "PRIVATE" OR ${entry} STREQUAL "PUBLIC" OR ${entry} STREQUAL "INTERFACE")
             set(writing_now ${entry})
         else()
@@ -71,11 +68,8 @@ function(nice_target_sources target_name src_loc)
 endfunction()
 
 function(remove_target_sources target_name src_loc)
-    set(list ${ARGV})
-    list(REMOVE_AT list 0 1)
-
     set(sources "")
-    foreach (entry ${list})
+    foreach (entry ${ARGN})
         set(full_name ${src_loc}/${entry})
         list(APPEND sources ${full_name})
     endforeach()

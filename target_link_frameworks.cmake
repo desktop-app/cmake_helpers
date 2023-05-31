@@ -5,15 +5,11 @@
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
 function(target_link_frameworks_generic type target_name)
-    set(list ${ARGV})
-    list(REMOVE_AT list 1)
-    list(REMOVE_AT list 0)
-
     set(writing_now "")
     set(private_frameworks "")
     set(public_frameworks "")
     set(interface_frameworks "")
-    foreach (entry ${list})
+    foreach (entry ${ARGN})
         if (${entry} STREQUAL "PRIVATE" OR ${entry} STREQUAL "PUBLIC" OR ${entry} STREQUAL "INTERFACE")
             set(writing_now ${entry})
         else()
@@ -41,10 +37,10 @@ function(target_link_frameworks_generic type target_name)
     endif()
 endfunction()
 
-function(target_link_frameworks target_name)
-    target_link_frameworks_generic("-framework" ${ARGV})
+function(target_link_frameworks)
+    target_link_frameworks_generic("-framework" ${ARGN})
 endfunction()
 
-function(target_link_frameworks_weak target_name)
-    target_link_frameworks_generic("-weak_framework" ${ARGV})
+function(target_link_frameworks_weak)
+    target_link_frameworks_generic("-weak_framework" ${ARGN})
 endfunction()
