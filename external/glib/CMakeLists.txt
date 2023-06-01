@@ -11,7 +11,7 @@ function(add_cppgir) # isolate scope
     set(BUILD_TESTING OFF)
     set(BUILD_DOC OFF)
     set(CMAKE_DISABLE_FIND_PACKAGE_Qt5Core ON)
-    add_subdirectory(cppgir)
+    add_subdirectory(cppgir EXCLUDE_FROM_ALL)
 endfunction()
 add_cppgir()
 
