@@ -46,10 +46,10 @@ function(validate_d3d_compiler target_name)
         endif()
         set(sdk_compiler ${windows_sdk_loc}/Redist/D3D/${modules_subdir}/d3dcompiler_47.dll)
 
-        find_package(Python REQUIRED)
+        find_package(Python3 REQUIRED)
         execute_process(
         COMMAND
-            ${Python_EXECUTABLE}
+            ${Python3_EXECUTABLE}
             ${cmake_helpers_loc}/validate_d3d_compiler.py
             ${sdk_compiler}
         OUTPUT_VARIABLE key
