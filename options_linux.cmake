@@ -67,7 +67,7 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
     endif()
     set(interprocedural_optimization_config $<TARGET_PROPERTY:INTERPROCEDURAL_OPTIMIZATION_$<UPPER_CASE:$<CONFIG>>>)
     set(interprocedural_optimization_value_on -fwhole-program)
-    set(interprocedural_optimization_value_off -fno-use-linker-plugin)
+    set(interprocedural_optimization_value_off -fuse-ld=lld -fno-use-linker-plugin)
     set(interprocedural_optimization_values ${interprocedural_optimization_value_on},$<$<OR:$<NOT:$<BOOL:${DESKTOP_APP_SPECIAL_TARGET}>>,$<CONFIG:Debug>>:${interprocedural_optimization_value_off}>)
     target_link_options(common_options
     INTERFACE
