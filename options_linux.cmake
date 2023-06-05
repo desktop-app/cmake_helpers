@@ -92,7 +92,7 @@ if (NOT DESKTOP_APP_USE_PACKAGED OR DESKTOP_APP_SPECIAL_TARGET)
     )
     target_compile_definitions(common_options
     INTERFACE
-        $<$<NOT:$<CONFIG:Debug>>:_FORTIFY_SOURCE=2>
+        $<$<NOT:$<CONFIG:Debug>>:_FORTIFY_SOURCE=3>
         _GLIBCXX_ASSERTIONS
     )
 endif()
