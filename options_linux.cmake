@@ -81,6 +81,7 @@ if (NOT DESKTOP_APP_USE_PACKAGED OR DESKTOP_APP_SPECIAL_TARGET)
     INTERFACE
         -fstack-protector-all
         -fstack-clash-protection
+        -fcf-protection
     )
     target_link_options(common_options
     INTERFACE
