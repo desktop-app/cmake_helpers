@@ -80,7 +80,6 @@ PRIVATE
     script_span/generated_entities.cc
     script_span/getonescriptspan.cc
     script_span/getonescriptspan.h
-    script_span/getonescriptspan_test.cc
     script_span/utf8statetable.cc
     script_span/offsetmap.cc
     script_span/text_processing.cc
