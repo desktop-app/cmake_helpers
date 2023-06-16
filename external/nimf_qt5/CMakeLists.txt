@@ -20,6 +20,11 @@ set(nimf_qt5_src ${nimf_loc}/modules/clients/qt5)
 
 set_target_properties(external_nimf_qt5 PROPERTIES AUTOMOC ON)
 
+nice_target_sources(external_nimf_qt5 ${CMAKE_CURRENT_SOURCE_DIR}
+PRIVATE
+    init.cpp
+)
+
 nice_target_sources(external_nimf_qt5 ${nimf_qt5_src}
 PRIVATE
     im-nimf-qt5.cpp

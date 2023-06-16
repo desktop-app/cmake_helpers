@@ -30,6 +30,10 @@ DEPENDS
     ${kimageformats_src}/jxl.json
 )
 
+nice_target_sources(external_kimageformats ${CMAKE_CURRENT_SOURCE_DIR}
+PRIVATE
+    init.cpp
+)
 nice_target_sources(external_kimageformats ${kimageformats_src}
 PRIVATE
     avif.cpp
