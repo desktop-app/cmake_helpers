@@ -149,6 +149,14 @@ else()
 endif()
 
 set(qt_libs_list "")
+if (QT_VERSION_MAJOR GREATER_EQUAL 6)
+    list(APPEND qt_libs_list
+        $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QWebpPlugin_init>
+        $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QJpegPlugin_init>
+        $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QGifPlugin_init>
+    )
+endif()
+
 if (WIN32)
     target_include_directories(external_qt SYSTEM
     INTERFACE
@@ -186,12 +194,15 @@ elseif (APPLE)
         plugins/tls/${qt_lib_prefix}qsecuretransportbackend
         plugins/networkinformation/${qt_lib_prefix}qscnetworkreachability
     )
+    list(APPEND qt_libs_list
+        $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QCocoaIntegrationPlugin_init>
+        $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QSecureTransportBackendPlugin_init>
+        $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QSCNetworkReachabilityNetworkInformationPlugin_init>
+        $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QCocoaIntegrationPlugin_resources_1>
+    )
     foreach (lib ${qt_libs})
         list(APPEND qt_libs_list "${qt_loc}/${lib}${qt_lib_suffix}")
     endforeach()
-    list(APPEND qt_libs_list
-        $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QCocoaIntegrationPlugin_resources_1>
-    )
 else()
     set(qt_libs
         plugins/platforminputcontexts/${qt_lib_prefix}composeplatforminputcontextplugin
@@ -204,12 +215,25 @@ else()
         lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}XcbQpa
         ${common_qt_libs}
     )
+    list(APPEND qt_libs_list
+        $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QXcbIntegrationPlugin_init>
+        $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QXcbEglIntegrationPlugin_init>
+        $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QXcbGlxIntegrationPlugin_init>
+        $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QComposePlatformInputContextPlugin_init>
+        $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QSvgIconPlugin_init>
+        $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QGtk3ThemePlugin_init>
+        $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QTlsBackendOpenSSLPlugin_init>
+    )
     if (TARGET Qt::DBus)
         list(APPEND qt_libs
             plugins/platforminputcontexts/${qt_lib_prefix}ibusplatforminputcontextplugin
             plugins/platformthemes/${qt_lib_prefix}qxdgdesktopportal
             lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}DBus
             lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}Core
+        )
+        list(APPEND qt_libs_list
+            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QIbusPlatformInputContextPlugin_init>
+            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QXdgDesktopPortalThemePlugin_init>
         )
     endif()
     if (NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
@@ -221,6 +245,13 @@ else()
             plugins/wayland-decoration-client/${qt_lib_prefix}bradient
             lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}WaylandEglClientHwIntegration
             lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}WaylandClient
+        )
+        list(APPEND qt_libs_list
+            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QWaylandIntegrationPlugin_init>
+            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QWaylandEglPlatformIntegrationPlugin_init>
+            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QWaylandEglClientBufferPlugin_init>
+            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QWaylandXdgShellIntegrationPlugin_init>
+            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QWaylandBradientDecorationPlugin_init>
         )
     endif()
     if (TARGET Qt::WaylandCompositor)

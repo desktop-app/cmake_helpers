@@ -19,6 +19,11 @@ set(fcitx_qt5_src ${fcitx_qt5_loc}/qt${QT_VERSION_MAJOR}/platforminputcontext)
 
 set_target_properties(external_fcitx_qt5 PROPERTIES AUTOMOC ON)
 
+nice_target_sources(external_fcitx_qt5 ${CMAKE_CURRENT_SOURCE_DIR}
+PRIVATE
+    init.cpp
+)
+
 nice_target_sources(external_fcitx_qt5 ${fcitx_qt5_src}
 PRIVATE
     fcitxinputcontextproxy.cpp

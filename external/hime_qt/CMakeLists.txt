@@ -19,6 +19,11 @@ set(hime_qt_src ${hime_loc}/src/qt5-im)
 
 set_target_properties(external_hime_qt PROPERTIES AUTOMOC ON)
 
+nice_target_sources(external_hime_qt ${CMAKE_CURRENT_SOURCE_DIR}
+PRIVATE
+    init.cpp
+)
+
 nice_target_sources(external_hime_qt ${hime_qt_src}
 PRIVATE
     hime-imcontext-qt.cpp

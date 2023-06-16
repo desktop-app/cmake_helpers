@@ -22,6 +22,11 @@ set(FCITX5_QT_EXTRA_PLUGIN_NAME "")
 
 configure_file("${fcitx5_qt_src}/fcitx5.json.in" "${CMAKE_CURRENT_BINARY_DIR}/fcitx5.json")
 
+nice_target_sources(external_fcitx5_qt ${CMAKE_CURRENT_SOURCE_DIR}
+PRIVATE
+    init.cpp
+)
+
 nice_target_sources(external_fcitx5_qt ${fcitx5_qt_src}
 PRIVATE
     qfcitxplatforminputcontext.cpp
