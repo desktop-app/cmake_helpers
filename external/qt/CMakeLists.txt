@@ -245,9 +245,12 @@ else()
     endif()
     if (TARGET Qt::WaylandCompositor)
         list(PREPEND qt_libs
+            plugins/wayland-graphics-integration-server/${qt_lib_prefix}qt-wayland-compositor-wayland-egl
+            lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}WaylandEglCompositorHwIntegration
             lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}WaylandCompositor
         )
         list(APPEND qt_libs_list
+            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QWaylandEglClientBufferIntegrationPlugin_init>
             $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::WaylandCompositor_resources_1>
         )
     endif()
