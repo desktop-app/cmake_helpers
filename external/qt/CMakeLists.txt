@@ -23,7 +23,6 @@ if (DESKTOP_APP_USE_PACKAGED)
         Qt::Network
         Qt::Svg
         $<TARGET_NAME_IF_EXISTS:Qt::DBus>
-        $<TARGET_NAME_IF_EXISTS:Qt::Qml>
         $<TARGET_NAME_IF_EXISTS:Qt::Quick>
         $<TARGET_NAME_IF_EXISTS:Qt::QuickWidgets>
         $<TARGET_NAME_IF_EXISTS:Qt::WaylandCompositor>
@@ -42,7 +41,6 @@ INTERFACE
     $<$<TARGET_EXISTS:Qt::OpenGLWidgets>:${qt_loc}/include/QtOpenGLWidgets>
     ${qt_loc}/include/QtSvg
     $<$<TARGET_EXISTS:Qt::DBus>:${qt_loc}/include/QtDBus>
-    $<$<TARGET_EXISTS:Qt::Qml>:${qt_loc}/include/QtQml>
     $<$<TARGET_EXISTS:Qt::Quick>:${qt_loc}/include/QtQuick>
     $<$<TARGET_EXISTS:Qt::QuickWidgets>:${qt_loc}/include/QtQuickWidgets>
     $<$<TARGET_EXISTS:Qt::WaylandCompositor>:${qt_loc}/include/QtWaylandCompositor>
@@ -67,7 +65,6 @@ INTERFACE
     QT_NETWORK_LIB
     QT_SVG_LIB
     $<$<TARGET_EXISTS:Qt::DBus>:QT_DBUS_LIB>
-    $<$<TARGET_EXISTS:Qt::Qml>:QT_QML_LIB>
     $<$<TARGET_EXISTS:Qt::Quick>:QT_QUICK_LIB>
     $<$<TARGET_EXISTS:Qt::QuickWidgets>:QT_QUICKWIDGETS_LIB>
     $<$<TARGET_EXISTS:Qt::WaylandCompositor>:QT_WAYLANDCOMPOSITOR_LIB>
@@ -108,23 +105,10 @@ if (TARGET Qt::OpenGLWidgets)
     )
 endif()
 
-if (TARGET Qt::Qml)
-    list(PREPEND common_qt_libs
-        qml/QtQml/WorkerScript/${qt_lib_prefix}workerscriptplugin
-        qml/QtQml/Models/${qt_lib_prefix}modelsplugin
-        qml/QtQml/Base/${qt_lib_prefix}qmlplugin
-        qml/QtQml/${qt_lib_prefix}qmlmetaplugin
-        lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}QmlWorkerScript
-        lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}QmlModels
-        lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}Qml
-    )
-endif()
-
 if (TARGET Qt::Quick)
     list(PREPEND common_qt_libs
-        qml/QtQuick/Window/${qt_lib_prefix}quickwindowplugin
-        qml/QtQuick/${qt_lib_prefix}qtquick2plugin
         lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}Quick
+        lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}Qml
     )
 endif()
 
@@ -230,20 +214,6 @@ else()
         list(APPEND qt_libs_list
             $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::WaylandCompositor_resources_1>
         )
-        if (TARGET Qt::Quick)
-            list(PREPEND qt_libs
-                qml/QtWayland/Compositor/${qt_lib_prefix}qwaylandcompositorplugin
-                qml/QtWayland/Compositor/XdgShell/${qt_lib_prefix}waylandcompositorxdgshellplugin
-            )
-            list(APPEND qt_libs_list
-                $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::qwaylandcompositorplugin_init>
-                $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::WaylandCompositorXdgShell_init>
-                $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::WaylandCompositor_qmlcache>
-                $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::WaylandCompositor_resources_2>
-                $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::WaylandCompositor_resources_3>
-                $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::WaylandCompositorXdgShell_resources_1>
-            )
-        endif()
     endif()
     foreach (lib ${qt_libs})
         list(APPEND qt_libs_list "${qt_loc}/${lib}${qt_lib_suffix}")
@@ -259,26 +229,9 @@ if (QT_VERSION_MAJOR GREATER_EQUAL 6)
         $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Widgets_resources_3>
     )
 
-    if (TARGET Qt::Qml)
-        list(APPEND qt_libs_list
-            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QmlMeta_init>
-            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::qmlplugin_init>
-            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::modelsplugin_init>
-            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::workerscriptplugin_init>
-            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QmlMeta_resources_1>
-            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Qml_resources_1>
-            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QmlModels_resources_1>
-            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QmlWorkerScript_resources_1>
-        )
-    endif()
-
     if (TARGET Qt::Quick)
         list(APPEND qt_libs_list
-            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::qtquick2plugin_init>
-            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::quickwindow_init>
-            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Quick_resources_1>
             $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Quick_resources_2>
-            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::quickwindow_resources_1>
         )
     endif()
 endif()
