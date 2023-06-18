@@ -34,7 +34,7 @@ if (NOT DEFINED QT_VERSION_MAJOR)
 endif()
 
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Gui Widgets Network Svg REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} OPTIONAL_COMPONENTS Qml Quick QuickWidgets QUIET)
+find_package(Qt${QT_VERSION_MAJOR} OPTIONAL_COMPONENTS Quick QuickWidgets QUIET)
 
 set(qt_version_6_5_or_greater 0)
 if (QT_VERSION_MAJOR GREATER_EQUAL 6)
