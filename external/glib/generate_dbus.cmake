@@ -40,6 +40,7 @@ function(generate_dbus target_name interface_prefix namespace interface_file)
     COMMENT "Generating D-Bus C code for ${namespace} (${target_name})"
     DEPENDS
         ${DESKTOP_APP_GDBUSCODEGEN}
+        ${interface_file}
     )
 
     add_library(${target_name}_${namespace}_dbus STATIC)
