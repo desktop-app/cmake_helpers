@@ -220,7 +220,7 @@ else()
             $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QXdgDesktopPortalThemePlugin_init>
         )
     endif()
-    if (NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
+    if (TARGET Qt::WaylandClient)
         list(PREPEND qt_libs
             plugins/platforms/${qt_lib_prefix}qwayland-generic
             plugins/platforms/${qt_lib_prefix}qwayland-egl
@@ -305,7 +305,7 @@ if (LINUX)
         xcb-render-util
         xcb-keysyms
     )
-    if (NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
+    if (TARGET Qt::WaylandClient)
         target_link_libraries(external_qt
         INTERFACE
             desktop-app::linux_wayland_helper
