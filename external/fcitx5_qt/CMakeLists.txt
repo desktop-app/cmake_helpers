@@ -22,11 +22,6 @@ set(FCITX5_QT_EXTRA_PLUGIN_NAME "")
 
 configure_file("${fcitx5_qt_src}/fcitx5.json.in" "${CMAKE_CURRENT_BINARY_DIR}/fcitx5.json")
 
-nice_target_sources(external_fcitx5_qt ${CMAKE_CURRENT_SOURCE_DIR}
-PRIVATE
-    init.cpp
-)
-
 nice_target_sources(external_fcitx5_qt ${fcitx5_qt_src}
 PRIVATE
     qfcitxplatforminputcontext.cpp
@@ -84,3 +79,23 @@ else()
         xkbcommon
     )
 endif()
+
+add_library(external_fcitx5_qt_init OBJECT)
+add_library(desktop-app::external_fcitx5_qt_init ALIAS external_fcitx5_qt_init)
+init_target(external_fcitx5_qt_init "(external)")
+
+nice_target_sources(external_fcitx5_qt_init ${CMAKE_CURRENT_SOURCE_DIR}
+PRIVATE
+    init.cpp
+)
+
+target_link_libraries(external_fcitx5_qt_init
+PRIVATE
+    desktop-app::external_qt
+)
+
+target_link_libraries(external_fcitx5_qt
+INTERFACE
+    external_fcitx5_qt_init
+    $<TARGET_OBJECTS:external_fcitx5_qt_init>
+)
