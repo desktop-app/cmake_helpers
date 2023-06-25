@@ -190,13 +190,14 @@ elseif (APPLE)
     endforeach()
 else()
     set(qt_libs
-        plugins/platforminputcontexts/${qt_lib_prefix}composeplatforminputcontextplugin
-        plugins/platformthemes/${qt_lib_prefix}qgtk3
         plugins/platforms/${qt_lib_prefix}qxcb
-        plugins/tls/${qt_lib_prefix}qopensslbackend
         plugins/xcbglintegrations/${qt_lib_prefix}qxcb-egl-integration
         plugins/xcbglintegrations/${qt_lib_prefix}qxcb-glx-integration
+        plugins/platforminputcontexts/${qt_lib_prefix}composeplatforminputcontextplugin
         plugins/iconengines/${qt_lib_prefix}qsvgicon
+        plugins/platformthemes/${qt_lib_prefix}qgtk3
+        plugins/tls/${qt_lib_prefix}qopensslbackend
+        plugins/networkinformation/${qt_lib_prefix}qglib
         lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}XcbQpa
         ${common_qt_libs}
     )
@@ -208,6 +209,7 @@ else()
         $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QSvgIconPlugin_init>
         $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QGtk3ThemePlugin_init>
         $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QTlsBackendOpenSSLPlugin_init>
+        $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QGlibNetworkInformationPlugin_init>
     )
     if (TARGET Qt::DBus)
         list(APPEND qt_libs
@@ -359,6 +361,8 @@ elseif (APPLE)
         fontconfig
         freetype
         X11
+        gio-2.0
+        gobject-2.0
         glib-2.0
     )
 endif()
