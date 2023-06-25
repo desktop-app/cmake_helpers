@@ -30,10 +30,6 @@ DEPENDS
     ${kimageformats_src}/jxl.json
 )
 
-nice_target_sources(external_kimageformats ${CMAKE_CURRENT_SOURCE_DIR}
-PRIVATE
-    init.cpp
-)
 nice_target_sources(external_kimageformats ${kimageformats_src}
 PRIVATE
     avif.cpp
@@ -109,3 +105,23 @@ else()
         lcms2
     )
 endif()
+
+add_library(external_kimageformats_init OBJECT)
+add_library(desktop-app::external_kimageformats_init ALIAS external_kimageformats_init)
+init_target(external_kimageformats_init "(external)")
+
+nice_target_sources(external_kimageformats_init ${CMAKE_CURRENT_SOURCE_DIR}
+PRIVATE
+    init.cpp
+)
+
+target_link_libraries(external_kimageformats_init
+PRIVATE
+    desktop-app::external_qt
+)
+
+target_link_libraries(external_kimageformats
+INTERFACE
+    external_kimageformats_init
+    $<TARGET_OBJECTS:external_kimageformats_init>
+)
