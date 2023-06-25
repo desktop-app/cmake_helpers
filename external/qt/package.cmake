@@ -49,6 +49,10 @@ cmake_dependent_option(DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION "Disable all code
 
 if (LINUX)
     find_package(Qt${QT_VERSION_MAJOR} OPTIONAL_COMPONENTS DBus WaylandClient WaylandCompositor QUIET)
+
+    if (NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
+        find_package(Qt${QT_VERSION_MAJOR} COMPONENTS WaylandClient REQUIRED)
+    endif()
 endif()
 
 set_property(GLOBAL PROPERTY AUTOGEN_SOURCE_GROUP "(gen)")
