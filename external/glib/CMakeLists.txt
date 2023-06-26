@@ -10,7 +10,7 @@ add_library(desktop-app::external_glib ALIAS external_glib)
 function(add_cppgir) # isolate scope
     set(BUILD_TESTING OFF)
     set(BUILD_DOC OFF)
-    set(CMAKE_DISABLE_FIND_PACKAGE_Qt5Core ON)
+    set(BUILD_EXAMPLES OFF)
     add_subdirectory(cppgir EXCLUDE_FROM_ALL)
 endfunction()
 add_cppgir()
