@@ -66,6 +66,4 @@ def run(project, arguments, buildType=''):
                     os.remove(full)
         print('Cleared previous.')
     os.chdir(basePath)
-    subprocess.call(command, shell=True)
-
-    return 0
+    return subprocess.call(command, shell=True)
