@@ -21,6 +21,8 @@ function(generate_cppgir target_name gir)
         ${gen_timestamp}
     COMMAND
         cppgir
+        --debug
+        1
         --class
         --expected
         --ignore
