@@ -20,6 +20,7 @@ function(generate_gir target_name namespace deps src_target_name)
         ${gen_file}
     COMMAND
         ${DESKTOP_APP_GIRSCANNER}
+        --quiet
         -n
         ${namespace}
         --nsversion
