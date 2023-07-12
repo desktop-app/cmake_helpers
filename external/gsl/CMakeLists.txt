@@ -7,6 +7,7 @@
 add_library(external_gsl INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_gsl ALIAS external_gsl)
 
+#[[
 if (DESKTOP_APP_USE_PACKAGED)
     if (DESKTOP_APP_USE_PACKAGED_LAZY)
         find_package(Microsoft.GSL 4.0.0 QUIET)
@@ -19,6 +20,7 @@ if (DESKTOP_APP_USE_PACKAGED)
         return()
     endif()
 endif()
+]]
 
 target_include_directories(external_gsl SYSTEM
 INTERFACE
