@@ -53,6 +53,8 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
         INTERFACE
             -static-libstdc++
             -static-libgcc
+            $<$<CONFIG:Debug>:-fuse-ld=lld>
+            $<$<CONFIG:Debug>:-s>
         )
     elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
         target_link_static_libraries(common_options
