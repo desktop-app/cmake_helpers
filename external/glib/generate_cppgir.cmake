@@ -20,7 +20,7 @@ function(generate_cppgir target_name gir)
     OUTPUT
         ${gen_timestamp}
     COMMAND
-        cppgir
+        CppGir::cppgir
         --debug
         1
         --class
@@ -35,17 +35,17 @@ function(generate_cppgir target_name gir)
         echo 1> ${gen_timestamp}
     COMMENT "Generating C++ wrapper for ${gir} (${target_name})"
     DEPENDS
-        cppgir
+        CppGir::cppgir
         ${gir_path}
     )
     generate_target(${target_name} cppgir ${gen_timestamp} "" ${gen_dst})
 
     get_target_property(target_type ${target_name} TYPE)
     if (${target_type} STREQUAL "INTERFACE_LIBRARY")
-        target_link_libraries(${target_name} INTERFACE gi)
+        target_link_libraries(${target_name} INTERFACE CppGir::gi)
         target_compile_definitions(${target_name} INTERFACE GI_INLINE GI_OBJECT_NEWV)
     else()
-        target_link_libraries(${target_name} PUBLIC gi)
+        target_link_libraries(${target_name} PUBLIC CppGir::gi)
         target_compile_definitions(${target_name} PUBLIC GI_INLINE GI_OBJECT_NEWV)
     endif()
 endfunction()
