@@ -41,7 +41,7 @@ find_package(Qt${QT_VERSION_MAJOR} OPTIONAL_COMPONENTS Quick QuickWidgets QUIET)
 
 set(qt_version_6_5_or_greater 0)
 if (QT_VERSION_MAJOR GREATER_EQUAL 6)
-    if (QT_VERSION_MINOR GREATER_EQUAL 5)
+    if (QT_VERSION_MAJOR GREATER 6 OR Qt6_VERSION_MINOR GREATER_EQUAL 5)
         set(qt_version_6_5_or_greater 1)
     endif()
     find_package(Qt${QT_VERSION_MAJOR} COMPONENTS OpenGL OpenGLWidgets REQUIRED)
