@@ -26,6 +26,7 @@ function(generate_cppgir target_name gir)
         --class
         --class-full
         --expected
+        --optional
         --ignore
         ${cmake_helpers_loc}/external/glib/cppgir/data/cppgir.ignore:${cmake_helpers_loc}/external/glib/cppgir/data/cppgir_unix.ignore
         --output
