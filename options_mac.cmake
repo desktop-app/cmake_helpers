@@ -47,11 +47,6 @@ if (DESKTOP_APP_SPECIAL_TARGET)
     )
 endif()
 
-target_link_options(common_options
-INTERFACE
-    -Wl,-no_compact_unwind
-)
-
 target_link_frameworks(common_options
 INTERFACE
     Cocoa
