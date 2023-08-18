@@ -48,10 +48,6 @@ if (DESKTOP_APP_SPECIAL_TARGET)
 endif()
 
 if (NOT DESKTOP_APP_USE_PACKAGED)
-    target_link_options(common_options
-    INTERFACE
-        -Wl,-z,muldefs
-    )
     if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         target_link_options(common_options
         INTERFACE
@@ -77,6 +73,7 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
     INTERFACE
         $<IF:$<NOT:$<STREQUAL:${interprocedural_optimization_config},>>,$<IF:$<BOOL:${interprocedural_optimization_config}>,${interprocedural_optimization_values}>,$<IF:$<BOOL:$<TARGET_PROPERTY:INTERPROCEDURAL_OPTIMIZATION>>,${interprocedural_optimization_values}>>
         -rdynamic
+        -Wl,-z,muldefs
     )
 endif()
 
