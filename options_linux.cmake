@@ -80,6 +80,7 @@ endif()
 if (NOT DESKTOP_APP_USE_PACKAGED OR DESKTOP_APP_SPECIAL_TARGET)
     target_compile_options_if_exists(common_options
     INTERFACE
+        -fno-omit-frame-pointer
         -fstack-protector-all
         -fstack-clash-protection
         -fcf-protection
