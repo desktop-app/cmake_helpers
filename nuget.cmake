@@ -45,7 +45,7 @@ function(nuget_add_package package_name package package_version)
 endfunction()
 
 function(nuget_add_webview target_name)
-    nuget_add_package(webview2 "Microsoft.Web.WebView2" 1.0.1185.39)
+    nuget_add_package(webview2 "Microsoft.Web.WebView2" 1.0.1901.177)
 
     set(webview2_loc_native ${webview2_loc}/build/native)
     # target_link_libraries(${target_name}
