@@ -29,6 +29,7 @@ function(generate_implib)
         COMMAND
             ${Python3_EXECUTABLE}
             ${cmake_helpers_loc}/external/Implib.so/implib-gen.py
+            -q
             -o
             ${gen_dst}
             ${DESKTOP_APP_${lib_identifier}_PATH}
