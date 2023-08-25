@@ -47,6 +47,8 @@ endfunction()
 function(nuget_add_webview target_name)
     nuget_add_package(webview2 "Microsoft.Web.WebView2" 1.0.1901.177)
 
+    nuget_add_winrt(${target_name} "webview2|${webview2_loc}/lib/Microsoft.Web.WebView2.Core.winmd")
+
     set(webview2_loc_native ${webview2_loc}/build/native)
     # target_link_libraries(${target_name}
     # PRIVATE
@@ -117,6 +119,38 @@ function(nuget_add_winrt target_name)
         file(RENAME ${winrt_version_test} ${winrt_version_key})
         file(RENAME ${sdk_version_test} ${sdk_version_key})
     endif()
+
+    foreach (added_winmd ${ARGN})
+        string(REPLACE "|" ";" winmd_name_and_file ${added_winmd})
+        list(GET winmd_name_and_file 0 winmd_name)
+        list(GET winmd_name_and_file 1 winmd_file)
+
+        set(winmd_version_key ${gen_dst}/winrt/${winmd_name}_version_key)
+        set(winmd_version_test ${winmd_version_key}_test)
+        file(SHA256 ${winmd_file} winmd_file_checksum)
+        file(WRITE ${winmd_version_test} "${winrt_version_key}_${sdk_version_key}_${winmd_file_checksum}")
+
+        execute_process(
+        COMMAND
+            ${CMAKE_COMMAND} -E compare_files ${winmd_version_key} ${winmd_version_test}
+            RESULT_VARIABLE winmd_version_compare_result
+        )
+        if (winmd_version_compare_result EQUAL 0)
+            message("Using existing ${winmd_name}-WinRT headers.")
+        else()
+            message("Generating new ${winmd_name}-WinRT headers.")
+
+            execute_process(
+            COMMAND
+                ${winrt_loc}/bin/cppwinrt
+                -reference ${winrt_sdk_version}
+                -input ${winmd_file}
+                -output ${gen_dst}
+            COMMAND_ERROR_IS_FATAL ANY
+            )
+            file(RENAME ${winmd_version_test} ${winmd_version_key})
+        endif()
+    endforeach()
 
     target_include_directories(${target_name}
     PRIVATE
