@@ -15,11 +15,12 @@ function(generate_cppgir target_name gir)
 
     set(gen_timestamp ${gen_dst}/${target_name}_cppgir.timestamp)
 
-    set(ignore_files
-        ${cppgir_loc}/data/cppgir.ignore
-        ${cppgir_loc}/data/cppgir_unix.ignore
-    )
-    if (CppGir_FOUND)
+    if (NOT CppGir_FOUND)
+        set(ignore_files
+            ${cppgir_loc}/data/cppgir.ignore
+            ${cppgir_loc}/data/cppgir_unix.ignore
+        )
+    else()
         set(ignore_files)  # rely on default ignore list
     endif()
 
