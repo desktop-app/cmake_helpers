@@ -4,13 +4,10 @@
 // For license and copyright information please follow this link:
 // https://github.com/desktop-app/legal/blob/master/LEGAL
 //
-#include <dlfcn.h>
+#include "base/platform/linux/base_linux_library.h"
+
 #include <X11/Xlib.h>
 #include <hime-im-client.h>
-#include <memory>
-#include <iostream>
-
-#define LOAD_SYMBOL(handle, func) LoadSymbol(handle, #func, func)
 
 namespace HimeHelper {
 namespace {
@@ -50,51 +47,25 @@ void (*hime_im_client_set_client_window)(
 	const Window win);
 void (*hime_im_client_set_window)(HIME_client_handle *handle, Window win);
 
-struct HandleDeleter {
-	void operator()(void *handle) {
-		dlclose(handle);
-	}
-};
-
-using Handle = std::unique_ptr<void, HandleDeleter>;
-
-bool LoadLibrary(Handle &handle, const char *name) {
-	handle = Handle(dlopen(name, RTLD_LAZY | RTLD_NODELETE));
-	if (handle) {
-		return true;
-	}
-	std::cerr << dlerror() << std::endl;
-	return false;
-}
-
-template <typename Function>
-inline bool LoadSymbol(const Handle &handle, const char *name, Function &func) {
-	func = handle
-		? reinterpret_cast<Function>(dlsym(handle.get(), name))
-		: nullptr;
-	if (const auto error = dlerror()) {
-		std::cerr << error << std::endl;
-	}
-	return (func != nullptr);
-}
-
 bool Resolve() {
 	static const auto loaded = [&] {
-		auto lib = Handle();
-		return LoadLibrary(lib, "libhime-im-client.so.1")
-			&& LOAD_SYMBOL(lib, hime_im_client_close)
-			&& LOAD_SYMBOL(lib, hime_im_client_focus_in)
-			&& LOAD_SYMBOL(lib, hime_im_client_focus_out)
-			&& LOAD_SYMBOL(lib, hime_im_client_focus_out2)
-			&& LOAD_SYMBOL(lib, hime_im_client_forward_key_press)
-			&& LOAD_SYMBOL(lib, hime_im_client_forward_key_release)
-			&& LOAD_SYMBOL(lib, hime_im_client_get_preedit)
-			&& LOAD_SYMBOL(lib, hime_im_client_open)
-			&& LOAD_SYMBOL(lib, hime_im_client_reset)
-			&& LOAD_SYMBOL(lib, hime_im_client_set_cursor_location)
-			&& LOAD_SYMBOL(lib, hime_im_client_set_flags)
-			&& (LOAD_SYMBOL(lib, hime_im_client_set_client_window)
-				|| LOAD_SYMBOL(lib, hime_im_client_set_window));
+		const auto lib = base::Platform::LoadLibrary(
+			"libhime-im-client.so.1",
+			RTLD_NODELETE);
+		return lib
+			&& LOAD_LIBRARY_SYMBOL(lib, hime_im_client_close)
+			&& LOAD_LIBRARY_SYMBOL(lib, hime_im_client_focus_in)
+			&& LOAD_LIBRARY_SYMBOL(lib, hime_im_client_focus_out)
+			&& LOAD_LIBRARY_SYMBOL(lib, hime_im_client_focus_out2)
+			&& LOAD_LIBRARY_SYMBOL(lib, hime_im_client_forward_key_press)
+			&& LOAD_LIBRARY_SYMBOL(lib, hime_im_client_forward_key_release)
+			&& LOAD_LIBRARY_SYMBOL(lib, hime_im_client_get_preedit)
+			&& LOAD_LIBRARY_SYMBOL(lib, hime_im_client_open)
+			&& LOAD_LIBRARY_SYMBOL(lib, hime_im_client_reset)
+			&& LOAD_LIBRARY_SYMBOL(lib, hime_im_client_set_cursor_location)
+			&& LOAD_LIBRARY_SYMBOL(lib, hime_im_client_set_flags)
+			&& (LOAD_LIBRARY_SYMBOL(lib, hime_im_client_set_client_window)
+				|| LOAD_LIBRARY_SYMBOL(lib, hime_im_client_set_window));
 	}();
 	return loaded;
 }
