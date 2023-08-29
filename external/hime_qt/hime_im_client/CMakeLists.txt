@@ -27,6 +27,11 @@ PUBLIC
     ${hime_im_client_src}
 )
 
+target_link_libraries(external_hime_im_client
+PRIVATE
+    desktop-app::lib_base
+)
+
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(X11 REQUIRED x11)
 
