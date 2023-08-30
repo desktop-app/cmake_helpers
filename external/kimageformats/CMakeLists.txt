@@ -17,18 +17,7 @@ init_target(external_kimageformats "(external)")
 set(kimageformats_loc ${third_party_loc}/kimageformats)
 set(kimageformats_src ${kimageformats_loc}/src/imageformats)
 
-set(kimageformats_srcs)
-qt_wrap_cpp(kimageformats_srcs
-    ${kimageformats_src}/avif_p.h
-    ${kimageformats_src}/heif_p.h
-    ${kimageformats_src}/jxl_p.h
-TARGET
-    external_kimageformats
-DEPENDS
-    ${kimageformats_src}/avif.json
-    ${kimageformats_src}/heif.json
-    ${kimageformats_src}/jxl.json
-)
+set_target_properties(external_kimageformats PROPERTIES AUTOMOC ON)
 
 nice_target_sources(external_kimageformats ${kimageformats_src}
 PRIVATE
@@ -36,7 +25,6 @@ PRIVATE
     heif.cpp
     jxl.cpp
 )
-target_sources(external_kimageformats PRIVATE ${kimageformats_srcs})
 
 target_compile_definitions(external_kimageformats
 PRIVATE
