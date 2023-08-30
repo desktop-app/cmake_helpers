@@ -24,6 +24,7 @@ PRIVATE
     avif.cpp
     heif.cpp
     jxl.cpp
+    qoi.cpp
 )
 
 target_compile_definitions(external_kimageformats
