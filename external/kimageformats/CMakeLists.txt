@@ -29,7 +29,6 @@ PRIVATE
 target_compile_definitions(external_kimageformats
 PRIVATE
     QT_STATICPLUGIN
-    KIMG_JXL_API_VERSION=70
 )
 
 target_link_libraries(external_kimageformats
