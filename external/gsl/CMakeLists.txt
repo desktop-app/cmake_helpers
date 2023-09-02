@@ -22,6 +22,11 @@ if (DESKTOP_APP_USE_PACKAGED)
 endif()
 ]]
 
+# https://gitlab.kitware.com/cmake/cmake/-/issues/25222
+if (NOT EXISTS ${third_party_loc}/GSL/include)
+    message(FATAL_ERROR "Guidelines Support Library is not found")
+endif()
+
 target_include_directories(external_gsl SYSTEM
 INTERFACE
     ${third_party_loc}/GSL/include
