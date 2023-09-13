@@ -130,6 +130,7 @@ else()
         lib/${qt_lib_prefix}qtlibpng
         lib/${qt_lib_prefix}qtpcre2
     )
+
 endif()
 
 set(qt_libs_list "")
@@ -279,7 +280,30 @@ INTERFACE
     $<TARGET_FILE:desktop-app::external_zlib>
 )
 
-if (LINUX)
+if (WIN32)
+    if (build_win64)
+        set(libwebp_release_folder x64)
+    else()
+        set(libwebp_release_folder x86)
+    endif()
+
+    set(webp_lib_loc ${libs_loc}/libwebp/out/$<IF:$<CONFIG:Debug>,debug,release>-static/${libwebp_release_folder}/lib)
+
+    target_link_libraries(external_qt
+    INTERFACE
+        ${webp_lib_loc}/libwebp$<$<CONFIG:Debug>:_debug>.lib
+        ${webp_lib_loc}/libwebpdemux$<$<CONFIG:Debug>:_debug>.lib
+        ${webp_lib_loc}/libwebpmux$<$<CONFIG:Debug>:_debug>.lib
+    )
+elseif (APPLE)
+    target_link_libraries(external_qt
+    INTERFACE
+        ${libs_loc}/local/lib/libwebp.a
+        ${libs_loc}/local/lib/libwebpdemux.a
+        ${libs_loc}/local/lib/libwebpmux.a
+        ${libs_loc}/local/lib/libsharpyuv.a
+    )
+ elseif (LINUX)
     target_include_directories(external_qt SYSTEM
     INTERFACE
         ${qt_loc}/mkspecs/linux-g++
@@ -304,6 +328,10 @@ if (LINUX)
         xcb-util
         xcb-render-util
         xcb-keysyms
+        webpmux
+        webpdemux
+        webp
+        sharpyuv
     )
     if (TARGET Qt::WaylandClient)
         target_link_optional_libraries(external_qt
