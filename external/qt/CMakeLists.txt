@@ -351,6 +351,10 @@ elseif (APPLE)
     endif()
     target_link_optional_libraries(external_qt
     INTERFACE
+        gtk-3
+        gdk-3
+        gdk_pixbuf-2.0
+        pango-1.0
         EGL
         GL
         X11-xcb
