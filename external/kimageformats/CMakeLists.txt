@@ -86,9 +86,9 @@ else()
         jxl_threads
         dav1d
         de265
-        brotlidec-static
-        brotlienc-static
-        brotlicommon-static
+        brotlidec
+        brotlienc
+        brotlicommon
         hwy
         lcms2
     )
