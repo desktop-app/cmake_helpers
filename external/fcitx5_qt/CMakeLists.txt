@@ -18,23 +18,23 @@ set(fcitx5_qt_loc ${third_party_loc}/fcitx5-qt)
 set(fcitx5_qt_src ${fcitx5_qt_loc}/qt${QT_VERSION_MAJOR}/platforminputcontext)
 
 set_target_properties(external_fcitx5_qt PROPERTIES AUTOMOC ON)
-set(FCITX5_QT_EXTRA_PLUGIN_NAME "")
+set(FCITX5_QT_EXTRA_PLUGIN_NAME "\"fcitx\",")
 
 configure_file("${fcitx5_qt_src}/fcitx5.json.in" "${CMAKE_CURRENT_BINARY_DIR}/fcitx5.json")
 
 nice_target_sources(external_fcitx5_qt ${fcitx5_qt_src}
 PRIVATE
+    fcitx4watcher.cpp
+    fcitx4inputcontextproxy.cpp
+    fcitx4inputcontextproxyimpl.cpp
+    fcitx4inputmethodproxy.cpp
+    hybridinputcontext.cpp
     qfcitxplatforminputcontext.cpp
-    qfcitxplatforminputcontext.h
     fcitxcandidatewindow.cpp
-    fcitxcandidatewindow.h
     fcitxtheme.cpp
-    fcitxtheme.h
     font.cpp
-    font.h
     qtkey.cpp
     main.cpp
-    main.h
 )
 
 target_include_directories(external_fcitx5_qt
