@@ -19,3 +19,10 @@ target_link_libraries(win_directx_helper
 PUBLIC
     desktop-app::external_openssl
 )
+
+if (NOT DESKTOP_APP_SPECIAL_TARGET STREQUAL "")
+    target_compile_definitions(win_directx_helper
+    PRIVATE
+        WIN_DIRECTX_HELPER_SPECIAL_TARGET=${DESKTOP_APP_SPECIAL_TARGET}
+    )
+endif()
