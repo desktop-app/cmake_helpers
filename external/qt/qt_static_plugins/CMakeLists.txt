@@ -19,6 +19,13 @@ PUBLIC
     desktop-app::external_kimageformats
 )
 
+if (DESKTOP_APP_USE_PACKAGED)
+    target_compile_definitions(external_qt_static_plugins
+    PRIVATE
+        QT_STATIC_PLUGINS_USE_PACKAGED
+    )
+endif()
+
 if (LINUX)
     target_link_libraries(external_qt_static_plugins
     PUBLIC

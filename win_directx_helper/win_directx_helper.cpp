@@ -173,9 +173,9 @@ bool ResolveD3DCompiler() {
 		if (FileSha256(path) == hash && ResolveD3DCompiler(path)) {
 			return true;
 		}
-#elif defined DESKTOP_APP_SPECIAL_TARGET // DESKTOP_APP_D3DCOMPILER_HASH
+#elif defined WIN_DIRECTX_HELPER_SPECIAL_TARGET // DESKTOP_APP_D3DCOMPILER_HASH
 #error "Special target build should have d3dcompiler hash."
-#endif // !DESKTOP_APP_D3DCOMPILER_HASH && DESKTOP_APP_SPECIAL_TARGET
+#endif // !DESKTOP_APP_D3DCOMPILER_HASH && WIN_DIRECTX_HELPER_SPECIAL_TARGET
 
 		return ResolveD3DCompiler(L"d3dcompiler_47.dll");
 	}();
