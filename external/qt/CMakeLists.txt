@@ -212,9 +212,11 @@ else()
         $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QGlibNetworkInformationPlugin_init>
     )
     if (TARGET Qt::DBus)
-        list(APPEND qt_libs
+        list(PREPEND qt_libs
             plugins/platforminputcontexts/${qt_lib_prefix}ibusplatforminputcontextplugin
             plugins/platformthemes/${qt_lib_prefix}qxdgdesktopportal
+        )
+        list(APPEND qt_libs
             lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}DBus
             lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}Core
         )
