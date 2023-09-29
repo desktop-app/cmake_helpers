@@ -47,7 +47,7 @@ if (DESKTOP_APP_SPECIAL_TARGET)
     )
 endif()
 
-target_link_options(common_options
+target_link_options_if_exists(common_options
 INTERFACE
     -Wl,-ld_classic
 )
