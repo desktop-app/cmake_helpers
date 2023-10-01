@@ -23,6 +23,34 @@ if (DESKTOP_APP_DISABLE_X11_INTEGRATION)
     )
 endif()
 
+function(check_alias_template_deduction) # isolate scope
+    include(CheckCXXSourceCompiles)
+    set(CMAKE_REQUIRED_FLAGS -std=c++20)
+    check_cxx_source_compiles("
+    template<typename A, typename B>
+    struct Foo {
+        Foo(A const &a, B const &b)
+        : a_(a), b_(b) {
+        }
+
+        A a_;
+        B b_;
+    };
+
+    template<typename A, typename B>
+    using Bar = Foo<A, B>;
+
+    int main() {
+        Bar s{1, 2};
+        return 0;
+    }
+    " DESKTOP_APP_ALIAS_TEMPLATE_DEDUCTION_SUPPORTED)
+    if (NOT DESKTOP_APP_ALIAS_TEMPLATE_DEDUCTION_SUPPORTED)
+        message(FATAL_ERROR "Class template argument deduction for alias templates is not supported by the compiler")
+    endif()
+endfunction()
+check_alias_template_deduction()
+
 if (WIN32)
     include(cmake/options_win.cmake)
 elseif (APPLE)
