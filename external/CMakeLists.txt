@@ -13,6 +13,7 @@ endmacro()
 
 add_checked_subdirectory(angle)
 add_checked_subdirectory(auto_updates)
+add_checked_subdirectory(boost)
 if (add_cld3_library)
     add_checked_subdirectory(cld3)
 endif()
