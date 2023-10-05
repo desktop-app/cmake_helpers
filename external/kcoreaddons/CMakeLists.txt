@@ -4,13 +4,13 @@
 # For license and copyright information please follow this link:
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
-if (DESKTOP_APP_USE_PACKAGED AND QT_VERSION_MAJOR EQUAL 5)
+if (DESKTOP_APP_USE_PACKAGED)
     add_library(external_kcoreaddons INTERFACE IMPORTED GLOBAL)
     add_library(desktop-app::external_kcoreaddons ALIAS external_kcoreaddons)
 
-    find_package(KF5CoreAddons)
-    if (KF5CoreAddons_FOUND)
-        target_link_libraries(external_kcoreaddons INTERFACE KF5::CoreAddons)
+    find_package(KF${QT_VERSION_MAJOR}CoreAddons)
+    if (KF${QT_VERSION_MAJOR}CoreAddons_FOUND)
+        target_link_libraries(external_kcoreaddons INTERFACE KF${QT_VERSION_MAJOR}::CoreAddons)
         return()
     endif()
 endif()
