@@ -25,3 +25,9 @@ target_link_libraries(external_glib
 INTERFACE
     PkgConfig::GLIB2
 )
+
+target_compile_definitions(external_glib
+INTERFACE
+    GLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_56
+    GLIB_VERSION_MAX_ALLOWED=GLIB_VERSION_2_56
+)
