@@ -89,6 +89,7 @@ if (NOT DESKTOP_APP_USE_PACKAGED OR DESKTOP_APP_SPECIAL_TARGET)
     INTERFACE
         -Wl,-z,relro
         -Wl,-z,now
+        -Wl,-z,noexecstack
         -pie
     )
     target_compile_definitions(common_options
