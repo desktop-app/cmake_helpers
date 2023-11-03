@@ -4,7 +4,7 @@
 # For license and copyright information please follow this link:
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
-include(CheckCXXCompilerFlag)
+include(CheckLinkerFlag)
 
 function(target_link_options_if_exists target_name)
     set(writing_now "")
@@ -16,7 +16,7 @@ function(target_link_options_if_exists target_name)
             set(writing_now ${entry})
         else()
             string(MAKE_C_IDENTIFIER ${entry} entry_identifier)
-            check_cxx_compiler_flag(${entry} DESKTOP_APP_${entry_identifier}_EXISTS)
+            check_linker_flag(CXX ${entry} DESKTOP_APP_${entry_identifier}_EXISTS)
             if (DESKTOP_APP_${entry_identifier}_EXISTS)
                 if ("${writing_now}" STREQUAL "PRIVATE")
                     list(APPEND private_options ${entry})
