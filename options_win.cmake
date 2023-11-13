@@ -7,9 +7,20 @@
 target_compile_definitions(common_options
 INTERFACE
     WIN32
+    WIN32_LEAN_AND_MEAN
     _WINDOWS
     _SCL_SECURE_NO_WARNINGS
     NOMINMAX
+    NOSERVICE
+    NOMCX
+    NOIME
+    NOSOUND
+    NOCOMM
+    NOKANJI
+    NORPC
+    NOPROXYSTUB
+    NOIMAGE
+    NOTAPE
     UNICODE
     _UNICODE
 )
