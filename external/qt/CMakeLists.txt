@@ -73,6 +73,11 @@ INTERFACE
 if (WIN32)
     set(qt_lib_prefix "")
     set(qt_lib_suffix $<$<CONFIG:Debug>:d>.lib)
+
+    target_compile_definitions(external_qt
+    INTERFACE
+        _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING
+    )
 else()
     set(qt_lib_prefix lib)
     if (APPLE)
