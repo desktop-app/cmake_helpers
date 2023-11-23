@@ -99,12 +99,11 @@ if (NOT DESKTOP_APP_USE_PACKAGED OR DESKTOP_APP_SPECIAL_TARGET)
     )
 endif()
 
-if (NOT DESKTOP_APP_DISABLE_JEMALLOC)
-	target_link_libraries(common_options
-	INTERFACE
-	    $<TARGET_OBJECTS:desktop-app::linux_jemalloc_helper>
-	    $<LINK_ONLY:desktop-app::external_jemalloc>
-	)
+if (NOT DESKTOP_APP_DISABLE_SCUDO)
+    target_link_libraries(common_options
+    INTERFACE
+        $<LINK_ONLY:desktop-app::external_scudo>
+    )
 endif()
 
 if (DESKTOP_APP_USE_ALLOCATION_TRACER)
