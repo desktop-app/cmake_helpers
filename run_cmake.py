@@ -11,24 +11,24 @@ def run(project, arguments, buildType=''):
     basePath = scriptPath + '/../out/' + buildType
 
     cmake = ['cmake']
-    windowsArch = ''
+    vsArch = ''
     explicitGenerator = False
     for arg in arguments:
         if arg == 'debug':
             cmake.append('-DCMAKE_BUILD_TYPE=Debug')
         elif arg == 'x86' or arg == 'x64':
-            windowsArch = arg
+            vsArch = arg
         elif arg != 'force':
             if arg.startswith('-G'):
                 explicitGenerator = True
             cmake.append(arg)
-    if sys.platform == 'win32':
-        if windowsArch == 'x64':
+    if sys.platform == 'win32' and not explicitGenerator:
+        if vsArch == 'x64':
             cmake.append('-Ax64')
         else:
             cmake.append('-AWin32') # default
-    elif windowsArch != '':
-        print("[ERROR] x86/x64 switch is supported only on Windows.")
+    elif vsArch != '':
+        print("[ERROR] x86/x64 switch is supported only with Visual Studio.")
         return 1
     elif sys.platform == 'darwin':
         if not explicitGenerator:
