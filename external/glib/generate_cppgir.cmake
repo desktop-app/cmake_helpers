@@ -5,11 +5,18 @@
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
 function(generate_cppgir target_name gir)
+    set(cppgir_loc ${cmake_helpers_loc}/external/glib/cppgir)
+
     # cppgir generates all the dependent headers everytime, better to have a global folder
     set(gen_dst ${CMAKE_BINARY_DIR}/gen)
     file(MAKE_DIRECTORY ${gen_dst})
 
     set(gen_timestamp ${gen_dst}/${target_name}_cppgir.timestamp)
+
+    set(ignore_files
+        ${cppgir_loc}/data/cppgir.ignore
+        ${cppgir_loc}/data/cppgir_unix.ignore
+    )
 
     set(gir_path)
     if (IS_ABSOLUTE "${gir}")
@@ -28,7 +35,7 @@ function(generate_cppgir target_name gir)
         --expected
         --optional
         --ignore
-        ${cmake_helpers_loc}/external/glib/cppgir/data/cppgir.ignore:${cmake_helpers_loc}/external/glib/cppgir/data/cppgir_unix.ignore
+        "$<JOIN:${ignore_files},:>"
         --output
         ${gen_dst}
         ${gir}
@@ -37,6 +44,7 @@ function(generate_cppgir target_name gir)
     COMMENT "Generating C++ wrapper for ${gir} (${target_name})"
     DEPENDS
         CppGir::cppgir
+        ${ignore_files}
         ${gir_path}
     )
     generate_target(${target_name} cppgir ${gen_timestamp} "" ${gen_dst})
