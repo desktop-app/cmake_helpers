@@ -33,7 +33,6 @@ function(generate_cppgir target_name gir)
         --class
         --class-full
         --expected
-        --optional
         --ignore
         "$<JOIN:${ignore_files},:>"
         --output
