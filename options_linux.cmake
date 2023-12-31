@@ -103,6 +103,7 @@ if (NOT DESKTOP_APP_DISABLE_SCUDO)
     target_link_libraries(common_options
     INTERFACE
         $<LINK_ONLY:desktop-app::external_scudo>
+        -Wl,--push-state,--whole-archive,$<TARGET_FILE:desktop-app::external_scudo>,--pop-state
     )
 endif()
 
