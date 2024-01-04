@@ -58,7 +58,8 @@ def run(project, arguments, buildType=''):
     elif 'force' in arguments:
         paths = os.listdir(basePath)
         for path in paths:
-            if path.lower().startswith('cmake'):
+            low = path.lower();
+            if not low.startswith('debug') and not low.startswith('release'):
                 full = basePath + '/' + path
                 if os.path.isdir(full):
                     shutil.rmtree(full, ignore_errors=False)
