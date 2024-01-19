@@ -51,6 +51,17 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
         $<$<BOOL:${DESKTOP_APP_NO_PDB}>:/DEBUG:NONE>
     )
 
+    if (DESKTOP_APP_ASAN)
+        target_compile_options(common_options INTERFACE /fsanitize=address)
+
+        # https://developercommunity.visualstudio.com/t/Linker-error-LNK2038-when-using-Parallel/10512721
+        target_compile_definitions(common_options
+        INTERFACE
+            _DISABLE_VECTOR_ANNOTATION
+            _DISABLE_STRING_ANNOTATION
+        )
+    endif()
+
     if (build_win64)
         target_compile_options(common_options
         INTERFACE
