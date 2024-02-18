@@ -52,7 +52,6 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
         target_link_options(common_options
         INTERFACE
             -static-libstdc++
-            -static-libgcc
         )
     elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
         target_link_static_libraries(common_options
