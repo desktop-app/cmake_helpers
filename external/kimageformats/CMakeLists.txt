@@ -4,7 +4,7 @@
 # For license and copyright information please follow this link:
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
-if ((DESKTOP_APP_USE_PACKAGED AND NOT DESKTOP_APP_USE_PACKAGED_LAZY) OR APPLE) # should work on macOS, but cmake rules aren't implemented yet
+if ((DESKTOP_APP_USE_PACKAGED AND NOT DESKTOP_APP_USE_PACKAGED_LAZY)) # should work on macOS, but cmake rules aren't implemented yet
     add_library(external_kimageformats INTERFACE IMPORTED GLOBAL)
     add_library(desktop-app::external_kimageformats ALIAS external_kimageformats)
     return()
@@ -76,6 +76,31 @@ elseif (WIN32)
         ${libs_loc}/libjxl/third_party/brotli/$<IF:$<CONFIG:Debug>,Debug,Release>/brotlidec-static.lib
         ${libs_loc}/libjxl/third_party/brotli/$<IF:$<CONFIG:Debug>,Debug,Release>/brotlienc-static.lib
         ${libs_loc}/libjxl/third_party/brotli/$<IF:$<CONFIG:Debug>,Debug,Release>/brotlicommon-static.lib
+    )
+elseif (APPLE)
+    target_compile_definitions(external_kimageformats
+    PRIVATE
+        JXL_STATIC_DEFINE
+        JXL_THREADS_STATIC_DEFINE
+        LIBHEIF_STATIC_BUILD
+    )
+
+    target_include_directories(external_kimageformats SYSTEM
+    PRIVATE
+        ${libs_loc}/local/include
+    )
+    target_link_libraries(external_kimageformats
+    PRIVATE
+        ${libs_loc}/local/lib/libavif.a
+        ${libs_loc}/local/lib/libheif.a
+        ${libs_loc}/local/lib/libde265.a
+        ${libs_loc}/local/lib/libdav1d.a
+        ${libs_loc}/local/lib/libjxl.a
+        ${libs_loc}/local/lib/libjxl_threads.a
+        ${libs_loc}/local/lib/libhwy.a
+        ${libs_loc}/local/lib/libbrotlidec-static.a
+        ${libs_loc}/local/lib/libbrotlienc-static.a
+        ${libs_loc}/local/lib/libbrotlicommon-static.a
     )
 else()
     target_link_static_libraries(external_kimageformats
