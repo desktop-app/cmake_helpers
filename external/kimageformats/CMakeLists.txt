@@ -4,7 +4,7 @@
 # For license and copyright information please follow this link:
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
-if ((DESKTOP_APP_USE_PACKAGED AND NOT DESKTOP_APP_USE_PACKAGED_LAZY)) # should work on macOS, but cmake rules aren't implemented yet
+if (DESKTOP_APP_USE_PACKAGED AND NOT DESKTOP_APP_USE_PACKAGED_LAZY)
     add_library(external_kimageformats INTERFACE IMPORTED GLOBAL)
     add_library(desktop-app::external_kimageformats ALIAS external_kimageformats)
     return()
