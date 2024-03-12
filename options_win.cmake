@@ -43,13 +43,13 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
         /wd4244 # '=': conversion from 'size_t' to 'int', possible loss of data.
         /Zc:wchar_t- # don't tread wchar_t as builtin type
         /Zi
-        /INCREMENTAL:NO
     )
 
     target_link_options(common_options
     INTERFACE
         $<IF:$<CONFIG:Debug>,/NODEFAULTLIB:LIBCMT,/DEBUG;/OPT:REF>
         $<$<BOOL:${DESKTOP_APP_NO_PDB}>:/DEBUG:NONE>
+        /INCREMENTAL:NO
     )
 
     if (DESKTOP_APP_ASAN)
