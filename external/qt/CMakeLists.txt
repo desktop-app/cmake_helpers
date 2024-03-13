@@ -114,6 +114,7 @@ if (TARGET Qt::Quick)
     list(PREPEND common_qt_libs
         lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}Quick
         lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}Qml
+        lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}QmlBuiltins
     )
 endif()
 
