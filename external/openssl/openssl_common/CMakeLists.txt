@@ -11,12 +11,18 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
     if (LINUX)
         target_include_directories(external_openssl_common SYSTEM
         INTERFACE
-            /usr/local/desktop-app/openssl-1.1.1/include
+            /usr/local/desktop-app/openssl-3.2.1/include
         )
     else()
         target_include_directories(external_openssl_common SYSTEM
         INTERFACE
-            ${libs_loc}/openssl/include
+            ${libs_loc}/openssl3/include
         )
     endif()
+
+    # OpenSSL 3 deprecated AES_set_encrypt_key/decrypt_key/ige_encrypt/cbc_encrypt
+    target_compile_options_if_exists(external_openssl_common
+    INTERFACE
+        -Wno-deprecated-declarations
+    )
 endif()
