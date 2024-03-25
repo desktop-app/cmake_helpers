@@ -38,10 +38,6 @@ elseif (APPLE)
         IMPORTED_LOCATION_DEBUG "${rnnoise_lib_loc}/Debug/librnnoise.a"
     )
 else()
-    target_include_directories(external_rnnoise SYSTEM
-    INTERFACE
-        /usr/local/include
-    )
     find_library(DESKTOP_APP_RNNOISE_LIBRARIES librnnoise.a REQUIRED)
     set_target_properties(external_rnnoise PROPERTIES
         IMPORTED_LOCATION "${DESKTOP_APP_RNNOISE_LIBRARIES}"

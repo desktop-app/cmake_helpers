@@ -41,7 +41,6 @@ elseif (APPLE)
 else()
     target_include_directories(external_openal SYSTEM
     INTERFACE
-        /usr/local/include
         /usr/local/include/AL
     )
     target_link_static_libraries(external_openal
