@@ -42,10 +42,6 @@ elseif (APPLE)
         IMPORTED_LOCATION ${libs_loc}/local/lib/libvpx.a
     )
 else()
-    target_include_directories(external_vpx SYSTEM
-    INTERFACE
-        /usr/local/include
-    )
     find_library(DESKTOP_APP_VPX_LIBRARIES libvpx.a REQUIRED)
     set_target_properties(external_vpx PROPERTIES
         IMPORTED_LOCATION "${DESKTOP_APP_VPX_LIBRARIES}"
