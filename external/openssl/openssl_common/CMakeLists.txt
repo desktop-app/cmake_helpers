@@ -8,12 +8,7 @@ add_library(external_openssl_common INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_openssl_common ALIAS external_openssl_common)
 
 if (NOT DESKTOP_APP_USE_PACKAGED)
-    if (LINUX)
-        target_include_directories(external_openssl_common SYSTEM
-        INTERFACE
-            /usr/local/desktop-app/openssl-3.2.1/include
-        )
-    else()
+    if (NOT LINUX)
         target_include_directories(external_openssl_common SYSTEM
         INTERFACE
             ${libs_loc}/openssl3/include
