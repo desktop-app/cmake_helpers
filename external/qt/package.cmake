@@ -18,7 +18,7 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
     elseif (APPLE)
         set(qt_loc ${libs_loc}/local/Qt-${qt_version})
     else()
-        set(qt_loc /usr/local/desktop-app/Qt-${qt_version})
+        set(qt_loc /usr/local/Qt-${qt_version})
     endif()
 
     set(CMAKE_PREFIX_PATH ${qt_loc} ${libs_loc}/local)
