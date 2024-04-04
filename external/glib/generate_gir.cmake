@@ -19,6 +19,8 @@ function(generate_gir target_name namespace deps src_target_name)
     BYPRODUCTS
         ${gen_file}
     COMMAND
+        env
+        $<$<BOOL:${DESKTOP_APP_ASAN}>:LDFLAGS=-fsanitize=address>
         ${DESKTOP_APP_GIRSCANNER}
         --quiet
         -n
