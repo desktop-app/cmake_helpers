@@ -25,6 +25,7 @@ PRIVATE
     heif.cpp
     jxl.cpp
     qoi.cpp
+    scanlineconverter.cpp
 )
 
 target_compile_definitions(external_kimageformats
