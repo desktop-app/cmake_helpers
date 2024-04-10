@@ -109,6 +109,7 @@ else()
         avif
         heif
         jxl
+        jxl_cms
         jxl_threads
         dav1d
         de265
