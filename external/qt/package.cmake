@@ -39,23 +39,12 @@ endif()
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Gui Widgets Network Svg REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} OPTIONAL_COMPONENTS Quick QuickWidgets QUIET)
 
-set(qt_version_6_5_or_greater 0)
 if (QT_VERSION_MAJOR GREATER_EQUAL 6)
-    if (QT_VERSION_MAJOR GREATER 6 OR Qt6_VERSION_MINOR GREATER_EQUAL 5)
-        set(qt_version_6_5_or_greater 1)
-    endif()
     find_package(Qt${QT_VERSION_MAJOR} COMPONENTS OpenGL OpenGLWidgets REQUIRED)
 endif()
 
-# QtWaylandScanner cmake integration from Qt 6 is used
-cmake_dependent_option(DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION "Disable all code for Wayland integration." OFF "LINUX; qt_version_6_5_or_greater" ON)
-
 if (LINUX)
     find_package(Qt${QT_VERSION_MAJOR} OPTIONAL_COMPONENTS DBus WaylandClient WaylandCompositor QUIET)
-
-    if (NOT DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
-        find_package(Qt${QT_VERSION_MAJOR} COMPONENTS WaylandClient REQUIRED)
-    endif()
 endif()
 
 set_property(GLOBAL PROPERTY AUTOGEN_SOURCE_GROUP "(gen)")
