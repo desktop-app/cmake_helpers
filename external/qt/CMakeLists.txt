@@ -311,6 +311,7 @@ if (WIN32)
 elseif (APPLE)
     target_link_libraries(external_qt
     INTERFACE
+        ${libs_loc}/local/lib/liblcms2.a
         ${libs_loc}/local/lib/libwebp.a
         ${libs_loc}/local/lib/libwebpdemux.a
         ${libs_loc}/local/lib/libwebpmux.a

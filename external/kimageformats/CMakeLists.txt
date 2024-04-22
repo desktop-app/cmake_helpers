@@ -102,6 +102,7 @@ elseif (APPLE)
         ${libs_loc}/local/lib/libbrotlidec-static.a
         ${libs_loc}/local/lib/libbrotlienc-static.a
         ${libs_loc}/local/lib/libbrotlicommon-static.a
+        ${libs_loc}/local/lib/liblcms2.a
     )
 else()
     target_link_static_libraries(external_kimageformats
