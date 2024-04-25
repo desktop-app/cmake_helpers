@@ -27,6 +27,7 @@ INTERFACE
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     target_compile_options(common_options
     INTERFACE
+        /bigobj # scheme.cpp has too many sections.
         /permissive-
         # /Qspectre
         /utf-8
@@ -63,12 +64,7 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
         )
     endif()
 
-    if (build_win64)
-        target_compile_options(common_options
-        INTERFACE
-            /bigobj # scheme.cpp has too many sections.
-        )
-    else()
+    if (NOT build_win64)
         # target_compile_options(common_options
         # INTERFACE
         #     /fp:except # Crash-report fp exceptions in 32 bit build.
