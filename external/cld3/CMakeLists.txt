@@ -13,7 +13,7 @@ init_target(external_cld3_bundled "(external)")
 set(cld3_loc ${third_party_loc}/cld3)
 set(cld3_src ${cld3_loc}/src)
 
-set(gen_loc ${cld3_loc}/build/gen)
+set(gen_loc ${CMAKE_CURRENT_BINARY_DIR}/gen)
 set(gen_dst ${gen_loc}/cld_3/protos)
 
 if (DESKTOP_APP_USE_PACKAGED OR LINUX)
