@@ -60,7 +60,9 @@ function(nuget_add_webview target_name)
     PRIVATE
         ${webview2_loc_native}/include
     )
-    if (build_win64)
+    if (build_winarm)
+        set(webview2_lib_folder arm64)
+    elseif (build_win64)
         set(webview2_lib_folder x64)
     else()
         set(webview2_lib_folder x86)
@@ -72,6 +74,8 @@ function(nuget_add_webview target_name)
 endfunction()
 
 function(nuget_add_winrt target_name)
+    return() # Use headers from SDK, because Qt 6 does.
+
     nuget_add_package(winrt "Microsoft.Windows.CppWinRT" 2.0.210505.3)
 
     set(gen_dst ${CMAKE_BINARY_DIR}/packages/gen)
