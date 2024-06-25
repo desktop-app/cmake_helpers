@@ -79,4 +79,5 @@ INTERFACE
     MediaPlayer
     IOSurface
     Metal
+    LocalAuthentication
 )
