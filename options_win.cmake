@@ -31,7 +31,6 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
         # /Qspectre
         /utf-8
         /W4
-        /WX
         /MP     # Enable multi process build.
         /EHsc   # Catch C++ exceptions only, extern C functions never throw a C++ exception.
         /w15038 # wrong initialization order
@@ -97,6 +96,7 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     if (DESKTOP_APP_SPECIAL_TARGET)
         target_compile_options(common_options
         INTERFACE
+            /WX
             $<IF:$<CONFIG:Debug>,,/GL>
         )
         target_link_options(common_options
