@@ -30,17 +30,27 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
         /permissive-
         # /Qspectre
         /utf-8
-        /W1
+        /W4
         /WX
         /MP     # Enable multi process build.
         /EHsc   # Catch C++ exceptions only, extern C functions never throw a C++ exception.
-        /w14834 # [[nodiscard]]
         /w15038 # wrong initialization order
         /w14265 # class has virtual functions, but destructor is not virtual
-        /w14101 # 'identifier' : unreferenced local variable
-        /wd4068 # Disable "warning C4068: unknown pragma"
-        /wd4267 # 'initializing': conversion from 'size_t' to 'int', possible loss of data.
-        /wd4244 # '=': conversion from 'size_t' to 'int', possible loss of data.
+        /wd4018 # 'token' : signed/unsigned mismatch
+        /wd4100 # 'identifier' : unreferenced formal parameter
+        /wd4242 # 'identifier': conversion from 'type1' to 'type2', possible loss of data
+        /wd4244 # 'argument' : conversion from 'type1' to 'type2', possible loss of data
+        /wd4245 # 'conversion' : conversion from 'type1' to 'type2', signed/unsigned mismatch
+        /wd4267 # 'var' : conversion from 'size_t' to 'type', possible loss of data
+        /wd4305 # 'conversion': truncation from 'type1' to 'type2'
+        /wd4324 # 'structname': structure was padded due to alignment specifier
+        /wd4389 # 'equality-operator' : signed/unsigned mismatch
+        /wd4456 # declaration of 'identifier' hides previous local declaration
+        /wd4457 # declaration of 'identifier' hides function parameter
+        /wd4458 # declaration of 'identifier' hides class member
+        /wd4459 # declaration of 'identifier' hides global declaration
+        /wd4611 # interaction between 'function' and C++ object destruction is non-portable
+        /wd4702 # unreachable code
         /Zi
 
         # Taken from Qt 6.
