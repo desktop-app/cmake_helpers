@@ -65,6 +65,13 @@ PUBLIC
     MAXSUGGESTION=5
 )
 
+if (WIN32)
+    target_compile_definitions(external_hunspell_bundled
+    PRIVATE
+        _CRT_SECURE_NO_WARNINGS
+    )
+endif()
+
 target_link_libraries(external_hunspell
 INTERFACE
     external_hunspell_bundled

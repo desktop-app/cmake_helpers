@@ -19,5 +19,6 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
     target_compile_options_if_exists(external_openssl_common
     INTERFACE
         -Wno-deprecated-declarations
+        /wd4996
     )
 endif()

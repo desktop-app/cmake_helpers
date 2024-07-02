@@ -117,7 +117,6 @@ std::string FileSha256(const wchar_t *path) {
 	};
 	auto result = std::string();
 	result.reserve(binary.size() * 2);
-	auto index = 0;
 	for (const auto byte : binary) {
 		result.push_back(hex(byte / 16));
 		result.push_back(hex(byte % 16));
@@ -135,7 +134,7 @@ bool ResolveD3DCompiler(const wchar_t *path) {
 bool ResolveD3DCompiler() {
 	static const auto loaded = [] {
 #ifdef DESKTOP_APP_D3DCOMPILER_HASH
-		auto exePath = std::array<WCHAR, kMaxPathLong + 1>{ 0 };
+		auto exePath = std::array<WCHAR, kMaxPathLong + 1>{ { 0 } };
 		const auto exeLength = GetModuleFileName(
 			nullptr,
 			exePath.data(),

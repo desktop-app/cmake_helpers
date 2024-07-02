@@ -24,11 +24,3 @@ target_include_directories(external_ranges SYSTEM
 INTERFACE
     ${third_party_loc}/range-v3/include
 )
-
-if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-    target_compile_options(external_ranges
-    INTERFACE
-        /Zc:preprocessor # need for range-v3 see https://github.com/ericniebler/range-v3#supported-compilers
-        /wd5105 # needed for `/Zc:preprocessor`, suppressing C5105 "macro expansion producing 'defined' has undefined behavior"
-    )
-endif()

@@ -60,6 +60,12 @@ elseif (WIN32)
         LIBHEIF_STATIC_BUILD
     )
 
+    target_compile_options_if_exists(common_options
+    INTERFACE
+        /wd4127
+        /wd4310
+    )
+
     target_include_directories(external_kimageformats SYSTEM
     PRIVATE
         ${libs_loc}/local/include
