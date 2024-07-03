@@ -57,6 +57,7 @@ elseif (WIN32)
     PRIVATE
         JXL_STATIC_DEFINE
         JXL_THREADS_STATIC_DEFINE
+        JXL_CMS_STATIC_DEFINE
         LIBHEIF_STATIC_BUILD
     )
 
@@ -71,18 +72,20 @@ elseif (WIN32)
         ${libs_loc}/libheif/libheif/$<IF:$<CONFIG:Debug>,Debug,Release>/heif.lib
         ${libs_loc}/libde265/libde265/$<IF:$<CONFIG:Debug>,Debug,Release>/libde265.lib
         ${libs_loc}/dav1d/builddir-$<IF:$<CONFIG:Debug>,debug,release>/src/libdav1d.a
-        ${libs_loc}/libjxl/lib/$<IF:$<CONFIG:Debug>,Debug,Release>/jxl-static.lib
-        ${libs_loc}/libjxl/lib/$<IF:$<CONFIG:Debug>,Debug,Release>/jxl_threads-static.lib
+        ${libs_loc}/libjxl/lib/$<IF:$<CONFIG:Debug>,Debug,Release>/jxl.lib
+        ${libs_loc}/libjxl/lib/$<IF:$<CONFIG:Debug>,Debug,Release>/jxl_cms.lib
+        ${libs_loc}/libjxl/lib/$<IF:$<CONFIG:Debug>,Debug,Release>/jxl_threads.lib
         ${libs_loc}/libjxl/third_party/highway/$<IF:$<CONFIG:Debug>,Debug,Release>/hwy.lib
-        ${libs_loc}/libjxl/third_party/brotli/$<IF:$<CONFIG:Debug>,Debug,Release>/brotlidec-static.lib
-        ${libs_loc}/libjxl/third_party/brotli/$<IF:$<CONFIG:Debug>,Debug,Release>/brotlienc-static.lib
-        ${libs_loc}/libjxl/third_party/brotli/$<IF:$<CONFIG:Debug>,Debug,Release>/brotlicommon-static.lib
+        ${libs_loc}/libjxl/third_party/brotli/$<IF:$<CONFIG:Debug>,Debug,Release>/brotlidec.lib
+        ${libs_loc}/libjxl/third_party/brotli/$<IF:$<CONFIG:Debug>,Debug,Release>/brotlienc.lib
+        ${libs_loc}/libjxl/third_party/brotli/$<IF:$<CONFIG:Debug>,Debug,Release>/brotlicommon.lib
     )
 elseif (APPLE)
     target_compile_definitions(external_kimageformats
     PRIVATE
         JXL_STATIC_DEFINE
         JXL_THREADS_STATIC_DEFINE
+        JXL_CMS_STATIC_DEFINE
         LIBHEIF_STATIC_BUILD
     )
 
@@ -97,11 +100,12 @@ elseif (APPLE)
         ${libs_loc}/local/lib/libde265.a
         ${libs_loc}/local/lib/libdav1d.a
         ${libs_loc}/local/lib/libjxl.a
+        ${libs_loc}/local/lib/libjxl_cms.a
         ${libs_loc}/local/lib/libjxl_threads.a
         ${libs_loc}/local/lib/libhwy.a
-        ${libs_loc}/local/lib/libbrotlidec-static.a
-        ${libs_loc}/local/lib/libbrotlienc-static.a
-        ${libs_loc}/local/lib/libbrotlicommon-static.a
+        ${libs_loc}/local/lib/libbrotlidec.a
+        ${libs_loc}/local/lib/libbrotlienc.a
+        ${libs_loc}/local/lib/libbrotlicommon.a
         ${libs_loc}/local/lib/liblcms2.a
     )
 else()
