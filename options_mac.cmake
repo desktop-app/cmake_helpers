@@ -58,6 +58,7 @@ target_link_frameworks(common_options
 INTERFACE
     Cocoa
     CoreFoundation
+    CoreLocation
     CoreServices
     CoreText
     CoreGraphics
