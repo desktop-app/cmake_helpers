@@ -12,7 +12,9 @@ INTERFACE
     ${libs_loc}/lzma/C
 )
 
-if (build_win64)
+if (build_winarm)
+    set(lzma_platform_dir ARM64/)
+elseif (build_win64)
     set(lzma_platform_dir x64/)
 else()
     set(lzma_platform_dir "")

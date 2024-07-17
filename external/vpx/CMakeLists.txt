@@ -23,7 +23,9 @@ if (WIN32)
     INTERFACE
         ${libs_loc}/local/include
     )
-    if (build_win64)
+    if (build_winarm)
+        set(libvpx_release_folder ARM64)
+    elseif (build_win64)
         set(libvpx_release_folder x64)
     else()
         set(libvpx_release_folder Win32)

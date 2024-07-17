@@ -79,12 +79,26 @@ INTERFACE
 set(webrtc_libs
     ${webrtc_lib_prefix}tg_owt
 )
-if (APPLE)
+if (WIN32)
+    target_link_libraries(external_webrtc
+    INTERFACE
+        ${libs_loc}/openh264/builddir-$<IF:$<CONFIG:Debug>,debug,release>/libopenh264.a
+    )
+elseif (APPLE)
+    target_link_libraries(external_webrtc
+    INTERFACE
+        ${libs_loc}/local/lib/libopenh264.a
+    )
     target_include_directories(external_webrtc SYSTEM
     INTERFACE
         ${webrtc_loc}/sdk/objc
         ${webrtc_loc}/sdk/objc/base
         ${webrtc_loc}/sdk/objc/components/video_codec
+    )
+else()
+    target_link_libraries(external_webrtc
+    INTERFACE
+        -lopenh264
     )
 endif()
 foreach (lib ${webrtc_libs})

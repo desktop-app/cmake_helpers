@@ -77,7 +77,7 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
         )
     endif()
 
-    if (build_win64)
+    if (build_win64 OR build_winarm)
         target_compile_options(common_options
         INTERFACE
             /bigobj # scheme.cpp has too many sections.

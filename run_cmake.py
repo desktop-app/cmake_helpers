@@ -26,7 +26,7 @@ def run(project, arguments, buildType=''):
         if vsArch == 'x64':
             cmake.append('-Ax64')
         elif vsArch == 'arm':
-            cmake.append('-AARM')
+            cmake.append('-AARM64')
         else:
             cmake.append('-AWin32') # default
     elif vsArch != '':
