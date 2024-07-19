@@ -33,16 +33,27 @@ endif()
 include(ProcessorCount)
 ProcessorCount(N)
 
+set(extra_cflags
+    -DNDEBUG
+    -D_FORTIFY_SOURCE=3
+    -D_GLIBCXX_ASSERTIONS
+)
+set_compile_options_if_exists(extra_cflags
+    -fno-omit-frame-pointer
+    -fstack-protector-all
+    -fstack-clash-protection
+    -fcf-protection
+    -mbranch-protection=pac-ret+leaf
+)
+set(extra_cxxflags
+    ${extra_cflags}
+)
 set(CONFIGURE_COMMAND
     env
-    "$<IF:$<OR:$<NOT:$<BOOL:${DESKTOP_APP_USE_PACKAGED}>>,$<BOOL:${DESKTOP_APP_SPECIAL_TARGET}>>,EXTRA_CFLAGS=-fno-omit-frame-pointer -fstack-protector-all -fstack-clash-protection -fcf-protection -DNDEBUG -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS,=>"
-    "$<IF:$<OR:$<NOT:$<BOOL:${DESKTOP_APP_USE_PACKAGED}>>,$<BOOL:${DESKTOP_APP_SPECIAL_TARGET}>>,EXTRA_CXXFLAGS=-fno-omit-frame-pointer -fstack-protector-all -fstack-clash-protection -fcf-protection -DNDEBUG -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS,=>"
+    "$<IF:$<OR:$<NOT:$<BOOL:${DESKTOP_APP_USE_PACKAGED}>>,$<BOOL:${DESKTOP_APP_SPECIAL_TARGET}>>,EXTRA_CFLAGS=${extra_cflags},=>"
+    "$<IF:$<OR:$<NOT:$<BOOL:${DESKTOP_APP_USE_PACKAGED}>>,$<BOOL:${DESKTOP_APP_SPECIAL_TARGET}>>,EXTRA_CXXFLAGS=${extra_cxxflags},=>"
     ./autogen.sh --disable-shared
 )
-
-if(CMAKE_SYSTEM_PROCESSOR STREQUAL "aarch64")
-    string(REPLACE "-fcf-protection" "-msign-return-address=all -mbranch-protection=standard" CONFIGURE_COMMAND "${CONFIGURE_COMMAND}")
-endif()
 
 include(ExternalProject)
 ExternalProject_Add(jemalloc

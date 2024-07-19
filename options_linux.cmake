@@ -84,6 +84,7 @@ if (NOT DESKTOP_APP_USE_PACKAGED OR DESKTOP_APP_SPECIAL_TARGET)
         -fstack-protector-all
         -fstack-clash-protection
         -fcf-protection
+        -mbranch-protection=pac-ret+leaf
     )
     if (CMAKE_SYSTEM_PROCESSOR STREQUAL "aarch64")
         list(REMOVE_ITEM common_options "-fcf-protection")

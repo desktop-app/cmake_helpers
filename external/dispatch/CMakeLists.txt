@@ -15,18 +15,26 @@ endif()
 
 if (NOT DESKTOP_APP_DISPATCH_LIBRARIES OR NOT DESKTOP_APP_DISPATCH_INCLUDE_DIRS)
     if (NOT DESKTOP_APP_USE_PACKAGED OR DESKTOP_APP_SPECIAL_TARGET)
-        set(CMAKE_C_FLAGS "-g -pipe -fPIC -fno-omit-frame-pointer -fstack-protector-all -fstack-clash-protection -fcf-protection -D_FORTIFY_SOURCE=3")
-        set(CMAKE_CXX_FLAGS "-g -pipe -fPIC -fno-omit-frame-pointer -fstack-protector-all -fstack-clash-protection -fcf-protection -D_FORTIFY_SOURCE=3")
-
-        if(CMAKE_SYSTEM_PROCESSOR STREQUAL "aarch64")
-            string(REPLACE "-fcf-protection" "-msign-return-address=all -mbranch-protection=standard" CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
-            string(REPLACE "-fcf-protection" "-msign-return-address=all -mbranch-protection=standard" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-        endif()
-
+        set(dispatch_cmake_c_flags
+            -g
+            -pipe
+            -fPIC
+            -D_FORTIFY_SOURCE=3
+        )
+        set_compile_options_if_exists(dispatch_cmake_c_flags
+            -fno-omit-frame-pointer
+            -fstack-protector-all
+            -fstack-clash-protection
+            -fcf-protection
+            -mbranch-protection=pac-ret+leaf
+        )
+        set(dispatch_cmake_cxx_flags
+            ${dispatch_cmake_c_flags}
+        )
         set(dispatch_extra_args
             -DCMAKE_BUILD_TYPE=Release
-            "-DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}"
-            "-DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}"
+            "-DCMAKE_C_FLAGS=${dispatch_cmake_c_flags}"
+            "-DCMAKE_CXX_FLAGS=${dispatch_cmake_cxx_flags}"
         )
     elseif (DEFINED CMAKE_BUILD_TYPE)
         set(dispatch_extra_args
