@@ -97,9 +97,9 @@ elseif (APPLE)
         ${webrtc_loc}/sdk/objc/components/video_codec
     )
 else()
-    target_link_libraries(external_webrtc
+    target_link_static_libraries(external_webrtc
     INTERFACE
-        -lopenh264
+        openh264
     )
 endif()
 foreach (lib ${webrtc_libs})
