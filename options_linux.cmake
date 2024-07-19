@@ -84,6 +84,7 @@ if (NOT DESKTOP_APP_USE_PACKAGED OR DESKTOP_APP_SPECIAL_TARGET)
         -fstack-protector-all
         -fstack-clash-protection
         -fcf-protection
+        -mbranch-protection=pac-ret+leaf
     )
     target_link_options(common_options
     INTERFACE
