@@ -86,10 +86,6 @@ if (NOT DESKTOP_APP_USE_PACKAGED OR DESKTOP_APP_SPECIAL_TARGET)
         -fcf-protection
         -mbranch-protection=pac-ret+leaf
     )
-    if (CMAKE_SYSTEM_PROCESSOR STREQUAL "aarch64")
-        list(REMOVE_ITEM common_options "-fcf-protection")
-        list(APPEND common_options "-msign-return-address=all" "-mbranch-protection=standard")
-    endif()
     target_link_options(common_options
     INTERFACE
         -Wl,-z,relro
