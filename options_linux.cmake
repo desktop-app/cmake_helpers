@@ -37,65 +37,35 @@ if (DESKTOP_APP_SPECIAL_TARGET)
     target_compile_options(common_options
     INTERFACE
         -Werror
-        $<$<NOT:$<CONFIG:Debug>>:-g>
-        $<$<NOT:$<CONFIG:Debug>>:-flto=auto>
-    )
-    target_link_options(common_options
-    INTERFACE
-        $<$<NOT:$<CONFIG:Debug>>:-flto=auto>
-        $<$<NOT:$<CONFIG:Debug>>:-fwhole-program>
     )
 endif()
 
 if (NOT DESKTOP_APP_USE_PACKAGED)
-    if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-        target_link_options(common_options
-        INTERFACE
-            -static-libstdc++
-            -static-libgcc
-        )
-    elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-        target_link_static_libraries(common_options
-        INTERFACE
-            c++
-            c++abi
-        )
-        target_link_options(common_options
-        INTERFACE
-            -nostdlib++
-        )
-    endif()
-    set(interprocedural_optimization_config $<TARGET_PROPERTY:INTERPROCEDURAL_OPTIMIZATION_$<UPPER_CASE:$<CONFIG>>>)
-    set(interprocedural_optimization_value_on -fwhole-program)
-    set(interprocedural_optimization_value_off -fuse-ld=lld -fno-use-linker-plugin)
-    set(interprocedural_optimization_values ${interprocedural_optimization_value_on},$<$<OR:$<NOT:$<BOOL:${DESKTOP_APP_SPECIAL_TARGET}>>,$<CONFIG:Debug>>:${interprocedural_optimization_value_off}>)
+    set(ipo_prop $<TARGET_PROPERTY:INTERPROCEDURAL_OPTIMIZATION>)
+    set(ipo_config_prop $<TARGET_PROPERTY:INTERPROCEDURAL_OPTIMIZATION_$<UPPER_CASE:$<CONFIG>>>)
+    set(ipo_compile_value_on)
+    set(ipo_compile_value_off -fno-lto)
+    set(ipo_compile_values ${ipo_compile_value_on},${ipo_compile_value_off})
+    set(ipo_link_value_on -fwhole-program)
+    set(ipo_link_value_off -fuse-ld=lld -fno-lto -fno-use-linker-plugin)
+    set(ipo_link_values ${ipo_link_value_on},${ipo_link_value_off})
+    target_compile_options(common_options
+    INTERFACE
+        $<IF:$<NOT:$<STREQUAL:${ipo_config_prop},>>,$<IF:$<BOOL:${ipo_config_prop}>,${ipo_compile_values}>,$<IF:$<BOOL:${ipo_prop}>,${ipo_compile_values}>>
+        $<$<CONFIG:Debug>:-O0>
+        $<$<CONFIG:Debug>:-U_FORTIFY_SOURCE>
+    )
     target_link_options(common_options
     INTERFACE
-        $<IF:$<NOT:$<STREQUAL:${interprocedural_optimization_config},>>,$<IF:$<BOOL:${interprocedural_optimization_config}>,${interprocedural_optimization_values}>,$<IF:$<BOOL:$<TARGET_PROPERTY:INTERPROCEDURAL_OPTIMIZATION>>,${interprocedural_optimization_values}>>
+        $<IF:$<NOT:$<STREQUAL:${ipo_config_prop},>>,$<IF:$<BOOL:${ipo_config_prop}>,${ipo_link_values}>,$<IF:$<BOOL:${ipo_prop}>,${ipo_link_values}>>
+        -static-libstdc++
+        -static-libgcc
         -rdynamic
         -Wl,-z,muldefs
-    )
-endif()
-
-if (NOT DESKTOP_APP_USE_PACKAGED OR DESKTOP_APP_SPECIAL_TARGET)
-    target_compile_options_if_exists(common_options
-    INTERFACE
-        -fno-omit-frame-pointer
-        -fstack-protector-all
-        -fstack-clash-protection
-        -fcf-protection
-    )
-    target_link_options(common_options
-    INTERFACE
         -Wl,-z,relro
         -Wl,-z,now
         -Wl,-z,noexecstack
         -pie
-    )
-    target_compile_definitions(common_options
-    INTERFACE
-        $<$<NOT:$<CONFIG:Debug>>:_FORTIFY_SOURCE=3>
-        _GLIBCXX_ASSERTIONS
     )
 endif()
 
