@@ -96,11 +96,6 @@ elseif (APPLE)
         ${webrtc_loc}/sdk/objc/base
         ${webrtc_loc}/sdk/objc/components/video_codec
     )
-else()
-    target_link_static_libraries(external_webrtc
-    INTERFACE
-        openh264
-    )
 endif()
 foreach (lib ${webrtc_libs})
     list(APPEND webrtc_libs_list "${webrtc_build_loc}/${lib}${webrtc_lib_suffix}")
@@ -139,6 +134,7 @@ else()
         Xrandr
         Xrender
         Xtst
+        openh264
     )
     target_link_libraries(external_webrtc
     INTERFACE
