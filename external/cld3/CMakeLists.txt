@@ -84,6 +84,11 @@ PRIVATE
     script_span/fixunicodevalue.cc
 )
 
+target_compile_definitions(external_cld3_bundled
+PUBLIC
+    $<$<NOT:$<CONFIG:Debug>>:NDEBUG>
+)
+
 target_compile_options_if_exists(external_cld3_bundled
 PRIVATE
     -Wno-implicit-fallthrough
