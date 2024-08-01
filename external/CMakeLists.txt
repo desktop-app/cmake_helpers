@@ -11,6 +11,7 @@ macro(add_checked_subdirectory name)
     endif()
 endmacro()
 
+add_checked_subdirectory(ada)
 add_checked_subdirectory(angle)
 add_checked_subdirectory(auto_updates)
 add_checked_subdirectory(boost)
