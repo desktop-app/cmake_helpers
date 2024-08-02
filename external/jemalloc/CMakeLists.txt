@@ -36,7 +36,10 @@ ProcessorCount(N)
 include(ExternalProject)
 ExternalProject_Add(jemalloc
     URL ${third_party_loc}/jemalloc
-    CONFIGURE_COMMAND ./autogen.sh --disable-shared
+    CONFIGURE_COMMAND env
+        "EXTRA_CFLAGS=-fno-lto -fno-use-linker-plugin"
+        "EXTRA_CXXFLAGS=-fno-lto -fno-use-linker-plugin"
+        ./autogen.sh --disable-shared
     BUILD_COMMAND make $<$<NOT:$<EQUAL:${N},0>>:-j${N}>
     BUILD_IN_SOURCE 1
     STEP_TARGETS build
