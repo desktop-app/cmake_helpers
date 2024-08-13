@@ -21,8 +21,8 @@ if (NOT DESKTOP_APP_DISPATCH_LIBRARIES OR NOT DESKTOP_APP_DISPATCH_INCLUDE_DIRS)
             -DCMAKE_BUILD_TYPE=Release
             -DCMAKE_C_COMPILER=clang
             -DCMAKE_CXX_COMPILER=clang++
-            -DCMAKE_C_FLAGS=
-            -DCMAKE_CXX_FLAGS=
+            -DCMAKE_C_FLAGS=-g
+            -DCMAKE_CXX_FLAGS=-g
             -DBUILD_SHARED_LIBS=OFF
             -DBUILD_TESTING=OFF
     )
