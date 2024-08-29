@@ -67,7 +67,7 @@ if (CMAKE_CXX_COMPILER_FRONTEND_VARIANT STREQUAL "MSVC")
     )
 
     if (DESKTOP_APP_ASAN)
-        target_compile_options(common_options INTERFACE /fsanitize=address)
+        target_compile_options(common_options INTERFACE /fsanitize=address /bigobj)
 
         # https://developercommunity.visualstudio.com/t/Linker-error-LNK2038-when-using-Parallel/10512721
         target_compile_definitions(common_options
