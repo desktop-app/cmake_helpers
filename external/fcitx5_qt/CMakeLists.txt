@@ -54,7 +54,6 @@ target_link_libraries(external_fcitx5_qt
 PRIVATE
     desktop-app::external_fcitx5_qt_dbusaddons
     desktop-app::external_qt
-    desktop-app::external_xcb
 )
 
 if (DESKTOP_APP_USE_PACKAGED)
@@ -77,6 +76,18 @@ else()
     target_link_static_libraries(external_fcitx5_qt
     PRIVATE
         xkbcommon
+    )
+endif()
+
+if (NOT DESKTOP_APP_DISABLE_X11_INTEGRATION)
+    target_compile_definitions(external_fcitx5_qt
+    PRIVATE
+        ENABLE_X11
+    )
+
+    target_link_libraries(external_fcitx5_qt
+    PRIVATE
+        desktop-app::external_xcb
     )
 endif()
 
