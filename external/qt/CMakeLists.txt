@@ -158,11 +158,15 @@ if (WIN32)
     )
     if (QT_VERSION GREATER 6)
         list(APPEND qt_libs
+            plugins/tls/${qt_lib_prefix}qschannelbackend
+            plugins/networkinformation/${qt_lib_prefix}qnetworklistmanager
             lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}BundledFreetype
             lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}EntryPoint
         )
         list(APPEND qt_libs_list
             $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QWindowsIntegrationPlugin_init>
+            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QSchannelBackendPlugin_init>
+            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QNLMNIPlugin_init>
             $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QWindowsIntegrationPlugin_resources_1>
         )
     else()
