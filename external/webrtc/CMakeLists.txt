@@ -80,16 +80,7 @@ INTERFACE
 set(webrtc_libs
     ${webrtc_lib_prefix}tg_owt
 )
-if (WIN32)
-    target_link_libraries(external_webrtc
-    INTERFACE
-        ${libs_loc}/openh264/builddir-$<IF:$<CONFIG:Debug>,debug,release>/libopenh264.a
-    )
-elseif (APPLE)
-    target_link_libraries(external_webrtc
-    INTERFACE
-        ${libs_loc}/local/lib/libopenh264.a
-    )
+if (APPLE)
     target_include_directories(external_webrtc SYSTEM
     INTERFACE
         ${webrtc_loc}/sdk/objc
@@ -107,6 +98,8 @@ INTERFACE
     $<LINK_ONLY:desktop-app::external_openssl>
     $<LINK_ONLY:desktop-app::external_jpeg>
     $<TARGET_FILE:desktop-app::external_jpeg>
+    $<LINK_ONLY:desktop-app::external_openh264>
+    $<TARGET_FILE:desktop-app::external_openh264>
     $<LINK_ONLY:desktop-app::external_opus>
     $<TARGET_FILE:desktop-app::external_opus>
     $<LINK_ONLY:desktop-app::external_vpx>
@@ -134,7 +127,6 @@ else()
         Xrandr
         Xrender
         Xtst
-        openh264
     )
     target_link_libraries(external_webrtc
     INTERFACE
