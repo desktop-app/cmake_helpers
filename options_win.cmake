@@ -24,7 +24,7 @@ INTERFACE
     UNICODE
     _UNICODE
 )
-if (CMAKE_CXX_COMPILER_FRONTEND_VARIANT STREQUAL "MSVC")
+if (MSVC)
     target_compile_options(common_options
     INTERFACE
         /permissive-
@@ -104,7 +104,7 @@ if (CMAKE_CXX_COMPILER_FRONTEND_VARIANT STREQUAL "MSVC")
             $<IF:$<CONFIG:Debug>,,/LTCGOUT:>
         )
     endif()
-elseif (CMAKE_CXX_COMPILER_FRONTEND_VARIANT STREQUAL "GNU")
+else()
     target_compile_definitions(common_options
     INTERFACE
         WINVER=0x0601
