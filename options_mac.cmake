@@ -30,6 +30,7 @@ INTERFACE
     -Wno-unused-variable
     -Wno-unused-parameter
     -Wno-unused-function
+    -Wno-deprecated-this-capture
     -Wno-switch
     -Wno-comment
     -Wno-missing-field-initializers
