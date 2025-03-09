@@ -345,6 +345,11 @@ if (WIN32)
         ${webp_lib_loc}/libwebpdemux$<$<CONFIG:Debug>:_debug>.lib
         ${webp_lib_loc}/libwebpmux$<$<CONFIG:Debug>:_debug>.lib
     )
+
+    if (QT_VERSION GREATER 6)
+        set(lcms2_lib_loc ${libs_loc}/liblcms2/out/$<IF:$<CONFIG:Debug>,Debug,Release>/src)
+        target_link_libraries(external_qt INTERFACE ${lcms2_lib_loc}/liblcms2.a)
+    endif()
 elseif (APPLE)
     target_link_libraries(external_qt
     INTERFACE
