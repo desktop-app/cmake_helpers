@@ -40,15 +40,15 @@ PRIVATE
 
 if (DESKTOP_APP_USE_PACKAGED)
     find_package(libavif REQUIRED)
+    find_package(libheif REQUIRED)
     find_package(PkgConfig REQUIRED)
-    pkg_check_modules(HEIF REQUIRED IMPORTED_TARGET libheif)
     pkg_check_modules(JXL REQUIRED IMPORTED_TARGET libjxl)
     pkg_check_modules(JXL_THREADS REQUIRED IMPORTED_TARGET libjxl_threads)
 
     target_link_libraries(external_kimageformats
     PRIVATE
         avif
-        PkgConfig::HEIF
+        heif
         PkgConfig::JXL
         PkgConfig::JXL_THREADS
     )
