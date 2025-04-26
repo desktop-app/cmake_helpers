@@ -30,7 +30,7 @@ function(init_target target_name) # init_target(my_target [cxx_std_..] folder_na
         MSVC_RUNTIME_LIBRARY MultiThreaded$<$<CONFIG:Debug>:Debug>
     )
     if (DESKTOP_APP_SPECIAL_TARGET)
-        if (WIN32)
+        if (MSVC)
             set_property(TARGET ${target_name} APPEND_STRING PROPERTY STATIC_LIBRARY_OPTIONS "$<IF:$<CONFIG:Debug>,,/LTCG>")
         elseif (APPLE)
             set_target_properties(${target_name} PROPERTIES
