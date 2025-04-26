@@ -115,6 +115,7 @@ endif()
 
 target_link_libraries(external_ffmpeg
 INTERFACE
+    $<LINK_ONLY:desktop-app::external_openh264>
     $<LINK_ONLY:desktop-app::external_opus>
     $<LINK_ONLY:desktop-app::external_vpx>
 )
