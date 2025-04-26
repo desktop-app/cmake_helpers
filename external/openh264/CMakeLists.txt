@@ -9,9 +9,9 @@ if (DESKTOP_APP_USE_PACKAGED)
     add_library(desktop-app::external_openh264 ALIAS external_openh264)
 
     find_package(PkgConfig REQUIRED)
-    pkg_check_modules(LIBOPENH264 IMPORTED_TARGET openh264)
+    pkg_check_modules(OPENH264 IMPORTED_TARGET openh264)
 
-    target_link_libraries(external_openh264 INTERFACE PkgConfig::LIBOPENH264)
+    target_link_libraries(external_openh264 INTERFACE PkgConfig::OPENH264)
     return()
 endif()
 

@@ -9,9 +9,9 @@ if (DESKTOP_APP_USE_PACKAGED)
     add_library(desktop-app::external_vpx ALIAS external_vpx)
 
     find_package(PkgConfig REQUIRED)
-    pkg_check_modules(LIBVPX IMPORTED_TARGET vpx>=1.10.0)
+    pkg_check_modules(VPX IMPORTED_TARGET vpx>=1.10.0)
 
-    target_link_libraries(external_vpx INTERFACE PkgConfig::LIBVPX)
+    target_link_libraries(external_vpx INTERFACE PkgConfig::VPX)
     return()
 endif()
 
