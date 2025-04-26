@@ -27,8 +27,12 @@ function(init_target target_name) # init_target(my_target [cxx_std_..] folder_na
         XCODE_ATTRIBUTE_CLANG_ENABLE_OBJC_WEAK YES
         XCODE_ATTRIBUTE_GCC_INLINES_ARE_PRIVATE_EXTERN YES
         XCODE_ATTRIBUTE_GCC_SYMBOLS_PRIVATE_EXTERN YES
-        MSVC_RUNTIME_LIBRARY MultiThreaded$<$<CONFIG:Debug>:Debug>
     )
+    if (NOT DESKTOP_APP_USE_PACKAGED)
+        set_target_properties(${target_name} PROPERTIES
+            MSVC_RUNTIME_LIBRARY MultiThreaded$<$<CONFIG:Debug>:Debug>
+        )
+    endif()
     if (DESKTOP_APP_SPECIAL_TARGET)
         if (MSVC)
             set_property(TARGET ${target_name} APPEND_STRING PROPERTY STATIC_LIBRARY_OPTIONS "$<IF:$<CONFIG:Debug>,,/LTCG>")
