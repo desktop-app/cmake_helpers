@@ -8,8 +8,10 @@ if (DESKTOP_APP_USE_PACKAGED)
     add_library(external_openh264 INTERFACE IMPORTED GLOBAL)
     add_library(desktop-app::external_openh264 ALIAS external_openh264)
 
-    find_package(PkgConfig REQUIRED)
-    pkg_check_modules(OPENH264 IMPORTED_TARGET openh264)
+    find_package(PkgConfig)
+    if (PkgConfig_FOUND)
+        pkg_check_modules(OPENH264 IMPORTED_TARGET openh264)
+    endif()
 
     target_link_libraries(external_openh264 INTERFACE PkgConfig::OPENH264)
     return()

@@ -8,8 +8,10 @@ if (DESKTOP_APP_USE_PACKAGED)
     add_library(external_vpx INTERFACE IMPORTED GLOBAL)
     add_library(desktop-app::external_vpx ALIAS external_vpx)
 
-    find_package(PkgConfig REQUIRED)
-    pkg_check_modules(VPX IMPORTED_TARGET vpx>=1.10.0)
+    find_package(PkgConfig)
+    if (PkgConfig_FOUND)
+        pkg_check_modules(VPX IMPORTED_TARGET vpx>=1.10.0)
+    endif()
 
     target_link_libraries(external_vpx INTERFACE PkgConfig::VPX)
     return()

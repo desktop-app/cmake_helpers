@@ -8,8 +8,10 @@ add_library(external_lz4 INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_lz4 ALIAS external_lz4)
 
 if (DESKTOP_APP_USE_PACKAGED)
-    find_package(PkgConfig REQUIRED)
-    pkg_check_modules(LZ4 IMPORTED_TARGET liblz4)
+    find_package(PkgConfig)
+    if (PkgConfig_FOUND)
+        pkg_check_modules(LZ4 IMPORTED_TARGET liblz4)
+    endif()
 
     if (LZ4_FOUND)
         target_link_libraries(external_lz4 INTERFACE PkgConfig::LZ4)

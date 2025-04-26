@@ -12,8 +12,10 @@ if (CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
 endif()
 
 if (DESKTOP_APP_USE_PACKAGED)
-    find_package(PkgConfig REQUIRED)
-    pkg_check_modules(JEMALLOC jemalloc)
+    find_package(PkgConfig)
+    if (PkgConfig_FOUND)
+        pkg_check_modules(JEMALLOC jemalloc)
+    endif()
 
     if (JEMALLOC_FOUND)
         target_include_directories(external_jemalloc SYSTEM

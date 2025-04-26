@@ -8,8 +8,10 @@ add_library(external_xxhash INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_xxhash ALIAS external_xxhash)
 
 if (DESKTOP_APP_USE_PACKAGED)
-    find_package(PkgConfig REQUIRED)
-    pkg_check_modules(XXHASH IMPORTED_TARGET libxxhash)
+    find_package(PkgConfig)
+    if (PkgConfig_FOUND)
+        pkg_check_modules(XXHASH IMPORTED_TARGET libxxhash)
+    endif()
 
     if (XXHASH_FOUND)
         target_link_libraries(external_xxhash INTERFACE PkgConfig::XXHASH)
