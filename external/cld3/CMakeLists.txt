@@ -109,7 +109,7 @@ if (NOT DESKTOP_APP_USE_PACKAGED AND NOT LINUX)
 endif()
 
 target_link_libraries(external_cld3_bundled
-PRIVATE
+PUBLIC
     ${protobuf_lib}
 )
 
