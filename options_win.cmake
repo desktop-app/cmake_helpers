@@ -105,30 +105,6 @@ if (MSVC)
             $<IF:$<CONFIG:Debug>,,/LTCGOUT:>
         )
     endif()
-else()
-    target_compile_definitions(common_options
-    INTERFACE
-        WINVER=0x0601
-        _WIN32_WINNT=0x0601
-    )
-
-    target_compile_options(common_options
-    INTERFACE
-        -fpermissive
-    )
-
-    if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-        target_compile_options(common_options
-        INTERFACE
-            -fms-extensions
-            -femulated-tls
-        )
-
-        target_link_options(common_options
-        INTERFACE
-            -fuse-ld=lld
-        )
-    endif()
 endif()
 
 target_link_libraries(common_options
