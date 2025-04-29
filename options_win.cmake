@@ -137,6 +137,8 @@ INTERFACE
     Crypt32
     Propsys
     Bcrypt
+    DbgHelp
+    WinHttp
 )
 
 if (build_winstore)
