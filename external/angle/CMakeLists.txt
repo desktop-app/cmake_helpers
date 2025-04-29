@@ -17,10 +17,6 @@ if (WIN32)
         ${libs_loc}/tg_angle/out/$<IF:$<CONFIG:Debug>,Debug,Release>/tg_angle.lib
         dxguid.lib
     )
-    target_link_libraries(external_angle
-    INTERFACE
-        desktop-app::win_directx_helper
-    )
     target_compile_definitions(external_angle
     INTERFACE
         KHRONOS_STATIC
