@@ -14,11 +14,10 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
             ${libs_loc}/openssl3/include
         )
     endif()
-
-    # OpenSSL 3 deprecated AES_set_encrypt_key/decrypt_key/ige_encrypt/cbc_encrypt
-    target_compile_options_if_exists(external_openssl_common
-    INTERFACE
-        -Wno-deprecated-declarations
-        /wd4996
-    )
 endif()
+
+# OpenSSL 3 deprecated AES_set_encrypt_key/decrypt_key/ige_encrypt/cbc_encrypt
+target_compile_options(external_openssl_common
+INTERFACE
+    $<IF:$<BOOL:${MSVC}>,/wd4996,-Wno-deprecated-declarations>
+)
