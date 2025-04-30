@@ -28,7 +28,24 @@ function(init_target target_name) # init_target(my_target [cxx_std_..] folder_na
         XCODE_ATTRIBUTE_GCC_INLINES_ARE_PRIVATE_EXTERN YES
         XCODE_ATTRIBUTE_GCC_SYMBOLS_PRIVATE_EXTERN YES
     )
-    if (NOT DESKTOP_APP_USE_PACKAGED)
+    if (DESKTOP_APP_USE_PACKAGED)
+        get_target_property(target_type ${target_name} TYPE)
+        if (QT_FOUND AND LINUX AND target_type STREQUAL "EXECUTABLE")
+            qt_import_plugins(${target_name}
+            INCLUDE
+                Qt::QGtk3ThemePlugin
+                Qt::QComposePlatformInputContextPlugin
+                Qt::QIbusPlatformInputContextPlugin
+                Qt::QXdgDesktopPortalThemePlugin
+                Qt::QWaylandIntegrationPlugin
+                Qt::QWaylandEglPlatformIntegrationPlugin
+                Qt::QWaylandEglClientBufferPlugin
+                Qt::QWaylandXdgShellIntegrationPlugin
+                Qt::QWaylandAdwaitaDecorationPlugin
+                Qt::QWaylandBradientDecorationPlugin
+            )
+        endif()
+    else()
         set_target_properties(${target_name} PROPERTIES
             MSVC_RUNTIME_LIBRARY MultiThreaded$<$<CONFIG:Debug>:Debug>
         )
