@@ -4,22 +4,16 @@
 # For license and copyright information please follow this link:
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
-if (DESKTOP_APP_USE_PACKAGED AND NOT DESKTOP_APP_USE_PACKAGED_LAZY)
-    add_library(external_kimageformats INTERFACE IMPORTED GLOBAL)
-    add_library(desktop-app::external_kimageformats ALIAS external_kimageformats)
-    return()
-endif()
-
-add_library(external_kimageformats STATIC)
-add_library(desktop-app::external_kimageformats ALIAS external_kimageformats)
-init_target(external_kimageformats "(external)")
+add_library(external_qt_static_plugins_kimageformats STATIC)
+add_library(desktop-app::external_qt_static_plugins_kimageformats ALIAS external_qt_static_plugins_kimageformats)
+init_target(external_qt_static_plugins_kimageformats "(external)")
 
 set(kimageformats_loc ${third_party_loc}/kimageformats)
 set(kimageformats_src ${kimageformats_loc}/src/imageformats)
 
-set_target_properties(external_kimageformats PROPERTIES AUTOMOC ON)
+set_target_properties(external_qt_static_plugins_kimageformats PROPERTIES AUTOMOC ON)
 
-nice_target_sources(external_kimageformats ${kimageformats_src}
+nice_target_sources(external_qt_static_plugins_kimageformats ${kimageformats_src}
 PRIVATE
     avif.cpp
     heif.cpp
@@ -28,12 +22,12 @@ PRIVATE
     scanlineconverter.cpp
 )
 
-target_compile_definitions(external_kimageformats
+target_compile_definitions(external_qt_static_plugins_kimageformats
 PRIVATE
     QT_STATICPLUGIN
 )
 
-target_link_libraries(external_kimageformats
+target_link_libraries(external_qt_static_plugins_kimageformats
 PRIVATE
     desktop-app::external_qt
 )
@@ -45,7 +39,7 @@ if (DESKTOP_APP_USE_PACKAGED)
     pkg_check_modules(JXL REQUIRED IMPORTED_TARGET libjxl)
     pkg_check_modules(JXL_THREADS REQUIRED IMPORTED_TARGET libjxl_threads)
 
-    target_link_libraries(external_kimageformats
+    target_link_libraries(external_qt_static_plugins_kimageformats
     PRIVATE
         avif
         heif
@@ -53,7 +47,7 @@ if (DESKTOP_APP_USE_PACKAGED)
         PkgConfig::JXL_THREADS
     )
 elseif (WIN32)
-    target_compile_definitions(external_kimageformats
+    target_compile_definitions(external_qt_static_plugins_kimageformats
     PRIVATE
         JXL_STATIC_DEFINE
         JXL_THREADS_STATIC_DEFINE
@@ -61,12 +55,12 @@ elseif (WIN32)
         LIBHEIF_STATIC_BUILD
     )
 
-    target_include_directories(external_kimageformats SYSTEM
+    target_include_directories(external_qt_static_plugins_kimageformats SYSTEM
     PRIVATE
         ${libs_loc}/local/include
     )
 
-    target_link_libraries(external_kimageformats
+    target_link_libraries(external_qt_static_plugins_kimageformats
     PRIVATE
         ${libs_loc}/libavif/$<IF:$<CONFIG:Debug>,Debug,Release>/avif.lib
         ${libs_loc}/libheif/libheif/$<IF:$<CONFIG:Debug>,Debug,Release>/heif.lib
@@ -81,7 +75,7 @@ elseif (WIN32)
         ${libs_loc}/libjxl/third_party/brotli/$<IF:$<CONFIG:Debug>,Debug,Release>/brotlicommon.lib
     )
 elseif (APPLE)
-    target_compile_definitions(external_kimageformats
+    target_compile_definitions(external_qt_static_plugins_kimageformats
     PRIVATE
         JXL_STATIC_DEFINE
         JXL_THREADS_STATIC_DEFINE
@@ -89,11 +83,11 @@ elseif (APPLE)
         LIBHEIF_STATIC_BUILD
     )
 
-    target_include_directories(external_kimageformats SYSTEM
+    target_include_directories(external_qt_static_plugins_kimageformats SYSTEM
     PRIVATE
         ${libs_loc}/local/include
     )
-    target_link_libraries(external_kimageformats
+    target_link_libraries(external_qt_static_plugins_kimageformats
     PRIVATE
         ${libs_loc}/local/lib/libavif.a
         ${libs_loc}/local/lib/libheif.a
@@ -109,7 +103,7 @@ elseif (APPLE)
         ${libs_loc}/local/lib/liblcms2.a
     )
 else()
-    target_link_static_libraries(external_kimageformats
+    target_link_static_libraries(external_qt_static_plugins_kimageformats
     PRIVATE
         avif
         heif
@@ -127,29 +121,29 @@ else()
 endif()
 
 if (MSVC)
-    target_compile_options(external_kimageformats
+    target_compile_options(external_qt_static_plugins_kimageformats
     PRIVATE
         /wd4127
         /wd4310
     )
 endif()
 
-add_library(external_kimageformats_init OBJECT)
-add_library(desktop-app::external_kimageformats_init ALIAS external_kimageformats_init)
-init_target(external_kimageformats_init "(external)")
+add_library(external_qt_static_plugins_kimageformats_init OBJECT)
+add_library(desktop-app::external_qt_static_plugins_kimageformats_init ALIAS external_qt_static_plugins_kimageformats_init)
+init_target(external_qt_static_plugins_kimageformats_init "(external)")
 
-nice_target_sources(external_kimageformats_init ${CMAKE_CURRENT_SOURCE_DIR}
+nice_target_sources(external_qt_static_plugins_kimageformats_init ${CMAKE_CURRENT_SOURCE_DIR}
 PRIVATE
     init.cpp
 )
 
-target_link_libraries(external_kimageformats_init
+target_link_libraries(external_qt_static_plugins_kimageformats_init
 PRIVATE
     desktop-app::external_qt
 )
 
-target_link_libraries(external_kimageformats
+target_link_libraries(external_qt_static_plugins_kimageformats
 INTERFACE
-    external_kimageformats_init
-    $<TARGET_OBJECTS:external_kimageformats_init>
+    external_qt_static_plugins_kimageformats_init
+    $<TARGET_OBJECTS:external_qt_static_plugins_kimageformats_init>
 )
