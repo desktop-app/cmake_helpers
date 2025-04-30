@@ -25,7 +25,7 @@ if (DESKTOP_APP_USE_PACKAGED)
 
         target_link_libraries(external_jemalloc
         INTERFACE
-            -Wl,--push-state,--no-as-needed,${JEMALLOC_LINK_LIBRARIES},--pop-state
+            -Wl,--push-state,--no-as-needed,--whole-archive,${JEMALLOC_LINK_LIBRARIES},--pop-state
         )
 
         return()
