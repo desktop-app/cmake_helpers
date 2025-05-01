@@ -98,10 +98,12 @@ PUBLIC
     $<$<NOT:$<CONFIG:Debug>>:NDEBUG>
 )
 
-target_compile_options_if_exists(external_cld3_bundled
-PRIVATE
-    -Wno-implicit-fallthrough
-)
+if (NOT MSVC)
+    target_compile_options_if_exists(external_cld3_bundled
+    PRIVATE
+        -Wno-implicit-fallthrough
+    )
+endif()
 
 target_include_directories(external_cld3_bundled
 PUBLIC

@@ -125,11 +125,13 @@ PRIVATE
     ${rlottie_loc}/src/vector/freetype
 )
 
-target_compile_options_if_exists(external_rlottie_bundled
-PRIVATE
-    /wd4251 # needs to have dll-interface to be used by clients of class
-    /wd5054 # operator 'operator-name': deprecated between enumerations of different types
-)
+if (MSVC)
+    target_compile_options(external_rlottie_bundled
+    PRIVATE
+        /wd4251 # needs to have dll-interface to be used by clients of class
+        /wd5054 # operator 'operator-name': deprecated between enumerations of different types
+    )
+endif()
 
 target_link_libraries(external_rlottie
 INTERFACE
