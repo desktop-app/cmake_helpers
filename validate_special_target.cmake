@@ -28,6 +28,10 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
     endif()
 endif()
 
+if (NOT DEFINED MSVC)
+    set(MSVC 0)
+endif()
+
 if (WIN32)
     if (NOT DESKTOP_APP_SPECIAL_TARGET STREQUAL "uwp"
         AND NOT DESKTOP_APP_SPECIAL_TARGET STREQUAL "uwp64"
