@@ -5,9 +5,9 @@ a set of libraries for developing nice desktop applications.
 For license and copyright information please follow this link:
 https://github.com/desktop-app/legal/blob/master/LEGAL
 */
-#if !defined QT_STATIC_PLUGINS_USE_PACKAGED && QT_VERSION < QT_VERSION_CHECK(6, 0, 0) && defined Q_OS_WIN
 #include <QtCore/QtPlugin>
 
+#if !defined QT_STATIC_PLUGINS_USE_PACKAGED && QT_VERSION < QT_VERSION_CHECK(6, 0, 0) && defined Q_OS_WIN
 Q_IMPORT_PLUGIN(QGenericEnginePlugin)
 Q_IMPORT_PLUGIN(QWebpPlugin)
 Q_IMPORT_PLUGIN(QJpegPlugin)
