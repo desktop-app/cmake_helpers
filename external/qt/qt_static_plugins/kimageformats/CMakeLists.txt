@@ -120,14 +120,6 @@ else()
     )
 endif()
 
-if (MSVC)
-    target_compile_options(external_qt_static_plugins_kimageformats
-    PRIVATE
-        /wd4127
-        /wd4310
-    )
-endif()
-
 add_library(external_qt_static_plugins_kimageformats_init OBJECT)
 add_library(desktop-app::external_qt_static_plugins_kimageformats_init ALIAS external_qt_static_plugins_kimageformats_init)
 init_target(external_qt_static_plugins_kimageformats_init "(external)")
