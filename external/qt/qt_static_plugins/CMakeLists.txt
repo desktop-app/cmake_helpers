@@ -13,6 +13,11 @@ PRIVATE
     qt_static_plugins.cpp
 )
 
+target_link_libraries(external_qt_static_plugins
+PUBLIC
+    desktop-app::external_qt
+)
+
 if (DESKTOP_APP_USE_PACKAGED)
     target_compile_definitions(external_qt_static_plugins
     PRIVATE
@@ -27,7 +32,6 @@ endif()
 add_checked_subdirectory(kimageformats)
 target_link_libraries(external_qt_static_plugins
 PUBLIC
-    desktop-app::external_qt
     desktop-app::external_qt_static_plugins_kimageformats
 )
 
