@@ -7,6 +7,12 @@
 add_library(external_td INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_td ALIAS external_td)
 
+if (DESKTOP_APP_USE_PACKAGED)
+    find_package(Td REQUIRED)
+    target_link_libraries(external_td INTERFACE Td::tde2e)
+    return()
+endif()
+
 set(td_loc ${libs_loc}/td)
 set(td_build_loc ${td_loc}/out/$<IF:$<CONFIG:Debug>,Debug,Release>)
 if (WIN32)
@@ -19,7 +25,6 @@ endif()
 
 target_include_directories(external_td
 INTERFACE
-    ${td_loc}
     ${td_loc}/tde2e
     ${td_loc}/tdutils
     ${td_build_loc}/tdutils
