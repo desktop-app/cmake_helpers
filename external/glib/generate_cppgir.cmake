@@ -4,6 +4,8 @@
 # For license and copyright information please follow this link:
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
+find_package(CppGir 2.0)
+
 function(generate_cppgir target_name gir)
     set(cppgir_loc ${cmake_helpers_loc}/external/glib/cppgir)
 
@@ -13,10 +15,14 @@ function(generate_cppgir target_name gir)
 
     set(gen_timestamp ${gen_dst}/${target_name}_cppgir.timestamp)
 
-    set(ignore_files
-        ${cppgir_loc}/data/cppgir.ignore
-        ${cppgir_loc}/data/cppgir_unix.ignore
-    )
+    if (NOT CppGir_FOUND)
+        set(ignore_files
+            ${cppgir_loc}/data/cppgir.ignore
+            ${cppgir_loc}/data/cppgir_unix.ignore
+        )
+    else()
+        set(ignore_files)  # rely on default ignore list
+    endif()
 
     set(gir_path)
     if (IS_ABSOLUTE "${gir}")
@@ -33,7 +39,7 @@ function(generate_cppgir target_name gir)
         --class
         --class-full
         --expected
-        --ignore
+        "$<$<BOOL:${ignore_files}>:--ignore>"
         "$<JOIN:${ignore_files},:>"
         --output
         ${gen_dst}

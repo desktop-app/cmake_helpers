@@ -13,9 +13,11 @@ function(add_cppgir) # isolate scope
     set(BUILD_EXAMPLES OFF)
     add_subdirectory(cppgir EXCLUDE_FROM_ALL)
 endfunction()
-add_cppgir()
 
 include(generate_cppgir.cmake)
+if (NOT CppGir_FOUND)
+    add_cppgir()
+endif()
 generate_cppgir(external_glib Gio-2.0)
 
 find_package(PkgConfig REQUIRED)
