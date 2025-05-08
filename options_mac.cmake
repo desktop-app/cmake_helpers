@@ -48,13 +48,6 @@ if (DESKTOP_APP_SPECIAL_TARGET)
     )
 endif()
 
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-    target_link_options_if_exists(common_options
-    INTERFACE
-        -Wl,-no_warn_duplicate_libraries
-    )
-endif()
-
 target_link_frameworks(common_options
 INTERFACE
     Cocoa
