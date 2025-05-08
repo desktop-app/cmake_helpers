@@ -7,13 +7,12 @@
 add_library(external_glib INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_glib ALIAS external_glib)
 
-function(add_cppgir) # isolate scope
+block()
     set(BUILD_TESTING OFF)
     set(BUILD_DOC OFF)
     set(BUILD_EXAMPLES OFF)
     add_subdirectory(cppgir EXCLUDE_FROM_ALL)
-endfunction()
-add_cppgir()
+endblock()
 
 include(generate_cppgir.cmake)
 generate_cppgir(external_glib Gio-2.0)
