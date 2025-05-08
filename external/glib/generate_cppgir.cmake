@@ -18,11 +18,6 @@ function(generate_cppgir target_name gir)
         ${cppgir_loc}/data/cppgir_unix.ignore
     )
 
-    set(gir_path)
-    if (IS_ABSOLUTE "${gir}")
-        set(gir_path ${gir})
-    endif()
-
     add_custom_command(
     OUTPUT
         ${gen_timestamp}
@@ -44,7 +39,7 @@ function(generate_cppgir target_name gir)
     DEPENDS
         CppGir::cppgir
         ${ignore_files}
-        ${gir_path}
+        $<$<PATH:IS_ABSOLUTE,${gir}>:${gir}>
     )
     generate_target(${target_name} cppgir ${gen_timestamp} "" ${gen_dst})
 
