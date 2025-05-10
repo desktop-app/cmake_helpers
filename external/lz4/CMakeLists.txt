@@ -10,7 +10,7 @@ add_library(desktop-app::external_lz4 ALIAS external_lz4)
 if (DESKTOP_APP_USE_PACKAGED)
     find_package(lz4 QUIET)
     if (lz4_FOUND)
-        target_link_libraries(external_lz4 INTERFACE lz4::lz4)
+        target_link_libraries(external_lz4 INTERFACE LZ4::lz4)
         return()
     endif()
 
