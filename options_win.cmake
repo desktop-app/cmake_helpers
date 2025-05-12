@@ -63,7 +63,9 @@ if (MSVC)
 
     target_link_options(common_options
     INTERFACE
-        $<IF:$<CONFIG:Debug>,/NODEFAULTLIB:LIBCMT,/DEBUG;/OPT:REF>
+        $<$<CONFIG:Debug>:/NODEFAULTLIB:LIBCMT>
+        $<$<NOT:$<CONFIG:Debug>>:/DEBUG>
+        $<$<NOT:$<CONFIG:Debug>>:/OPT:REF>
         $<$<BOOL:${DESKTOP_APP_NO_PDB}>:/DEBUG:NONE>
         /INCREMENTAL:NO
         /DEPENDENTLOADFLAG:0x800
@@ -99,12 +101,12 @@ if (MSVC)
         target_compile_options(common_options
         INTERFACE
             /WX
-            $<IF:$<CONFIG:Debug>,,/GL>
+            $<$<NOT:$<CONFIG:Debug>>:/GL>
         )
         target_link_options(common_options
         INTERFACE
-            $<IF:$<CONFIG:Debug>,,/LTCG>
-            $<IF:$<CONFIG:Debug>,,/LTCGOUT:>
+            $<$<NOT:$<CONFIG:Debug>>:/LTCG>
+            $<$<NOT:$<CONFIG:Debug>>:/LTCGOUT:>
         )
     endif()
 endif()
