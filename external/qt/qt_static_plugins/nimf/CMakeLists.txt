@@ -20,13 +20,13 @@ PRIVATE
 )
 
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(GIO REQUIRED gio-2.0)
+pkg_check_modules(DESKTOP_APP_GIO REQUIRED gio-2.0)
 
 target_include_directories(external_qt_static_plugins_nimf
 PRIVATE
     ${nimf_qt5_src}
     ${libnimf_src}
-    ${GIO_INCLUDE_DIRS}
+    ${DESKTOP_APP_GIO_INCLUDE_DIRS}
 )
 
 target_compile_definitions(external_qt_static_plugins_nimf

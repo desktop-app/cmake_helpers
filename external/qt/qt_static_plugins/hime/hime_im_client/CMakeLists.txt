@@ -27,9 +27,9 @@ PRIVATE
 )
 
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(X11 REQUIRED x11)
+pkg_check_modules(DESKTOP_APP_X11 REQUIRED x11)
 
 target_include_directories(external_qt_static_plugins_hime_im_client SYSTEM
 PRIVATE
-    ${X11_INCLUDE_DIRS}
+    ${DESKTOP_APP_X11_INCLUDE_DIRS}
 )

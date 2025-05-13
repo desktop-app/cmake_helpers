@@ -15,8 +15,8 @@ if (DESKTOP_APP_USE_PACKAGED_RLOTTIE)
     endif()
 
     find_package(PkgConfig REQUIRED)
-    pkg_check_modules(RLOTTIE REQUIRED IMPORTED_TARGET rlottie)
-    target_link_libraries(external_rlottie INTERFACE PkgConfig::RLOTTIE)
+    pkg_check_modules(DESKTOP_APP_RLOTTIE REQUIRED IMPORTED_TARGET rlottie)
+    target_link_libraries(external_rlottie INTERFACE PkgConfig::DESKTOP_APP_RLOTTIE)
     return()
 endif()
 

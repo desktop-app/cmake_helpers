@@ -10,10 +10,10 @@ if (DESKTOP_APP_USE_PACKAGED)
 
     find_package(PkgConfig)
     if (PkgConfig_FOUND)
-        pkg_check_modules(OPENH264 IMPORTED_TARGET openh264)
+        pkg_check_modules(DESKTOP_APP_OPENH264 IMPORTED_TARGET openh264)
     endif()
 
-    target_link_libraries(external_openh264 INTERFACE PkgConfig::OPENH264)
+    target_link_libraries(external_openh264 INTERFACE PkgConfig::DESKTOP_APP_OPENH264)
     return()
 endif()
 
