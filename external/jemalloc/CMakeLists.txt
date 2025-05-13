@@ -14,18 +14,18 @@ endif()
 if (DESKTOP_APP_USE_PACKAGED)
     find_package(PkgConfig)
     if (PkgConfig_FOUND)
-        pkg_check_modules(JEMALLOC jemalloc)
+        pkg_check_modules(DESKTOP_APP_JEMALLOC jemalloc)
     endif()
 
-    if (JEMALLOC_FOUND)
+    if (DESKTOP_APP_JEMALLOC_FOUND)
         target_include_directories(external_jemalloc SYSTEM
         INTERFACE
-            ${JEMALLOC_INCLUDE_DIRS}
+            ${DESKTOP_APP_JEMALLOC_INCLUDE_DIRS}
         )
 
         target_link_libraries(external_jemalloc
         INTERFACE
-            -Wl,--push-state,--no-as-needed,--whole-archive,${JEMALLOC_LINK_LIBRARIES},--pop-state
+            -Wl,--push-state,--no-as-needed,--whole-archive,${DESKTOP_APP_JEMALLOC_LINK_LIBRARIES},--pop-state
         )
 
         return()

@@ -15,9 +15,9 @@ if (DESKTOP_APP_USE_PACKAGED)
     endif()
 
     find_package(PkgConfig REQUIRED)
-    pkg_check_modules(OPUS IMPORTED_TARGET opus)
+    pkg_check_modules(DESKTOP_APP_OPUS IMPORTED_TARGET opus)
 
-    target_link_libraries(external_opus INTERFACE PkgConfig::OPUS)
+    target_link_libraries(external_opus INTERFACE PkgConfig::DESKTOP_APP_OPUS)
     return()
 endif()
 

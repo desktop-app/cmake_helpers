@@ -8,20 +8,17 @@ add_library(external_glibmm INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_glibmm ALIAS external_glibmm)
 
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(GLIBMM REQUIRED IMPORTED_TARGET glibmm-2.68>=2.77)
-pkg_check_modules(GIOMM REQUIRED IMPORTED_TARGET giomm-2.68>=2.77)
+pkg_check_modules(DESKTOP_APP_GLIBMM REQUIRED IMPORTED_TARGET glibmm-2.68>=2.77 giomm-2.68>=2.77)
 
 if (DESKTOP_APP_USE_PACKAGED)
     target_link_libraries(external_glibmm
     INTERFACE
-        PkgConfig::GIOMM
-        PkgConfig::GLIBMM
+        PkgConfig::DESKTOP_APP_GLIBMM
     )
 else()
     target_include_directories(external_glibmm SYSTEM
     INTERFACE
-        ${GIOMM_INCLUDE_DIRS}
-        ${GLIBMM_INCLUDE_DIRS}
+        ${DESKTOP_APP_GLIBMM_INCLUDE_DIRS}
     )
 
     target_link_static_libraries(external_glibmm

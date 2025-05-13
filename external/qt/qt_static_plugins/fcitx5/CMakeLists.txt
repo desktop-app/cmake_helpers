@@ -50,21 +50,18 @@ PRIVATE
     desktop-app::external_qt
 )
 
-if (DESKTOP_APP_USE_PACKAGED)
-    find_package(PkgConfig REQUIRED)
-    pkg_check_modules(XKBCOMMON REQUIRED IMPORTED_TARGET xkbcommon)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(DESKTOP_APP_XKBCOMMON REQUIRED IMPORTED_TARGET xkbcommon)
 
+if (DESKTOP_APP_USE_PACKAGED)
     target_link_libraries(external_qt_static_plugins_fcitx5
     PRIVATE
-        PkgConfig::XKBCOMMON
+        PkgConfig::DESKTOP_APP_XKBCOMMON
     )
 else()
-    find_package(PkgConfig REQUIRED)
-    pkg_check_modules(XKBCOMMON REQUIRED xkbcommon)
-
     target_include_directories(external_qt_static_plugins_fcitx5 SYSTEM
     PUBLIC
-        ${XKBCOMMON_INCLUDE_DIRS}
+        ${DESKTOP_APP_XKBCOMMON_INCLUDE_DIRS}
     )
 
     target_link_static_libraries(external_qt_static_plugins_fcitx5

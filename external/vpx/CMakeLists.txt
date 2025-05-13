@@ -10,10 +10,10 @@ if (DESKTOP_APP_USE_PACKAGED)
 
     find_package(PkgConfig)
     if (PkgConfig_FOUND)
-        pkg_check_modules(VPX IMPORTED_TARGET vpx>=1.10.0)
+        pkg_check_modules(DESKTOP_APP_VPX IMPORTED_TARGET vpx>=1.10.0)
     endif()
 
-    target_link_libraries(external_vpx INTERFACE PkgConfig::VPX)
+    target_link_libraries(external_vpx INTERFACE PkgConfig::DESKTOP_APP_VPX)
     return()
 endif()
 

@@ -18,11 +18,11 @@ include(generate_cppgir.cmake)
 generate_cppgir(external_glib Gio-2.0)
 
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(GLIB2 REQUIRED IMPORTED_TARGET glib-2.0 gobject-2.0 gio-2.0 gio-unix-2.0)
+pkg_check_modules(DESKTOP_APP_GLIB2 REQUIRED IMPORTED_TARGET glib-2.0 gobject-2.0 gio-2.0 gio-unix-2.0)
 
 target_link_libraries(external_glib
 INTERFACE
-    PkgConfig::GLIB2
+    PkgConfig::DESKTOP_APP_GLIB2
 )
 
 target_compile_definitions(external_glib
