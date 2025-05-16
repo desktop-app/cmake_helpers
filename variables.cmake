@@ -38,12 +38,10 @@ cmake_dependent_option(DESKTOP_APP_USE_ENCHANT "Use Enchant instead of bundled H
 cmake_dependent_option(DESKTOP_APP_USE_CLD3 "Disable system text language recognition and use bundled cld3 only." OFF APPLE ON)
 cmake_dependent_option(DESKTOP_APP_DISABLE_JEMALLOC "Disable jemalloc, use system malloc." OFF "LINUX; NOT DESKTOP_APP_ASAN" ON)
 
-if (APPLE AND NOT DEFINED DESKTOP_APP_MAC_ARCH)
-    if (DEFINED CMAKE_OSX_ARCHITECTURES)
-        set(DESKTOP_APP_MAC_ARCH "${CMAKE_OSX_ARCHITECTURES}" CACHE STRING "Target macOS arch.")
-    else()
-        set(DESKTOP_APP_MAC_ARCH "x86_64;arm64" CACHE STRING "Target macOS arch.")
-    endif()
+if (APPLE)
+    set(DESKTOP_APP_MAC_ARCH "" CACHE STRING "Target macOS arch.")
+else()
+    set(DESKTOP_APP_MAC_ARCH)
 endif()
 
 set(add_hunspell_library 0)
