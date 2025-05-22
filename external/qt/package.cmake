@@ -47,7 +47,7 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
         set(qt_loc /usr/local/Qt-${qt_requested})
     endif()
 
-    set(CMAKE_PREFIX_PATH ${qt_loc} ${libs_loc}/local)
+    list(APPEND CMAKE_PREFIX_PATH ${qt_loc} ${libs_loc}/local)
 endif()
 
 if (NOT DEFINED QT_VERSION_MAJOR)
