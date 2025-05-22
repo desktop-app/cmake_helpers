@@ -13,8 +13,13 @@ if (DESKTOP_APP_USE_PACKAGED)
     return()
 endif()
 
-set(webrtc_loc ${libs_loc}/tg_owt/src)
-set(webrtc_build_loc ${libs_loc}/tg_owt/out/$<IF:$<CONFIG:Debug>,Debug,Release>)
+if (LINUX)
+    set(webrtc_loc /usr/local/include/tg_owt)
+    set(webrtc_build_loc)
+else()
+    set(webrtc_loc ${libs_loc}/tg_owt/src)
+    set(webrtc_build_loc ${libs_loc}/tg_owt/out/$<IF:$<CONFIG:Debug>,Debug,Release>/)
+endif()
 
 target_compile_definitions(external_webrtc
 INTERFACE
@@ -65,11 +70,6 @@ else()
     )
 endif()
 
-if (NOT WIN32 AND NOT EXISTS ${libs_loc}/tg_owt/out/Debug/${webrtc_lib_prefix}tg_owt${webrtc_lib_suffix})
-    set(webrtc_build_loc ${libs_loc}/tg_owt/out/Release)
-    target_compile_definitions(external_webrtc INTERFACE $<$<CONFIG:Debug>:NDEBUG>)
-endif()
-
 target_include_directories(external_webrtc SYSTEM
 INTERFACE
     ${webrtc_loc}
@@ -89,7 +89,7 @@ if (APPLE)
     )
 endif()
 foreach (lib ${webrtc_libs})
-    list(APPEND webrtc_libs_list "${webrtc_build_loc}/${lib}${webrtc_lib_suffix}")
+    list(APPEND webrtc_libs_list "${webrtc_build_loc}${lib}${webrtc_lib_suffix}")
 endforeach()
 
 target_link_libraries(external_webrtc
