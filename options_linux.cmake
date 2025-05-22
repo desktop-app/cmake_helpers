@@ -53,7 +53,6 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
     INTERFACE
         $<IF:$<NOT:$<STREQUAL:${ipo_config_prop},>>,$<IF:$<BOOL:${ipo_config_prop}>,${ipo_compile_values}>,$<IF:$<BOOL:${ipo_prop}>,${ipo_compile_values}>>
         $<$<CONFIG:Debug>:-O0>
-        $<$<CONFIG:Debug>:-U_FORTIFY_SOURCE>
     )
     target_link_options(common_options
     INTERFACE
@@ -62,10 +61,6 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
         -static-libgcc
         -rdynamic
         -Wl,-z,muldefs
-        -Wl,-z,relro
-        -Wl,-z,now
-        -Wl,-z,noexecstack
-        -pie
     )
 endif()
 
