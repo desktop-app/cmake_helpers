@@ -26,7 +26,9 @@ INTERFACE
 target_link_options_if_exists(common_options
 INTERFACE
     -Wno-alloc-size-larger-than # Qt + LTO
+    -Wno-free-nonheap-object # Qt + LTO
     -Wno-stringop-overflow # Qt + LTO
+    -Wno-stringop-overread # Qt + LTO
     -Wno-odr # Qt + LTO
     -Wno-inline # OpenAL + LTO
     -pthread
@@ -53,7 +55,6 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
     INTERFACE
         $<IF:$<NOT:$<STREQUAL:${ipo_config_prop},>>,$<IF:$<BOOL:${ipo_config_prop}>,${ipo_compile_values}>,$<IF:$<BOOL:${ipo_prop}>,${ipo_compile_values}>>
         $<$<CONFIG:Debug>:-O0>
-        $<$<CONFIG:Debug>:-U_FORTIFY_SOURCE>
     )
     target_link_options(common_options
     INTERFACE
@@ -62,10 +63,6 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
         -static-libgcc
         -rdynamic
         -Wl,-z,muldefs
-        -Wl,-z,relro
-        -Wl,-z,now
-        -Wl,-z,noexecstack
-        -pie
     )
 endif()
 
