@@ -43,25 +43,10 @@ if (DESKTOP_APP_SPECIAL_TARGET)
 endif()
 
 if (NOT DESKTOP_APP_USE_PACKAGED)
-    set(ipo_prop $<TARGET_PROPERTY:INTERPROCEDURAL_OPTIMIZATION>)
-    set(ipo_config_prop $<TARGET_PROPERTY:INTERPROCEDURAL_OPTIMIZATION_$<UPPER_CASE:$<CONFIG>>>)
-    set(ipo_compile_value_on)
-    set(ipo_compile_value_off -fno-lto)
-    set(ipo_compile_values ${ipo_compile_value_on},${ipo_compile_value_off})
-    set(ipo_link_value_on -fwhole-program)
-    set(ipo_link_value_off -fuse-ld=lld -fno-lto -fno-use-linker-plugin)
-    set(ipo_link_values ${ipo_link_value_on},${ipo_link_value_off})
-    target_compile_options(common_options
-    INTERFACE
-        $<IF:$<NOT:$<STREQUAL:${ipo_config_prop},>>,$<IF:$<BOOL:${ipo_config_prop}>,${ipo_compile_values}>,$<IF:$<BOOL:${ipo_prop}>,${ipo_compile_values}>>
-        $<$<CONFIG:Debug>:-O0>
-    )
     target_link_options(common_options
     INTERFACE
-        $<IF:$<NOT:$<STREQUAL:${ipo_config_prop},>>,$<IF:$<BOOL:${ipo_config_prop}>,${ipo_link_values}>,$<IF:$<BOOL:${ipo_prop}>,${ipo_link_values}>>
         -static-libstdc++
         -static-libgcc
-        -rdynamic
         -Wl,-z,muldefs
     )
 endif()
