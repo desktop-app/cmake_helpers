@@ -7,18 +7,9 @@
 add_library(external_tde2e INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_tde2e ALIAS external_tde2e)
 
-if (DESKTOP_APP_USE_PACKAGED)
+if (DESKTOP_APP_USE_PACKAGED OR LINUX)
     find_package(tde2e REQUIRED)
     target_link_libraries(external_tde2e INTERFACE tde2e::tde2e)
-    return()
-endif()
-
-if (LINUX)
-    target_link_static_libraries(external_tde2e
-    INTERFACE
-        tde2e
-        tdutils
-    )
     return()
 endif()
 

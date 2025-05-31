@@ -376,9 +376,22 @@ elseif (APPLE)
     INTERFACE
         ${qt_loc}/mkspecs/linux-g++
     )
-    target_link_static_libraries(external_qt
+    target_link_libraries(external_qt
     INTERFACE
+        gtk-3
+        gdk-3
+        gdk_pixbuf-2.0
+        pango-1.0
         lcms2
+        fontconfig
+        freetype
+        EGL
+        GL
+        wayland-egl
+        wayland-cursor
+        wayland-client
+        X11-xcb
+        X11
         xkbcommon
         xkbcommon-x11
         xcb-cursor
@@ -395,6 +408,11 @@ elseif (APPLE)
         xcb-util
         xcb-render-util
         xcb-keysyms
+        xcb
+        gio-2.0
+        gobject-2.0
+        glib-2.0
+        rt
         webpmux
         webpdemux
         webp
@@ -406,25 +424,4 @@ elseif (APPLE)
             wayland-server
         )
     endif()
-    target_link_libraries(external_qt
-    INTERFACE
-        gtk-3
-        gdk-3
-        gdk_pixbuf-2.0
-        pango-1.0
-        fontconfig
-        freetype
-        EGL
-        GL
-        wayland-egl
-        wayland-cursor
-        wayland-client
-        X11-xcb
-        X11
-        xcb
-        gio-2.0
-        gobject-2.0
-        glib-2.0
-        rt
-    )
 endif()

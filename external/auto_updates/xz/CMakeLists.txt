@@ -7,7 +7,7 @@
 add_library(external_xz INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_xz ALIAS external_xz)
 
-if (DESKTOP_APP_USE_PACKAGED)
+if (DESKTOP_APP_USE_PACKAGED OR LINUX)
     find_package(LibLZMA REQUIRED)
     target_link_libraries(external_xz INTERFACE LibLZMA::LibLZMA)
 elseif (APPLE)
@@ -18,10 +18,5 @@ elseif (APPLE)
     target_link_libraries(external_xz
     INTERFACE
         ${libs_loc}/local/lib/liblzma.a
-    )
-else()
-    target_link_static_libraries(external_xz
-    INTERFACE
-        lzma
     )
 endif()

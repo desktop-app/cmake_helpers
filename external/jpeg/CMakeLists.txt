@@ -32,5 +32,4 @@ else()
     set_target_properties(external_jpeg PROPERTIES
         IMPORTED_LOCATION "${DESKTOP_APP_JPEG_LIBRARIES}"
     )
-    target_link_static_libraries(external_jpeg INTERFACE hwy)
 endif()

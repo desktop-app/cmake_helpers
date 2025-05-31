@@ -7,10 +7,6 @@
 add_library(external_xcb_keysyms INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_xcb_keysyms ALIAS external_xcb_keysyms)
 
-if (DESKTOP_APP_USE_PACKAGED)
-    find_package(PkgConfig REQUIRED)
-    pkg_check_modules(DESKTOP_APP_XCB_KEYSYMS REQUIRED IMPORTED_TARGET xcb-keysyms)
-    target_link_libraries(external_xcb_keysyms INTERFACE PkgConfig::DESKTOP_APP_XCB_KEYSYMS)
-else()
-    target_link_static_libraries(external_xcb_keysyms INTERFACE xcb-keysyms)
-endif()
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(DESKTOP_APP_XCB_KEYSYMS REQUIRED IMPORTED_TARGET xcb-keysyms)
+target_link_libraries(external_xcb_keysyms INTERFACE PkgConfig::DESKTOP_APP_XCB_KEYSYMS)
