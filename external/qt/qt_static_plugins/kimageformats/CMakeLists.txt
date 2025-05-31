@@ -32,7 +32,7 @@ PRIVATE
     desktop-app::external_qt
 )
 
-if (DESKTOP_APP_USE_PACKAGED)
+if (DESKTOP_APP_USE_PACKAGED OR LINUX)
     find_package(libavif REQUIRED)
     find_package(libheif REQUIRED)
     find_package(PkgConfig REQUIRED)
@@ -101,22 +101,6 @@ elseif (APPLE)
         ${libs_loc}/local/lib/libbrotlienc.a
         ${libs_loc}/local/lib/libbrotlicommon.a
         ${libs_loc}/local/lib/liblcms2.a
-    )
-else()
-    target_link_static_libraries(external_qt_static_plugins_kimageformats
-    PRIVATE
-        avif
-        heif
-        jxl
-        jxl_cms
-        jxl_threads
-        dav1d
-        de265
-        brotlidec
-        brotlienc
-        brotlicommon
-        hwy
-        lcms2
     )
 endif()
 

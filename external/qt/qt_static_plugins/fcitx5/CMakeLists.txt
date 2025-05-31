@@ -43,32 +43,16 @@ PRIVATE
     FCITX_PLUGIN_DATA_FILE_PATH="${CMAKE_CURRENT_BINARY_DIR}/fcitx5.json"
 )
 
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(DESKTOP_APP_XKBCOMMON REQUIRED IMPORTED_TARGET xkbcommon)
+
 add_subdirectory(fcitx5_qt_dbusaddons)
 target_link_libraries(external_qt_static_plugins_fcitx5
 PRIVATE
     desktop-app::external_qt_static_plugins_fcitx5_dbusaddons
     desktop-app::external_qt
+    PkgConfig::DESKTOP_APP_XKBCOMMON
 )
-
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(DESKTOP_APP_XKBCOMMON REQUIRED IMPORTED_TARGET xkbcommon)
-
-if (DESKTOP_APP_USE_PACKAGED)
-    target_link_libraries(external_qt_static_plugins_fcitx5
-    PRIVATE
-        PkgConfig::DESKTOP_APP_XKBCOMMON
-    )
-else()
-    target_include_directories(external_qt_static_plugins_fcitx5 SYSTEM
-    PUBLIC
-        ${DESKTOP_APP_XKBCOMMON_INCLUDE_DIRS}
-    )
-
-    target_link_static_libraries(external_qt_static_plugins_fcitx5
-    PRIVATE
-        xkbcommon
-    )
-endif()
 
 if (NOT DESKTOP_APP_DISABLE_X11_INTEGRATION)
     target_compile_definitions(external_qt_static_plugins_fcitx5
