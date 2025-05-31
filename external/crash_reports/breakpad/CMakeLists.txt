@@ -9,11 +9,13 @@ add_library(desktop-app::external_breakpad ALIAS external_breakpad)
 
 if (LINUX)
     find_package(PkgConfig REQUIRED)
-    pkg_check_modules(DESKTOP_APP_BREAKPAD REQUIRED breakpad)
-    target_include_directories(external_breakpad SYSTEM
-    INTERFACE
-        ${DESKTOP_APP_BREAKPAD_INCLUDE_DIRS}
-    )
+    pkg_check_modules(DESKTOP_APP_BREAKPAD REQUIRED IMPORTED_TARGET breakpad-client)
+    if (DESKTOP_APP_USE_PACKAGED)
+        target_link_libraries(external_breakpad INTERFACE PkgConfig::DESKTOP_APP_BREAKPAD)
+        return()
+    else()
+        target_include_directories(external_breakpad SYSTEM INTERFACE ${DESKTOP_APP_BREAKPAD_INCLUDE_DIRS})
+    endif()
 else()
     target_include_directories(external_breakpad SYSTEM
     INTERFACE
