@@ -47,7 +47,6 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
     INTERFACE
         -static-libstdc++
         -static-libgcc
-        -Wl,-z,muldefs
     )
 endif()
 

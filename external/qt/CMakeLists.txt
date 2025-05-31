@@ -401,30 +401,27 @@ elseif (APPLE)
         sharpyuv
     )
     if (TARGET Qt::WaylandCompositor)
-        target_link_optional_libraries(external_qt
+        target_link_libraries(external_qt
         INTERFACE
             wayland-server
         )
     endif()
-    target_link_optional_libraries(external_qt
+    target_link_libraries(external_qt
     INTERFACE
         gtk-3
         gdk-3
         gdk_pixbuf-2.0
         pango-1.0
+        fontconfig
+        freetype
         EGL
         GL
         wayland-egl
         wayland-cursor
         wayland-client
         X11-xcb
-        xcb
-    )
-    target_link_libraries(external_qt
-    INTERFACE
-        fontconfig
-        freetype
         X11
+        xcb
         gio-2.0
         gobject-2.0
         glib-2.0
