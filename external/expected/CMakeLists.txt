@@ -8,12 +8,7 @@ add_library(external_expected INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_expected ALIAS external_expected)
 
 if (DESKTOP_APP_USE_PACKAGED)
-    if (DESKTOP_APP_USE_PACKAGED_LAZY)
-        find_package(tl-expected QUIET)
-    else()
-        find_package(tl-expected)
-    endif()
-
+    find_package(tl-expected QUIET)
     if (tl-expected_FOUND)
         target_link_libraries(external_expected INTERFACE tl::expected)
         return()

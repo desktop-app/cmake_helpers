@@ -8,12 +8,7 @@ add_library(external_kcoreaddons INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_kcoreaddons ALIAS external_kcoreaddons)
 
 if (DESKTOP_APP_USE_PACKAGED)
-    if (DESKTOP_APP_USE_PACKAGED_LAZY)
-        find_package(KF${QT_VERSION_MAJOR}CoreAddons QUIET)
-    else()
-        find_package(KF${QT_VERSION_MAJOR}CoreAddons)
-    endif()
-
+    find_package(KF${QT_VERSION_MAJOR}CoreAddons QUIET)
     if (KF${QT_VERSION_MAJOR}CoreAddons_FOUND)
         target_link_libraries(external_kcoreaddons INTERFACE KF${QT_VERSION_MAJOR}::CoreAddons)
         return()

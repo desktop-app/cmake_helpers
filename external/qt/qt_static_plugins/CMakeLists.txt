@@ -23,10 +23,10 @@ if (DESKTOP_APP_USE_PACKAGED)
     PRIVATE
         QT_STATIC_PLUGINS_USE_PACKAGED
     )
+endif()
 
-    if (NOT DESKTOP_APP_USE_PACKAGED_LAZY)
-        return()
-    endif()
+if (DESKTOP_APP_DISABLE_QT_PLUGINS)
+    return()
 endif()
 
 add_checked_subdirectory(kimageformats)
