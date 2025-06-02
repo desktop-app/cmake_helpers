@@ -16,17 +16,35 @@ if (DESKTOP_APP_USE_PACKAGED)
         Qt::CorePrivate
         Qt::Gui
         Qt::GuiPrivate
-        $<TARGET_NAME_IF_EXISTS:Qt::OpenGL>
         Qt::Widgets
         Qt::WidgetsPrivate
-        $<TARGET_NAME_IF_EXISTS:Qt::OpenGLWidgets>
         Qt::Network
         Qt::Svg
-        $<TARGET_NAME_IF_EXISTS:Qt::DBus>
-        $<TARGET_NAME_IF_EXISTS:Qt::Quick>
-        $<TARGET_NAME_IF_EXISTS:Qt::QuickWidgets>
-        $<TARGET_NAME_IF_EXISTS:Qt::WaylandCompositor>
     )
+
+    if (TARGET Qt::OpenGL)
+        target_link_libraries(external_qt INTERFACE Qt::OpenGL)
+    endif()
+
+    if (TARGET Qt::OpenGLWidgets)
+        target_link_libraries(external_qt INTERFACE Qt::OpenGLWidgets)
+    endif()
+
+    if (TARGET Qt::DBus)
+        target_link_libraries(external_qt INTERFACE Qt::DBus)
+    endif()
+
+    if (TARGET Qt::Quick)
+        target_link_libraries(external_qt INTERFACE Qt::Quick)
+    endif()
+
+    if (TARGET Qt::QuickWidgets)
+        target_link_libraries(external_qt INTERFACE Qt::QuickWidgets)
+    endif()
+
+    if (TARGET Qt::WaylandCompositor)
+        target_link_libraries(external_qt INTERFACE Qt::WaylandCompositor)
+    endif()
 
     return()
 endif()
