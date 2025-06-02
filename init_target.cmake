@@ -35,12 +35,6 @@ function(init_target target_name) # init_target(my_target [cxx_std_..] folder_na
                 Qt::QComposePlatformInputContextPlugin
                 Qt::QIbusPlatformInputContextPlugin
                 Qt::QXdgDesktopPortalThemePlugin
-                Qt::QWaylandIntegrationPlugin
-                Qt::QWaylandEglPlatformIntegrationPlugin
-                Qt::QWaylandEglClientBufferPlugin
-                Qt::QWaylandXdgShellIntegrationPlugin
-                Qt::QWaylandAdwaitaDecorationPlugin
-                Qt::QWaylandBradientDecorationPlugin
             )
         endif()
     else()
