@@ -28,14 +28,17 @@ function(init_target target_name) # init_target(my_target [cxx_std_..] folder_na
     )
     if (DESKTOP_APP_USE_PACKAGED)
         get_target_property(target_type ${target_name} TYPE)
-        if (QT_FOUND AND LINUX AND target_type STREQUAL "EXECUTABLE")
-            qt_import_plugins(${target_name}
-            INCLUDE
-                Qt::QGtk3ThemePlugin
-                Qt::QComposePlatformInputContextPlugin
-                Qt::QIbusPlatformInputContextPlugin
-                Qt::QXdgDesktopPortalThemePlugin
-            )
+        if (QT_FOUND AND target_type STREQUAL "EXECUTABLE")
+            cmake_language(EVAL CODE "cmake_language(DEFER CALL qt_finalize_target ${target_name})")
+            if (LINUX)
+                qt_import_plugins(${target_name}
+                INCLUDE
+                    Qt::QGtk3ThemePlugin
+                    Qt::QComposePlatformInputContextPlugin
+                    Qt::QIbusPlatformInputContextPlugin
+                    Qt::QXdgDesktopPortalThemePlugin
+                )
+            endif()
         endif()
     else()
         set_target_properties(${target_name} PROPERTIES
