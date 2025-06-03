@@ -42,14 +42,6 @@ if (DESKTOP_APP_SPECIAL_TARGET)
     )
 endif()
 
-if (NOT DESKTOP_APP_USE_PACKAGED)
-    target_link_options(common_options
-    INTERFACE
-        -static-libstdc++
-        -static-libgcc
-    )
-endif()
-
 if (NOT DESKTOP_APP_DISABLE_JEMALLOC)
 	target_link_libraries(common_options
 	INTERFACE
@@ -84,14 +76,6 @@ endif()
 if (DESKTOP_APP_ASAN)
     target_compile_options(common_options INTERFACE -fsanitize=address)
     target_link_options(common_options INTERFACE -fsanitize=address)
-
-    if (NOT DESKTOP_APP_USE_PACKAGED)
-        if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-            target_link_options(common_options INTERFACE -static-libasan)
-        elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-            target_link_options(common_options INTERFACE -static-libsan)
-        endif()
-    endif()
 endif()
 
 target_link_libraries(common_options
