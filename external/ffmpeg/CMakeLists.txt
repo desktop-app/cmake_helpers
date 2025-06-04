@@ -30,6 +30,7 @@ INTERFACE
 
 target_link_libraries(external_ffmpeg
 INTERFACE
+    ${ffmpeg_lib_loc}/libavfilter/libavfilter.a
     ${ffmpeg_lib_loc}/libavformat/libavformat.a
     ${ffmpeg_lib_loc}/libavcodec/libavcodec.a
     ${ffmpeg_lib_loc}/libswresample/libswresample.a
