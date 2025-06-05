@@ -33,14 +33,18 @@ PRIVATE
 )
 
 if (DESKTOP_APP_USE_PACKAGED OR LINUX)
-    find_package(libavif REQUIRED)
+    find_package(libavif QUIET)
     find_package(libheif REQUIRED)
     find_package(PkgConfig REQUIRED)
+    if (NOT libavif_FOUND)
+        pkg_check_modules(DESKTOP_APP_AVIF REQUIRED IMPORTED_TARGET libavif)
+    endif()
     pkg_check_modules(DESKTOP_APP_JXL REQUIRED IMPORTED_TARGET libjxl libjxl_threads)
 
     target_link_libraries(external_qt_static_plugins_kimageformats
     PRIVATE
-        avif
+        $<TARGET_NAME_IF_EXISTS:avif>
+        $<TARGET_NAME_IF_EXISTS:PkgConfig::DESKTOP_APP_AVIF>
         heif
         PkgConfig::DESKTOP_APP_JXL
     )
