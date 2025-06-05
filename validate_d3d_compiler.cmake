@@ -31,27 +31,19 @@ function(validate_d3d_compiler target_name)
         file(READ ${key_path} key)
     endif()
 
-    if (NOT "$ENV{WindowsSdkDir}" STREQUAL "")
-        set(windows_sdk_loc $ENV{WindowsSdkDir} CACHE INTERNAL "Windows SDK Path" FORCE)
-    endif()
-
     string(LENGTH "${key}" key_length)
     if (NOT "${key_length}" STREQUAL "32"
         OR NOT EXISTS ${module_debug_path}/d3dcompiler_47.dll
         OR NOT EXISTS ${module_release_path}/d3dcompiler_47.dll)
 
-        if ("${windows_sdk_loc}" STREQUAL "")
-            validate_d3d_error("Could not find Windows SDK.")
-            return()
-        endif()
-        set(sdk_compiler ${windows_sdk_loc}/Redist/D3D/${modules_subdir}/d3dcompiler_47.dll)
+        set(compiler_path ${cmake_helpers_loc}/win_directx_helper/modules/${modules_subdir}/d3d/d3dcompiler_47.dll)
 
         find_package(Python3 REQUIRED)
         execute_process(
         COMMAND
             ${Python3_EXECUTABLE}
             ${cmake_helpers_loc}/validate_d3d_compiler.py
-            ${sdk_compiler}
+            ${compiler_path}
         OUTPUT_VARIABLE key
         ERROR_VARIABLE error
         )
@@ -61,10 +53,10 @@ function(validate_d3d_compiler target_name)
         endif()
 
         file(MAKE_DIRECTORY ${modules_debug_loc}/d3d)
-        file(COPY ${sdk_compiler} DESTINATION ${module_debug_path})
+        file(COPY ${compiler_path} DESTINATION ${module_debug_path})
 
         file(MAKE_DIRECTORY ${modules_release_loc}/d3d)
-        file(COPY ${sdk_compiler} DESTINATION ${module_release_path})
+        file(COPY ${compiler_path} DESTINATION ${module_release_path})
 
         file(MAKE_DIRECTORY ${modules_hash_loc}/d3d)
         file(WRITE ${key_path} ${key})
