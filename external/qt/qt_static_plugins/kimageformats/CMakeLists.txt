@@ -134,6 +134,20 @@ PRIVATE
     desktop-app::external_qt
 )
 
+if (DESKTOP_APP_USE_PACKAGED OR LINUX)
+    if (NOT libavif_FOUND AND NOT DESKTOP_APP_AVIF_FOUND)
+        target_compile_definitions(external_qt_static_plugins_kimageformats_init PRIVATE QT_STATIC_PLUGINS_DISABLE_AVIF)
+    endif()
+
+    if (NOT libheif_FOUND)
+        target_compile_definitions(external_qt_static_plugins_kimageformats_init PRIVATE QT_STATIC_PLUGINS_DISABLE_HEIF)
+    endif()
+
+    if (NOT DESKTOP_APP_JXL_FOUND)
+        target_compile_definitions(external_qt_static_plugins_kimageformats_init PRIVATE QT_STATIC_PLUGINS_DISABLE_JXL)
+    endif()
+endif()
+
 target_link_libraries(external_qt_static_plugins_kimageformats
 INTERFACE
     external_qt_static_plugins_kimageformats_init
