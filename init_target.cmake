@@ -29,7 +29,9 @@ function(init_target target_name) # init_target(my_target [cxx_std_..] folder_na
     if (DESKTOP_APP_USE_PACKAGED)
         get_target_property(target_type ${target_name} TYPE)
         if (QT_FOUND AND target_type STREQUAL "EXECUTABLE")
-            cmake_language(EVAL CODE "cmake_language(DEFER CALL qt_finalize_target ${target_name})")
+            if (QT_VERSION VERSION_GREATER_EQUAL 6.2)
+                cmake_language(EVAL CODE "cmake_language(DEFER CALL qt_finalize_target ${target_name})")
+            endif()
             if (LINUX)
                 qt_import_plugins(${target_name}
                 INCLUDE
