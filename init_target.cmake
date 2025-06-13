@@ -40,10 +40,6 @@ function(init_target target_name) # init_target(my_target [cxx_std_..] folder_na
                 )
             endif()
         endif()
-    else()
-        set_target_properties(${target_name} PROPERTIES
-            MSVC_RUNTIME_LIBRARY MultiThreaded$<$<CONFIG:Debug>:Debug>
-        )
     endif()
     if (DESKTOP_APP_SPECIAL_TARGET)
         if (MSVC)
