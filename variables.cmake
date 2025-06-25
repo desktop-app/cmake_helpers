@@ -36,7 +36,6 @@ option(DESKTOP_APP_USE_HUNSPELL_ONLY "Disable system spellchecker and use bundle
 option(DESKTOP_APP_ASAN "Enable address sanitizer" OFF)
 cmake_dependent_option(DESKTOP_APP_USE_ENCHANT "Use Enchant instead of bundled Hunspell." OFF LINUX OFF)
 cmake_dependent_option(DESKTOP_APP_USE_CLD3 "Disable system text language recognition and use bundled cld3 only." OFF APPLE ON)
-cmake_dependent_option(DESKTOP_APP_DISABLE_JEMALLOC "Disable jemalloc, use system malloc." OFF "LINUX; NOT DESKTOP_APP_ASAN" ON)
 
 if (APPLE)
     set(DESKTOP_APP_MAC_ARCH "" CACHE STRING "Target macOS arch.")
