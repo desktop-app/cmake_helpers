@@ -73,6 +73,10 @@ if (QT_VERSION_MAJOR GREATER_EQUAL 6)
     find_package(Qt${QT_VERSION_MAJOR} COMPONENTS OpenGL OpenGLWidgets REQUIRED)
 endif()
 
+if (QT_VERSION VERSION_GREATER_EQUAL 6.10)
+    find_package(Qt${QT_VERSION_MAJOR} COMPONENTS GuiPrivate WidgetsPrivate REQUIRED)
+endif()
+
 if (LINUX)
     find_package(Qt${QT_VERSION_MAJOR} OPTIONAL_COMPONENTS DBus WaylandCompositor QUIET)
 endif()
