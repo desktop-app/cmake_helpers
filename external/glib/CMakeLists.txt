@@ -15,10 +15,15 @@ block()
 endblock()
 
 include(generate_cppgir.cmake)
-generate_cppgir(external_glib Gio-2.0)
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(DESKTOP_APP_GLIB2 REQUIRED IMPORTED_TARGET glib-2.0 gobject-2.0 gio-2.0 gio-unix-2.0)
+
+if (DESKTOP_APP_GLIB2_glib-2.0_VERSION VERSION_GREATER_EQUAL 2.86.0)
+    generate_cppgir(external_glib GioUnix-2.0)
+else ()
+    generate_cppgir(external_glib Gio-2.0)
+endif()
 
 target_link_libraries(external_glib
 INTERFACE
