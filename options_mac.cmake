@@ -61,7 +61,6 @@ INTERFACE
     AudioUnit
     ApplicationServices
     Foundation
-    AGL
     Security
     SystemConfiguration
     Carbon
