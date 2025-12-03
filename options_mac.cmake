@@ -81,4 +81,5 @@ INTERFACE
     IOSurface
     Metal
     LocalAuthentication
+    Vision
 )
