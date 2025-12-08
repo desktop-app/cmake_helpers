@@ -46,7 +46,7 @@ function(init_target target_name) # init_target(my_target [cxx_std_..] folder_na
     if (DESKTOP_APP_SPECIAL_TARGET)
         if (MSVC)
             set_property(TARGET ${target_name} APPEND_STRING PROPERTY STATIC_LIBRARY_OPTIONS "$<$<NOT:$<CONFIG:Debug>>:/LTCG>")
-        elseif (APPLE)
+        elseif (CMAKE_GENERATOR STREQUAL Xcode)
             set_target_properties(${target_name} PROPERTIES
                 XCODE_ATTRIBUTE_LLVM_LTO $<IF:$<CONFIG:Debug>,NO,YES>
             )
