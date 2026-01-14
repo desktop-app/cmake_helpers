@@ -43,7 +43,7 @@ function(init_target target_name) # init_target(my_target [cxx_std_..] folder_na
             endif()
         endif()
     endif()
-    if (DESKTOP_APP_SPECIAL_TARGET)
+    if (DESKTOP_APP_SPECIAL_TARGET AND DESKTOP_APP_ENABLE_LTO)
         if (MSVC)
             set_property(TARGET ${target_name} APPEND_STRING PROPERTY STATIC_LIBRARY_OPTIONS "$<$<NOT:$<CONFIG:Debug>>:/LTCG>")
         elseif (CMAKE_GENERATOR STREQUAL Xcode)

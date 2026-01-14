@@ -100,12 +100,12 @@ if (MSVC)
         target_compile_options(common_options
         INTERFACE
             /WX
-            $<$<NOT:$<CONFIG:Debug>>:/GL>
+            $<$<AND:$<NOT:$<CONFIG:Debug>>,$<BOOL:${DESKTOP_APP_ENABLE_LTO}>>:/GL>
         )
         target_link_options(common_options
         INTERFACE
-            $<$<NOT:$<CONFIG:Debug>>:/LTCG>
-            $<$<NOT:$<CONFIG:Debug>>:/LTCGOUT:>
+            $<$<AND:$<NOT:$<CONFIG:Debug>>,$<BOOL:${DESKTOP_APP_ENABLE_LTO}>>:/LTCG>
+            $<$<AND:$<NOT:$<CONFIG:Debug>>,$<BOOL:${DESKTOP_APP_ENABLE_LTO}>>:/LTCGOUT:>
         )
     endif()
 endif()
