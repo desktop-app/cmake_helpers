@@ -63,8 +63,8 @@ if (MSVC)
     target_link_options(common_options
     INTERFACE
         $<$<CONFIG:Debug>:/NODEFAULTLIB:LIBCMT>
-        $<$<CONFIG:Debug>:/DEBUG:FASTLINK>
-        $<$<NOT:$<CONFIG:Debug>>:$<IF:$<STREQUAL:$<GENEX_EVAL:$<TARGET_PROPERTY:MSVC_DEBUG_INFORMATION_FORMAT>>,ProgramDatabase>,/DEBUG,/DEBUG:NONE>>
+        $<$<AND:$<CONFIG:Debug>,$<BOOL:${build_win64}>>:/DEBUG:FASTLINK>
+        $<$<NOT:$<AND:$<CONFIG:Debug>,$<BOOL:${build_win64}>>>:$<IF:$<STREQUAL:$<GENEX_EVAL:$<TARGET_PROPERTY:MSVC_DEBUG_INFORMATION_FORMAT>>,ProgramDatabase>,/DEBUG,/DEBUG:NONE>>
         $<$<NOT:$<CONFIG:Debug>>:/OPT:REF>
         /INCREMENTAL:NO
         /DEPENDENTLOADFLAG:0x800
