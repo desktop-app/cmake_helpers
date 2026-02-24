@@ -28,6 +28,7 @@ function(generate_cppgir target_name gir)
         --class
         --class-full
         --expected
+        --only-changed
         --ignore
         "$<JOIN:${ignore_files},:>"
         --output
