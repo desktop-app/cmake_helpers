@@ -32,12 +32,8 @@ INTERFACE
     -Wno-unused-function
     -Wno-deprecated-this-capture
     -Wno-switch
-    -Wno-comment
     -Wno-missing-field-initializers
     -Wno-sign-compare
-    -Wno-unknown-attributes
-    -Wno-pragma-system-header-outside-header
-    -Wno-shorten-64-to-32
 )
 
 if (DESKTOP_APP_SPECIAL_TARGET)
