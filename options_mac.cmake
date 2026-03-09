@@ -34,6 +34,7 @@ INTERFACE
     -Wno-switch
     -Wno-missing-field-initializers
     -Wno-sign-compare
+    -Wno-shorten-64-to-32
 )
 
 if (DESKTOP_APP_SPECIAL_TARGET)
