@@ -234,12 +234,30 @@ elseif (APPLE)
         lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}BundledFreetype
         plugins/platforms/${qt_lib_prefix}qcocoa
         plugins/tls/${qt_lib_prefix}qsecuretransportbackend
-        plugins/networkinformation/${qt_lib_prefix}qscnetworkreachability
     )
+    if (QT_VERSION VERSION_GREATER_EQUAL "6.11")
+        list(APPEND qt_libs
+            plugins/networkinformation/${qt_lib_prefix}qapplenetworkinformation
+        )
+    else()
+        list(APPEND qt_libs
+            plugins/networkinformation/${qt_lib_prefix}qscnetworkreachability
+        )
+    endif()
     list(APPEND qt_libs_list
         $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QCocoaIntegrationPlugin_init>
         $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QSecureTransportBackendPlugin_init>
-        $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QSCNetworkReachabilityNetworkInformationPlugin_init>
+    )
+    if (QT_VERSION VERSION_GREATER_EQUAL "6.11")
+        list(APPEND qt_libs_list
+            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QAppleNetworkInformationPlugin_init>
+        )
+    else()
+        list(APPEND qt_libs_list
+            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QSCNetworkReachabilityNetworkInformationPlugin_init>
+        )
+    endif()
+    list(APPEND qt_libs_list
         $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QCocoaIntegrationPlugin_resources_1>
     )
     foreach (lib ${qt_libs})

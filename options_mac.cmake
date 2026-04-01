@@ -80,3 +80,14 @@ INTERFACE
     LocalAuthentication
     Vision
 )
+
+target_link_frameworks_weak(common_options
+INTERFACE
+    Network
+    UniformTypeIdentifiers
+)
+
+target_link_libraries(common_options
+INTERFACE
+    resolv
+)
