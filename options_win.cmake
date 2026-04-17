@@ -27,6 +27,7 @@ INTERFACE
 if (MSVC)
     target_compile_options(common_options
     INTERFACE
+        /guard:cf /sdl # Control Flow Guard and Security Development Lifecycle checks.
         /permissive-
         # /Qspectre
         /utf-8
@@ -62,6 +63,9 @@ if (MSVC)
 
     target_link_options(common_options
     INTERFACE
+        /guard:cf # Control Flow Guard.
+        $<$<NOT:$<BOOL:${build_winarm}>>:/CETCOMPAT> # Control-flow Enforcement Technology (CET) compatible.
+        /DYNAMICBASE
         $<$<CONFIG:Debug>:/NODEFAULTLIB:LIBCMT>
         $<$<AND:$<CONFIG:Debug>,$<BOOL:${build_win64}>>:/DEBUG:FASTLINK>
         $<$<NOT:$<AND:$<CONFIG:Debug>,$<BOOL:${build_win64}>>>:$<IF:$<STREQUAL:$<GENEX_EVAL:$<TARGET_PROPERTY:MSVC_DEBUG_INFORMATION_FORMAT>>,ProgramDatabase>,/DEBUG,/DEBUG:NONE>>
