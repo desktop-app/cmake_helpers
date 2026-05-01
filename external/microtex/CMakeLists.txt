@@ -133,7 +133,7 @@ PUBLIC
 # translation unit lives inside a static library; without an explicit
 # reference the linker may drop it.
 target_sources(external_microtex_bundled PRIVATE ${microtex_loc}/res/bundled.qrc)
-set_target_properties(external_microtex_bundled PROPERTIES AUTORCC ON)
+target_prepare_qrc(external_microtex_bundled)
 
 # Tame upstream warnings; this is third-party code under MIT and we
 # don't want /W4 noise drowning real diagnostics. The flags MUST be
