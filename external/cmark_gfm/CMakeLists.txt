@@ -27,12 +27,8 @@ endif()
 # install() shadow, and the imported policy floor are local -- siblings
 # and parent never see them, so the global tdesktop config is unaffected.
 block()
-    # cmark-gfm pins cmake_minimum_required to 3.0; CMake >= 4.0 refuses
-    # outright. Setting CMAKE_POLICY_VERSION_MINIMUM=3.13 (rather than 3.5)
-    # both clears that error AND lifts CMP0077 to NEW, which makes
-    # option(CMARK_TESTS ...) honor the plain set() values below instead
-    # of falling through to its hardcoded ON default.
     set(CMAKE_POLICY_VERSION_MINIMUM 3.13)
+    set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
 
     # Force CMP0091 NEW so CMAKE_MSVC_RUNTIME_LIBRARY (set globally by
     # tdesktop's variables.cmake) actually applies to cmark-gfm's targets.
@@ -52,11 +48,8 @@ block()
     set(CMARK_LIB_FUZZER OFF)
 
     # cmark-gfm registers unconditional install(TARGETS ...) /
-    # install(EXPORT) rules. Shadow install() with a no-op for the
-    # duration of this block (function definitions inside block() are
-    # block-scoped); parent and siblings keep the real install().
-    function(install)
-    endfunction()
+    # install(EXPORT) rules, while tdesktop only embeds its targets.
+    set(CMAKE_SKIP_INSTALL_RULES TRUE)
 
     # tdesktop configures with --warn-uninitialized -Werror=dev, which
     # turns cmark-gfm's perfectly-fine reads of optional variables
@@ -66,6 +59,20 @@ block()
     # configure.
     set(CMAKE_SUPPRESS_DEVELOPER_ERRORS TRUE)
     set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS TRUE)
+    if (DEFINED CACHE{CMAKE_ERROR_DEPRECATED})
+        set(_cmark_gfm_error_deprecated "${CMAKE_ERROR_DEPRECATED}")
+        set(_cmark_gfm_has_error_deprecated TRUE)
+    else()
+        set(_cmark_gfm_has_error_deprecated FALSE)
+    endif()
+    if (DEFINED CACHE{CMAKE_WARN_DEPRECATED})
+        set(_cmark_gfm_warn_deprecated "${CMAKE_WARN_DEPRECATED}")
+        set(_cmark_gfm_has_warn_deprecated TRUE)
+    else()
+        set(_cmark_gfm_has_warn_deprecated FALSE)
+    endif()
+    set(CMAKE_ERROR_DEPRECATED FALSE CACHE BOOL "" FORCE)
+    set(CMAKE_WARN_DEPRECATED FALSE CACHE BOOL "" FORCE)
 
     # Defensive initialisation for the specific variables cmark-gfm
     # reads without checking. Empty strings are benign for cmark-gfm's
@@ -81,6 +88,16 @@ block()
     set(LIB_SUFFIX "")                  # src/CMakeLists.txt:155 + extensions/CMakeLists.txt:69,82
 
     add_subdirectory(${third_party_loc}/cmark-gfm cmark-gfm-build EXCLUDE_FROM_ALL)
+    if (_cmark_gfm_has_error_deprecated)
+        set(CMAKE_ERROR_DEPRECATED "${_cmark_gfm_error_deprecated}" CACHE BOOL "" FORCE)
+    else()
+        unset(CMAKE_ERROR_DEPRECATED CACHE)
+    endif()
+    if (_cmark_gfm_has_warn_deprecated)
+        set(CMAKE_WARN_DEPRECATED "${_cmark_gfm_warn_deprecated}" CACHE BOOL "" FORCE)
+    else()
+        unset(CMAKE_WARN_DEPRECATED CACHE)
+    endif()
 endblock()
 
 target_link_libraries(external_cmark_gfm
