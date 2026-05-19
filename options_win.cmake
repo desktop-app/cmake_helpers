@@ -49,6 +49,7 @@ if (MSVC)
         /wd4458 # declaration of 'identifier' hides class member
         /wd4459 # declaration of 'identifier' hides global declaration
         /wd4611 # interaction between 'function' and C++ object destruction is non-portable
+        /wd4714 # function marked as __forceinline not inlined
         /wd4702 # unreachable code
         /wd4310 # cast truncates constant value
         /wd4127 # conditional expression is constant
