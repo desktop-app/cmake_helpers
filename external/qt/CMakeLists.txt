@@ -215,8 +215,9 @@ if (WIN32)
             D3D12
             SetupAPI
             Shcore
-            Synchronization
-            WindowsApp
+            Secur32
+            WinHttp
+            ncrypt
         )
     else()
         target_link_libraries(external_qt

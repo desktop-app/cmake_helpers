@@ -53,6 +53,7 @@ if (MSVC)
         /wd4702 # unreachable code
         /wd4310 # cast truncates constant value
         /wd4127 # conditional expression is constant
+        /wd4189 # local variable is initialized but not referenced (MSVC 14.50+)
 
         # Taken from Qt 6.
         # https://developercommunity.visualstudio.com/content/problem/139261/msvc-incorrectly-defines-cplusplus.html
@@ -139,6 +140,7 @@ INTERFACE
     Dwmapi
     UxTheme
     Wtsapi32
+    Comctl32
     Crypt32
     Propsys
     Bcrypt
