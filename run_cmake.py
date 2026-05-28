@@ -6,6 +6,35 @@
 
 import sys, os, shutil, subprocess
 
+def resolveVisualStudioGenerator():
+    fallback = 'Visual Studio 17 2022'
+    vswhere = os.environ.get(
+        'ProgramFiles(x86)',
+        'C:\\Program Files (x86)') + '\\Microsoft Visual Studio\\Installer\\vswhere.exe'
+    if not os.path.isfile(vswhere):
+        return fallback
+    try:
+        import json
+        out = subprocess.check_output([
+            vswhere, '-latest', '-prerelease',
+            '-products', '*',
+            '-requires', 'Microsoft.VisualStudio.Component.VC.Tools.x86.x64',
+            '-format', 'json',
+        ])
+        data = json.loads(out)
+        if not data:
+            return fallback
+        major = int(data[0]['installationVersion'].split('.')[0])
+    except Exception:
+        return fallback
+    if major >= 18:
+        return 'Visual Studio 18 2026'
+    if major >= 17:
+        return 'Visual Studio 17 2022'
+    if major >= 16:
+        return 'Visual Studio 16 2019'
+    return fallback
+
 def run(project, arguments, buildType=''):
     scriptPath = os.path.dirname(os.path.realpath(__file__))
     basePath = scriptPath + '/../out/' + buildType
@@ -23,6 +52,7 @@ def run(project, arguments, buildType=''):
                 explicitGenerator = True
             cmake.append(arg)
     if sys.platform == 'win32' and not explicitGenerator:
+        cmake.append('-G' + resolveVisualStudioGenerator())
         if vsArch == 'x64':
             cmake.append('-Ax64')
             cmake.append('-T v143')
