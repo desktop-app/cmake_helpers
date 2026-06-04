@@ -21,6 +21,9 @@ if (DESKTOP_APP_SPECIAL_TARGET STREQUAL ""
 endif()
 
 set(CMAKE_CXX_SCAN_FOR_MODULES OFF CACHE BOOL "")
+set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT
+    "$<$<CONFIG:Debug>:ProgramDatabase>$<$<NOT:$<CONFIG:Debug>>:Embedded>"
+    CACHE STRING "")
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>" CACHE STRING "")
 option(DESKTOP_APP_TEST_APPS "Build test apps, development only." OFF)
 option(DESKTOP_APP_LOTTIE_DISABLE_RECOLORING "Disable recoloring of lottie animations." OFF)
@@ -85,14 +88,6 @@ elseif (APPLE)
     if (DESKTOP_APP_SPECIAL_TARGET STREQUAL "macstore")
         set(build_macstore 1)
     endif()
-endif()
-
-if (build_win64 OR build_winarm)
-    set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT
-        "$<$<CONFIG:Debug>:ProgramDatabase>$<$<NOT:$<CONFIG:Debug>>:Embedded>"
-        CACHE STRING "")
-else()
-    set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "ProgramDatabase" CACHE STRING "")
 endif()
 
 #if (DESKTOP_APP_ASAN AND WIN32)
