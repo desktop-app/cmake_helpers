@@ -20,6 +20,10 @@ if (DESKTOP_APP_SPECIAL_TARGET STREQUAL ""
     set(disable_autoupdate 1)
 endif()
 
+if (DEFINED ENV{FLATPAK_ID})
+    set(disable_autoupdate 0)
+endif()
+
 set(CMAKE_CXX_SCAN_FOR_MODULES OFF CACHE BOOL "")
 set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT
     "$<$<CONFIG:Debug>:ProgramDatabase>$<$<NOT:$<CONFIG:Debug>>:Embedded>"
