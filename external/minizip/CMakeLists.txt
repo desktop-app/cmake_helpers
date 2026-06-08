@@ -4,10 +4,10 @@
 # For license and copyright information please follow this link:
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
-add_library(external_minizip INTERFACE IMPORTED GLOBAL)
-add_library(desktop-app::external_minizip ALIAS external_minizip)
-
 if (DESKTOP_APP_USE_PACKAGED)
+    add_library(external_minizip INTERFACE IMPORTED GLOBAL)
+    add_library(desktop-app::external_minizip ALIAS external_minizip)
+
     find_package(minizip QUIET COMPONENTS shared)
     if (minizip_FOUND)
         target_link_libraries(external_minizip INTERFACE MINIZIP::minizip)
@@ -26,33 +26,31 @@ if (DESKTOP_APP_USE_PACKAGED)
     return()
 endif()
 
-add_library(external_minizip_bundled STATIC)
-init_target(external_minizip_bundled "(external)")
+add_library(external_minizip STATIC IMPORTED GLOBAL)
+add_library(desktop-app::external_minizip ALIAS external_minizip)
 
-set(minizip_loc ${third_party_loc}/minizip)
-
-target_sources(external_minizip_bundled
-PRIVATE
-    ${minizip_loc}/crypt.h
-    ${minizip_loc}/ioapi.c
-    ${minizip_loc}/ioapi.h
-    ${minizip_loc}/zip.c
-    ${minizip_loc}/zip.h
-    ${minizip_loc}/unzip.c
-    ${minizip_loc}/unzip.h
-)
-
-target_include_directories(external_minizip_bundled SYSTEM
-PUBLIC
-    ${minizip_loc}
-)
-
-target_link_libraries(external_minizip_bundled
-PRIVATE
-    desktop-app::external_zlib
-)
+if (WIN32)
+    target_include_directories(external_minizip SYSTEM
+    INTERFACE
+        ${libs_loc}/zlib/contrib
+    )
+    set(minizip_lib_loc ${libs_loc}/zlib/contrib/minizip)
+    set_target_properties(external_minizip PROPERTIES
+        IMPORTED_LOCATION "${minizip_lib_loc}/Release/libminizips.lib"
+        IMPORTED_LOCATION_DEBUG "${minizip_lib_loc}/Debug/libminizipsd.lib"
+    )
+elseif (APPLE)
+    set_target_properties(external_minizip PROPERTIES
+        IMPORTED_LOCATION ${libs_loc}/local/lib/libminizip.a
+    )
+else()
+    find_library(DESKTOP_APP_MINIZIP_LIBRARIES libminizip.a REQUIRED)
+    set_target_properties(external_minizip PROPERTIES
+        IMPORTED_LOCATION "${DESKTOP_APP_MINIZIP_LIBRARIES}"
+    )
+endif()
 
 target_link_libraries(external_minizip
 INTERFACE
-    external_minizip_bundled
+    desktop-app::external_zlib
 )
