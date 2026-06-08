@@ -8,16 +8,13 @@ add_library(external_cmark_gfm INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_cmark_gfm ALIAS external_cmark_gfm)
 
 if (DESKTOP_APP_USE_PACKAGED)
-    find_package(PkgConfig)
-    if (PkgConfig_FOUND)
-        pkg_check_modules(DESKTOP_APP_CMARK_GFM IMPORTED_TARGET libcmark-gfm)
-        pkg_check_modules(DESKTOP_APP_CMARK_GFM_EXT IMPORTED_TARGET libcmark-gfm-extensions)
-    endif()
-    if (DESKTOP_APP_CMARK_GFM_FOUND AND DESKTOP_APP_CMARK_GFM_EXT_FOUND)
+    find_package(cmark-gfm QUIET)
+    find_package(cmark-gfm-extensions QUIET)
+    if (cmark-gfm_FOUND AND cmark-gfm-extensions_FOUND)
         target_link_libraries(external_cmark_gfm
         INTERFACE
-            PkgConfig::DESKTOP_APP_CMARK_GFM_EXT
-            PkgConfig::DESKTOP_APP_CMARK_GFM
+            libcmark-gfm-extensions
+            libcmark-gfm
         )
         return()
     endif()
