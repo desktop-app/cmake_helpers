@@ -21,8 +21,8 @@ if (WIN32)
     target_compile_definitions(external_zlib INTERFACE ZLIB_WINAPI)
     target_include_directories(external_zlib SYSTEM INTERFACE ${zlib_lib_loc})
     set_target_properties(external_zlib PROPERTIES
-        IMPORTED_LOCATION "${zlib_lib_loc}/Release/zlibstatic.lib"
-        IMPORTED_LOCATION_DEBUG "${zlib_lib_loc}/Debug/zlibstaticd.lib"
+        IMPORTED_LOCATION "${zlib_lib_loc}/Release/libzs.lib"
+        IMPORTED_LOCATION_DEBUG "${zlib_lib_loc}/Debug/libzsd.lib"
     )
 elseif (APPLE)
     set_target_properties(external_zlib PROPERTIES
