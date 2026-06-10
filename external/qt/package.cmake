@@ -4,6 +4,8 @@
 # For license and copyright information please follow this link:
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
+set(QT_NO_PRIVATE_MODULE_WARNING ON)
+
 if (NOT DESKTOP_APP_USE_PACKAGED)
     if (DEFINED ENV{QT})
         set(qt_requested $ENV{QT} CACHE STRING "Qt version" FORCE)
