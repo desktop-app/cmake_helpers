@@ -14,6 +14,10 @@ if (DESKTOP_APP_USE_PACKAGED)
 endif()
 
 if (NOT DESKTOP_APP_DISPATCH_LIBRARIES OR NOT DESKTOP_APP_DISPATCH_INCLUDE_DIRS)
+    if (NOT EXISTS ${dispatch_loc})
+        return()
+    endif()
+
     execute_process(
         COMMAND ${CMAKE_COMMAND} ${dispatch_loc}
             -B ${dispatch_binary_dir}
