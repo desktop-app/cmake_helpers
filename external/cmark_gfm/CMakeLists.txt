@@ -18,6 +18,16 @@ if (DESKTOP_APP_USE_PACKAGED)
         )
         return()
     endif()
+
+    find_package(PkgConfig)
+    if (PkgConfig_FOUND)
+        pkg_check_modules(DESKTOP_APP_CMARK_GFM IMPORTED_TARGET libcmark-gfm)
+    endif()
+
+    if (DESKTOP_APP_CMARK_GFM_FOUND)
+        target_link_libraries(external_cmark_gfm INTERFACE PkgConfig::DESKTOP_APP_CMARK_GFM)
+        return()
+    endif()
 endif()
 
 # Everything that follows is scoped to this block(). All variables, the
