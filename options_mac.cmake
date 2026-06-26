@@ -35,6 +35,8 @@ INTERFACE
     -Wno-missing-field-initializers
     -Wno-sign-compare
     -Wno-shorten-64-to-32
+    # Xcode 27 libc++ warns below macOS 11; keep our lower target building.
+    "-Wno-error=#warnings"
 )
 
 if (DESKTOP_APP_SPECIAL_TARGET)
