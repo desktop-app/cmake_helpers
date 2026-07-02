@@ -36,6 +36,12 @@ PUBLIC
 )
 
 if (LINUX)
+    add_checked_subdirectory(hime)
+    target_link_libraries(external_qt_static_plugins
+    PUBLIC
+        desktop-app::external_qt_static_plugins_hime
+    )
+
     add_checked_subdirectory(nimf)
     target_link_libraries(external_qt_static_plugins
     PUBLIC
@@ -47,14 +53,6 @@ if (LINUX)
         target_link_libraries(external_qt_static_plugins
         PUBLIC
             desktop-app::external_qt_static_plugins_fcitx5
-        )
-    endif()
-
-    if (NOT DESKTOP_APP_DISABLE_X11_INTEGRATION)
-        add_checked_subdirectory(hime)
-        target_link_libraries(external_qt_static_plugins
-        PUBLIC
-            desktop-app::external_qt_static_plugins_hime
         )
     endif()
 endif()

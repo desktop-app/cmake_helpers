@@ -45,6 +45,7 @@ PRIVATE
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(DESKTOP_APP_XKBCOMMON REQUIRED IMPORTED_TARGET xkbcommon)
+pkg_check_modules(DESKTOP_APP_XCB IMPORTED_TARGET xcb)
 
 add_subdirectory(fcitx5_qt_dbusaddons)
 target_link_libraries(external_qt_static_plugins_fcitx5
@@ -54,7 +55,7 @@ PRIVATE
     PkgConfig::DESKTOP_APP_XKBCOMMON
 )
 
-if (NOT DESKTOP_APP_DISABLE_X11_INTEGRATION)
+if (DESKTOP_APP_XCB_FOUND)
     target_compile_definitions(external_qt_static_plugins_fcitx5
     PRIVATE
         ENABLE_X11
@@ -62,7 +63,7 @@ if (NOT DESKTOP_APP_DISABLE_X11_INTEGRATION)
 
     target_link_libraries(external_qt_static_plugins_fcitx5
     PRIVATE
-        desktop-app::external_xcb
+        PkgConfig::DESKTOP_APP_XCB
     )
 endif()
 
