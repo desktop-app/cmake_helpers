@@ -6,7 +6,13 @@
 //
 #include "base/platform/linux/base_linux_library.h"
 
-#include <X11/Xlib.h>
+typedef unsigned long KeySym;
+typedef struct _XDisplay Display;
+typedef unsigned long Window;
+typedef struct {
+    short x, y;
+} XPoint;
+
 #include <hime-im-client.h>
 
 namespace HimeHelper {
