@@ -8,9 +8,15 @@ add_library(external_cmark_gfm INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_cmark_gfm ALIAS external_cmark_gfm)
 
 if (DESKTOP_APP_USE_PACKAGED)
-    find_package(cmark-gfm QUIET)
-    find_package(cmark-gfm-extensions QUIET)
-    if (cmark-gfm_FOUND AND cmark-gfm-extensions_FOUND)
+    block()
+        set(CMAKE_FIND_LIBRARY_PREFIXES)
+        set(CMAKE_FIND_LIBRARY_SUFFIXES .cmake)
+        find_library(DESKTOP_APP_CMARK_GFM cmake/cmark-gfm.cmake)
+        find_library(DESKTOP_APP_CMARK_GFM_EXTENSIONS cmake-gfm-extensions/cmark-gfm-extensions.cmake)
+    endblock()
+    include(${DESKTOP_APP_CMARK_GFM} OPTIONAL)
+    include(${DESKTOP_APP_CMARK_GFM_EXTENSIONS} OPTIONAL)
+    if (TARGET libcmark-gfm AND TARGET libcmark-gfm-extensions)
         target_link_libraries(external_cmark_gfm
         INTERFACE
             libcmark-gfm-extensions
