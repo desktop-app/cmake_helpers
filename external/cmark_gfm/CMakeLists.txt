@@ -9,7 +9,7 @@ add_library(desktop-app::external_cmark_gfm ALIAS external_cmark_gfm)
 
 if (DESKTOP_APP_USE_PACKAGED)
     block()
-        set(CMAKE_FIND_LIBRARY_PREFIXES)
+        set(CMAKE_FIND_LIBRARY_PREFIXES "")
         set(CMAKE_FIND_LIBRARY_SUFFIXES .cmake)
         find_library(DESKTOP_APP_CMARK_GFM cmake/cmark-gfm.cmake)
         find_library(DESKTOP_APP_CMARK_GFM_EXTENSIONS cmake-gfm-extensions/cmark-gfm-extensions.cmake)
