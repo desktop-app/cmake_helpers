@@ -24,6 +24,14 @@ if (DESKTOP_APP_USE_PACKAGED)
         )
         return()
     endif()
+    if (TARGET libcmark-gfm_static AND TARGET libcmark-gfm-extensions_static)
+        target_link_libraries(external_cmark_gfm
+        INTERFACE
+            libcmark-gfm-extensions_static
+            libcmark-gfm_static
+        )
+        return()
+    endif()
 endif()
 
 # Everything that follows is scoped to this block(). All variables, the
