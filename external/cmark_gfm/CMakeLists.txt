@@ -54,28 +54,38 @@ block()
     # install(EXPORT) rules, while tdesktop only embeds its targets.
     set(CMAKE_SKIP_INSTALL_RULES TRUE)
 
-    # tdesktop configures with --warn-uninitialized -Werror=dev, which
-    # turns cmark-gfm's perfectly-fine reads of optional variables
-    # (LIB_SUFFIX, CMAKE_REQUIRED_*, CMAKE_LINKER_FLAGS_*, ...) into
-    # hard configure errors. Suppress dev errors and warnings only
-    # within this block so the rest of tdesktop keeps its strict
-    # configure.
-    set(CMAKE_SUPPRESS_DEVELOPER_ERRORS TRUE)
-    set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS TRUE)
-    if (DEFINED CACHE{CMAKE_ERROR_DEPRECATED})
-        set(_cmark_gfm_error_deprecated "${CMAKE_ERROR_DEPRECATED}")
-        set(_cmark_gfm_has_error_deprecated TRUE)
+    # Keep cmark-gfm's author/policy/deprecation warnings from newer
+    # CMake versions out of the strict -Werror configure.
+    if (POLICY CMP0218)
+        # CMake >= 4.4: with CMP0218 NEW everywhere (the DEFAULT covers
+        # the reset by cmark-gfm's own cmake_minimum_required())
+        # deprecations flow through cmake_diagnostic(), and CMD_AUTHOR
+        # IGNORE RECURSE mutes its whole category subtree, future
+        # categories included.
+        cmake_policy(SET CMP0218 NEW)
+        set(CMAKE_POLICY_DEFAULT_CMP0218 NEW)
+        cmake_diagnostic(SET CMD_AUTHOR IGNORE RECURSE)
     else()
-        set(_cmark_gfm_has_error_deprecated FALSE)
+        # Legacy CMake: policy and deprecation checks consult only the
+        # cache-level values of these variables, so force them in the
+        # cache and restore right after add_subdirectory() below.
+        foreach(_cmark_gfm_var
+            CMAKE_ERROR_DEPRECATED
+            CMAKE_WARN_DEPRECATED
+            CMAKE_SUPPRESS_DEVELOPER_ERRORS
+            CMAKE_SUPPRESS_DEVELOPER_WARNINGS)
+            if (DEFINED CACHE{${_cmark_gfm_var}})
+                set(_cmark_gfm_saved_${_cmark_gfm_var} "$CACHE{${_cmark_gfm_var}}")
+                set(_cmark_gfm_has_${_cmark_gfm_var} TRUE)
+            else()
+                set(_cmark_gfm_has_${_cmark_gfm_var} FALSE)
+            endif()
+        endforeach()
+        set(CMAKE_ERROR_DEPRECATED FALSE CACHE INTERNAL "" FORCE)
+        set(CMAKE_WARN_DEPRECATED FALSE CACHE INTERNAL "" FORCE)
+        set(CMAKE_SUPPRESS_DEVELOPER_ERRORS TRUE CACHE INTERNAL "" FORCE)
+        set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS TRUE CACHE INTERNAL "" FORCE)
     endif()
-    if (DEFINED CACHE{CMAKE_WARN_DEPRECATED})
-        set(_cmark_gfm_warn_deprecated "${CMAKE_WARN_DEPRECATED}")
-        set(_cmark_gfm_has_warn_deprecated TRUE)
-    else()
-        set(_cmark_gfm_has_warn_deprecated FALSE)
-    endif()
-    set(CMAKE_ERROR_DEPRECATED FALSE CACHE BOOL "" FORCE)
-    set(CMAKE_WARN_DEPRECATED FALSE CACHE BOOL "" FORCE)
 
     # Defensive initialisation for the specific variables cmark-gfm
     # reads without checking. Empty strings are benign for cmark-gfm's
@@ -91,15 +101,18 @@ block()
     set(LIB_SUFFIX "")                  # src/CMakeLists.txt:155 + extensions/CMakeLists.txt:69,82
 
     add_subdirectory(${third_party_loc}/cmark-gfm cmark-gfm-build EXCLUDE_FROM_ALL)
-    if (_cmark_gfm_has_error_deprecated)
-        set(CMAKE_ERROR_DEPRECATED "${_cmark_gfm_error_deprecated}" CACHE BOOL "" FORCE)
-    else()
-        unset(CMAKE_ERROR_DEPRECATED CACHE)
-    endif()
-    if (_cmark_gfm_has_warn_deprecated)
-        set(CMAKE_WARN_DEPRECATED "${_cmark_gfm_warn_deprecated}" CACHE BOOL "" FORCE)
-    else()
-        unset(CMAKE_WARN_DEPRECATED CACHE)
+    if (NOT POLICY CMP0218)
+        foreach(_cmark_gfm_var
+            CMAKE_ERROR_DEPRECATED
+            CMAKE_WARN_DEPRECATED
+            CMAKE_SUPPRESS_DEVELOPER_ERRORS
+            CMAKE_SUPPRESS_DEVELOPER_WARNINGS)
+            if (_cmark_gfm_has_${_cmark_gfm_var})
+                set(${_cmark_gfm_var} "${_cmark_gfm_saved_${_cmark_gfm_var}}" CACHE INTERNAL "" FORCE)
+            else()
+                unset(${_cmark_gfm_var} CACHE)
+            endif()
+        endforeach()
     endif()
 endblock()
 
