@@ -68,14 +68,20 @@ PRIVATE
     ACCOUNTS_SERVICE_ICON_DIR="/var/lib/AccountsService/icons"
 )
 
-target_include_directories(external_kcoreaddons_bundled SYSTEM
-PUBLIC
+target_include_directories(external_kcoreaddons_bundled
+PRIVATE
     ${kcoreaddons_src}/io
     ${kcoreaddons_src}/util
     ${CMAKE_CURRENT_SOURCE_DIR}/headers/public
-PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/headers/private
     ${CMAKE_CURRENT_BINARY_DIR}
+)
+
+target_include_directories(external_kcoreaddons_bundled SYSTEM
+INTERFACE
+    ${kcoreaddons_src}/io
+    ${kcoreaddons_src}/util
+    ${CMAKE_CURRENT_SOURCE_DIR}/headers/public
 )
 
 target_link_libraries(external_kcoreaddons_bundled
