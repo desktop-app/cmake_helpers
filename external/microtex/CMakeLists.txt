@@ -97,8 +97,20 @@ PRIVATE
     ${microtex_src}/platform/qt/graphic_qt.cpp
 )
 
+# Not SYSTEM for the target's own sources: clang's -MMD leaves system headers out
+# of the generated dependency files, so editing a MicroTeX header never rebuilt a
+# MicroTeX .cpp, and an object compiled against an older class layout could
+# survive a rebuild and still be linked. Consumers keep the SYSTEM form so
+# MicroTeX headers stay out of their /W4 /WX and -Wall -Wextra diagnostics, so
+# this repairs the tracking inside MicroTeX's own build only -- a consumer that
+# includes a MicroTeX header still does not rebuild when that header changes.
+target_include_directories(external_microtex_bundled
+PRIVATE
+    ${microtex_src}
+)
+
 target_include_directories(external_microtex_bundled SYSTEM
-PUBLIC
+INTERFACE
     ${microtex_src}
 )
 
