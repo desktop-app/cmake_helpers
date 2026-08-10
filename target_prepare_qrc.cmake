@@ -36,6 +36,12 @@ function(target_prepare_qrc target_name)
         endif()
         set(qrc_resources)
         foreach (qrc_file ${qrc_files})
+            # Entries inside the build tree are other rules' outputs and are
+            # skipped below, so a generated .qrc may name their sources instead.
+            get_source_file_property(qrc_generated_from "${qrc_file}" QRC_GENERATED_FROM)
+            if (qrc_generated_from)
+                list(APPEND qrc_resources ${qrc_generated_from})
+            endif()
             if (NOT EXISTS "${qrc_file}")
                 continue()
             endif()
