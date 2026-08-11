@@ -38,9 +38,10 @@ option(DESKTOP_APP_USE_PACKAGED_RLOTTIE "Find rlottie using CMake instead of bun
 option(DESKTOP_APP_DISABLE_CRASH_REPORTS "Disable crash report generation." ${no_special_target})
 option(DESKTOP_APP_DISABLE_AUTOUPDATE "Disable autoupdate." ${disable_autoupdate})
 option(DESKTOP_APP_DISABLE_QT_PLUGINS "Disable bundled Qt plugins." OFF)
+cmake_dependent_option(DESKTOP_APP_RELEASE_QT "Link the optimized Qt build even in Debug configuration." OFF "APPLE AND NOT DESKTOP_APP_USE_PACKAGED" OFF)
 option(DESKTOP_APP_USE_HUNSPELL_ONLY "Disable system spellchecker and use bundled Hunspell only. (For debugging purposes)" OFF)
 option(DESKTOP_APP_ASAN "Enable address sanitizer" OFF)
-option(DESKTOP_APP_ENABLE_LTO "Enable Link Time Optimization (slow builds, use for releases)." OFF)
+cmake_dependent_option(DESKTOP_APP_ENABLE_LTO "Enable Link Time Optimization (slow builds, use for releases)." OFF DESKTOP_APP_SPECIAL_TARGET OFF)
 cmake_dependent_option(DESKTOP_APP_USE_ENCHANT "Use Enchant instead of bundled Hunspell." OFF LINUX OFF)
 cmake_dependent_option(DESKTOP_APP_USE_CLD3 "Disable system text language recognition and use bundled cld3 only." OFF APPLE ON)
 
