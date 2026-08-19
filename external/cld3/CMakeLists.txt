@@ -25,45 +25,8 @@ init_target(external_cld3_bundled "(external)")
 set(cld3_loc ${third_party_loc}/cld3)
 set(cld3_src ${cld3_loc}/src)
 
-set(gen_loc ${CMAKE_CURRENT_BINARY_DIR}/gen)
-set(gen_dst ${gen_loc}/cld_3/protos)
-
-if (DESKTOP_APP_USE_PACKAGED OR LINUX)
-    find_package(protobuf REQUIRED CONFIG)
-    set(protoc_executable protobuf::protoc)
-    set(protobuf_lib protobuf::libprotobuf-lite)
-elseif (WIN32)
-    set(build_loc ${libs_loc}/protobuf/build/$<IF:$<CONFIG:Debug>,Debug,Release>)
-    set(protoc_executable ${build_loc}/protoc.exe)
-    set(protobuf_lib ${build_loc}/libprotobuf-lite.lib)
-else()
-    set(protoc_executable ${libs_loc}/protobuf/build/protoc)
-    set(protobuf_lib ${libs_loc}/protobuf/build/libprotobuf-lite.a)
-endif()
-if (PROTOBUF_PROTOC_EXECUTABLE)
-    set(protoc_executable ${PROTOBUF_PROTOC_EXECUTABLE})
-endif()
-
-include(generate_protobuf.cmake)
-
-function(generate protobuf_name)
-    generate_single_protobuf(
-        external_cld3_bundled
-        ${gen_dst}
-        ${protobuf_name}
-        ${protoc_executable})
-endfunction()
-
-generate(feature_extractor.proto)
-generate(sentence.proto)
-generate(task_spec.proto)
-
 nice_target_sources(external_cld3_bundled ${cld3_src}
 PRIVATE
-    feature_extractor.proto
-    sentence.proto
-    task_spec.proto
-
     base.cc
     embedding_feature_extractor.cc
     embedding_network.cc
@@ -93,6 +56,15 @@ PRIVATE
     script_span/fixunicodevalue.cc
 )
 
+# cld3 keeps its settings in protobuf messages that it never serializes,
+# these headers replace the generated code with the fields that are used.
+nice_target_sources(external_cld3_bundled ${CMAKE_CURRENT_SOURCE_DIR}/headers
+PRIVATE
+    cld_3/protos/feature_extractor.pb.h
+    cld_3/protos/sentence.pb.h
+    cld_3/protos/task_spec.pb.h
+)
+
 target_compile_definitions(external_cld3_bundled
 PUBLIC
     $<$<NOT:$<CONFIG:Debug>>:NDEBUG>
@@ -108,20 +80,7 @@ endif()
 target_include_directories(external_cld3_bundled
 PUBLIC
     ${cld3_src}
-    ${gen_loc}
-)
-
-if (NOT DESKTOP_APP_USE_PACKAGED AND NOT LINUX)
-    target_include_directories(external_cld3_bundled
-    PUBLIC
-        ${libs_loc}/protobuf/src
-        ${libs_loc}/protobuf/third_party/abseil-cpp
-    )
-endif()
-
-target_link_libraries(external_cld3_bundled
-PUBLIC
-    ${protobuf_lib}
+    ${CMAKE_CURRENT_SOURCE_DIR}/headers
 )
 
 target_link_libraries(external_cld3
