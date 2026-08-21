@@ -1,0 +1,63 @@
+# This file is part of Desktop App Toolkit,
+# a set of libraries for developing nice desktop applications.
+#
+# For license and copyright information please follow this link:
+# https://github.com/desktop-app/legal/blob/master/LEGAL
+
+add_library(external_wallet_engine_native STATIC IMPORTED GLOBAL)
+add_library(external_wallet_engine STATIC)
+add_library(desktop-app::external_wallet_engine ALIAS external_wallet_engine)
+
+init_target(external_wallet_engine "(external)")
+
+if (DESKTOP_APP_USE_PACKAGED OR LINUX)
+    find_library(DESKTOP_APP_WALLET_ENGINE_LIBRARY wallet_engine REQUIRED)
+    find_path(DESKTOP_APP_WALLET_ENGINE_INCLUDE_DIR wallet_engine.hpp PATH_SUFFIXES wallet_engine REQUIRED)
+    set(wallet_engine_include "${DESKTOP_APP_WALLET_ENGINE_INCLUDE_DIR}")
+    set(wallet_engine_source "${DESKTOP_APP_WALLET_ENGINE_INCLUDE_DIR}/wallet_engine.cpp")
+    set_target_properties(external_wallet_engine_native PROPERTIES
+        IMPORTED_LOCATION "${DESKTOP_APP_WALLET_ENGINE_LIBRARY}"
+    )
+elseif (WIN32)
+    set(wallet_engine_loc ${libs_loc}/wallet-engine/out)
+    set(wallet_engine_include ${wallet_engine_loc}/include)
+    set(wallet_engine_source ${wallet_engine_loc}/src/wallet_engine.cpp)
+    set(wallet_engine_archive ${wallet_engine_loc}/lib/wallet_engine.lib)
+    set_target_properties(external_wallet_engine_native PROPERTIES
+        IMPORTED_LOCATION "${wallet_engine_archive}"
+        IMPORTED_LOCATION_DEBUG "${wallet_engine_archive}"
+        IMPORTED_LOCATION_RELEASE "${wallet_engine_archive}"
+    )
+elseif (APPLE)
+    set(wallet_engine_include ${libs_loc}/local/include/wallet_engine)
+    set(wallet_engine_source ${libs_loc}/local/src/wallet_engine/wallet_engine.cpp)
+    set_target_properties(external_wallet_engine_native PROPERTIES
+        IMPORTED_LOCATION ${libs_loc}/local/lib/libwallet_engine.a
+    )
+endif()
+
+target_sources(external_wallet_engine
+PRIVATE
+    ${wallet_engine_source}
+)
+
+target_include_directories(external_wallet_engine SYSTEM
+PUBLIC
+    ${wallet_engine_include}
+)
+
+target_link_libraries(external_wallet_engine
+PUBLIC
+    external_wallet_engine_native
+)
+
+if (WIN32)
+    target_link_libraries(external_wallet_engine
+    PUBLIC
+        kernel32
+        ntdll
+        userenv
+        ws2_32
+        dbghelp
+    )
+endif()
