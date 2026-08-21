@@ -58,6 +58,7 @@ PUBLIC
 if (WIN32)
     target_link_libraries(external_wallet_engine
     PUBLIC
+        advapi32
         kernel32
         ntdll
         userenv
