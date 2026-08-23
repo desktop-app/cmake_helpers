@@ -7,33 +7,6 @@
 add_library(external_cmark_gfm INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_cmark_gfm ALIAS external_cmark_gfm)
 
-if (DESKTOP_APP_USE_PACKAGED)
-    block()
-        set(CMAKE_FIND_LIBRARY_PREFIXES "")
-        set(CMAKE_FIND_LIBRARY_SUFFIXES .cmake)
-        find_library(DESKTOP_APP_CMARK_GFM cmake/cmark-gfm.cmake)
-        find_library(DESKTOP_APP_CMARK_GFM_EXTENSIONS cmake-gfm-extensions/cmark-gfm-extensions.cmake)
-    endblock()
-    include(${DESKTOP_APP_CMARK_GFM} OPTIONAL)
-    include(${DESKTOP_APP_CMARK_GFM_EXTENSIONS} OPTIONAL)
-    if (TARGET libcmark-gfm AND TARGET libcmark-gfm-extensions)
-        target_link_libraries(external_cmark_gfm
-        INTERFACE
-            libcmark-gfm-extensions
-            libcmark-gfm
-        )
-        return()
-    endif()
-    if (TARGET libcmark-gfm_static AND TARGET libcmark-gfm-extensions_static)
-        target_link_libraries(external_cmark_gfm
-        INTERFACE
-            libcmark-gfm-extensions_static
-            libcmark-gfm_static
-        )
-        return()
-    endif()
-endif()
-
 # Everything that follows is scoped to this block(). All variables, the
 # install() shadow, and the imported policy floor are local -- siblings
 # and parent never see them, so the global tdesktop config is unaffected.
