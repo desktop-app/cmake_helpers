@@ -42,6 +42,7 @@ option(DESKTOP_APP_ASAN "Enable address sanitizer" OFF)
 cmake_dependent_option(DESKTOP_APP_ENABLE_LTO "Enable Link Time Optimization (slow builds, use for releases)." OFF DESKTOP_APP_SPECIAL_TARGET OFF)
 cmake_dependent_option(DESKTOP_APP_USE_ENCHANT "Use Enchant instead of bundled Hunspell." OFF LINUX OFF)
 cmake_dependent_option(DESKTOP_APP_USE_CLD3 "Disable system text language recognition and use bundled cld3 only." OFF APPLE ON)
+option(DESKTOP_APP_USE_PANGO "Render text via Pango instead of private Qt API" ${LINUX})
 
 if (APPLE)
     set(DESKTOP_APP_MAC_ARCH "" CACHE STRING "Target macOS arch.")
