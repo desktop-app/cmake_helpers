@@ -56,7 +56,13 @@ if (NOT MSVC)
     )
 endif()
 
-target_include_directories(external_wallet_engine SYSTEM
+# Not SYSTEM, for the same reason as the bundled MicroTeX include paths:
+# clang's -MMD leaves system headers out of generated dependency files, so a
+# SYSTEM wallet_engine.hpp never reaches the .d files and an engine update
+# leaves objects compiled against the previous binding silently retained. The
+# generated source's own warning relaxation rides on the file above, so the
+# ordinary path costs nothing here.
+target_include_directories(external_wallet_engine
 PUBLIC
     ${wallet_engine_include}
 )
