@@ -215,9 +215,24 @@ if (WIN32)
             D3D12
             SetupAPI
             Shcore
-            Synchronization
-            WindowsApp
         )
+        if (DESKTOP_APP_WIN7_BASELINE)
+            # WindowsApp.lib and Synchronization.lib are Windows 10 only,
+            # their imports come from real homes and from YY-Thunks.
+            target_link_libraries(external_qt
+            INTERFACE
+                ncrypt
+                Secur32
+                WinHttp
+                ${libs_loc}/tg_angle/out/$<IF:$<CONFIG:Debug>,Debug,Release>/tg_angle.lib
+            )
+        else()
+            target_link_libraries(external_qt
+            INTERFACE
+                Synchronization
+                WindowsApp
+            )
+        endif()
     else()
         target_link_libraries(external_qt
         INTERFACE
