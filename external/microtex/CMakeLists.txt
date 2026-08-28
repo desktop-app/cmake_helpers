@@ -106,10 +106,18 @@ PRIVATE
     ${microtex_src}
 )
 
-target_include_directories(external_microtex_bundled
-INTERFACE
-    ${microtex_src}
-)
+# MSVC tracks dependencies with /showIncludes, SYSTEM only silences warnings.
+if (MSVC)
+    target_include_directories(external_microtex_bundled
+    SYSTEM INTERFACE
+        ${microtex_src}
+    )
+else()
+    target_include_directories(external_microtex_bundled
+    INTERFACE
+        ${microtex_src}
+    )
+endif()
 
 # BUILD_QT selects the Qt graphics backend in MicroTeX's config.h gates.
 # Must be PUBLIC because it's checked from public headers (graphic_qt.h).
