@@ -46,6 +46,7 @@ function(validate_d3d_compiler target_name)
             ${compiler_path}
         OUTPUT_VARIABLE key
         ERROR_VARIABLE error
+        OUTPUT_STRIP_TRAILING_WHITESPACE
         )
         if (NOT "${error}" STREQUAL "")
             validate_d3d_error(${error})
