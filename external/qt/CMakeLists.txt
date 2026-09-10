@@ -218,12 +218,13 @@ if (WIN32)
         )
         if (DESKTOP_APP_WIN7_BASELINE)
             # WindowsApp.lib and Synchronization.lib are Windows 10 only,
-            # their imports come from real homes and from YY-Thunks.
+            # their imports come from real homes and from delayed api sets.
             target_link_libraries(external_qt
             INTERFACE
                 ncrypt
                 Secur32
                 WinHttp
+                runtimeobject
                 ${libs_loc}/tg_angle/out/$<IF:$<CONFIG:Debug>,Debug,Release>/tg_angle.lib
             )
         else()
