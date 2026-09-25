@@ -60,6 +60,7 @@ if (DESKTOP_APP_USE_PACKAGED OR LINUX)
         $<TARGET_NAME_IF_EXISTS:avif>
         $<TARGET_NAME_IF_EXISTS:PkgConfig::DESKTOP_APP_AVIF>
         $<TARGET_NAME_IF_EXISTS:heif>
+        desktop-app::external_ffmpeg
         $<TARGET_NAME_IF_EXISTS:PkgConfig::DESKTOP_APP_JXL>
     )
 elseif (WIN32)
@@ -80,7 +81,7 @@ elseif (WIN32)
     PRIVATE
         ${libs_loc}/libavif/$<IF:$<CONFIG:Debug>,Debug,Release>/avif.lib
         ${libs_loc}/libheif/libheif/$<IF:$<CONFIG:Debug>,Debug,Release>/heif.lib
-        ${libs_loc}/libde265/libde265/$<IF:$<CONFIG:Debug>,Debug,Release>/libde265.lib
+        desktop-app::external_ffmpeg
         ${libs_loc}/dav1d/builddir-$<IF:$<CONFIG:Debug>,debug,release>/src/libdav1d.a
         ${libs_loc}/libjxl/lib/$<IF:$<CONFIG:Debug>,Debug,Release>/jxl.lib
         ${libs_loc}/libjxl/lib/$<IF:$<CONFIG:Debug>,Debug,Release>/jxl_cms.lib
@@ -107,7 +108,7 @@ elseif (APPLE)
     PRIVATE
         ${libs_loc}/local/lib/libavif.a
         ${libs_loc}/local/lib/libheif.a
-        ${libs_loc}/local/lib/libde265.a
+        desktop-app::external_ffmpeg
         ${libs_loc}/local/lib/libdav1d.a
         ${libs_loc}/local/lib/libjxl.a
         ${libs_loc}/local/lib/libjxl_cms.a
