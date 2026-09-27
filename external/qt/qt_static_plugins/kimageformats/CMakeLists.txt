@@ -60,7 +60,6 @@ if (DESKTOP_APP_USE_PACKAGED OR LINUX)
         $<TARGET_NAME_IF_EXISTS:avif>
         $<TARGET_NAME_IF_EXISTS:PkgConfig::DESKTOP_APP_AVIF>
         $<TARGET_NAME_IF_EXISTS:heif>
-        desktop-app::external_ffmpeg
         $<TARGET_NAME_IF_EXISTS:PkgConfig::DESKTOP_APP_JXL>
     )
 elseif (WIN32)
