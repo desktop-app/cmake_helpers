@@ -215,6 +215,7 @@ if (WIN32)
             D3D12
             SetupAPI
             Shcore
+            uiautomationcore
         )
         if (DESKTOP_APP_WIN7_BASELINE)
             # WindowsApp.lib and Synchronization.lib are Windows 10 only,
