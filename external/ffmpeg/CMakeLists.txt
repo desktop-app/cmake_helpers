@@ -22,6 +22,13 @@ if (DESKTOP_APP_USE_PACKAGED OR LINUX)
 endif()
 
 set(ffmpeg_lib_loc ${libs_loc}/ffmpeg)
+if (WIN32)
+    set(ffmpeg_lib_prefix "")
+    set(ffmpeg_lib_suffix .lib)
+else()
+    set(ffmpeg_lib_prefix lib)
+    set(ffmpeg_lib_suffix .a)
+endif()
 
 target_include_directories(external_ffmpeg SYSTEM
 INTERFACE
@@ -30,12 +37,12 @@ INTERFACE
 
 target_link_libraries(external_ffmpeg
 INTERFACE
-    ${ffmpeg_lib_loc}/libavfilter/libavfilter.a
-    ${ffmpeg_lib_loc}/libavformat/libavformat.a
-    ${ffmpeg_lib_loc}/libavcodec/libavcodec.a
-    ${ffmpeg_lib_loc}/libswresample/libswresample.a
-    ${ffmpeg_lib_loc}/libswscale/libswscale.a
-    ${ffmpeg_lib_loc}/libavutil/libavutil.a
+    ${ffmpeg_lib_loc}/libavfilter/${ffmpeg_lib_prefix}avfilter${ffmpeg_lib_suffix}
+    ${ffmpeg_lib_loc}/libavformat/${ffmpeg_lib_prefix}avformat${ffmpeg_lib_suffix}
+    ${ffmpeg_lib_loc}/libavcodec/${ffmpeg_lib_prefix}avcodec${ffmpeg_lib_suffix}
+    ${ffmpeg_lib_loc}/libswresample/${ffmpeg_lib_prefix}swresample${ffmpeg_lib_suffix}
+    ${ffmpeg_lib_loc}/libswscale/${ffmpeg_lib_prefix}swscale${ffmpeg_lib_suffix}
+    ${ffmpeg_lib_loc}/libavutil/${ffmpeg_lib_prefix}avutil${ffmpeg_lib_suffix}
     $<LINK_ONLY:desktop-app::external_openh264>
     $<TARGET_FILE:desktop-app::external_openh264>
     $<LINK_ONLY:desktop-app::external_opus>
