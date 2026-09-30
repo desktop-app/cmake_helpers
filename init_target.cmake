@@ -50,6 +50,9 @@ function(init_target target_name) # init_target(my_target [cxx_std_..] folder_na
             set_target_properties(${target_name} PROPERTIES
                 XCODE_ATTRIBUTE_LLVM_LTO $<IF:$<CONFIG:Debug>,NO,YES>
             )
+        elseif (APPLE)
+            target_compile_options(${target_name} PRIVATE $<$<NOT:$<CONFIG:Debug>>:-flto>)
+            target_link_options(${target_name} PRIVATE $<$<NOT:$<CONFIG:Debug>>:-flto>)
         else()
             set_target_properties(${target_name} PROPERTIES
                 INTERPROCEDURAL_OPTIMIZATION_RELEASE True
@@ -66,6 +69,15 @@ function(init_non_host_target target_name)
     if (DESKTOP_APP_MAC_ARCH)
         set_target_properties(${target_name} PROPERTIES
             OSX_ARCHITECTURES "${DESKTOP_APP_MAC_ARCH}"
+        )
+    endif()
+    if (APPLE
+        AND DESKTOP_APP_SPECIAL_TARGET
+        AND DESKTOP_APP_ENABLE_LTO
+        AND NOT CMAKE_GENERATOR STREQUAL Xcode
+        AND DESKTOP_APP_MAC_ARCH MATCHES "^(arm64|x86_64)$")
+        target_link_options(${target_name} PRIVATE
+            "$<$<NOT:$<CONFIG:Debug>>:LINKER:-object_path_lto,${CMAKE_CURRENT_BINARY_DIR}/${target_name}-$<CONFIG>.lto.o>"
         )
     endif()
 endfunction()

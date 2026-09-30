@@ -22,7 +22,34 @@ function(report_bad_special_target)
 endfunction()
 
 if (APPLE AND NOT DESKTOP_APP_USE_PACKAGED)
-    set(CMAKE_OSX_DEPLOYMENT_TARGET 10.13 CACHE STRING "Minimum macOS deployment version")
+    set(macos_deployment_target 10.13)
+    if (NOT DEFINED CMAKE_OSX_DEPLOYMENT_TARGET)
+        set(macos_sdk macosx)
+        if (CMAKE_OSX_SYSROOT)
+            set(macos_sdk "${CMAKE_OSX_SYSROOT}")
+        endif()
+        execute_process(
+            COMMAND xcrun --sdk "${macos_sdk}" --show-sdk-path
+            OUTPUT_VARIABLE macos_sdk_path
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+            RESULT_VARIABLE macos_sdk_result
+        )
+        if (macos_sdk_result EQUAL 0)
+            execute_process(
+                COMMAND /usr/libexec/PlistBuddy
+                    -c "Print :SupportedTargets:macosx:MinimumDeploymentTarget"
+                    "${macos_sdk_path}/SDKSettings.plist"
+                OUTPUT_VARIABLE macos_sdk_minimum
+                OUTPUT_STRIP_TRAILING_WHITESPACE
+                RESULT_VARIABLE macos_sdk_minimum_result
+            )
+            if (macos_sdk_minimum_result EQUAL 0
+                AND macos_sdk_minimum VERSION_GREATER macos_deployment_target)
+                set(macos_deployment_target "${macos_sdk_minimum}")
+            endif()
+        endif()
+    endif()
+    set(CMAKE_OSX_DEPLOYMENT_TARGET "${macos_deployment_target}" CACHE STRING "Minimum macOS deployment version")
     set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64" CACHE STRING "Target macOS architectures")
 endif()
 

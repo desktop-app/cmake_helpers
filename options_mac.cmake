@@ -45,6 +45,11 @@ if (DESKTOP_APP_SPECIAL_TARGET)
         -g
         -Werror
     )
+    if (NOT CMAKE_GENERATOR STREQUAL Xcode)
+        target_compile_options(common_options INTERFACE
+            $<$<AND:$<NOT:$<CONFIG:Debug>>,$<STREQUAL:$<TARGET_PROPERTY:NAME>,Telegram>>:-gline-tables-only>
+        )
+    endif()
 endif()
 
 target_link_frameworks(common_options

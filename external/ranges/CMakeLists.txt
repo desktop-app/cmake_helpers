@@ -7,6 +7,10 @@
 add_library(external_ranges INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_ranges ALIAS external_ranges)
 
+if (APPLE)
+    target_compile_definitions(external_ranges INTERFACE META_NO_STD_FORWARD_DECLARATIONS)
+endif()
+
 if (DESKTOP_APP_USE_PACKAGED)
     find_package(range-v3 QUIET)
     if (range-v3_FOUND)
