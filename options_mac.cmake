@@ -47,7 +47,7 @@ if (DESKTOP_APP_SPECIAL_TARGET)
     )
     if (NOT CMAKE_GENERATOR STREQUAL Xcode)
         target_compile_options(common_options INTERFACE
-            $<$<AND:$<NOT:$<CONFIG:Debug>>,$<STREQUAL:$<TARGET_PROPERTY:NAME>,Telegram>>:-gline-tables-only>
+            $<$<STREQUAL:$<GENEX_EVAL:$<TARGET_PROPERTY:XCODE_ATTRIBUTE_CLANG_DEBUG_INFORMATION_LEVEL>>,line-tables-only>:-gline-tables-only>
         )
     endif()
 endif()
