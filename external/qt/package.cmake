@@ -5,6 +5,7 @@
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
 set(QT_NO_PRIVATE_MODULE_WARNING ON)
+set(DESKTOP_APP_WIN7_BASELINE OFF)
 
 if (NOT DESKTOP_APP_USE_PACKAGED)
     if (DEFINED ENV{QT})
@@ -19,6 +20,12 @@ if (NOT DESKTOP_APP_USE_PACKAGED)
         set(qt_loc ${libs_loc}/Qt-${qt_requested})
 
         if (qt_requested GREATER 6)
+            if (NOT build_winarm)
+                set(DESKTOP_APP_WIN7_BASELINE ON)
+                set(DESKTOP_APP_ANGLE_DIR ${libs_loc}/tg_angle)
+                include(${CMAKE_CURRENT_LIST_DIR}/../angle/qt.cmake)
+            endif()
+
             set(OPENSSL_FOUND 1)
             set(OPENSSL_INCLUDE_DIR ${libs_loc}/openssl3/include)
             set(LIB_EAY_DEBUG ${libs_loc}/openssl3/out.dbg/libcrypto.lib)
