@@ -83,7 +83,7 @@ if (QT_VERSION_MAJOR GREATER_EQUAL 6)
 endif()
 
 if (QT_VERSION VERSION_GREATER_EQUAL 6.10)
-    find_package(Qt${QT_VERSION_MAJOR} COMPONENTS GuiPrivate WidgetsPrivate REQUIRED)
+    find_package(Qt${QT_VERSION_MAJOR} COMPONENTS GuiPrivate REQUIRED)
 endif()
 
 if (LINUX)

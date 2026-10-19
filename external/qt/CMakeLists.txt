@@ -17,7 +17,6 @@ if (DESKTOP_APP_USE_PACKAGED)
         Qt::Gui
         Qt::GuiPrivate
         Qt::Widgets
-        Qt::WidgetsPrivate
         Qt::Network
         Qt::Svg
     )
@@ -64,10 +63,8 @@ INTERFACE
     $<$<TARGET_EXISTS:Qt::WaylandCompositor>:${qt_loc}/include/QtWaylandCompositor>
     ${qt_loc}/include/QtCore/${QT_VERSION}
     ${qt_loc}/include/QtGui/${QT_VERSION}
-    ${qt_loc}/include/QtWidgets/${QT_VERSION}
     ${qt_loc}/include/QtCore/${QT_VERSION}/QtCore
     ${qt_loc}/include/QtGui/${QT_VERSION}/QtGui
-    ${qt_loc}/include/QtWidgets/${QT_VERSION}/QtWidgets
 )
 
 target_compile_definitions(external_qt
