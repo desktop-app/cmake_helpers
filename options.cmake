@@ -15,6 +15,13 @@ INTERFACE
     QT_DEPRECATED_WARNINGS_SINCE=0x051500
 )
 
+if (DESKTOP_APP_DISABLE_PRIVATE_QT_API)
+    target_compile_definitions(common_options
+    INTERFACE
+        DESKTOP_APP_DISABLE_PRIVATE_QT_API
+    )
+endif()
+
 if (WIN32)
     include(cmake/options_win.cmake)
 elseif (APPLE)

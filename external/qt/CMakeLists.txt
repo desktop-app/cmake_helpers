@@ -13,13 +13,15 @@ if (DESKTOP_APP_USE_PACKAGED)
     target_link_libraries(external_qt
     INTERFACE
         Qt::Core
-        Qt::CorePrivate
         Qt::Gui
-        Qt::GuiPrivate
         Qt::Widgets
         Qt::Network
         Qt::Svg
     )
+
+    if (NOT DESKTOP_APP_DISABLE_PRIVATE_QT_API)
+        target_link_libraries(external_qt INTERFACE Qt::CorePrivate Qt::GuiPrivate)
+    endif()
 
     if (TARGET Qt::OpenGL)
         target_link_libraries(external_qt INTERFACE Qt::OpenGL)
