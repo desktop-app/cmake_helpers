@@ -144,6 +144,7 @@ INTERFACE
     Crypt32
     Propsys
     Bcrypt
+    Mscms
 )
 
 if (build_winstore)
