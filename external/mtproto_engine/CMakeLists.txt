@@ -7,12 +7,17 @@
 add_library(external_mtproto_engine INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_mtproto_engine ALIAS external_mtproto_engine)
 
-# Only the Windows recipe installs the header so far, and an imported target
-# that names a missing include directory fails the configuration.
+# macOS and packaged Windows recipes do not install the header yet.
 if (WIN32 AND NOT DESKTOP_APP_USE_PACKAGED)
     target_include_directories(external_mtproto_engine SYSTEM
     INTERFACE
         ${libs_loc}/tdesktop_rust/out/include/mtproto_engine
+    )
+elseif (LINUX)
+    find_path(DESKTOP_APP_MTPROTO_ENGINE_INCLUDE_DIR mtproto_engine.h PATH_SUFFIXES mtproto_engine REQUIRED)
+    target_include_directories(external_mtproto_engine SYSTEM
+    INTERFACE
+        ${DESKTOP_APP_MTPROTO_ENGINE_INCLUDE_DIR}
     )
 endif()
 
