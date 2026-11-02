@@ -95,6 +95,7 @@ target_link_frameworks_weak(common_options
 INTERFACE
     Network
     UniformTypeIdentifiers
+    ScreenCaptureKit
 )
 
 target_link_libraries(common_options
