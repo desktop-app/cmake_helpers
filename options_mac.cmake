@@ -37,6 +37,9 @@ INTERFACE
     -Wno-shorten-64-to-32
     # Xcode 27 libc++ warns below macOS 11; keep our lower target building.
     "-Wno-error=#warnings"
+    # Qt 6.12 deprecates Q_OS_MAC before the libraries rename to Q_OS_MACOS.
+    "-Wno-error=deprecated-declarations"
+    "-Wno-error=deprecated-pragma"
 )
 
 if (DESKTOP_APP_SPECIAL_TARGET)
