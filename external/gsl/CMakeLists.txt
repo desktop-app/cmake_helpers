@@ -8,8 +8,10 @@ add_library(external_gsl INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_gsl ALIAS external_gsl)
 
 if (DESKTOP_APP_USE_PACKAGED)
-    find_package(Microsoft.GSL 4.1.0 QUIET)
-    if (Microsoft.GSL_FOUND)
+    # Microsoft.GSL uses SameMajorVersion compatibility, so a versioned
+    # request would reject GSL 5.x, which is source compatible with 4.x.
+    find_package(Microsoft.GSL QUIET)
+    if (Microsoft.GSL_FOUND AND Microsoft.GSL_VERSION VERSION_GREATER_EQUAL 4.1.0)
         target_link_libraries(external_gsl INTERFACE Microsoft.GSL::GSL)
         return()
     endif()
