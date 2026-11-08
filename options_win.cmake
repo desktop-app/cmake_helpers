@@ -145,6 +145,14 @@ INTERFACE
     Propsys
     Bcrypt
     Mscms
+    Authz
+    Dwrite
+    dxguid
+    $<LINK_ONLY:desktop-app::win_directx_helper>
+    D3D12
+    SetupAPI
+    Shcore
+    uiautomationcore
 )
 
 if (build_winstore)

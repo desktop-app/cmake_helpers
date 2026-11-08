@@ -37,13 +37,6 @@ PUBLIC
     "${CMAKE_CURRENT_BINARY_DIR}"
 )
 
-if (QT_VERSION_MAJOR EQUAL 5)
-    target_compile_definitions(external_qt_static_plugins_fcitx5_dbusaddons
-    PRIVATE
-        FCITX5QT5DBUSADDONS_STATIC_DEFINE
-    )
-endif()
-
 target_link_libraries(external_qt_static_plugins_fcitx5_dbusaddons
 PRIVATE
     desktop-app::external_qt

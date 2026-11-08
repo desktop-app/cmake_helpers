@@ -4,6 +4,13 @@
 # For license and copyright information please follow this link:
 # https://github.com/desktop-app/legal/blob/master/LEGAL
 
+if (NOT DESKTOP_APP_WIN7_BASELINE)
+    add_library(win_directx_helper INTERFACE)
+    add_library(desktop-app::win_directx_helper ALIAS win_directx_helper)
+    target_link_libraries(win_directx_helper INTERFACE DXGI D3D9 D3D11)
+    return()
+endif()
+
 add_library(win_directx_helper STATIC)
 init_target(win_directx_helper "(external)")
 add_library(desktop-app::win_directx_helper ALIAS win_directx_helper)
@@ -18,6 +25,9 @@ validate_d3d_compiler(win_directx_helper)
 target_link_libraries(win_directx_helper
 PUBLIC
     desktop-app::external_openssl
+    DXGI
+    D3D9
+    D3D11
 )
 
 if (NOT DESKTOP_APP_SPECIAL_TARGET STREQUAL "")

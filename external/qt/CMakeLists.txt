@@ -14,21 +14,15 @@ if (DESKTOP_APP_USE_PACKAGED)
     INTERFACE
         Qt::Core
         Qt::Gui
+        Qt::OpenGL
         Qt::Widgets
+        Qt::OpenGLWidgets
         Qt::Network
         Qt::Svg
     )
 
     if (NOT DESKTOP_APP_DISABLE_PRIVATE_QT_API)
         target_link_libraries(external_qt INTERFACE Qt::CorePrivate Qt::GuiPrivate)
-    endif()
-
-    if (TARGET Qt::OpenGL)
-        target_link_libraries(external_qt INTERFACE Qt::OpenGL)
-    endif()
-
-    if (TARGET Qt::OpenGLWidgets)
-        target_link_libraries(external_qt INTERFACE Qt::OpenGLWidgets)
     endif()
 
     if (TARGET Qt::DBus)
@@ -55,9 +49,9 @@ INTERFACE
     ${qt_loc}/include
     ${qt_loc}/include/QtCore
     ${qt_loc}/include/QtGui
-    $<$<TARGET_EXISTS:Qt::OpenGL>:${qt_loc}/include/QtOpenGL>
+    ${qt_loc}/include/QtOpenGL
     ${qt_loc}/include/QtWidgets
-    $<$<TARGET_EXISTS:Qt::OpenGLWidgets>:${qt_loc}/include/QtOpenGLWidgets>
+    ${qt_loc}/include/QtOpenGLWidgets
     ${qt_loc}/include/QtSvg
     $<$<TARGET_EXISTS:Qt::DBus>:${qt_loc}/include/QtDBus>
     $<$<TARGET_EXISTS:Qt::Quick>:${qt_loc}/include/QtQuick>
@@ -76,9 +70,9 @@ INTERFACE
     QT_PLUGIN
     QT_CORE_LIB
     QT_GUI_LIB
-    $<$<TARGET_EXISTS:Qt::OpenGL>:QT_OPENGL_LIB>
+    QT_OPENGL_LIB
     QT_WIDGETS_LIB
-    $<$<TARGET_EXISTS:Qt::OpenGLWidgets>:QT_OPENGLWIDGETS_LIB>
+    QT_OPENGLWIDGETS_LIB
     QT_NETWORK_LIB
     QT_SVG_LIB
     $<$<TARGET_EXISTS:Qt::DBus>:QT_DBUS_LIB>
@@ -110,22 +104,15 @@ set(common_qt_libs
     plugins/imageformats/${qt_lib_prefix}qjpeg
     lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}Svg
     lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}Network
+    lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}OpenGLWidgets
     lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}Widgets
+    lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}OpenGL
     lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}Gui
     lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}Core
+    lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}BundledHarfbuzz
+    lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}BundledLibpng
+    lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}BundledPcre2
 )
-
-if (TARGET Qt::OpenGL)
-    list(PREPEND common_qt_libs
-        lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}OpenGL
-    )
-endif()
-
-if (TARGET Qt::OpenGLWidgets)
-    list(PREPEND common_qt_libs
-        lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}OpenGLWidgets
-    )
-endif()
 
 if (TARGET Qt::Quick)
     list(PREPEND common_qt_libs
@@ -140,29 +127,11 @@ if (TARGET Qt::QuickWidgets)
     )
 endif()
 
-if (QT_VERSION_MAJOR GREATER_EQUAL 6)
-    list(APPEND common_qt_libs
-        lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}BundledHarfbuzz
-        lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}BundledLibpng
-        lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}BundledPcre2
-    )
-else()
-    list(APPEND common_qt_libs
-        lib/${qt_lib_prefix}qtharfbuzz
-        lib/${qt_lib_prefix}qtlibpng
-        lib/${qt_lib_prefix}qtpcre2
-    )
-
-endif()
-
-set(qt_libs_list "")
-if (QT_VERSION_MAJOR GREATER_EQUAL 6)
-    list(APPEND qt_libs_list
-        $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QWebpPlugin_init>
-        $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QJpegPlugin_init>
-        $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QGifPlugin_init>
-    )
-endif()
+set(qt_libs_list 
+    $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QWebpPlugin_init>
+    $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QJpegPlugin_init>
+    $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QGifPlugin_init>
+)
 
 if (WIN32)
     target_include_directories(external_qt SYSTEM
@@ -170,76 +139,22 @@ if (WIN32)
         ${qt_loc}/mkspecs/win32-msvc
     )
     set(qt_libs
+        plugins/tls/${qt_lib_prefix}qschannelbackend
+        plugins/networkinformation/${qt_lib_prefix}qnetworklistmanager
         ${common_qt_libs}
+        lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}BundledFreetype
+        lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}EntryPoint
         plugins/platforms/${qt_lib_prefix}qwindows
     )
-    if (QT_VERSION GREATER 6)
-        list(APPEND qt_libs
-            plugins/tls/${qt_lib_prefix}qschannelbackend
-            plugins/networkinformation/${qt_lib_prefix}qnetworklistmanager
-            lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}BundledFreetype
-            lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}EntryPoint
-        )
-        list(APPEND qt_libs_list
-            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QWindowsIntegrationPlugin_init>
-            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QSchannelBackendPlugin_init>
-            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QNLMNIPlugin_init>
-            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QWindowsIntegrationPlugin_resources_1>
-        )
-    else()
-        list(APPEND qt_libs
-            plugins/bearer/${qt_lib_prefix}qgenericbearer
-            lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}AccessibilitySupport
-            lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}FontDatabaseSupport
-            lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}EventDispatcherSupport
-            lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}ThemeSupport
-            lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}WindowsUIAutomationSupport
-            lib/${qt_lib_prefix}qtmain
-            lib/${qt_lib_prefix}qtfreetype
-        )
-    endif()
+    list(APPEND qt_libs_list
+        $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QWindowsIntegrationPlugin_init>
+        $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QSchannelBackendPlugin_init>
+        $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QNLMNIPlugin_init>
+        $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QWindowsIntegrationPlugin_resources_1>
+    )
     foreach (lib ${qt_libs})
         list(APPEND qt_libs_list "${qt_loc}/${lib}${qt_lib_suffix}")
     endforeach()
-
-    if (QT_VERSION GREATER 6)
-        target_link_libraries(external_qt
-        INTERFACE
-            Authz
-            Dwrite
-            DXGI
-            dxguid
-            D3D9
-            D3D11
-            D3D12
-            SetupAPI
-            Shcore
-            uiautomationcore
-        )
-        if (DESKTOP_APP_WIN7_BASELINE)
-            # WindowsApp.lib and Synchronization.lib are Windows 10 only,
-            # their imports come from real homes and from delayed api sets.
-            target_link_libraries(external_qt
-            INTERFACE
-                ncrypt
-                Secur32
-                WinHttp
-                runtimeobject
-                ${libs_loc}/tg_angle/out/$<IF:$<CONFIG:Debug>,Debug,Release>/tg_angle.lib
-            )
-        else()
-            target_link_libraries(external_qt
-            INTERFACE
-                Synchronization
-                WindowsApp
-            )
-        endif()
-    else()
-        target_link_libraries(external_qt
-        INTERFACE
-            desktop-app::external_angle
-        )
-    endif()
 elseif (APPLE)
     target_include_directories(external_qt SYSTEM
     INTERFACE
@@ -250,30 +165,12 @@ elseif (APPLE)
         lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}BundledFreetype
         plugins/platforms/${qt_lib_prefix}qcocoa
         plugins/tls/${qt_lib_prefix}qsecuretransportbackend
+        plugins/networkinformation/${qt_lib_prefix}qapplenetworkinformation
     )
-    if (QT_VERSION VERSION_GREATER_EQUAL "6.11")
-        list(APPEND qt_libs
-            plugins/networkinformation/${qt_lib_prefix}qapplenetworkinformation
-        )
-    else()
-        list(APPEND qt_libs
-            plugins/networkinformation/${qt_lib_prefix}qscnetworkreachability
-        )
-    endif()
     list(APPEND qt_libs_list
         $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QCocoaIntegrationPlugin_init>
         $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QSecureTransportBackendPlugin_init>
-    )
-    if (QT_VERSION VERSION_GREATER_EQUAL "6.11")
-        list(APPEND qt_libs_list
-            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QAppleNetworkInformationPlugin_init>
-        )
-    else()
-        list(APPEND qt_libs_list
-            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QSCNetworkReachabilityNetworkInformationPlugin_init>
-        )
-    endif()
-    list(APPEND qt_libs_list
+        $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QAppleNetworkInformationPlugin_init>
         $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QCocoaIntegrationPlugin_resources_1>
     )
     foreach (lib ${qt_libs})
@@ -346,20 +243,18 @@ else()
     endforeach()
 endif()
 
-if (QT_VERSION_MAJOR GREATER_EQUAL 6)
-    list(APPEND qt_libs_list
-        $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Gui_resources_1>
-        $<$<TARGET_EXISTS:Qt${QT_VERSION_MAJOR}::Gui_resources_2>:$<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Gui_resources_2>>
-        $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Widgets_resources_1>
-        $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Widgets_resources_2>
-        $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Widgets_resources_3>
-    )
+list(APPEND qt_libs_list
+    $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Gui_resources_1>
+    $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Gui_resources_2>
+    $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Widgets_resources_1>
+    $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Widgets_resources_2>
+    $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Widgets_resources_3>
+)
 
-    if (TARGET Qt::Quick)
-        list(APPEND qt_libs_list
-            $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Quick_resources_2>
-        )
-    endif()
+if (TARGET Qt::Quick)
+    list(APPEND qt_libs_list
+        $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Quick_resources_2>
+    )
 endif()
 
 target_link_libraries(external_qt
@@ -383,18 +278,34 @@ if (WIN32)
         set(libwebp_release_folder x86)
     endif()
 
+    set(lcms2_lib_loc ${libs_loc}/liblcms2/out/$<IF:$<CONFIG:Debug>,Debug,Release>/src)
     set(webp_lib_loc ${libs_loc}/libwebp/out/$<IF:$<CONFIG:Debug>,debug,release>-static/${libwebp_release_folder}/lib)
 
     target_link_libraries(external_qt
     INTERFACE
+        ${lcms2_lib_loc}/liblcms2.a
         ${webp_lib_loc}/libwebp$<$<CONFIG:Debug>:_debug>.lib
         ${webp_lib_loc}/libwebpdemux$<$<CONFIG:Debug>:_debug>.lib
         ${webp_lib_loc}/libwebpmux$<$<CONFIG:Debug>:_debug>.lib
     )
 
-    if (QT_VERSION GREATER 6)
-        set(lcms2_lib_loc ${libs_loc}/liblcms2/out/$<IF:$<CONFIG:Debug>,Debug,Release>/src)
-        target_link_libraries(external_qt INTERFACE ${lcms2_lib_loc}/liblcms2.a)
+    if (DESKTOP_APP_WIN7_BASELINE)
+        # WindowsApp.lib and Synchronization.lib are Windows 10 only,
+        # their imports come from real homes and from delayed api sets.
+        target_link_libraries(external_qt
+        INTERFACE
+            ncrypt
+            Secur32
+            WinHttp
+            runtimeobject
+            desktop-app::external_angle
+        )
+    else()
+        target_link_libraries(external_qt
+        INTERFACE
+            Synchronization
+            WindowsApp
+        )
     endif()
 elseif (APPLE)
     target_link_libraries(external_qt
