@@ -18,6 +18,7 @@ PRIVATE
     avif.cpp
     heif.cpp
     jxl.cpp
+    microexif.cpp
     qoi.cpp
     scanlineconverter.cpp
 )
@@ -40,7 +41,7 @@ if (DESKTOP_APP_USE_PACKAGED OR LINUX)
         if (NOT libavif_FOUND)
             pkg_check_modules(DESKTOP_APP_AVIF IMPORTED_TARGET libavif)
         endif()
-        pkg_check_modules(DESKTOP_APP_JXL IMPORTED_TARGET libjxl libjxl_threads)
+        pkg_check_modules(DESKTOP_APP_JXL IMPORTED_TARGET libjxl libjxl_cms libjxl_threads)
     endif()
 
     if (NOT libavif_FOUND AND NOT DESKTOP_APP_AVIF_FOUND)
