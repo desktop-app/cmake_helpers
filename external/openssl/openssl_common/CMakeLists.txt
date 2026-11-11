@@ -15,7 +15,7 @@ if (NOT DESKTOP_APP_USE_PACKAGED AND NOT LINUX)
 endif()
 
 # OpenSSL 3 deprecated AES_set_encrypt_key/decrypt_key/ige_encrypt/cbc_encrypt
-target_compile_options(external_openssl_common
+target_compile_definitions(external_openssl_common
 INTERFACE
-    $<IF:$<BOOL:${MSVC}>,/wd4996,-Wno-deprecated-declarations>
+    OPENSSL_SUPPRESS_DEPRECATED
 )
