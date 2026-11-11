@@ -261,8 +261,8 @@ target_link_libraries(external_qt
 INTERFACE
     ${qt_libs_list}
     $<LINK_ONLY:desktop-app::external_openssl>
-    $<TARGET_FILE:desktop-app::external_openssl_ssl_bundled>
-    $<TARGET_FILE:desktop-app::external_openssl_crypto_bundled>
+    $<TARGET_FILE:desktop-app::external_openssl_ssl_native>
+    $<TARGET_FILE:desktop-app::external_openssl_crypto_native>
     $<LINK_ONLY:desktop-app::external_jpeg>
     $<TARGET_FILE:desktop-app::external_jpeg>
     $<LINK_ONLY:desktop-app::external_zlib>
