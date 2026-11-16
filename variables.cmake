@@ -52,9 +52,7 @@ else()
 endif()
 
 set(add_hunspell_library 0)
-if (WIN32
-  OR (LINUX AND NOT DESKTOP_APP_USE_ENCHANT)
-  OR DESKTOP_APP_USE_HUNSPELL_ONLY)
+if (WIN32 OR LINUX OR DESKTOP_APP_USE_HUNSPELL_ONLY)
     set(add_hunspell_library 1)
 endif()
 
