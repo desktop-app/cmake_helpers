@@ -30,6 +30,8 @@ function(init_target target_name) # init_target(my_target [cxx_std_..] folder_na
         get_target_property(target_type ${target_name} TYPE)
         if (QT_FOUND AND target_type STREQUAL "EXECUTABLE")
             if (QT_VERSION VERSION_GREATER_EQUAL 6.2)
+                # No QML here: the scan would link plugins for stray test .qml files under the source dir.
+                set_target_properties(${target_name} PROPERTIES QT_QML_MODULE_NO_IMPORT_SCAN ON)
                 cmake_language(EVAL CODE "cmake_language(DEFER CALL qt_finalize_target ${target_name})")
             endif()
             if (LINUX)
