@@ -25,6 +25,12 @@ if (DESKTOP_APP_USE_PACKAGED OR LINUX)
     set_target_properties(external_tdesktop_rust_native PROPERTIES
         IMPORTED_LOCATION "${DESKTOP_APP_TDESKTOP_RUST_LIBRARY}"
     )
+    find_path(DESKTOP_APP_TINYASR_INCLUDE_DIR tinyasr.h PATH_SUFFIXES tinyasr REQUIRED)
+    find_path(DESKTOP_APP_TINYLID_INCLUDE_DIR tinylid.h PATH_SUFFIXES tinylid REQUIRED)
+    set(tdesktop_rust_include
+        "${DESKTOP_APP_TINYASR_INCLUDE_DIR}"
+        "${DESKTOP_APP_TINYLID_INCLUDE_DIR}"
+    )
 elseif (WIN32)
     set(tdesktop_rust_loc ${libs_loc}/tdesktop_rust/out)
     set_target_properties(external_tdesktop_rust_native PROPERTIES
@@ -32,11 +38,26 @@ elseif (WIN32)
         IMPORTED_LOCATION_DEBUG "${tdesktop_rust_loc}/lib/tdesktop_rust.lib"
         IMPORTED_LOCATION_RELEASE "${tdesktop_rust_loc}/lib/tdesktop_rust.lib"
     )
+    set(tdesktop_rust_include
+        ${tdesktop_rust_loc}/include/tinyasr
+        ${tdesktop_rust_loc}/include/tinylid
+    )
 elseif (APPLE)
     set_target_properties(external_tdesktop_rust_native PROPERTIES
         IMPORTED_LOCATION ${libs_loc}/local/lib/libtdesktop_rust.a
     )
+    # Not SYSTEM: clang's -MMD must track speech header changes.
+    set_target_properties(external_tdesktop_rust PROPERTIES SYSTEM OFF)
+    set(tdesktop_rust_include
+        ${libs_loc}/local/include/tinyasr
+        ${libs_loc}/local/include/tinylid
+    )
 endif()
+
+target_include_directories(external_tdesktop_rust
+INTERFACE
+    ${tdesktop_rust_include}
+)
 
 target_link_libraries(external_tdesktop_rust
 INTERFACE
