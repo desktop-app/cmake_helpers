@@ -29,14 +29,6 @@ if (DESKTOP_APP_USE_PACKAGED)
         target_link_libraries(external_qt INTERFACE Qt::DBus)
     endif()
 
-    if (TARGET Qt::Quick)
-        target_link_libraries(external_qt INTERFACE Qt::Quick)
-    endif()
-
-    if (TARGET Qt::QuickWidgets)
-        target_link_libraries(external_qt INTERFACE Qt::QuickWidgets)
-    endif()
-
     if (TARGET Qt::WaylandCompositor)
         target_link_libraries(external_qt INTERFACE Qt::WaylandCompositor)
     endif()
@@ -54,8 +46,6 @@ INTERFACE
     ${qt_loc}/include/QtOpenGLWidgets
     ${qt_loc}/include/QtSvg
     $<$<TARGET_EXISTS:Qt::DBus>:${qt_loc}/include/QtDBus>
-    $<$<TARGET_EXISTS:Qt::Quick>:${qt_loc}/include/QtQuick>
-    $<$<TARGET_EXISTS:Qt::QuickWidgets>:${qt_loc}/include/QtQuickWidgets>
     $<$<TARGET_EXISTS:Qt::WaylandCompositor>:${qt_loc}/include/QtWaylandCompositor>
     ${qt_loc}/include/QtCore/${QT_VERSION}
     ${qt_loc}/include/QtGui/${QT_VERSION}
@@ -76,8 +66,6 @@ INTERFACE
     QT_NETWORK_LIB
     QT_SVG_LIB
     $<$<TARGET_EXISTS:Qt::DBus>:QT_DBUS_LIB>
-    $<$<TARGET_EXISTS:Qt::Quick>:QT_QUICK_LIB>
-    $<$<TARGET_EXISTS:Qt::QuickWidgets>:QT_QUICKWIDGETS_LIB>
     $<$<TARGET_EXISTS:Qt::WaylandCompositor>:QT_WAYLANDCOMPOSITOR_LIB>
 )
 
@@ -113,19 +101,6 @@ set(common_qt_libs
     lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}BundledLibpng
     lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}BundledPcre2
 )
-
-if (TARGET Qt::Quick)
-    list(PREPEND common_qt_libs
-        lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}Quick
-        lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}Qml
-    )
-endif()
-
-if (TARGET Qt::QuickWidgets)
-    list(PREPEND common_qt_libs
-        lib/${qt_lib_prefix}Qt${QT_VERSION_MAJOR}QuickWidgets
-    )
-endif()
 
 set(qt_libs_list 
     $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::QWebpPlugin_init>
@@ -250,12 +225,6 @@ list(APPEND qt_libs_list
     $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Widgets_resources_2>
     $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Widgets_resources_3>
 )
-
-if (TARGET Qt::Quick)
-    list(APPEND qt_libs_list
-        $<TARGET_OBJECTS:Qt${QT_VERSION_MAJOR}::Quick_resources_2>
-    )
-endif()
 
 target_link_libraries(external_qt
 INTERFACE
